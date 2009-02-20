@@ -1,0 +1,97 @@
+<!--
+/* ===========================================================
+ * $Id$
+ * This file is part of Micrite
+ * ===========================================================
+ *
+ * (C) Copyright 2009, by Gaixie.org and Contributors.
+ * 
+ * Project Info:  http://www.gaixie.org/wiki/100:Mainpage
+ *
+ * Micrite is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Micrite is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+--> 
+
+<assembly>
+	<id>distribution</id>
+	<formats>
+		<format>war</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<fileSets>
+	    <fileSet>
+			<directory>../modules/micrite-crm/target</directory>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+	    </fileSet>
+	    <fileSet>
+			<directory>../modules/micrite-security/target</directory>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+	    </fileSet>	 
+	    <fileSet>
+			<directory>../modules/micrite-security/src/main/webapp</directory>
+			<outputDirectory></outputDirectory>
+	    </fileSet>
+	    <fileSet>
+			<directory>../modules/micrite-security/src/main/resources</directory>
+			<outputDirectory>WEB-INF/classes</outputDirectory>
+			<includes>
+				<include>**/struts.xml</include>
+				<include>**/struts_xml/*</include>	
+			</includes>			
+	    </fileSet>
+	    <fileSet>
+			<directory>../modules/micrite-security/target/dependencies</directory>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+			<excludes>
+				<exclude>tools.jar</exclude>
+				<exclude>jsp-api-2.0.jar</exclude>
+				<exclude>servlet-api-2.4.jar</exclude>
+			</excludes>
+	    </fileSet>		       
+	    <fileSet>
+			<directory>../modules/micrite-crm/src/main/webapp</directory>
+			<outputDirectory></outputDirectory>
+	    </fileSet>
+	    <fileSet>
+			<directory>../modules/micrite-crm/src/main/resources</directory>
+			<outputDirectory>WEB-INF/classes</outputDirectory>
+			<includes>
+				<include>**/struts.xml</include>
+				<include>**/struts_xml/*</include>	
+			</includes>				
+	    </fileSet>
+	    <fileSet>
+			<directory>../modules/micrite-crm/target/dependencies</directory>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+			<excludes>
+				<exclude>tools.jar</exclude>
+				<exclude>jsp-api-2.0.jar</exclude>
+				<exclude>servlet-api-2.4.jar</exclude>
+			</excludes>
+	    </fileSet>		       
+	</fileSets>	    
+</assembly>
