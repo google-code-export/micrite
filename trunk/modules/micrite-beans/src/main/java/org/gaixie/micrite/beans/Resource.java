@@ -132,7 +132,6 @@ public class Resource {
 	 * @param roles the roles to set
 	 */
 	public void setRoles(Set<Role> roles) {
-		
 		this.roles = roles;
 	}
 
