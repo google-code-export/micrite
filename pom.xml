@@ -45,12 +45,33 @@
         <url>http://www.gaixie.org/micrite/</url>
     </organization>
     
-
     <scm>
         <connection>scm:svn:https://10.10.10.33/repos/gaixie/micrite/tags/0.1</connection>
         <developerConnection>scm:svn:https://10.10.10.33/repos/gaixie/micrite/tags/0.1</developerConnection>
     </scm>
-     
+
+    <issueManagement>
+        <system>Google Code Issues</system>
+        <url>http://code.google.com/p/micrite/issues/list</url>
+    </issueManagement>
+    
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License Version 3</name>
+            <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+            <distribution>repo</distribution>
+            <comments />
+        </license>
+    </licenses>
+
+    <repositories>
+		<repository>
+			<id>spring-external</id>
+			<name>Spring Portfolio Release Repository</name>
+			<url>http://s3.amazonaws.com/maven.springframework.org/external</url>
+		</repository>
+    </repositories>
+    
 	<properties>
         <!--
         Having a single well named version properties makes automatic updating for the weekly build much easier.
@@ -167,11 +188,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>                
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.ldap</groupId>
-                <artifactId>spring-ldap</artifactId>
-                <version>1.2.1</version>
             </dependency>
             
 	        <!-- Struts 2 -->
@@ -460,5 +476,28 @@
                 <version>2.0-alpha-4</version>
             </plugin>            
         </plugins>
-    </build>    
+    </build>   
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+             </plugin>
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>            
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.2</version>
+                <!--
+                <configuration>
+                    <aggregate>true</aggregate>
+                </configuration>
+                -->
+            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.4.2</version>
+			</plugin>
+        </plugins>
+    </reporting>     
 </project>
