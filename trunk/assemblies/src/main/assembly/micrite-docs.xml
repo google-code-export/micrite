@@ -1,0 +1,135 @@
+<!--
+/* ===========================================================
+ * $Id$
+ * This file is part of Micrite
+ * ===========================================================
+ *
+ * (C) Copyright 2009, by Gaixie.org and Contributors.
+ * 
+ * Project Info:  http://www.gaixie.org/wiki/100:Mainpage
+ *
+ * Micrite is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Micrite is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+--> 
+
+<assembly>
+  <id>docs</id>
+  <formats>
+    <format>dir</format>
+  </formats>
+  <fileSets>
+
+    <!-- Include the XWork Javadoc in the assembly -->
+    <fileSet>
+      <directory>target/site</directory>
+      <outputDirectory>docs/assemblies</outputDirectory>
+    </fileSet>
+
+      <!-- Include the website in the assembly -->
+      <fileSet>
+        <directory>../target/site</directory>
+        <outputDirectory>docs</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../api/target/site</directory>
+        <outputDirectory>docs/struts2-api</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../core/target/site</directory>
+        <outputDirectory>docs/struts2-core</outputDirectory>
+      </fileSet>
+
+      <!-- Include the Confluence docs in the assembly -->
+      <fileSet>
+        <directory>target/cwiki</directory>
+        <outputDirectory>docs</outputDirectory>
+      </fileSet>
+
+      <!-- Plugins -->
+      <fileSet>
+        <directory>../plugins/codebehind/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-codebehind-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/config-browser/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-config-browser-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/dojo/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-dojo-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/dojo/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-dwr-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/jasperreports/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-jasperreports-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/jfreechart/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-jfreechart-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/jsf/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-jsf-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/jsf/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-junit-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/pell-multipart/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-pell-multipart-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/plexus/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-plexus-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/portlet/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-portlet-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/rest/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-rest-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/struts1/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-struts1-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/sitegraph/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-sitegraph-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/spring/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-spring-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/sitemesh/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-sitemesh-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/tiles/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-testng-plugin</outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../plugins/tiles/target/site</directory>
+        <outputDirectory>docs/struts2-plugins/struts2-tiles-plugin</outputDirectory>
+      </fileSet>
+
+  </fileSets>
+</assembly>
