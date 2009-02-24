@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+
+<project name="Gaixie Micrite">
+	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-classic-skin</artifactId>
+		<version>1.0</version>
+	</skin>
+    <publishDate position="left" format="yyyy-mm-dd"/>
+    <bannerLeft>
+        <name>Micrite</name>
+        <src>http://www.gaixie.org/files/logo.jpg
+        </src>
+        <href>http://www.gaixie.org/micrite/
+        </href>
+    </bannerLeft>
+  <body>
+    <links>
+        <item name="Gaixie.org" href="http://www.gaixie.org/"/>
+    </links>
+    
+    <menu ref="reports" name="Reports"/> 
+
+    <menu ref="parent" name="Parent"/> 
+       
+    <menu ref="modules" name="Modules"/> 
+    	        
+  </body>
+</project>
