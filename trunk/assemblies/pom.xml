@@ -77,7 +77,7 @@
 					<!-- 对micrite的项目网站进行组装	-->
 			        <execution>
 			            <id>site-distribution</id>
-			            <phase>verify</phase>
+			            <phase>site</phase>
 			            <goals>
 			                <goal>directory-single</goal>
 			            </goals>
