@@ -56,6 +56,7 @@
 			<plugin>
 	            <artifactId>maven-assembly-plugin</artifactId>
 			    <executions>
+					<!-- 对micrite的代码模块进行组装	-->
 			        <execution>
 			            <id>distribution</id>
 			            <phase>package</phase>
@@ -72,6 +73,23 @@
 			                </descriptors>
 			            </configuration>
 			        </execution>
+
+					<!-- 对micrite的项目网站进行组装	-->
+			        <execution>
+			            <id>site-distribution</id>
+			            <phase>verify</phase>
+			            <goals>
+			                <goal>directory-single</goal>
+			            </goals>
+			            <configuration>
+		                    <finalName>micrite-site</finalName>
+		                    <outputDirectory>${project.build.directory}</outputDirectory>
+			                <appendAssemblyId>false</appendAssemblyId>
+			                <descriptors>
+			                    <descriptor>${project.basedir}/src/main/assembly/micrite-site.xml</descriptor>
+			                </descriptors>
+			            </configuration>
+			        </execution>			        
 			    </executions>
 			</plugin>
         </plugins>		
