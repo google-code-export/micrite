@@ -1,0 +1,79 @@
+<!--
+/* ===========================================================
+ * $Id$
+ * This file is part of Micrite
+ * ===========================================================
+ *
+ * (C) Copyright 2009, by Gaixie.org and Contributors.
+ * 
+ * Project Info:  http://www.gaixie.org/wiki/100:Mainpage
+ *
+ * Micrite is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Micrite is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+--> 
+
+<assembly>
+  <id>site-distribution</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <fileSets>
+
+    <!-- Include the assemblies in the assembly -->
+    <fileSet>
+      <directory>target/site</directory>
+      <outputDirectory>assemblies</outputDirectory>
+    </fileSet>
+
+    <!-- Include the modules in the assembly -->
+    <fileSet>
+      <directory>../modules/target/site</directory>
+      <outputDirectory>modules</outputDirectory>
+    </fileSet>
+
+    <fileSet>
+      <directory>../modules/micrite-beans/target/site</directory>
+      <outputDirectory>modules/micrite-beans</outputDirectory>
+    </fileSet>
+
+    <fileSet>
+      <directory>../modules/micrite-common/target/site</directory>
+      <outputDirectory>modules/micrite-common</outputDirectory>
+    </fileSet>
+    
+    <fileSet>
+      <directory>../modules/micrite-core/target/site</directory>
+      <outputDirectory>modules/micrite-core</outputDirectory>
+    </fileSet>    
+    
+    <fileSet>
+      <directory>../modules/micrite-crm/target/site</directory>
+      <outputDirectory>modules/micrite-crm</outputDirectory>
+    </fileSet>  
+
+    <fileSet>
+      <directory>../modules/micrite-security/target/site</directory>
+      <outputDirectory>modules/micrite-security</outputDirectory>
+    </fileSet> 
+
+    <!-- Include the root in the assembly -->
+    <fileSet>
+      <directory>../target/site</directory>
+      <outputDirectory></outputDirectory>
+    </fileSet>
+                        
+  </fileSets>
+</assembly>
