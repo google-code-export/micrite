@@ -22,8 +22,7 @@ Gaixie Micrite是一个基于Struts2,Spring2的完整项目实现。
 
     mvn install
    
-从头进行一次干净的编译.
-
+    *从头进行一次干净的编译，运行下面命令
     mvn clean install
 
 -------------------------------------------------------------------------------
@@ -32,19 +31,25 @@ Gaixie Micrite是一个基于Struts2,Spring2的完整项目实现。
 
 1. 运行Micrite业务模块:
 
- * 进入Micrite/module/业务模块
+ * 进入Micrite/module/业务模块，运行下面命令
    mvn jetty:run
 
 2. 运行整个Micrite项目:
- * 进入Micrite/seesmblies
 
+ * 进入Micrite/seesmblies，运行下面命令
     mvn jetty:run
 
 -------------------------------------------------------------------------------
 文档
 -------------------------------------------------------------------------------
+1.生成项目文档
 
-Micrite相关文档请访问 http://www.gaixie.org/wiki/100:mainpage
+  *进入项目根目录，运行下面命令
+  mvn site package
+  
+  会在assemblies/taget下产生micrite-site目录，此目录存放所有项目相关文档（包括apidocs）
+
+详细Micrite相关文档请访问 http://www.gaixie.org/wiki/100:mainpage
 
 -------------------------------------------------------------------------------
 支持
