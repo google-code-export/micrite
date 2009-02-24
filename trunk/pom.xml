@@ -64,6 +64,28 @@
         </license>
     </licenses>
 
+    <mailingLists>
+        <mailingList>
+            <name>Micrite Developer List</name>
+            <subscribe>
+                http://groups.google.com/group/gaixie-micrite-dev/subscribe?hl=en
+            </subscribe>
+            <archive>
+                http://groups.google.com/group/gaixie-micrite-dev?hl=en
+            </archive>
+        </mailingList>
+        <mailingList>
+            <name>Micrite User List</name>
+            <subscribe>
+                http://groups.google.com/group/gaixie-micrite-user/subscribe?hl=en
+            </subscribe>
+            <archive>
+                http://groups.google.com/group/gaixie-micrite-user?hl=en
+            </archive>
+        </mailingList>
+    </mailingLists>
+
+
 	<properties>
         <!--
         Having a single well named version properties makes automatic updating for the weekly build much easier.
@@ -82,6 +104,13 @@
         <PlanJMXSecurePort>9998</PlanJMXSecurePort>
     </properties>
 
+    <distributionManagement>
+        <site>
+            <id>micrite-site</id>
+            <url>${project.artifactId}</url>
+        </site>
+    </distributionManagement>
+    
 	<!--
 	下面<dependencyManagement>是整个micrite项目依赖包的全集，所有包都指定版本号。
 	继承此POM文件的子POM文件，如果要加入依赖，就无须指定版本号。（会优先取下面列出的版本号）
@@ -469,16 +498,28 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>dependencies</report>
+							<report>dependency-management</report>							
+							<report>mailing-list</report>
+							<report>scm</report>
+							<report>issue-tracking</report>
+							<report>index</report>							
+							<report>license</report>
+							<report>summary</report>							
+						</reports>
+					</reportSet>
+				</reportSets>                
              </plugin>
             <plugin>
 				<groupId>org.apache.maven.plugins</groupId>            
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.2</version>
-                <!--
                 <configuration>
                     <aggregate>true</aggregate>
                 </configuration>
-                -->
             </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
