@@ -58,7 +58,7 @@
 							<goal>single</goal>
 			            </goals>
 			            <configuration>
-		                    <finalName>micrite-${version}</finalName>
+		                    <finalName>${project.artifactId}-${version}</finalName>
 		                    <outputDirectory>${project.build.directory}</outputDirectory>
 			                <appendAssemblyId>false</appendAssemblyId>
 			                <descriptors>
