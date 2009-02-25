@@ -24,26 +24,57 @@
 
 package org.gaixie.micrite.security.action;
 
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.service.IUserService;
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.context.SecurityContext;
+import org.springframework.security.ui.WebAuthenticationDetails;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-public class UserAction extends ActionSupport{ 
+public class UserAction extends ActionSupport implements SessionAware{ 
 	
 	public UserAction(IUserService userService) {
 		this.userService = userService;
 	}
+	public void setSession(Map session) {
+		this.session = session;
+	}
 
 	private User user;
+	private String role;
+    private String remoteAddress;
+    private String sessionId;
+	private Map session;
 	private IUserService userService;
 
 	public String index() {
-		User temp = this.getUserService().findByNameRandom();
-		user = temp;
+		SecurityContext securityContext = (SecurityContext) session.get("SPRING_SECURITY_CONTEXT");
+		user = (User) securityContext.getAuthentication().getPrincipal();
+		role = "";
+		for (GrantedAuthority grantedAuthority : securityContext.getAuthentication().getAuthorities()) {
+			role = (role.equals("")) ? grantedAuthority.getAuthority() : role
+					+ "," + grantedAuthority.getAuthority();
+		}
+		WebAuthenticationDetails webAuthenticationDetails = (WebAuthenticationDetails) securityContext
+				.getAuthentication().getDetails();
+		remoteAddress = webAuthenticationDetails.getRemoteAddress();
+		sessionId = webAuthenticationDetails.getSessionId();
 		return SUCCESS;
     }    
 
+	public String getRole() {
+		return role;
+	}
+	public String getRemoteAddress() {
+		return remoteAddress;
+	}
+	public String getSessionId() {
+		return sessionId;
+	}
 	public IUserService getUserService() {
 		return userService;
 	}
@@ -59,6 +90,5 @@ public class UserAction extends ActionSupport{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
 	
 }
