@@ -32,12 +32,13 @@
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<fileSets>
 	    <fileSet>
-			<directory>../modules/micrite-crm/target</directory>
-			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<directory>../modules/micrite-security/target/tmp</directory>
+			<outputDirectory></outputDirectory>
 			<includes>
-				<include>*.jar</include>
+				<include>js-lib/**</include>
 			</includes>
-	    </fileSet>
+	    </fileSet>	 
+	
 	    <fileSet>
 			<directory>../modules/micrite-security/target</directory>
 			<outputDirectory>WEB-INF/lib</outputDirectory>
@@ -69,6 +70,13 @@
 				<exclude>servlet-api-2.4.jar</exclude>
 			</excludes>
 	    </fileSet>		       
+	    <fileSet>
+			<directory>../modules/micrite-crm/target</directory>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+	    </fileSet>
 	    <fileSet>
 			<directory>../modules/micrite-crm/src/main/webapp</directory>
 			<outputDirectory></outputDirectory>

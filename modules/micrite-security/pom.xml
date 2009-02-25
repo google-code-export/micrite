@@ -175,6 +175,11 @@
 		    <groupId>org.gaixie.micrite.modules</groupId>
 		    <artifactId>micrite-beans</artifactId>
 		</dependency>
+		<dependency>
+		    <groupId>org.gaixie.micrite.modules</groupId>
+		    <artifactId>micrite-common</artifactId>
+		</dependency>
+		
   </dependencies>
   
     <build>
@@ -189,10 +194,6 @@
     		<plugin>
     			<groupId>org.mortbay.jetty</groupId>
     			<artifactId>maven-jetty-plugin</artifactId>
-    			<version>6.1.7</version>
-    			<configuration>
-    				<scanIntervalSeconds>10</scanIntervalSeconds>
-    			</configuration>
     		</plugin>
 			<!--
 			打jar包时，不能把struts.xml打入，否则assemblies时，一个项目会有多个struts.xml
@@ -226,7 +227,11 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>                  		
+			</plugin> 
+				<plugin>
+        			<groupId>org.apache.maven.plugins</groupId>
+        			<artifactId>maven-antrun-plugin</artifactId>
+				</plugin>			                 		
     	</plugins>
     </build>  
 </project>
