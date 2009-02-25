@@ -329,6 +329,12 @@
 			    <artifactId>micrite-beans</artifactId>
 			    <version>0.1-SNAPSHOT</version>
 			</dependency>
+	        <!-- 定义了所有公用类-->	
+			<dependency>
+			    <groupId>org.gaixie.micrite.modules</groupId>
+			    <artifactId>micrite-common</artifactId>
+			    <version>0.1-SNAPSHOT</version>
+			</dependency>			
 		</dependencies>
 	</dependencyManagement>  
 
@@ -489,10 +495,61 @@
 	                <groupId>org.apache.maven.plugins</groupId>
 	                <artifactId>maven-dependency-plugin</artifactId>
 	                <version>2.1</version>
-	            </plugin>            
+	            </plugin>
+				<plugin>
+        			<groupId>org.apache.maven.plugins</groupId>
+        			<artifactId>maven-antrun-plugin</artifactId>
+              		<executions>
+                		<execution>
+                        <id>unpack-jar</id>
+                        <phase>package</phase>
+                        <configuration>
+                        	<tasks>
+                            	<echo message="***Unzipping micrite-common-*.jar***" />
+                                <unzip src="${project.build.directory}/dependencies/micrite-common-${version}.jar"  dest="${project.build.directory}/tmp">
+	                                <patternset>
+	                                	<include name="*.zip"/>
+	                                </patternset>
+                              	</unzip>
+                            	<echo message="***Unzipping extjs.zip***" />
+                                <unzip src="${project.build.directory}/tmp/extjs.zip"  dest="${project.build.directory}/tmp/js-lib">
+                              	</unzip>
+
+								<echo message="***war unzipped***" />
+                                <copy todir="${project.build.directory}/${project.artifactId}-${project.version}/js-lib">
+	                                <fileset dir="${project.build.directory}/tmp/js-lib">
+	                                </fileset>
+                                </copy>
+								<!-- 若删除临时目录，会导致assemblis组装缺少js-lib
+								<echo message="***Deleting old dir***" />
+                                <delete includeEmptyDirs="true">
+	                                <fileset dir="${project.build.directory}/tmp" />
+                                </delete>   
+                                -->                         	
+                            </tasks>
+                        </configuration>
+                        <goals>
+							<goal>run</goal>
+                        </goals>
+						</execution>
+					</executions>
+				</plugin>			                 		
+	            <plugin>
+	                <groupId>org.mortbay.jetty</groupId>
+	                <artifactId>maven-jetty-plugin</artifactId>
+	                <version>6.1.7</version>
+	                <configuration>
+	                    <webAppSourceDirectory>${project.build.directory}/${project.artifactId}-${project.version}</webAppSourceDirectory>
+						<!-- 直接加载war 文件 ，mvn jetty:run-war
+						<webApp>${project.build.directory}/${project.artifactId}-${project.version}.war</webApp>
+						-->
+	                </configuration>
+	            </plugin>        
+	            
 	        </plugins>
         </pluginManagement>
-    </build>   
+    </build> 
+      
     <reporting>
         <plugins>
             <plugin>
