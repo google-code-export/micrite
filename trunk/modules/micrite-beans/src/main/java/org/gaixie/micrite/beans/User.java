@@ -37,6 +37,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
@@ -52,6 +53,7 @@ import org.springframework.security.userdetails.UserDetails;
  *
  */
 @Entity
+@Table(name = "t_user")
 @Proxy(lazy = false)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User implements UserDetails {
@@ -73,7 +75,7 @@ public class User implements UserDetails {
 	private boolean disabled;
 	
 	@ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "t_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private Set<Role> roles;
 	

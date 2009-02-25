@@ -157,6 +157,10 @@
 		    <groupId>commons-lang</groupId>
 		    <artifactId>commons-lang</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+		</dependency>
 		
 		<!-- Spring Security -->
         <dependency>

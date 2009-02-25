@@ -39,6 +39,14 @@
     <name>Micrite Modules :: Common</name>
     <packaging>jar</packaging>
 
+	<properties>
+        <jdbc.driverClassName>org.apache.derby.jdbc.EmbeddedDriver</jdbc.driverClassName>
+        <jdbc.url>jdbc:derby:${project.build.directory}/micrite_db</jdbc.url>
+        <jdbc.username>derby</jdbc.username>
+        <jdbc.password>derby</jdbc.password>
+        <hibernate.dialect>org.hibernate.dialect.DerbyDialect</hibernate.dialect>
+    </properties>
+
     <dependencies>
        		                	         
     </dependencies>
@@ -53,7 +61,103 @@
                     <target>1.5</target>
                 </configuration>
             </plugin>
+
+	          <!-- sql-maven-plugin -->  
+		      <plugin>
+		        <groupId>org.codehaus.mojo</groupId>
+		        <artifactId>sql-maven-plugin</artifactId>
+		        <version>1.3</version>
+		
+		        <dependencies>
+		          <!-- specify the dependent jdbc driver here -->
+		          <dependency>
+		            <groupId>org.apache.derby</groupId>
+		            <artifactId>derby</artifactId>
+					<version>10.4.2.0</version>
+		          </dependency>
+		        </dependencies>
+		
+		        <!-- common configuration shared by all executions -->
+		        <configuration>
+		          <driver>${jdbc.driverClassName}</driver>
+		          <url>${jdbc.url};create=true;user=${jdbc.username};password=${jdbc.password}</url>
+		          <!-- <username>postgres</username>
+		          <password>password</password> -->
+		          <!-- You can comment out username/password configurations and
+		               have maven to look them up in your settings.xml using ${settingsKey}
+		          -->
+		          <settingsKey>sensibleKey</settingsKey>
+		          <!--all executions are ignored if -Dmaven.test.skip=true-->
+		          <skip>${maven.test.skip}</skip>
+		        </configuration>
+		
+		        <executions>
+		          <execution>
+		            <id>drop-schema</id>
+		            <phase>process-test-resources</phase>
+		            <goals>
+		              <goal>execute</goal>
+		            </goals>
+		            <configuration>
+		              <autocommit>true</autocommit>
+		              <srcFiles>
+		                <srcFile>src/main/resources/derby/derby-drop.sql</srcFile>
+		              </srcFiles>
+		              <!-- ignore error when database is not avaiable -->
+		              <onError>continue</onError>
+		            </configuration>
+		          </execution>
+		
+		          <execution>
+		            <id>create-schema</id>
+		            <phase>process-test-resources</phase>
+		            <goals>
+		              <goal>execute</goal>
+		            </goals>
+		            <configuration>
+		              <autocommit>true</autocommit>
+		              <srcFiles>
+		                <srcFile>src/main/resources/derby/derby-create.sql</srcFile>
+		              </srcFiles>
+		              <onError>continue</onError>
+		            </configuration>
+		          </execution>
+		
+		          <execution>
+		            <id>create-data</id>
+		            <phase>process-test-resources</phase>
+		            <goals>
+		              <goal>execute</goal>
+		            </goals>
+		            <configuration>
+		              <autocommit>true</autocommit>
+		              <srcFiles>
+		                <srcFile>src/main/resources/derby/derby-init.sql</srcFile>
+		              </srcFiles>
+		              <onError>continue</onError>
+		            </configuration>
+		          </execution>
+		        </executions>
+		      </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                	<include>databaseResource-hibernate.xml</include>
+                	<include>hibernate.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                	<exclude>databaseResource-hibernate.xml</exclude>
+                	<exclude>hibernate.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>        
     </build>
 
 </project>

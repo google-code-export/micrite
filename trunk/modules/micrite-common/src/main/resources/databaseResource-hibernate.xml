@@ -43,12 +43,11 @@
 	    <property name="packagesToScan" value="org/gaixie/micrite/beans" />
 	</bean>
     
-	<!-- 配置数据源，使用DBCP数据源 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://10.10.10.166:3306/micrite" />
-		<property name="username" value="start" />
-		<property name="password" value="start" />
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
 		<property name="maxActive" value="20" />
 		<property name="maxIdle" value="10" />
 		<property name="maxWait" value="1000" />
@@ -87,7 +86,6 @@
          </property>
      </bean>
 
-	<!-- hibernate模板类 -->
 	<bean id="hibernateTemplate"
 		class="org.springframework.orm.hibernate3.HibernateTemplate">
 		<property name="sessionFactory">

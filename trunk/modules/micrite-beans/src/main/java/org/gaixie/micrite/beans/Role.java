@@ -33,6 +33,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -42,6 +43,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  *
  */
 @Entity
+@Table(name = "t_role")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Role {
 	
@@ -54,7 +56,7 @@ public class Role {
 	private String description;
 	
 	@ManyToMany(targetEntity = Resource.class, fetch = FetchType.EAGER)  
-	@JoinTable(name = "role_resource", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "resource_id"))  
+	@JoinTable(name = "t_role_resource", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "resource_id"))  
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)  
 	private Set<Resource> resources;  
 	/**

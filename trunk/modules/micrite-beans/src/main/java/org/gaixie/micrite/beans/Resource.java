@@ -33,6 +33,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
@@ -43,6 +44,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * @author Downpour
  */
 @Entity
+@Table(name = "t_resource")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Resource {
 
