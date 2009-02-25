@@ -55,6 +55,7 @@
 			<outputDirectory>WEB-INF/classes</outputDirectory>
 			<includes>
 				<include>**/struts.xml</include>
+				<include>**/applicationContext*.xml</include>
 				<include>**/struts_xml/*</include>	
 			</includes>			
 	    </fileSet>
@@ -86,6 +87,7 @@
 			<outputDirectory>WEB-INF/classes</outputDirectory>
 			<includes>
 				<include>**/struts.xml</include>
+				<include>**/applicationContext*.xml</include>				
 				<include>**/struts_xml/*</include>	
 			</includes>				
 	    </fileSet>
