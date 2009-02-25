@@ -28,9 +28,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <html>
-<head><title>Your Users</title></head>
+<head><title>Micrite CRM</title></head>
 <body>
-<h1>My Users</h1>
+<h1>Micrite CRM</h1>
 <table cellpadding=3 border=0>
 	<tr>
 		<td><b>id</b></td>

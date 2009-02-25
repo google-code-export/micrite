@@ -27,18 +27,25 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <html>
-<head><title>Contacts Security Demo</title></head>
+<head><title>Welcome to Micrite</title></head>
 <body>
-<h1>Contacts Security Demo</h1>
-<p>To demonstrate a public method on <code>ContactManager</code>,
-here's a random <code>Contact</code>:
+<h1>Welcome to Micrite</h1>
 <p>
-	<s:property value="user"/>
+	<table>
+		<tr><td>Id:</td><td><s:property value="user.id"/></td></tr>
+		<tr><td>Name:</td><td><s:property value="user.name"/></td></tr>
+		<tr><td>Username:</td><td><s:property value="user.username"/></td></tr>
+		<tr><td>Password:</td><td><s:property value="user.password"/></td></tr>
+		<tr><td>Email:</td><td><s:property value="user.email"/></td></tr>
+		<tr><td>Role:</td><td><s:property value="role"/></td></tr>
+		<tr><td>Address:</td><td><s:property value="remoteAddress"/></td></tr>
+		<tr><td>Session Id:</td><td><s:property value="sessionId"/></td></tr>
+	</table>
 </p>
 <br/>
 <p><a HREF="<s:url value="manage.action"/>">用户管理</a>
 <a href="<s:url value="secure/debug.jsp"/>">角色设置</a></p>
 <br/>
-<p><a href="../j_spring_security_logout">Logout</a>(also clears any remember-me cookie)</p>
+<p><a href="j_spring_security_logout">Logout</a>(also clears any remember-me cookie)</p>
 </body>
 </html>
