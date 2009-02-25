@@ -81,6 +81,7 @@
 		        <configuration>
 		          <driver>${jdbc.driverClassName}</driver>
 		          <url>${jdbc.url};create=true;user=${jdbc.username};password=${jdbc.password}</url>
+		          <encoding>UTF-8</encoding>
 		          <!-- <username>postgres</username>
 		          <password>password</password> -->
 		          <!-- You can comment out username/password configurations and
