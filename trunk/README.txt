@@ -31,7 +31,8 @@ Gaixie Micrite是一个基于Struts2,Spring2的完整项目实现。
 
 1. 运行Micrite业务模块:
 
- * 进入Micrite/module/业务模块，运行下面命令
+ * 进入Micrite/module/业务模块，修改POM.xml文件，
+   将<packaging>jar</packaging>改为<packaging>war</packaging>，然后运行下面命令
    mvn jetty:run-exploded
 
 2. 运行整个Micrite项目:
