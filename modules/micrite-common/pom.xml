@@ -101,7 +101,7 @@
 		            <configuration>
 		              <autocommit>true</autocommit>
 		              <srcFiles>
-		                <srcFile>src/main/resources/derby/derby-drop.sql</srcFile>
+		                <srcFile>src/main/scripts/derby/derby-drop.sql</srcFile>
 		              </srcFiles>
 		              <!-- ignore error when database is not avaiable -->
 		              <onError>continue</onError>
@@ -117,7 +117,7 @@
 		            <configuration>
 		              <autocommit>true</autocommit>
 		              <srcFiles>
-		                <srcFile>src/main/resources/derby/derby-create.sql</srcFile>
+		                <srcFile>src/main/scripts/derby/derby-create.sql</srcFile>
 		              </srcFiles>
 		              <onError>continue</onError>
 		            </configuration>
@@ -132,7 +132,7 @@
 		            <configuration>
 		              <autocommit>true</autocommit>
 		              <srcFiles>
-		                <srcFile>src/main/resources/derby/derby-init.sql</srcFile>
+		                <srcFile>src/main/scripts/derby/derby-init.sql</srcFile>
 		              </srcFiles>
 		              <onError>continue</onError>
 		            </configuration>
@@ -157,6 +157,9 @@
                 	<exclude>hibernate.properties</exclude>
                 </excludes>
             </resource>
+            <resource>
+                <directory>src/main/scripts</directory>
+            </resource>            
         </resources>        
     </build>
 
