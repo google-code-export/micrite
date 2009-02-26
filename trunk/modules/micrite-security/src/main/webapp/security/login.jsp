@@ -28,13 +28,92 @@
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <head>
 	<title>登录</title>
+	<link rel="stylesheet" type="text/css" href="../js-lib/ext-js/resources/css/ext-all.css">	
+	<script type="text/javascript" src="../js-lib/ext-js/adapter/ext/ext-base.js"></script>
+	<script type="text/javascript" src="../js-lib/ext-js/ext-all.js"></script>
+	<script>
+	Ext.onReady(function(){
+	    Ext.QuickTips.init();
+	 
+		// Create a variable to hold our EXT Form Panel. 
+		// Assign various config options as seen.	 
+	    var login = new Ext.FormPanel({ 
+	        labelWidth:80,
+	        url:'/${pageContext.request.contextPath}/j_spring_security_check', 
+	        frame:true, 
+	        title:'Please Login', 
+	        defaultType:'textfield',
+		monitorValid:true,
+		// Specific attributes for the text fields for username / password. 
+		// The "name" attribute defines the name of variables sent to the server.
+	        items:[{ 
+	                fieldLabel:'Username', 
+	                name:'j_username', 
+	                allowBlank:false 
+	            },{ 
+	                fieldLabel:'Password', 
+	                name:'j_password', 
+	                inputType:'password', 
+	                allowBlank:false 
+	            }],
+	 
+		// All the magic happens after the user clicks the button     
+	        buttons:[{ 
+	                text:'登录',
+	                formBind: true,	 
+	                // Function that fires when user clicks the button 
+	                handler:function(){ 
+	                    login.getForm().submit({ 
+	                        method:'POST', 
+	                        waitTitle:'Connecting', 
+	                        waitMsg:'Sending data...',
+	 
+	                        success:function(){ 
+	                        	Ext.Msg.alert('Status', 'Login Successful!', function(btn, text){
+					   if (btn == 'ok'){
+			                       // var redirect = 'hello.jsp'; 
+			                        //window.location = redirect;
+			                        document.getElementById('loginForm').submit();
+	                                   }
+				        });
+	                        },
+	 
+	 
+	                        failure:function(form, action){ 
+	                            if(action.failureType == 'server'){ 
+	                                obj = Ext.util.JSON.decode(action.response.responseText); 
+	                                Ext.Msg.alert('Login Failed!', obj.errors.reason); 
+	                            }else{ 
+	                                Ext.Msg.alert('Warning!', 'Authentication server is unreachable : ' + action.response.responseText); 
+	                            } 
+	                            login.getForm().reset(); 
+	                        } 
+	                    }); 
+	                } 
+	            }] 
+	    });
+	 
+	 
+		// This just creates a window to wrap the login form. 
+		// The login object is passed to the items collection.       
+	    var win = new Ext.Window({
+	        layout:'fit',
+	        width:300,
+	        height:150,
+	        closable: false,
+	        resizable: false,
+	        plain: true,
+	        border: false,
+	        items: [login]
+		});
+		win.show();
+	});
+	</script>
 </head>
 
 <body>
-    <form method="post" id="loginForm" action="${pageContext.request.contextPath}/j_spring_security_check">
-        <p>Username：<input type="text" name="j_username" id="j_username" /></p>
-        <p>Password：<input type="password" name="j_password" id="j_password" /></p>
-        <p><input type="submit" value="登录" /></p>
+    <form method="post" id="loginForm" action="${pageContext.request.contextPath}">
+ 
     </form> 
 </body>
 

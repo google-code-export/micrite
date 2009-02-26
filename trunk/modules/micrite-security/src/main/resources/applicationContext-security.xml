@@ -35,6 +35,7 @@
 	
 	<http access-denied-page="/403.jsp" >
 		<intercept-url pattern="/security/login.jsp" filters="none" />
+		<intercept-url pattern="/js-lib/**" filters="none" />
 	    <form-login login-page="/security/login.jsp" authentication-failure-url="/security/login.jsp?error=true" default-target-url="/security/index.jsp" />
 	    <logout logout-success-url="/security/login.jsp"/>
 	    <http-basic />
