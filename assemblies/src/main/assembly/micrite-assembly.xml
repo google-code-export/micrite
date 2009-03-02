@@ -45,6 +45,10 @@
 			<includes>
 				<include>*.jar</include>
 			</includes>
+			<excludes>
+				<exclude>*-sources.jar</exclude>
+			</excludes>
+			
 	    </fileSet>	 
 	    <fileSet>
 			<directory>../modules/micrite-security/src/main/webapp</directory>
@@ -77,6 +81,10 @@
 			<includes>
 				<include>*.jar</include>
 			</includes>
+			<excludes>
+				<exclude>*-sources.jar</exclude>
+			</excludes>
+			
 	    </fileSet>
 	    <fileSet>
 			<directory>../modules/micrite-crm/src/main/webapp</directory>

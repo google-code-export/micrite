@@ -31,12 +31,12 @@
 
     <parent>
         <groupId>org.gaixie.micrite</groupId>
-        <artifactId>micrite</artifactId>
+        <artifactId>micrite-parent</artifactId>
         <version>0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.gaixie.micrite.modules</groupId>
-    <artifactId>modules</artifactId>
+    <groupId>org.gaixie.micrite</groupId>
+    <artifactId>micrite-modules</artifactId>
     <name>Micrite Modules</name>
     <packaging>pom</packaging>
     

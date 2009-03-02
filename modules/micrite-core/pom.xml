@@ -30,11 +30,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.gaixie.micrite.modules</groupId>
-        <artifactId>modules</artifactId>
+        <groupId>org.gaixie.micrite</groupId>
+        <artifactId>micrite-modules</artifactId>
         <version>0.1-SNAPSHOT</version>
     </parent>
 
+	<groupId>org.gaixie.micrite</groupId>
     <artifactId>micrite-core</artifactId>
     <name>Micrite Modules :: Core</name>
     <packaging>jar</packaging>
@@ -53,6 +54,11 @@
                     <target>1.5</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            
         </plugins>
     </build>
 
