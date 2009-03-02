@@ -28,22 +28,22 @@ import java.util.List;
 
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.crm.dao.IUserDao;
-import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-public class UserDaoImpl implements IUserDao {
-	private HibernateTemplate hibernateTemplate;
-    
+public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
 	public List<User> findAll(){
-		List<User> list = getHibernateTemplate().find("from User e");
-		return list;
+		List<User> users = getHibernateTemplate().find("from User e");
+		return users;
 	}
 
-	public HibernateTemplate getHibernateTemplate() {
-		return hibernateTemplate;
+	public User getUser(int id){
+		User user = (User)getHibernateTemplate().get(User.class,id);
+		return user;
 	}
 
-	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
-		this.hibernateTemplate = hibernateTemplate;
+	public boolean disabled(int id){
+		User user = (User)getHibernateTemplate().get(User.class,id);
+		user.setDisabled(true);
+		return true;
 	}
-
 }
