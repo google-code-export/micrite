@@ -34,7 +34,10 @@ import org.springframework.security.context.SecurityContext;
 import org.springframework.security.ui.WebAuthenticationDetails;
 
 import com.opensymphony.xwork2.ActionSupport;
-
+import org.springframework.jmx.export.annotation.ManagedAttribute;
+import org.springframework.jmx.export.annotation.ManagedResource;
+ 
+@ManagedResource(objectName="micrite:type=action,name=UserAction", description="Micrite UserAction Bean")
 public class UserAction extends ActionSupport implements SessionAware{ 
 	
 	public UserAction(IUserService userService) {
@@ -66,12 +69,17 @@ public class UserAction extends ActionSupport implements SessionAware{
 		return SUCCESS;
     }    
 
+	@ManagedAttribute(description="The role attribute")
 	public String getRole() {
 		return role;
 	}
+
+	@ManagedAttribute(description="The remoteAddress attribute")
 	public String getRemoteAddress() {
 		return remoteAddress;
 	}
+
+	@ManagedAttribute(description="The sessionId attribute")
 	public String getSessionId() {
 		return sessionId;
 	}
