@@ -42,7 +42,5 @@
 		<property name="userDao" ref="crmUserDao" />
 	</bean>
 
-	<bean id="crmUserDao" class="org.gaixie.micrite.crm.dao.hibernate.UserDaoImpl" >
-		<property name="hibernateTemplate" ref="hibernateTemplate" />
-	</bean>
+	<bean id="crmUserDao" class="org.gaixie.micrite.crm.dao.hibernate.UserDaoImpl"/>
 </beans>

@@ -29,11 +29,9 @@ import java.util.List;
 import org.gaixie.micrite.beans.Resource;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.dao.ISecurityDao;
-import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-public class SecurityDaoImpl implements ISecurityDao {
-
-	private HibernateTemplate hibernateTemplate;
+public class SecurityDaoImpl extends HibernateDaoSupport implements ISecurityDao {
 
 	public List<User> loadUserByUsername(String username) {
 		List<User> users = getHibernateTemplate().find(
@@ -46,12 +44,4 @@ public class SecurityDaoImpl implements ISecurityDao {
         return urlResources;
 	}
 	
-	public HibernateTemplate getHibernateTemplate() {
-		return hibernateTemplate;
-	}
-
-	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
-		this.hibernateTemplate = hibernateTemplate;
-	}
-
 }
