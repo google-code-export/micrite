@@ -28,28 +28,16 @@ import java.util.List;
 
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.dao.IUserDao;
-import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
  
 @ManagedResource(objectName="micrite:type=dao,name=UserDaoImpl", description="Micrite UserDaoImpl Bean")
-public class UserDaoImpl implements IUserDao {
+public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
 
-	private HibernateTemplate hibernateTemplate;
-    
 	public List<User> findAll(){
 		String hql = "from User e";
 		List<User> list = getHibernateTemplate().find(hql);
 		return list;
-	}
-
-	@ManagedAttribute(description="The hibernateTemplate attribute")
-	public HibernateTemplate getHibernateTemplate() {
-		return hibernateTemplate;
-	}
-
-	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
-		this.hibernateTemplate = hibernateTemplate;
 	}
 }
