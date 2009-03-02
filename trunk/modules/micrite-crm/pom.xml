@@ -32,11 +32,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.gaixie.micrite.modules</groupId>
-        <artifactId>modules</artifactId>
+        <groupId>org.gaixie.micrite</groupId>
+        <artifactId>micrite-modules</artifactId>
         <version>0.1-SNAPSHOT</version>
     </parent>
 
+	<groupId>org.gaixie.micrite</groupId>
     <artifactId>micrite-crm</artifactId>
     <name>Micrite Modules :: CRM</name>
     <packaging>jar</packaging>
@@ -176,11 +177,11 @@
             <artifactId>spring-security-taglibs</artifactId>
         </dependency>		
 		<dependency>
-		    <groupId>org.gaixie.micrite.modules</groupId>
+		    <groupId>org.gaixie.micrite</groupId>
 		    <artifactId>micrite-beans</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>org.gaixie.micrite.modules</groupId>
+		    <groupId>org.gaixie.micrite</groupId>
 		    <artifactId>micrite-common</artifactId>
 		</dependency>
     </dependencies>
@@ -214,7 +215,12 @@
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-			</plugin>              
+			</plugin>  
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+			            
         </plugins>
     </build>
 

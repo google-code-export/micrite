@@ -29,7 +29,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.gaixie.micrite</groupId>
-	<artifactId>micrite</artifactId>
+	<artifactId>micrite-parent</artifactId>
 	<name>Micrite</name>
 	<url>http://www.gaixie.org/micrite</url>
 	<packaging>pom</packaging>
@@ -336,13 +336,13 @@
 	        </dependency>	
 	        <!-- 定义了所有Entity bean -->	
 			<dependency>
-			    <groupId>org.gaixie.micrite.modules</groupId>
+			    <groupId>org.gaixie.micrite</groupId>
 			    <artifactId>micrite-beans</artifactId>
 			    <version>0.1-SNAPSHOT</version>
 			</dependency>
 	        <!-- 定义了所有公用类-->	
 			<dependency>
-			    <groupId>org.gaixie.micrite.modules</groupId>
+			    <groupId>org.gaixie.micrite</groupId>
 			    <artifactId>micrite-common</artifactId>
 			    <version>0.1-SNAPSHOT</version>
 			</dependency>			
@@ -581,7 +581,20 @@
 						<webApp>${project.build.directory}/${project.artifactId}-${project.version}.war</webApp>
 						-->
 	                </configuration>
-	            </plugin>        
+	            </plugin> 
+	            
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>attach-source</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>	                   
 	            
 	        </plugins>
         </pluginManagement>
