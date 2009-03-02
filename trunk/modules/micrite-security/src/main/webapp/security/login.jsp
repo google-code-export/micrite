@@ -39,7 +39,7 @@
 		// Assign various config options as seen.	 
 	    var login = new Ext.FormPanel({ 
 	        labelWidth:80,
-	        url:'/${pageContext.request.contextPath}/j_spring_security_check', 
+	        url:'${pageContext.request.contextPath}/j_spring_security_check', 
 	        frame:true, 
 	        title:'Please Login', 
 	        defaultType:'textfield',
