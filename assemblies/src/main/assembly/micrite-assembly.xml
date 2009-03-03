@@ -32,7 +32,7 @@
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<fileSets>
 	    <fileSet>
-			<directory>../modules/micrite-security/target/tmp</directory>
+			<directory>../modules/micrite-security/target/micrite-security-${version}</directory>
 			<outputDirectory></outputDirectory>
 			<includes>
 				<include>js-lib/**</include>

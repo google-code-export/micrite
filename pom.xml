@@ -387,6 +387,17 @@
 	                <groupId>org.apache.maven.plugins</groupId>
 	                <artifactId>maven-clean-plugin</artifactId>
 	                <version>2.2</version>
+				    <configuration>
+				      <filesets>
+				        <fileset>
+				          <directory>${project.basedir}/src/main/webapp</directory>
+				          <includes>
+				            <include>js-lib</include>
+				          </includes>
+				          <followSymlinks>false</followSymlinks>
+				        </fileset>
+				      </filesets>
+				    </configuration>
 	            </plugin>
 	            <plugin>
 	                <groupId>org.apache.maven.plugins</groupId>
@@ -549,13 +560,12 @@
 	                                </patternset>
                               	</unzip>
                             	<echo message="***Unzipping extjs.zip***" />
-                                <unzip src="${project.build.directory}/tmp/extjs.zip"  dest="${project.build.directory}/tmp/js-lib">
+                                <unzip src="${project.build.directory}/tmp/extjs.zip"  dest="${project.build.directory}/${project.artifactId}-${project.version}/js-lib">
                               	</unzip>
 
 								<echo message="***war unzipped***" />
-                                <copy todir="${project.build.directory}/${project.artifactId}-${project.version}/js-lib">
-	                                <fileset dir="${project.build.directory}/tmp/js-lib">
-	                                </fileset>
+                                <copy todir="${project.basedir}/src/main/webapp/js-lib">
+	                                <fileset dir="${project.build.directory}/${project.artifactId}-${project.version}/js-lib" />
                                 </copy>
 								<!-- 若删除临时目录，会导致assemblis组装缺少js-lib
 								<echo message="***Deleting old dir***" />
