@@ -5,7 +5,7 @@
  *
  * (C) Copyright 2009, by Gaixie.org and Contributors.
  * 
- * Project Info:  http://www.gaixie.org/wiki/100:Mainpage
+ * Project Info:  http://micrite.gaixie.org/
  *
  * Micrite is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
