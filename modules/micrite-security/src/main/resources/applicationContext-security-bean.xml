@@ -46,8 +46,13 @@
 	</bean>
 
 	
-	<bean id="userSecurityDao" class="org.gaixie.micrite.security.dao.hibernate.UserDaoImpl"/>
-	<bean id="securityDao" class="org.gaixie.micrite.security.dao.hibernate.SecurityDaoImpl"/>
+	<bean id="userSecurityDao" class="org.gaixie.micrite.security.dao.hibernate.UserDaoImpl">
+	   <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+	
+	<bean id="securityDao" class="org.gaixie.micrite.security.dao.hibernate.SecurityDaoImpl">
+	    <property name="sessionFactory" ref="sessionFactory" />
+    </bean>	
 	
     <bean id="exporter" class="org.springframework.jmx.export.MBeanExporter" lazy-init="false">
         <property name="assembler" ref="assembler"/>
