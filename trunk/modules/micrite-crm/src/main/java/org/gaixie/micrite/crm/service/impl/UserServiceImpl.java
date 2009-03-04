@@ -29,7 +29,6 @@ import java.util.List;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.crm.dao.IUserDao;
 import org.gaixie.micrite.crm.service.IUserService;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 public class UserServiceImpl implements IUserService {
 
@@ -41,9 +40,18 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	public void disabled(int id){
-		
+		userDao.disabled(id);
 	}
 
+	/**
+	 * 得到用户
+	 * 
+	 * @return
+	 */
+	public User getUser(int id){
+		return userDao.getUser(id);
+	}
+	
 	public IUserDao getUserDao() {
 		return userDao;
 	}

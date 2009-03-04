@@ -49,5 +49,11 @@ public interface IUserService {
 	 */
 	public void disabled(int id);
 	
+	/**
+	 * 得到用户
+	 * 
+	 * @return
+	 */
+	public User getUser(int id);
 
 }

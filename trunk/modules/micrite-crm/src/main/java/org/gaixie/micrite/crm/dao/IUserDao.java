@@ -35,5 +35,18 @@ public interface IUserDao {
 	 * @return
 	 */
 	public List<User> findAll();
+	
+	/**
+	 * 得到用户
+	 * 
+	 * @return
+	 */
+	public User getUser(int id);
 
+	/**
+	 * 置无效
+	 * 
+	 * @return
+	 */
+	public boolean disabled(int id);
 }

@@ -42,7 +42,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
 	}
 
 	public boolean disabled(int id){
-		User user = (User)getHibernateTemplate().get(User.class,id);
+		User user = (User)getHibernateTemplate().load(User.class,id);
 		user.setDisabled(true);
 		return true;
 	}
