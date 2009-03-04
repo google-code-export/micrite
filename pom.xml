@@ -31,7 +31,7 @@
 	<groupId>org.gaixie.micrite</groupId>
 	<artifactId>micrite-parent</artifactId>
 	<name>Micrite</name>
-	<url>http://www.gaixie.org/micrite</url>
+	<url>http://micrite.gaixie.org/</url>
 	<packaging>pom</packaging>
 
 	<version>0.1-SNAPSHOT</version>
@@ -42,12 +42,12 @@
 
     <organization>
         <name>The Gaixie Micrite development community</name>
-        <url>http://www.gaixie.org/micrite/</url>
+        <url>http://micrite.gaixie.org/</url>
     </organization>
     
     <scm>
-        <connection>scm:svn:https://10.10.10.33/repos/gaixie/micrite/tags/0.1</connection>
-        <developerConnection>scm:svn:https://10.10.10.33/repos/gaixie/micrite/tags/0.1</developerConnection>
+        <connection>scm:svn:https://micrite.googlecode.com/svn/trunk</connection>
+        <developerConnection>scm:svn:https://micrite.googlecode.com/svn/trunk</developerConnection>
     </scm>
 
     <issueManagement>
@@ -493,7 +493,7 @@
 	                <artifactId>maven-release-plugin</artifactId>
 	                <version>2.0-beta-7</version>
 	                <configuration>
-	                    <tagBase>https://10.10.10.33/repos/gaixie/micrite/tags</tagBase>
+	                    <tagBase>https://micrite.googlecode.com/svn/tags</tagBase>
 	                </configuration>
 	            </plugin>
 	            <!-- IDE -->
