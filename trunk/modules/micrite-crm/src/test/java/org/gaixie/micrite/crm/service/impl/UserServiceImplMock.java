@@ -24,23 +24,41 @@
 
 package org.gaixie.micrite.crm.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.crm.service.IUserService;
 
 public class UserServiceImplMock implements IUserService {
-    
+   
+	private List<User> users;
+	
 	public List<User> findAll(){
-		return new ArrayList<User>();
+		return users;
 	}
 
 	public void disabled(int id){
-		
+		User wantedUser = new User();
+		for (User user:users)
+		{
+			if (user.getId().equals(id))
+			{
+				wantedUser = user;
+				break;
+			}
+		}
+		wantedUser.setDisabled(true);
 	}
 
 	public User getUser(int id){
 		return new User();
+	}
+	
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 }
