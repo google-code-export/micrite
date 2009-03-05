@@ -55,7 +55,6 @@
 			            <phase>package</phase>
 			            <goals>
 			                <goal>directory-single</goal>
-							<goal>single</goal>
 			            </goals>
 			            <configuration>
 		                    <finalName>${project.artifactId}-${version}</finalName>

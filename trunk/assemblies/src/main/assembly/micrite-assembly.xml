@@ -53,6 +53,10 @@
 	    <fileSet>
 			<directory>../modules/micrite-security/src/main/webapp</directory>
 			<outputDirectory></outputDirectory>
+			<excludes>
+				<exclude>js-lib/**</exclude>
+			</excludes>			
+			
 	    </fileSet>
 	    <fileSet>
 			<directory>../modules/micrite-security/src/main/resources</directory>
@@ -89,27 +93,17 @@
 	    <fileSet>
 			<directory>../modules/micrite-crm/src/main/webapp</directory>
 			<outputDirectory></outputDirectory>
+			<includes>
+				<include>crm/**</include>
+			</includes>		
 	    </fileSet>
 	    <fileSet>
 			<directory>../modules/micrite-crm/src/main/resources</directory>
 			<outputDirectory>WEB-INF/classes</outputDirectory>
 			<includes>
-				<include>**/struts.xml</include>
 				<include>**/applicationContext*.xml</include>				
 				<include>**/struts_xml/*</include>	
 			</includes>				
 	    </fileSet>
-	    <fileSet>
-			<directory>../modules/micrite-crm/target/dependencies</directory>
-			<outputDirectory>WEB-INF/lib</outputDirectory>
-			<includes>
-				<include>*.jar</include>
-			</includes>
-			<excludes>
-				<exclude>tools.jar</exclude>
-				<exclude>jsp-api-2.0.jar</exclude>
-				<exclude>servlet-api-2.4.jar</exclude>
-			</excludes>
-	    </fileSet>		       
 	</fileSets>	    
 </assembly>
