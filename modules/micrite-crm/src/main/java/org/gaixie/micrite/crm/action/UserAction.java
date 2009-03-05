@@ -52,6 +52,10 @@ public class UserAction extends ActionSupport implements SessionAware{
 	 */
 	public String manage() {
         users = userService.findAll();
+        if (users.size() == 0)
+        {
+        	users = null;
+        }
         return SUCCESS;
 	}
 	/**
