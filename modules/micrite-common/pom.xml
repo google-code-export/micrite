@@ -139,6 +139,20 @@
 		              <onError>continue</onError>
 		            </configuration>
 		          </execution>
+		          
+		          <!-- Shutdown DB in order to be able to run unit tests -->
+		          <execution>
+                    <id>shutdown-database-sothat-test-can-run</id>
+                    <phase>process-test-resources</phase>
+                    <goals>
+                      <goal>execute</goal>
+                    </goals>
+                    <configuration>
+                      <url>${jdbc.url};shutdown=true;user=${jdbc.username};password=${jdbc.password}</url>
+                      <skipOnConnectionError>true</skipOnConnectionError>
+                    </configuration>
+                  </execution>
+		          
 		        </executions>
 		      </plugin>
             <plugin>
