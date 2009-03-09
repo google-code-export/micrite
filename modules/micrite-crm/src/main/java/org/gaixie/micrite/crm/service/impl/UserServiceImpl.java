@@ -26,7 +26,8 @@ package org.gaixie.micrite.crm.service.impl;
 
 import java.util.List;
 
-import org.gaixie.micrite.beans.User;
+import org.gaixie.micrite.beans.Customer;
+import org.gaixie.micrite.beans.Member;
 import org.gaixie.micrite.crm.dao.IUserDao;
 import org.gaixie.micrite.crm.service.IUserService;
 
@@ -34,30 +35,38 @@ public class UserServiceImpl implements IUserService {
 
 	private IUserDao userDao;
     
-	public List<User> findAll(){
-		List<User> list = userDao.findAll();
-		return list;
-	}
-
-	public void disabled(int id){
-		userDao.disabled(id);
-	}
-
-	/**
-	 * 得到用户
-	 * 
-	 * @return
-	 */
-	public User getUser(int id){
-		return userDao.getUser(id);
-	}
-	
 	public IUserDao getUserDao() {
 		return userDao;
 	}
 
 	public void setUserDao(IUserDao userDao) {
 		this.userDao = userDao;
+	}
+	
+	public List<Customer> findALLCustomer(){
+		List<Customer> customers = userDao.findAll(Customer.class);
+		return customers;
+	}
+
+	public void saveMember(Member member){
+		if(member.getId() == null){
+			userDao.save(member);
+		}
+		else{
+			userDao.update(member);
+		}
+	}
+	public int getMemberNum(){
+		List<Member> members = userDao.findAll(Member.class);
+		return members == null ? 0 : members.size();
+	}
+	public List<Member> findByTelExact(String telephone){
+		List<Member> list = userDao.findSingleExact(Member.class, "telephone", telephone);
+		return list;
+	}
+	
+	public Member findByIdExact(int id){
+		return (Member)userDao.getEntity(Member.class, id);
 	}
 
 

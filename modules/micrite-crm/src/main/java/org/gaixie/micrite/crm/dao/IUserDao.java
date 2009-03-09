@@ -26,27 +26,42 @@ package org.gaixie.micrite.crm.dao;
 
 import java.util.List;
 
+import org.gaixie.micrite.beans.Customer;
+import org.gaixie.micrite.beans.Member;
+import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
 
 public interface IUserDao {
 	/**
-	 * 查找所有记录
-	 * 
+	 * 新增用户
+	 * @param  user
 	 * @return
 	 */
-	public List<User> findAll();
-	
-	/**
-	 * 得到用户
-	 * 
-	 * @return
-	 */
-	public User getUser(int id);
+	public void save(Object entity);
 
 	/**
-	 * 置无效
-	 * 
+	 * 更新用户
+	 * @param  user
 	 * @return
 	 */
-	public boolean disabled(int id);
+	public void update(Object entity);
+	/**
+	 * 查找所有记录
+	 * @return
+	 */
+	public List findAll(Class entityClass);
+	/**
+	 * 根据电话精确查找
+	 * @param  telephone
+	 * @return
+	 */
+	public List findSingleExact(Class entityClass, String column, String value);
+
+	/**
+	 * 根据ID精确查找
+	 * @param  telephone
+	 * @return
+	 */
+	public Object getEntity(Class entityClass, int id);
+	
 }

@@ -26,4 +26,4 @@
 
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
-<s:action name="index" executeResult="true" />
+<s:action name="index" namespace="/" executeResult="true" />

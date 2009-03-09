@@ -33,6 +33,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -49,7 +50,7 @@ import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UserDetails;
 
 /**
- * @author Downpour
+ * @author Maven.yu
  *
  */
 @Entity
@@ -61,7 +62,7 @@ public class User implements UserDetails {
 	private static final long serialVersionUID = 8026813053768023527L;
 
     @Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
     private String name;

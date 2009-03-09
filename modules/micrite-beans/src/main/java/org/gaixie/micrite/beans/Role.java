@@ -29,6 +29,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -39,7 +40,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * @author Downpour
+ * @author Maven.yu
  *
  */
 @Entity
@@ -48,7 +49,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 public class Role {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	private String name;

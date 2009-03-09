@@ -39,10 +39,21 @@
     <artifactId>micrite-common</artifactId>
     <name>Micrite Modules :: Common</name>
     <packaging>jar</packaging>
-
+<!--
+	修改为PostgreSQL，修改之前需建micrite_db数据库
 	<properties>
+		<jdbc.database>postgre</jdbc.database>
+        <jdbc.driverClassName>org.postgresql.Driver</jdbc.driverClassName>
+         <jdbc.url>jdbc:postgresql://10.10.10.9:5432/micrite_db?charSet=EUC_CN</jdbc.url>
+        <jdbc.username>golfuser</jdbc.username>
+        <jdbc.password>golfuser</jdbc.password>
+        <hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
+    </properties>
+ -->
+	<properties>
+		<jdbc.database>derby</jdbc.database>
         <jdbc.driverClassName>org.apache.derby.jdbc.EmbeddedDriver</jdbc.driverClassName>
-        <jdbc.url>jdbc:derby:${project.build.directory}/micrite_db</jdbc.url>
+        <jdbc.url>jdbc:derby:${project.build.directory}/micrite_db;create=true</jdbc.url>
         <jdbc.username>derby</jdbc.username>
         <jdbc.password>derby</jdbc.password>
         <hibernate.dialect>org.hibernate.dialect.DerbyDialect</hibernate.dialect>
@@ -71,17 +82,27 @@
 		
 		        <dependencies>
 		          <!-- specify the dependent jdbc driver here -->
+<!-- 
+					修改为PostgreSQL 
+					<dependency>
+						<groupId>postgresql</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>8.1-408.jdbc3</version>
+					</dependency> 
+-->
 		          <dependency>
 		            <groupId>org.apache.derby</groupId>
 		            <artifactId>derby</artifactId>
 					<version>10.4.2.0</version>
 		          </dependency>
-		        </dependencies>
+ 		        </dependencies>
 		
 		        <!-- common configuration shared by all executions -->
 		        <configuration>
 		          <driver>${jdbc.driverClassName}</driver>
-		          <url>${jdbc.url};create=true;user=${jdbc.username};password=${jdbc.password}</url>
+		          <url>${jdbc.url}</url>
+		          <username>${jdbc.username}</username>
+		          <password>${jdbc.password}</password>
 		          <encoding>UTF-8</encoding>
 		          <!-- <username>postgres</username>
 		          <password>password</password> -->
@@ -103,7 +124,7 @@
 		            <configuration>
 		              <autocommit>true</autocommit>
 		              <srcFiles>
-		                <srcFile>src/main/scripts/derby/derby-drop.sql</srcFile>
+		                <srcFile>src/main/scripts/${jdbc.database}/${jdbc.database}-drop.sql</srcFile>
 		              </srcFiles>
 		              <!-- ignore error when database is not avaiable -->
 		              <onError>continue</onError>
@@ -119,7 +140,7 @@
 		            <configuration>
 		              <autocommit>true</autocommit>
 		              <srcFiles>
-		                <srcFile>src/main/scripts/derby/derby-create.sql</srcFile>
+		                <srcFile>src/main/scripts/${jdbc.database}/${jdbc.database}-create.sql</srcFile>
 		              </srcFiles>
 		              <onError>continue</onError>
 		            </configuration>
@@ -134,7 +155,7 @@
 		            <configuration>
 		              <autocommit>true</autocommit>
 		              <srcFiles>
-		                <srcFile>src/main/scripts/derby/derby-init.sql</srcFile>
+		                <srcFile>src/main/scripts/${jdbc.database}/${jdbc.database}-init.sql</srcFile>
 		              </srcFiles>
 		              <onError>continue</onError>
 		            </configuration>

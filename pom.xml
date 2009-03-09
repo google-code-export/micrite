@@ -318,6 +318,11 @@
 				<artifactId>derby</artifactId>
 				<version>10.4.2.0</version>
 			</dependency>
+			<dependency>
+				<groupId>postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>8.1-408.jdbc3</version>
+			</dependency> 
 			<!-- Spring Security -->
 	        <dependency>
 	            <groupId>org.springframework.security</groupId>
