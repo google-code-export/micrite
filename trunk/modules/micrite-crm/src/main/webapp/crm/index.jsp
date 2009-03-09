@@ -25,4 +25,4 @@
 --%>
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
-<s:action name="manage" executeResult="true" />
+<s:action name="manage" namespace="/crm" executeResult="true" />

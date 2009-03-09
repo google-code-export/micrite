@@ -24,118 +24,69 @@
 
 package org.gaixie.micrite.beans;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * @author Maven.yu
+ *
  */
 @Entity
-@Table(name = "t_resource")
+@Table(name = "t_members")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Resource {
-
+public class Member {
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private String type;
+	private String name;
 	
-	private String value;
+	private String telephone;
 	
-	@ManyToMany(mappedBy = "resources", targetEntity = Role.class, fetch = FetchType.EAGER)
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	private Set<Role> roles;
-	
-	/**
-	 * The default constructor
-	 */
-	public Resource() {
-		
-	}
-	
-    /**
-     * Get role authorities as string
-     * 
-     * @return
-     */
-    @Transient
-	public String getRoleAuthorities() {
-    	List<String> roleAuthorities = new ArrayList<String>();
-    	for(Role role : roles) {
-    		roleAuthorities.add(role.getName());
-    	}
-        return StringUtils.join(roleAuthorities, ",");
-    }
+	@ManyToOne(targetEntity = Customer.class,  fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id")
+	private Customer customer;
 
-	/**
-	 * @return the id
-	 */
 	public Integer getId() {
 		return id;
 	}
 
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * @return the value
-	 */
-	public String getValue() {
-		return value;
-	}
-
-	/**
-	 * @return the roles
-	 */
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
+	public String getName() {
+		return name;
 	}
 
-	/**
-	 * @param value the value to set
-	 */
-	public void setValue(String value) {
-		this.value = value;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	/**
-	 * @param roles the roles to set
-	 */
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 }

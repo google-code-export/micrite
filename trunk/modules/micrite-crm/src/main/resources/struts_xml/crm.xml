@@ -3,13 +3,17 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-    <package name="micrite-crm" extends="struts-default">
-		<action name="manage" class="crmAction"
-			method="manage">
+    <package name="micrite-crm" extends="struts-default" namespace="/crm">
+		<action name="manage" class="crmAction" method="manage">
 			<result name="success">/crm/manage.jsp</result>
 		</action>
- 		<action name="disabled" class="crmAction"
-			method="disabled">
+ 		<action name="save" class="crmAction" method="save">
+			<result name="success">/crm/manage.jsp</result>
+		</action>
+ 		<action name="find" class="crmAction" method="find">
+			<result name="success">/crm/manage.jsp</result>
+		</action>
+ 		<action name="edit" class="crmAction" method="edit">
 			<result name="success">/crm/manage.jsp</result>
 		</action>
     </package>

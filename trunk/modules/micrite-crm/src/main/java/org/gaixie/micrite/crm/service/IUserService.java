@@ -26,6 +26,9 @@ package org.gaixie.micrite.crm.service;
 
 import java.util.List;
 
+import org.gaixie.micrite.beans.Customer;
+import org.gaixie.micrite.beans.Member;
+import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
 
 /**
@@ -33,27 +36,38 @@ import org.gaixie.micrite.beans.User;
  *
  */
 public interface IUserService {
-	
 	/**
-	 * 查找所有记录
-	 * 
+	 * 新增用户
+	 * @param  member
 	 * @return
 	 */
-	public List<User> findAll();
+	public void saveMember(Member member);
+	
+	/**
+	 * 取得用户数量
+	 * @param  user
+	 * @return
+	 */
+	public int getMemberNum();
+	
+	/**
+	 * 根据电话精确查找
+	 * @param  telephone
+	 * @return
+	 */
+	public List<Member> findByTelExact(String telephone);
 
 	/**
-	 * 修改用户状态
-	 * 
-	 * @param id
+	 * 根据ID精确查找
+	 * @param  telephone
 	 * @return
 	 */
-	public void disabled(int id);
+	public Member findByIdExact(int id);
 	
 	/**
-	 * 得到用户
-	 * 
+	 * 取得所有大客户信息
 	 * @return
 	 */
-	public User getUser(int id);
+	public List<Customer> findALLCustomer();
 
 }

@@ -25,25 +25,27 @@
 package org.gaixie.micrite.crm.action;
 
 import java.util.List;
-import java.util.Map;
 
-import org.apache.struts2.interceptor.SessionAware;
-import org.gaixie.micrite.beans.User;
+import org.gaixie.micrite.beans.Customer;
+import org.gaixie.micrite.beans.Member;
 import org.gaixie.micrite.crm.service.IUserService;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-public class UserAction extends ActionSupport implements SessionAware{ 
+public class UserAction extends ActionSupport{ 
 	
 	public UserAction(IUserService userService) {
 		this.userService = userService;
 	}
 
-	private Map session;
-	private User user;
-	private List<User> users;
+	private Member member;
+	private List<Member> members;
 	private IUserService userService;
 	private Integer id;
+	private int memberNum = 0;
+	private String telephone;
+	private List<Customer> customers;
+	private Integer customer_id;
 
 	/**
 	 * 用户管理
@@ -51,7 +53,8 @@ public class UserAction extends ActionSupport implements SessionAware{
 	 * @return
 	 */
 	public String manage() {
-        users = userService.findAll();
+		memberNum = userService.getMemberNum();
+		customers = userService.findALLCustomer();
         if (users.size() == 0)
         {
         	users = null;
@@ -59,20 +62,43 @@ public class UserAction extends ActionSupport implements SessionAware{
         return SUCCESS;
 	}
 	/**
-	 * 用户置无效
+	 * 新增/修改用户
 	 * 
 	 * @return
 	 */
-	public String disabled() {
-        userService.disabled(id);
+	public String save() {
+		for(Customer c : customers ){
+			if(c.getId().equals(customer_id))
+				member.setCustomer(c);
+		}
+		userService.saveMember(member);
+		memberNum = userService.getMemberNum();
+		member = null;
         return SUCCESS;
 	}
-
-
-	public void setSession(Map session) {
-		  this.session=session;  
+	/**
+	 * 查找用户
+	 * 
+	 * @return
+	 */
+	public String find() {
+		members = userService.findByTelExact(telephone);
+        return SUCCESS;
 	}
-
+	/**
+	 * 查找用户
+	 * 
+	 * @return
+	 */
+	public String edit() {
+		for(Member m : members ){
+			if(m.getId().equals(id))
+				member = m;
+		}
+		customer_id = member.getCustomer().getId();
+        return SUCCESS;
+	}
+	
 	public IUserService getUserService() {
 		return userService;
 	}
@@ -81,23 +107,67 @@ public class UserAction extends ActionSupport implements SessionAware{
 		this.userService = userService;
 	}
 	
-    public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-	public List<User> getUsers() {
-		return users;
-	}
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+	public Member getMember() {
+		return member;
+	}
+	public List<Member> getMembers() {
+		return members;
+	}
+	public int getMemberNum() {
+		return memberNum;
+	}
+	public void setMember(Member member) {
+		this.member = member;
+	}
+	/**
+	 * @return the customers
+	 */
+	public List<Customer> getCustomers() {
+		return customers;
+	}
 
+	/**
+	 * @return the customer_id
+	 */
+	public Integer getCustomer_id() {
+		return customer_id;
+	}
+	/**
+	 * @param customer_id the customer_id to set
+	 */
+	public void setCustomer_id(Integer customer_id) {
+		this.customer_id = customer_id;
+	}
+	/**
+	 * @param members the members to set
+	 */
+	public void setMembers(List<Member> members) {
+		this.members = members;
+	}
+	/**
+	 * @param memberNum the memberNum to set
+	 */
+	public void setMemberNum(int memberNum) {
+		this.memberNum = memberNum;
+	}
+	/**
+	 * @param customers the customers to set
+	 */
+	public void setCustomers(List<Customer> customers) {
+		this.customers = customers;
+	}
 	
 	
 }

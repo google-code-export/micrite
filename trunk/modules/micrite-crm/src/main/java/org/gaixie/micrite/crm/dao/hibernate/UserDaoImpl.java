@@ -26,24 +26,27 @@ package org.gaixie.micrite.crm.dao.hibernate;
 
 import java.util.List;
 
-import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.crm.dao.IUserDao;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
-	public List<User> findAll(){
-		List<User> users = getHibernateTemplate().find("from User e");
-		return users;
+	public void save(Object entity){
+		getHibernateTemplate().save(entity);
 	}
-
-	public User getUser(int id){
-		User user = (User)getHibernateTemplate().get(User.class,id);
-		return user;
+	public void update(Object entity){
+		getHibernateTemplate().update(entity);
 	}
-
-	public boolean disabled(int id){
-		User user = (User)getHibernateTemplate().load(User.class,id);
-		user.setDisabled(true);
-		return true;
+	public List findAll(Class entityClass){
+		List list = getHibernateTemplate().find("from " + entityClass.getSimpleName() + " e");
+		return list;
+	}
+	public List findSingleExact(Class entityClass, String column, String value) {
+		List list = getHibernateTemplate().find(
+				"from " + entityClass.getSimpleName() + " e where " + column + " = ?", value);
+		return list;
+	}
+	public Object getEntity(Class entityClass, int id){
+		Object o = getHibernateTemplate().get(entityClass.getClass(), id);
+		return o;
 	}
 }

@@ -31,27 +31,53 @@
 <head><title>Micrite CRM</title></head>
 <body>
 <h1>Micrite CRM</h1>
-<table cellpadding=3 border=0>
-	<tr>
-		<td><b>id</b></td>
-		<td><b>Name</b></td>
-		<td><b>Email</b></td>
-		<td><b>Disabled</b></td>
-	</tr>
-<s:if test="users.size > 0">
-	<s:iterator value="users">
-		<tr id="row_<s:property value="id"/>">
-			<td><s:property value="id" /></td>
-			<td><s:property value="name" /></td>
-			<td><s:property value="email" /></td>
-			<s:url id="disabledUrl" action="disabled">
-				<s:param name="id" value="id" />
-			</s:url>
-			<td><a href="%{disabledUrl}"><s:property value="disabled" /></a></td>
-		</tr>
-	</s:iterator>
-</s:if>
-</table>
-<p><a href="<s:url value="add.htm"/>">Add</a></p>
+<div style="width: 300px;border-style: solid">
+	<p><b>查询用户</b></p>
+	<s:form action="find" namespace="/crm" validate="false">
+		<s:textfield id="username" label="手机号" name="telephone"/><s:submit value="查询" />
+	</s:form>
+	<s:if test="members.size > 0">
+		<table cellpadding=3 border=0>
+			<tr>
+				<td><b>id</b></td>
+				<td><b>姓名</b></td>
+				<td><b>电话</b></td>
+				<td><b>客户</b></td>
+				<td></td>
+			</tr>
+		<s:iterator value="members">
+			<tr id="row_<s:property value="id"/>">
+				<td><s:property value="id" /></td>
+				<td><s:property value="name" /></td>
+				<td><s:property value="telephone" /></td>
+				<td><s:property value="customer.name" /></td>
+				<s:url id="editUrl" action="edit" namespace="/crm">
+					<s:param name="id" value="id" />
+				</s:url>
+				<td><s:a href="%{editUrl}">修改</s:a></td>
+			</tr>
+		</s:iterator>
+	</table>
+	</s:if>
+</div>
+
+<br/>
+<div style="width: 300px;border-style: solid">
+	<p><b>增加/修改用户</b></p>
+	<s:form action="save" namespace="/crm" validate="true">
+		<p>已增加会员数：<font color="red"><b><s:property value="memberNum" /></b></font> 人</p>
+		<s:textfield id="id" name="member.id" required="true" cssStyle="display:none"/>
+		<s:textfield id="name" label="姓名" required="true" name="member.name"/>
+		<s:textfield id="username" label="手机号" required="true" name="member.telephone"/>
+		<s:select label="客户"
+			list="customers" 
+			name="customer_id"
+	        listKey="id"
+	        listValue="name"
+	        required="true"
+			/>
+		<s:submit value="增加/修改" />
+	</s:form>
+</div>
 </body>
 </html>
