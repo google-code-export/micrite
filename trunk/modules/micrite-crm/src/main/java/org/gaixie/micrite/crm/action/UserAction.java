@@ -55,10 +55,6 @@ public class UserAction extends ActionSupport{
 	public String manage() {
 		memberNum = userService.getMemberNum();
 		customers = userService.findALLCustomer();
-        if (users.size() == 0)
-        {
-        	users = null;
-        }
         return SUCCESS;
 	}
 	/**
