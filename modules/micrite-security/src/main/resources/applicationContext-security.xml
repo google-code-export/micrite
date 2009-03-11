@@ -36,9 +36,10 @@
 	<http access-denied-page="/403.jsp" >
 		<intercept-url pattern="/security/login.jsp" filters="none" />
 		<intercept-url pattern="/js-lib/**" filters="none" />
-	    <form-login login-page="/security/login.jsp" authentication-failure-url="/security/login.jsp?error=true" default-target-url="/security/index.jsp" />
+	    <form-login login-page="/security/login.jsp" authentication-failure-url="/security/login.jsp?error=true" default-target-url="/index.jsp" />
 	    <logout logout-success-url="/security/login.jsp"/>
 	    <http-basic />
+	    <remember-me key="e37f4b31-0c45-11dd-bd0b-0800200c9a66" />
 	</http>
 	
 	<!-- 创建DaoAuthenticationProvider实例, 设置userDetailsService的引用：securityManager.
