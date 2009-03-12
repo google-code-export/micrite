@@ -25,184 +25,45 @@
  */
 -->  
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.gaixie.micrite</groupId>
-        <artifactId>micrite-modules</artifactId>
-        <version>0.1-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.gaixie.micrite</groupId>
+		<artifactId>micrite-modules</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
 
 	<groupId>org.gaixie.micrite</groupId>
-    <artifactId>micrite-common</artifactId>
-    <name>Micrite Modules :: Common</name>
-    <packaging>jar</packaging>
-<!--
-	修改为PostgreSQL，修改之前需建micrite_db数据库
-	<properties>
+	<artifactId>micrite-common</artifactId>
+	<name>Micrite Modules :: Common</name>
+	<packaging>jar</packaging>
+	<!--
+		修改为PostgreSQL，修改之前需建micrite_db数据库 <properties>
 		<jdbc.database>postgre</jdbc.database>
-        <jdbc.driverClassName>org.postgresql.Driver</jdbc.driverClassName>
-         <jdbc.url>jdbc:postgresql://10.10.10.9:5432/micrite_db?charSet=EUC_CN</jdbc.url>
-        <jdbc.username>golfuser</jdbc.username>
-        <jdbc.password>golfuser</jdbc.password>
-        <hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
-    </properties>
- -->
-	<properties>
-		<jdbc.database>derby</jdbc.database>
-        <jdbc.driverClassName>org.apache.derby.jdbc.EmbeddedDriver</jdbc.driverClassName>
-        <jdbc.url>jdbc:derby:${project.build.directory}/micrite_db;create=true</jdbc.url>
-        <jdbc.username>derby</jdbc.username>
-        <jdbc.password>derby</jdbc.password>
-        <hibernate.dialect>org.hibernate.dialect.DerbyDialect</hibernate.dialect>
-    </properties>
+		<jdbc.driverClassName>org.postgresql.Driver</jdbc.driverClassName>
+		<jdbc.url>jdbc:postgresql://10.10.10.9:5432/micrite_db?charSet=EUC_CN</jdbc.url>
+		<jdbc.username>golfuser</jdbc.username>
+		<jdbc.password>golfuser</jdbc.password>
+		<hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
+		</properties>
+	-->
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
 
-    <dependencies>
-       		                	         
-    </dependencies>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
-            </plugin>
-
-	          <!-- sql-maven-plugin -->  
-		      <plugin>
-		        <groupId>org.codehaus.mojo</groupId>
-		        <artifactId>sql-maven-plugin</artifactId>
-		        <version>1.3</version>
-		
-		        <dependencies>
-		          <!-- specify the dependent jdbc driver here -->
-<!-- 
-					修改为PostgreSQL 
-					<dependency>
-						<groupId>postgresql</groupId>
-						<artifactId>postgresql</artifactId>
-						<version>8.1-408.jdbc3</version>
-					</dependency> 
--->
-		          <dependency>
-		            <groupId>org.apache.derby</groupId>
-		            <artifactId>derby</artifactId>
-					<version>10.4.2.0</version>
-		          </dependency>
- 		        </dependencies>
-		
-		        <!-- common configuration shared by all executions -->
-		        <configuration>
-		          <driver>${jdbc.driverClassName}</driver>
-		          <url>${jdbc.url}</url>
-		          <username>${jdbc.username}</username>
-		          <password>${jdbc.password}</password>
-		          <encoding>UTF-8</encoding>
-		          <!-- <username>postgres</username>
-		          <password>password</password> -->
-		          <!-- You can comment out username/password configurations and
-		               have maven to look them up in your settings.xml using ${settingsKey}
-		          -->
-		          <settingsKey>sensibleKey</settingsKey>
-		          <!--all executions are ignored if -Dmaven.test.skip=true-->
-		          <skip>${maven.test.skip}</skip>
-		        </configuration>
-		
-		        <executions>
-		          <execution>
-		            <id>drop-schema</id>
-		            <phase>process-test-resources</phase>
-		            <goals>
-		              <goal>execute</goal>
-		            </goals>
-		            <configuration>
-		              <autocommit>true</autocommit>
-		              <srcFiles>
-		                <srcFile>src/main/scripts/${jdbc.database}/${jdbc.database}-drop.sql</srcFile>
-		              </srcFiles>
-		              <!-- ignore error when database is not avaiable -->
-		              <onError>continue</onError>
-		            </configuration>
-		          </execution>
-		
-		          <execution>
-		            <id>create-schema</id>
-		            <phase>process-test-resources</phase>
-		            <goals>
-		              <goal>execute</goal>
-		            </goals>
-		            <configuration>
-		              <autocommit>true</autocommit>
-		              <srcFiles>
-		                <srcFile>src/main/scripts/${jdbc.database}/${jdbc.database}-create.sql</srcFile>
-		              </srcFiles>
-		              <onError>continue</onError>
-		            </configuration>
-		          </execution>
-		
-		          <execution>
-		            <id>create-data</id>
-		            <phase>process-test-resources</phase>
-		            <goals>
-		              <goal>execute</goal>
-		            </goals>
-		            <configuration>
-		              <autocommit>true</autocommit>
-		              <srcFiles>
-		                <srcFile>src/main/scripts/${jdbc.database}/${jdbc.database}-init.sql</srcFile>
-		              </srcFiles>
-		              <onError>continue</onError>
-		            </configuration>
-		          </execution>
-		          
-		          <!-- Shutdown DB in order to be able to run unit tests -->
-		          <execution>
-                    <id>shutdown-database-sothat-test-can-run</id>
-                    <phase>process-test-resources</phase>
-                    <goals>
-                      <goal>execute</goal>
-                    </goals>
-                    <configuration>
-                      <url>${jdbc.url};shutdown=true;user=${jdbc.username};password=${jdbc.password}</url>
-                      <skipOnConnectionError>true</skipOnConnectionError>
-                    </configuration>
-                  </execution>
-		          
-		        </executions>
-		      </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-		      
-        </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                	<include>databaseResource-hibernate.xml</include>
-                	<include>hibernate.properties</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                	<exclude>databaseResource-hibernate.xml</exclude>
-                	<exclude>hibernate.properties</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>src/main/scripts</directory>
-            </resource>            
-        </resources>        
-    </build>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

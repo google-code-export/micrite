@@ -30,13 +30,26 @@
 		<format>war</format>
 	</formats>
 	<includeBaseDirectory>false</includeBaseDirectory>
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>WEB-INF/lib</outputDirectory>
+      <scope>runtime</scope>
+    </dependencySet>
+  </dependencySets>	
 	<fileSets>
 	    <fileSet>
-			<directory>../modules/micrite-security/target/micrite-security-${version}</directory>
-			<outputDirectory></outputDirectory>
+			<directory>target/classes</directory>
+			<outputDirectory>WEB-INF/classes</outputDirectory>
 			<includes>
-				<include>js-lib/**</include>
-			</includes>
+				<include>**/databaseResource-hibernate.xml</include>				
+				<include>**/hibernate.properties</include>				
+				<include>**/dbscripts/**</include>	
+			</includes>		
+	    </fileSet>	
+	    	
+	    <fileSet>
+			<directory>../modules/micrite-security/src/main/webapp</directory>
+			<outputDirectory></outputDirectory>
 	    </fileSet>	 
 	
 	    <fileSet>
@@ -50,35 +63,11 @@
 			</excludes>
 			
 	    </fileSet>	 
-	    <fileSet>
-			<directory>../modules/micrite-security/src/main/webapp</directory>
-			<outputDirectory></outputDirectory>
-			<excludes>
-				<exclude>js-lib/**</exclude>
-			</excludes>			
-			
-	    </fileSet>
+
 	    <fileSet>
 			<directory>../modules/micrite-security/src/main/resources</directory>
 			<outputDirectory>WEB-INF/classes</outputDirectory>
-			<includes>
-				<include>**/struts.xml</include>
-				<include>**/applicationContext*.xml</include>
-				<include>**/struts_xml/*</include>	
-			</includes>			
 	    </fileSet>
-	    <fileSet>
-			<directory>../modules/micrite-security/target/dependencies</directory>
-			<outputDirectory>WEB-INF/lib</outputDirectory>
-			<includes>
-				<include>*.jar</include>
-			</includes>
-			<excludes>
-				<exclude>tools.jar</exclude>
-				<exclude>jsp-api-2.0.jar</exclude>
-				<exclude>servlet-api-2.4.jar</exclude>
-			</excludes>
-	    </fileSet>		       
 	    <fileSet>
 			<directory>../modules/micrite-crm/target</directory>
 			<outputDirectory>WEB-INF/lib</outputDirectory>
@@ -105,5 +94,28 @@
 				<include>**/struts_xml/*</include>	
 			</includes>				
 	    </fileSet>
+	    
+	    <fileSet>
+			<directory>../modules/micrite-bean/target</directory>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+			<excludes>
+				<exclude>*-sources.jar</exclude>
+			</excludes>
+			
+	    </fileSet>	   
+	    <fileSet>
+			<directory>../modules/micrite-common/target</directory>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+			<excludes>
+				<exclude>*-sources.jar</exclude>
+			</excludes>
+			
+	    </fileSet>		     
 	</fileSets>	    
 </assembly>
