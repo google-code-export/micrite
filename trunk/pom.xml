@@ -105,15 +105,6 @@
 		<PlanJMXPort>9999</PlanJMXPort>
 		<PlanJMXSecurePort>9998</PlanJMXSecurePort>
 
-		<!-- 内置Derby数据库供自动测试用 -->
-		<jdbc.database>derby</jdbc.database>
-		<jdbc.driverClassName>org.apache.derby.jdbc.EmbeddedDriver</jdbc.driverClassName>
-		<jdbc.url>jdbc:derby:${project.build.directory}/micrite_db;create=true</jdbc.url>
-		<jdbc.username>derby</jdbc.username>
-		<jdbc.password>derby</jdbc.password>
-		<hibernate.dialect>org.hibernate.dialect.DerbyDialect</hibernate.dialect>
-
-
 	</properties>
 
 	<distributionManagement>
@@ -450,10 +441,11 @@
 								<excludes>
 									<exclude>**/applicationContext*.xml</exclude>
 									<exclude>**/struts.xml</exclude>
-									<exclude>**/struts_xml/*</exclude>
+									<exclude>**/struts_xml/**</exclude>
 									<exclude>**/databaseResource-hibernate.xml</exclude>
 									<exclude>**/hibernate.properties</exclude>
-									<exclude>**/dbscripts/*</exclude>
+									<exclude>**/dbscripts/**</exclude>
+									<exclude>**/js-lib/**</exclude>
 								</excludes>
 							</configuration>
 						</execution>
@@ -566,89 +558,6 @@
 					</executions>
 				</plugin>
 
-				<!-- sql-maven-plugin -->
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>sql-maven-plugin</artifactId>
-					<version>1.3</version>
-
-					<dependencies>
-						<!-- specify the dependent jdbc driver here -->
-						<!--
-							修改为PostgreSQL <dependency> <groupId>postgresql</groupId>
-							<artifactId>postgresql</artifactId>
-							<version>8.1-408.jdbc3</version> </dependency>
-						-->
-						<dependency>
-							<groupId>org.apache.derby</groupId>
-							<artifactId>derby</artifactId>
-							<version>10.4.2.0</version>
-						</dependency>
-					</dependencies>
-
-					<!-- common configuration shared by all executions -->
-					<configuration>
-						<driver>${jdbc.driverClassName}</driver>
-						<url>${jdbc.url}</url>
-						<username>${jdbc.username}</username>
-						<password>${jdbc.password}</password>
-						<encoding>UTF-8</encoding>
-						<!--
-							<username>postgres</username> <password>password</password>
-						-->
-						<!--
-							You can comment out username/password configurations and have
-							maven to look them up in your settings.xml using ${settingsKey}
-						-->
-						<settingsKey>sensibleKey</settingsKey>
-						<!--all executions are ignored if -Dmaven.test.skip=true-->
-						<skip>${maven.test.skip}</skip>
-					</configuration>
-
-					<executions>
-						<execution>
-							<id>create-schema</id>
-							<phase>process-test-resources</phase>
-							<goals>
-								<goal>execute</goal>
-							</goals>
-							<configuration>
-								<autocommit>true</autocommit>
-								<srcFiles>
-									<srcFile>${project.build.directory}/classes/dbscripts/${jdbc.database}/createdb.sql</srcFile>
-								</srcFiles>
-							</configuration>
-						</execution>
-
-						<execution>
-							<id>drop-schema</id>
-							<phase>test</phase>
-							<goals>
-								<goal>execute</goal>
-							</goals>
-							<configuration>
-								<autocommit>true</autocommit>
-								<srcFiles>
-									<srcFile>${project.build.directory}/classes/dbscripts/droptables.sql</srcFile>
-								</srcFiles>
-							</configuration>
-						</execution>
-
-						<!-- Shutdown DB in order to be able to run unit tests -->
-						<execution>
-							<id>shutdown-database</id>
-							<phase>test</phase>
-							<goals>
-								<goal>execute</goal>
-							</goals>
-							<configuration>
-								<url>${jdbc.url};shutdown=true;user=${jdbc.username};password=${jdbc.password}</url>
-								<skipOnConnectionError>true</skipOnConnectionError>
-							</configuration>
-						</execution>
-
-					</executions>
-				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>

@@ -50,11 +50,179 @@
 		<hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
 		</properties>
 	-->
+	<properties>
+			<!-- 内置Derby数据库供自动测试用 -->
+		<jdbc.database>derby</jdbc.database>
+		<jdbc.driverClassName>org.apache.derby.jdbc.EmbeddedDriver</jdbc.driverClassName>
+		<jdbc.url>jdbc:derby:${project.build.directory}/micrite_db;create=true</jdbc.url>
+		<jdbc.username>derby</jdbc.username>
+		<jdbc.password>derby</jdbc.password>
+		<hibernate.dialect>org.hibernate.dialect.DerbyDialect</hibernate.dialect>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+		</dependency>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+			</plugin>	
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>gen-resources</id>
+							<phase>generate-resources</phase>
+							<configuration>
+								<tasks>
+									<echo message="***Unzipping extjs.zip***" />
+									<unzip src="${project.basedir}/src/main/scripts/extjs.zip"
+										dest="${project.build.directory}/classes/js-lib">
+									</unzip>
+
+								</tasks>
+							</configuration>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+
+						<execution>
+							<id>gen-dbscripts</id>
+							<phase>compile</phase>
+							<configuration>
+								<tasks>
+									<property name="build.dbscripts"
+										value="${project.build.directory}/classes/dbscripts" />
+									<mkdir dir="${build.dbscripts}" />
+
+									<!--
+										need a directory for each db to exist before generation can
+										happen
+									-->
+									<mkdir dir="${build.dbscripts}/derby" />
+									<mkdir dir="${build.dbscripts}/mssql" />
+									<mkdir dir="${build.dbscripts}/mysql" />
+									<!-- <mkdir dir="${build.dbscripts}/oracle" /> -->
+									<mkdir dir="${build.dbscripts}/postgresql" />
+
+									<path id="texen.path">
+										<fileset dir="${project.build.directory}/lib" />
+										<pathelement location="${project.basedir}/src/main/scripts/sql/" />
+										<pathelement location="${project.basedir}/src/main/scripts/sql/database" />
+									</path>
+									<taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask"
+										classpathref="texen.path"/>
+
+									<texen controlTemplate="control.vm"
+										contextProperties="${project.basedir}/src/main/scripts/sql/dbscripts.properties"
+										useClasspath="true" inputEncoding="UTF-8" outputEncoding="UTF-8" outputDirectory="${build.dbscripts}"
+										outputFile="README.txt" />
+
+									<!-- just copy over the droptables script -->
+									<copy todir="${build.dbscripts}"
+										file="${project.basedir}/src/main/scripts/sql/droptables.sql" />
+								</tasks>
+							</configuration>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+
+					</executions>
+				</plugin>
+
+				<!-- sql-maven-plugin -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sql-maven-plugin</artifactId>
+					<version>1.3</version>
+
+					<dependencies>
+						<!-- specify the dependent jdbc driver here -->
+						<!--
+							修改为PostgreSQL <dependency> <groupId>postgresql</groupId>
+							<artifactId>postgresql</artifactId>
+							<version>8.1-408.jdbc3</version> </dependency>
+						-->
+						<dependency>
+							<groupId>org.apache.derby</groupId>
+							<artifactId>derby</artifactId>
+							<version>10.4.2.0</version>
+						</dependency>
+					</dependencies>
+
+					<!-- common configuration shared by all executions -->
+					<configuration>
+						<driver>${jdbc.driverClassName}</driver>
+						<url>${jdbc.url}</url>
+						<username>${jdbc.username}</username>
+						<password>${jdbc.password}</password>
+						<encoding>UTF-8</encoding>
+						<!--
+							<username>postgres</username> <password>password</password>
+						-->
+						<!--
+							You can comment out username/password configurations and have
+							maven to look them up in your settings.xml using ${settingsKey}
+						-->
+						<settingsKey>sensibleKey</settingsKey>
+						<!--all executions are ignored if -Dmaven.test.skip=true-->
+						<skip>${maven.test.skip}</skip>
+					</configuration>
+
+					<executions>
+						<execution>
+							<id>create-schema</id>
+							<phase>process-test-classes</phase>
+							<goals>
+								<goal>execute</goal>
+							</goals>
+							<configuration>
+								<autocommit>true</autocommit>
+								<srcFiles>
+								    <!--><srcFile>${project.build.directory}/classes/dbscripts/droptables.sql</srcFile> -->
+									<srcFile>${project.build.directory}/classes/dbscripts/${jdbc.database}/createdb.sql</srcFile>
+								</srcFiles>
+								 <onError>continue</onError>
+								
+							</configuration>
+						</execution>
+<!-- 
+						<execution>
+							<id>drop-schema</id>
+							<phase>process-test-classes</phase>
+							<goals>
+								<goal>execute</goal>
+							</goals>
+							<configuration>
+								<autocommit>true</autocommit>
+								<srcFiles>
+									<srcFile>${project.build.directory}/classes/dbscripts/droptables.sql</srcFile>
+								</srcFiles>
+							</configuration>
+						</execution>
+
+						Shutdown DB in order to be able to run unit tests -->
+						<execution>
+							<id>shutdown-database</id>
+							<phase>process-test-classes</phase>
+							<goals>
+								<goal>execute</goal>
+							</goals>
+							<configuration>
+								<url>${jdbc.url};shutdown=true;user=${jdbc.username};password=${jdbc.password}</url>
+								<skipOnConnectionError>true</skipOnConnectionError>
+							</configuration>
+						</execution>
+
+					</executions>
+				</plugin>
+		
 
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
@@ -64,6 +232,25 @@
 				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>databaseResource-hibernate.xml</include>
+					<include>hibernate.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>databaseResource-hibernate.xml</exclude>
+					<exclude>hibernate.properties</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		
 	</build>
 
 </project>
