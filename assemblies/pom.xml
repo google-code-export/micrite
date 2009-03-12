@@ -197,111 +197,38 @@
 
 			</plugin>
 			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
-			</plugin>				
-			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>gen-resources</id>
-						<phase>generate-resources</phase>
-						<configuration>
-							<tasks>
-								<property name="common.resources" value="../modules/micrite-common/src/main/" />
+					<executions>
+						<execution>
+							<id>gen-resources</id>
+							<phase>compile</phase>
+							<configuration>
+								<tasks>
+									<property name="common.resources" value="../modules/micrite-common/target" />
 
-								<echo message="***Copy hibernate resources from common module***" />
-								<copy todir="${project.basedir}/src/main/resources"
-									file="${common.resources}/resources/databaseResource-hibernate.xml" />
-								<copy todir="${project.basedir}/src/main/resources"
-									file="${common.resources}/resources/hibernate.properties" />
-								<copy todir="${project.basedir}/src/main/scripts/sql">
-									<fileset dir="${common.resources}/scripts/sql" />
-								</copy>
+									<echo message="***Copy hibernate resources from common module***" />
+									<copy todir="${project.build.directory}/classes"
+										file="${common.resources}/classes/databaseResource-hibernate.xml" />
+									<copy todir="${project.build.directory}/classes"
+										file="${common.resources}/classes/hibernate.properties" />
+									<copy todir="${project.build.directory}/${project.artifactId}-${project.version}/js-lib">
+										<fileset dir="${common.resources}/classes/js-lib" />
+									</copy>
+									<copy todir="${project.build.directory}/classes/dbscripts">
+										<fileset dir="${common.resources}/classes/dbscripts" />
+									</copy>
 
-
-								<echo message="***Unzipping extjs.zip***" />
-								<unzip src="${common.resources}/scripts/extjs.zip"
-									dest="${project.build.directory}/${project.artifactId}-${project.version}/js-lib">
-								</unzip>
-
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-
-					<execution>
-						<id>gen-dbscripts</id>
-						<phase>compile</phase>
-						<configuration>
-							<tasks>
-								<property name="build.dbscripts"
-									value="${project.build.directory}/classes/dbscripts" />
-								<mkdir dir="${build.dbscripts}" />
-
-								<!--
-									need a directory for each db to exist before generation can
-									happen
-								-->
-								<mkdir dir="${build.dbscripts}/derby" />
-								<mkdir dir="${build.dbscripts}/mssql" />
-								<mkdir dir="${build.dbscripts}/mysql" />
-								<!-- <mkdir dir="${build.dbscripts}/oracle" /> -->
-								<mkdir dir="${build.dbscripts}/postgresql" />
-
-								<path id="texen.path">
-									<fileset dir="${project.build.directory}/lib" />
-									<pathelement location="${project.basedir}/src/main/scripts/sql/" />
-									<pathelement location="${project.basedir}/src/main/scripts/sql/database" />
-								</path>
-								<taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask"
-									classpathref="texen.path"/>
-
-
-								<texen controlTemplate="control.vm"
-									contextProperties="${project.basedir}/src/main/scripts/sql/dbscripts.properties"
-									useClasspath="true" inputEncoding="UTF-8" outputDirectory="${build.dbscripts}"
-									outputFile="README.txt" />
-
-								<!-- just copy over the droptables script -->
-								<copy todir="${build.dbscripts}"
-									file="${project.basedir}/src/main/scripts/sql/droptables.sql" />
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-
-
-					<execution>
-						<id>del-tmp-resources</id>
-						<phase>compile</phase>
-						<configuration>
-							<tasks>
-								<echo message="***Deleting tmp files***" />
-								<delete includeEmptyDirs="true">
-									<fileset dir="${project.basedir}/src/main/resources" />
-									<fileset dir="${project.basedir}/src/main/scripts" />
-									<fileset dir="${project.build.directory}/lib" />									
-								</delete>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
+								</tasks>
+							</configuration>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+					</executions>
 			</plugin>
 
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>sql-maven-plugin</artifactId>
 			</plugin>
 
 			<plugin>
@@ -344,24 +271,6 @@
 			</plugin>
 		</plugins>
 
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>databaseResource-hibernate.xml</include>
-					<include>hibernate.properties</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>false</filtering>
-				<excludes>
-					<exclude>databaseResource-hibernate.xml</exclude>
-					<exclude>hibernate.properties</exclude>
-				</excludes>
-			</resource>
-		</resources>
 	</build>
 
 </project>
