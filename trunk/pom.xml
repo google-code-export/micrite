@@ -24,7 +24,8 @@
  *
  */
 -->  
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -36,282 +37,286 @@
 
 	<version>0.1-SNAPSHOT</version>
 
-    <description>
+	<description>
         Gaixie Micrite, the Java web application base on struts2 and spring.
     </description>
 
-    <organization>
-        <name>The Gaixie Micrite development community</name>
-        <url>http://micrite.gaixie.org/</url>
-    </organization>
-    
-    <scm>
-        <connection>scm:svn:https://micrite.googlecode.com/svn/trunk</connection>
-        <developerConnection>scm:svn:https://micrite.googlecode.com/svn/trunk</developerConnection>
-    </scm>
+	<organization>
+		<name>The Gaixie Micrite development community</name>
+		<url>http://micrite.gaixie.org/</url>
+	</organization>
 
-    <issueManagement>
-        <system>Google Code Issues</system>
-        <url>http://code.google.com/p/micrite/issues/list</url>
-    </issueManagement>
-    
-    <licenses>
-        <license>
-            <name>GNU Lesser General Public License Version 3</name>
-            <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
-            <distribution>repo</distribution>
-            <comments />
-        </license>
-    </licenses>
+	<scm>
+		<connection>scm:svn:https://micrite.googlecode.com/svn/trunk</connection>
+		<developerConnection>scm:svn:https://micrite.googlecode.com/svn/trunk</developerConnection>
+	</scm>
 
-    <mailingLists>
-        <mailingList>
-            <name>Micrite Developer List</name>
-            <subscribe>
+	<issueManagement>
+		<system>Google Code Issues</system>
+		<url>http://code.google.com/p/micrite/issues/list</url>
+	</issueManagement>
+
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License Version 3</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+			<distribution>repo</distribution>
+			<comments />
+		</license>
+	</licenses>
+
+	<mailingLists>
+		<mailingList>
+			<name>Micrite Developer List</name>
+			<subscribe>
                 http://groups.google.com/group/gaixie-micrite-dev/subscribe?hl=en
             </subscribe>
-            <archive>
+			<archive>
                 http://groups.google.com/group/gaixie-micrite-dev?hl=en
             </archive>
-        </mailingList>
-        <mailingList>
-            <name>Micrite User List</name>
-            <subscribe>
+		</mailingList>
+		<mailingList>
+			<name>Micrite User List</name>
+			<subscribe>
                 http://groups.google.com/group/gaixie-micrite-user/subscribe?hl=en
             </subscribe>
-            <archive>
+			<archive>
                 http://groups.google.com/group/gaixie-micrite-user?hl=en
             </archive>
-        </mailingList>
-    </mailingLists>
+		</mailingList>
+	</mailingLists>
 
 
 	<properties>
-        <!--
-        Having a single well named version properties makes automatic updating for the weekly build much easier.
-        -->
-        <tomcat.version>6.0.16</tomcat.version>
-        <struts.version>2.1.6</struts.version>        
-        <spring.version>2.5.6</spring.version>
-        <jstl.version>1.1.2</jstl.version>
-        
-        <!-- Common plan properties -->
-        <PlanServerHostname>0.0.0.0</PlanServerHostname>
-        <PlanHTTPPort>8080</PlanHTTPPort>
-        <PlanHTTPSPort>8443</PlanHTTPSPort>
-        <PlanActiveMQPort>61616</PlanActiveMQPort>
-        <PlanJMXPort>9999</PlanJMXPort>
-        <PlanJMXSecurePort>9998</PlanJMXSecurePort>
-        
-        <jdbc.driverClassName>org.apache.derby.jdbc.EmbeddedDriver</jdbc.driverClassName>
-        <jdbc.url>jdbc:derby:${basedir}/micrite_db</jdbc.url>
-        <jdbc.username>derby</jdbc.username>
-        <jdbc.password>derby</jdbc.password>
-        <hibernate.dialect>org.hibernate.dialect.DerbyDialect</hibernate.dialect>
-    </properties>
+		<!--
+			Having a single well named version properties makes automatic
+			updating for the weekly build much easier.
+		-->
+		<tomcat.version>6.0.16</tomcat.version>
+		<struts.version>2.1.6</struts.version>
+		<spring.version>2.5.6</spring.version>
+		<jstl.version>1.1.2</jstl.version>
 
-    <distributionManagement>
-        <site>
-            <id>micrite-site</id>
-            <url>${project.artifactId}</url>
-        </site>
-    </distributionManagement>
-    
+		<!-- Common plan properties -->
+		<PlanServerHostname>0.0.0.0</PlanServerHostname>
+		<PlanHTTPPort>8080</PlanHTTPPort>
+		<PlanHTTPSPort>8443</PlanHTTPSPort>
+		<PlanActiveMQPort>61616</PlanActiveMQPort>
+		<PlanJMXPort>9999</PlanJMXPort>
+		<PlanJMXSecurePort>9998</PlanJMXSecurePort>
+
+		<!-- 内置Derby数据库供自动测试用 -->
+		<jdbc.database>derby</jdbc.database>
+		<jdbc.driverClassName>org.apache.derby.jdbc.EmbeddedDriver</jdbc.driverClassName>
+		<jdbc.url>jdbc:derby:${project.build.directory}/micrite_db;create=true</jdbc.url>
+		<jdbc.username>derby</jdbc.username>
+		<jdbc.password>derby</jdbc.password>
+		<hibernate.dialect>org.hibernate.dialect.DerbyDialect</hibernate.dialect>
+
+
+	</properties>
+
+	<distributionManagement>
+		<site>
+			<id>micrite-site</id>
+			<url>${project.artifactId}</url>
+		</site>
+	</distributionManagement>
+
 	<!--
-	下面<dependencyManagement>是整个micrite项目依赖包的全集，所有包都指定版本号。
-	继承此POM文件的子POM文件，如果要加入依赖，就无须指定版本号。（会优先取下面列出的版本号）
-	从而保证了整个项目依赖包的版本统一。
+		下面<dependencyManagement>是整个micrite项目依赖包的全集，所有包都指定版本号。
+		继承此POM文件的子POM文件，如果要加入依赖，就无须指定版本号。（会优先取下面列出的版本号） 从而保证了整个项目依赖包的版本统一。
 	-->
-    <dependencyManagement>
+	<dependencyManagement>
 		<dependencies>
 			<dependency>
-	            <groupId>javax.persistence</groupId>
-	            <artifactId>persistence-api</artifactId>
-	            <version>1.0</version>
-	        </dependency>
-		
-			<dependency>
-			    <groupId>javax.transaction</groupId>
-			    <artifactId>jta</artifactId>
-			    <version>1.1</version>
-			</dependency>
-        
-			<dependency>
-			    <groupId>org.hibernate</groupId>
-			    <artifactId>hibernate-entitymanager</artifactId>
-			    <version>3.3.2.GA</version>
-			    <exclusions>
-			        <exclusion>
-			            <groupId>javax.transaction</groupId>
-			            <artifactId>jta</artifactId>
-			        </exclusion>
-			    </exclusions>
-			</dependency>
-        
-			<dependency>
-			    <groupId>mysql</groupId>
-			    <artifactId>mysql-connector-java</artifactId>
-			    <version>5.1.6</version>
+				<groupId>javax.persistence</groupId>
+				<artifactId>persistence-api</artifactId>
+				<version>1.0</version>
 			</dependency>
 
 			<dependency>
-			    <groupId>junit</groupId>
-			    <artifactId>junit</artifactId>
-			    <version>4.4</version>
+				<groupId>javax.transaction</groupId>
+				<artifactId>jta</artifactId>
+				<version>1.1</version>
 			</dependency>
-		
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>3.3.2.GA</version>
+				<exclusions>
+					<exclusion>
+						<groupId>javax.transaction</groupId>
+						<artifactId>jta</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>5.1.6</version>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.4</version>
+			</dependency>
+
 			<!-- Spring -->
 			<dependency>
-			    <groupId>org.springframework</groupId>
-			    <artifactId>spring-aop</artifactId>
-			    <version>${spring.version}</version>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${spring.version}</version>
 			</dependency>
 			<dependency>
-	            <groupId>org.springframework</groupId>
-	            <artifactId>spring-beans</artifactId>
-	            <version>${spring.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.springframework</groupId>
-	            <artifactId>spring-context</artifactId>
-	            <version>${spring.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.springframework</groupId>
-	            <artifactId>spring-context-support</artifactId>
-	            <version>${spring.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.springframework</groupId>
-	            <artifactId>spring-core</artifactId>
-	            <version>${spring.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.springframework</groupId>
-	            <artifactId>spring-jdbc</artifactId>
-	            <version>${spring.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.springframework</groupId>
-	            <artifactId>spring-orm</artifactId>
-	            <version>${spring.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.springframework</groupId>
-	            <artifactId>spring-test</artifactId>
-	            <version>${spring.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.springframework</groupId>
-	            <artifactId>spring-tx</artifactId>
-	            <version>${spring.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.springframework</groupId>
-	            <artifactId>spring-web</artifactId>
-	            <version>${spring.version}</version>
-	        </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-webmvc</artifactId>
-                <version>${spring.version}</version>                
-            </dependency>
-            
-	        <!-- Struts 2 -->
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
 			<dependency>
-	            <groupId>org.apache.struts</groupId>
-	            <artifactId>struts2-core</artifactId>
-	            <version>${struts.version}</version>
-	        </dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
 			<dependency>
-	            <groupId>org.apache.struts</groupId>
-	            <artifactId>struts2-spring-plugin</artifactId>
-	            <version>${struts.version}</version>
-	        </dependency>
-        
-	
-		
-            <dependency>
-                <groupId>org.aspectj</groupId>
-                <artifactId>aspectjweaver</artifactId>
-                <optional>true</optional>
-                <version>1.5.4</version>
-            </dependency>	    
-            <dependency>
-                <groupId>org.aspectj</groupId>
-                <artifactId>aspectjrt</artifactId>
-                <version>1.5.4</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>cglib</groupId>
-                <artifactId>cglib-nodep</artifactId>
-                <scope>test</scope>
-                <optional>true</optional>
-                <version>2.1_3</version>
-            </dependency>	    
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>1.2.14</version>  <!-- 1.2.15 has some JMX dependencies we don't want in its POM -->
-                <optional>true</optional>
-                <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>net.sf.ehcache</groupId>
-                <artifactId>ehcache</artifactId>
-                <version>1.4.1</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-collections</groupId>
-                <artifactId>commons-collections</artifactId>
-                <version>3.2</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>1.1.1</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>1.3</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>servlet-api</artifactId>
-                <version>2.4</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>jstl</artifactId>
-                <version>${jstl.version}</version>
-                <scope>runtime</scope>
-            </dependency>
-	        <!-- JSP -->
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<!-- Struts 2 -->
+			<dependency>
+				<groupId>org.apache.struts</groupId>
+				<artifactId>struts2-core</artifactId>
+				<version>${struts.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.struts</groupId>
+				<artifactId>struts2-spring-plugin</artifactId>
+				<version>${struts.version}</version>
+			</dependency>
+
+
+
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<optional>true</optional>
+				<version>1.5.4</version>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>1.5.4</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib-nodep</artifactId>
+				<scope>test</scope>
+				<optional>true</optional>
+				<version>2.1_3</version>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.14</version>  <!-- 1.2.15 has some JMX dependencies we don't want in its POM -->
+				<optional>true</optional>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.ehcache</groupId>
+				<artifactId>ehcache</artifactId>
+				<version>1.4.1</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>3.2</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>1.1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.3</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>2.4</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>jstl</artifactId>
+				<version>${jstl.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<!-- JSP -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>jsp-api</artifactId>
 				<version>2.0</version>
 				<scope>provided</scope>
-			</dependency>            
-            <dependency>
-                <groupId>taglibs</groupId>
-                <artifactId>standard</artifactId>
-                <version>${jstl.version}</version>
-                <scope>runtime</scope>
-            </dependency>                        
-			
+			</dependency>
+			<dependency>
+				<groupId>taglibs</groupId>
+				<artifactId>standard</artifactId>
+				<version>${jstl.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
 			<dependency>
 				<groupId>commons-dbcp</groupId>
 				<artifactId>commons-dbcp</artifactId>
 				<version>1.2.2</version>
 			</dependency>
 			<dependency>
-			    <groupId>commons-lang</groupId>
-			    <artifactId>commons-lang</artifactId>
-			    <version>2.4</version>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>2.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.derby</groupId>
@@ -322,223 +327,212 @@
 				<groupId>postgresql</groupId>
 				<artifactId>postgresql</artifactId>
 				<version>8.1-408.jdbc3</version>
-			</dependency> 
-			<!-- Spring Security -->
-	        <dependency>
-	            <groupId>org.springframework.security</groupId>
-	            <artifactId>spring-security-core</artifactId>
-	            <version>2.0.4</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.springframework.security</groupId>
-	            <artifactId>spring-security-core-tiger</artifactId>
-	            <version>2.0.4</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.springframework.security</groupId>
-	            <artifactId>spring-security-taglibs</artifactId>
-	            <version>2.0.4</version>
-	        </dependency>	
-	        <!-- 定义了所有Entity bean -->	
-			<dependency>
-			    <groupId>org.gaixie.micrite</groupId>
-			    <artifactId>micrite-beans</artifactId>
-			    <version>0.1-SNAPSHOT</version>
 			</dependency>
-	        <!-- 定义了所有公用类-->	
+			<!-- Spring Security -->
 			<dependency>
-			    <groupId>org.gaixie.micrite</groupId>
-			    <artifactId>micrite-common</artifactId>
-			    <version>0.1-SNAPSHOT</version>
-			</dependency>			
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-core</artifactId>
+				<version>2.0.4</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-core-tiger</artifactId>
+				<version>2.0.4</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-taglibs</artifactId>
+				<version>2.0.4</version>
+			</dependency>
+			<!-- 定义了所有Entity bean -->
+			<dependency>
+				<groupId>org.gaixie.micrite</groupId>
+				<artifactId>micrite-beans</artifactId>
+				<version>0.1-SNAPSHOT</version>
+			</dependency>
+			<!-- 定义了所有公用类-->
+			<dependency>
+				<groupId>org.gaixie.micrite</groupId>
+				<artifactId>micrite-common</artifactId>
+				<version>0.1-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.velocity</groupId>
+				<artifactId>velocity</artifactId>
+				<version>1.6.1</version>
+				<scope>provided</scope>
+			</dependency>
+
 		</dependencies>
-	</dependencyManagement>  
+	</dependencyManagement>
+	<profiles>
+		<profile>
+			<id>default</id>
 
-    <profiles>
-        <profile>
-            <id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+			<modules>
+				<module>modules</module>
+				<!-- <module>testsuite</module> -->
+				<module>assemblies</module>
+			</modules>
+		</profile>
 
-            <modules>
-                <module>modules</module>
-                <!-- <module>testsuite</module> -->
-                <module>assemblies</module>                
-            </modules>
-        </profile>
+		<profile>
+			<id>all</id>
 
-        <profile>
-            <id>all</id>
+			<modules>
+				<module>modules</module>
+				<module>testsuite</module>
+				<module>assemblies</module>
+			</modules>
+		</profile>
+	</profiles>
 
-            <modules>
-                <module>modules</module>
-                <module>testsuite</module>
-                <module>assemblies</module>                
-            </modules>
-        </profile> 
-    </profiles>
-    
-    <build>
-		<pluginManagement>    
-	        <plugins>            
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-help-plugin</artifactId>
-	                <version>2.0.1</version>
-	            </plugin>
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-clean-plugin</artifactId>
-	                <version>2.2</version>
-				    <configuration>
-				      <filesets>
-				        <fileset>
-				          <directory>${project.basedir}/src/main/webapp</directory>
-				          <includes>
-				            <include>js-lib</include>
-				          </includes>
-				          <followSymlinks>false</followSymlinks>
-				        </fileset>
-				      </filesets>
-				    </configuration>
-	            </plugin>
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-resources-plugin</artifactId>
-	                <version>2.2</version>
-	            </plugin>
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-surefire-plugin</artifactId>
-	                <version>2.4.2</version>
-	                <configuration>
-	                    <includes>
-	                        <include>**/*Test.java</include>
-	                    </includes>
-	                    <excludes>
-	                        <exclude>**/TestBean.java</exclude>
-	                    </excludes>
-	                </configuration>
-	            </plugin>
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-compiler-plugin</artifactId>
-	                <version>2.0.2</version>
-	                <configuration>
-		                <source>1.5</source>
-		                <target>1.5</target>
-	                </configuration>
-	            </plugin>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-help-plugin</artifactId>
+					<version>2.0.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>2.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.4.2</version>
+					<configuration>
+						<includes>
+							<include>**/*Test.java</include>
+						</includes>
+						<excludes>
+							<exclude>**/TestBean.java</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.0.2</version>
+					<configuration>
+						<source>1.5</source>
+						<target>1.5</target>
+					</configuration>
+				</plugin>
 
 				<!--
-				打jar包时，不能把struts.xml打入，否则assemblies时，一个项目会有多个struts.xml
-				Web server 会包错
-				-->            
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-jar-plugin</artifactId>
-	                <executions>
-	                    <execution>
-                            <phase>compile</phase>	                    
-	                        <goals>
-	                            <goal>jar</goal>
-	                        </goals>
+					打jar包时，不能把struts.xml打入，否则assemblies时，一个项目会有多个struts.xml Web server
+					会包错
+				-->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<executions>
+						<execution>
+							<phase>compile</phase>
+							<goals>
+								<goal>jar</goal>
+							</goals>
 							<configuration>
 								<excludes>
-								  	<exclude>**/applicationContext*.xml</exclude>
+									<exclude>**/applicationContext*.xml</exclude>
 									<exclude>**/struts.xml</exclude>
-									<exclude>**/struts_xml/*</exclude>	
+									<exclude>**/struts_xml/*</exclude>
+									<exclude>**/databaseResource-hibernate.xml</exclude>
+									<exclude>**/hibernate.properties</exclude>
+									<exclude>**/dbscripts/*</exclude>
 								</excludes>
-					        </configuration>
-	                    </execution>
-	                </executions>
-	            </plugin>
-	            <!--	            
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-source-plugin</artifactId>
-	                <version>2.0.3</version>
-	                <configuration>
-	                    <attach>true</attach>
-	                </configuration>
-	                <executions>
-	                    <execution>
-	                        <goals>
-	                            <goal>jar</goal>
-	                        </goals>
-	                    </execution>
-	                </executions>
-	            </plugin>
-	            -->
-	            <!-- Other -->
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-war-plugin</artifactId>
-	                <version>2.0.2</version>
-	            </plugin>
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-assembly-plugin</artifactId>
-	                <version>2.2-beta-3</version>
-	            </plugin>
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-install-plugin</artifactId>
-	                <version>2.2</version>
-	            </plugin>
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-deploy-plugin</artifactId>
-	                <version>2.3</version>
-	            </plugin>
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-release-plugin</artifactId>
-	                <version>2.0-beta-7</version>
-	                <configuration>
-	                    <tagBase>https://micrite.googlecode.com/svn/tags</tagBase>
-	                </configuration>
-	            </plugin>
-	            <!-- IDE -->
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-eclipse-plugin</artifactId>
-	                <version>2.5.1</version>
-	                <configuration>
-	                    <downloadSources>true</downloadSources>
-	                    <wtpversion>2.0</wtpversion>
-	                </configuration>
-	            </plugin>
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-idea-plugin</artifactId>
-	                <version>2.0</version>
-	                <configuration>
-	                    <downloadSources>true</downloadSources>
-	                    <!--<downloadJavadocs>true</downloadJavadocs>-->
-	                    <dependenciesAsLibraries>
-	                        true
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<!--
+					<plugin> <groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>2.0.3</version> <configuration> <attach>true</attach>
+					</configuration> <executions> <execution> <goals> <goal>jar</goal>
+					</goals> </execution> </executions> </plugin>
+				-->
+				<!-- Other -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.0.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.2-beta-3</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>2.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>2.3</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.0-beta-7</version>
+					<configuration>
+						<tagBase>https://micrite.googlecode.com/svn/tags</tagBase>
+					</configuration>
+				</plugin>
+				<!-- IDE -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.5.1</version>
+					<configuration>
+						<downloadSources>true</downloadSources>
+						<wtpversion>2.0</wtpversion>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-idea-plugin</artifactId>
+					<version>2.0</version>
+					<configuration>
+						<downloadSources>true</downloadSources>
+						<!--<downloadJavadocs>true</downloadJavadocs>-->
+						<dependenciesAsLibraries>
+							true
 	                    </dependenciesAsLibraries>
-	                </configuration>
-	            </plugin>
-	            <!-- Site -->
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-site-plugin</artifactId>
-	                <version>2.0-beta-6</version>
-	            </plugin>
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-dependency-plugin</artifactId>
-	                <version>2.1</version>
+					</configuration>
+				</plugin>
+				<!-- Site -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>2.0-beta-6</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>2.1</version>
 					<executions>
 						<execution>
 							<id>copy-dependencies</id>
 							<phase>package</phase>
 							<goals>
-						  		<goal>copy-dependencies</goal>
+								<goal>copy-dependencies</goal>
 							</goals>
 							<configuration>
 								<outputDirectory>${project.build.directory}/dependencies</outputDirectory>
@@ -547,107 +541,151 @@
 								<overWriteIfNewer>true</overWriteIfNewer>
 							</configuration>
 						</execution>
-					</executions>	                
-	            </plugin>
+					</executions>
+				</plugin>
 				<plugin>
-        			<groupId>org.apache.maven.plugins</groupId>
-        			<artifactId>maven-antrun-plugin</artifactId>
-              		<executions>
-                		<execution>
-                        <id>unpack-jar</id>
-                        <phase>package</phase>
-                        <configuration>
-                        	<tasks>
-                            	<echo message="***Unzipping micrite-common-*.jar***" />
-                                <unzip src="${project.build.directory}/dependencies/micrite-common-${version}.jar"  dest="${project.build.directory}/tmp">
-	                                <patternset>
-	                                	<include name="*.zip"/>
-	                                </patternset>
-                              	</unzip>
-                            	<echo message="***Unzipping extjs.zip***" />
-                                <unzip src="${project.build.directory}/tmp/extjs.zip"  dest="${project.build.directory}/${project.artifactId}-${project.version}/js-lib">
-                              	</unzip>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+				</plugin>
+				<plugin>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>maven-jetty-plugin</artifactId>
+					<version>6.1.12</version>
+				</plugin>
 
-								<echo message="***war unzipped***" />
-                                <copy todir="${project.basedir}/src/main/webapp/js-lib">
-	                                <fileset dir="${project.build.directory}/${project.artifactId}-${project.version}/js-lib" />
-                                </copy>
-								<!-- 若删除临时目录，会导致assemblis组装缺少js-lib
-								<echo message="***Deleting old dir***" />
-                                <delete includeEmptyDirs="true">
-	                                <fileset dir="${project.build.directory}/tmp" />
-                                </delete>   
-                                -->                         	
-                            </tasks>
-                        </configuration>
-                        <goals>
-							<goal>run</goal>
-                        </goals>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-source</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
 						</execution>
 					</executions>
-				</plugin>			                 		
-	            <plugin>
-	                <groupId>org.mortbay.jetty</groupId>
-	                <artifactId>maven-jetty-plugin</artifactId>
-	                <version>6.1.12</version>
-	                <configuration>
-	                    <webAppSourceDirectory>${project.build.directory}/${project.artifactId}-${project.version}</webAppSourceDirectory>
-						<!-- 直接加载war 文件 ，mvn jetty:run-war
-						<webApp>${project.build.directory}/${project.artifactId}-${project.version}.war</webApp>
+				</plugin>
+
+				<!-- sql-maven-plugin -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sql-maven-plugin</artifactId>
+					<version>1.3</version>
+
+					<dependencies>
+						<!-- specify the dependent jdbc driver here -->
+						<!--
+							修改为PostgreSQL <dependency> <groupId>postgresql</groupId>
+							<artifactId>postgresql</artifactId>
+							<version>8.1-408.jdbc3</version> </dependency>
 						-->
-	                </configuration>
-	            </plugin> 
-	            
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>attach-source</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>	                   
-	            
-	        </plugins>
-        </pluginManagement>
-    </build> 
-      
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
+						<dependency>
+							<groupId>org.apache.derby</groupId>
+							<artifactId>derby</artifactId>
+							<version>10.4.2.0</version>
+						</dependency>
+					</dependencies>
+
+					<!-- common configuration shared by all executions -->
+					<configuration>
+						<driver>${jdbc.driverClassName}</driver>
+						<url>${jdbc.url}</url>
+						<username>${jdbc.username}</username>
+						<password>${jdbc.password}</password>
+						<encoding>UTF-8</encoding>
+						<!--
+							<username>postgres</username> <password>password</password>
+						-->
+						<!--
+							You can comment out username/password configurations and have
+							maven to look them up in your settings.xml using ${settingsKey}
+						-->
+						<settingsKey>sensibleKey</settingsKey>
+						<!--all executions are ignored if -Dmaven.test.skip=true-->
+						<skip>${maven.test.skip}</skip>
+					</configuration>
+
+					<executions>
+						<execution>
+							<id>create-schema</id>
+							<phase>process-test-resources</phase>
+							<goals>
+								<goal>execute</goal>
+							</goals>
+							<configuration>
+								<autocommit>true</autocommit>
+								<srcFiles>
+									<srcFile>${project.build.directory}/classes/dbscripts/${jdbc.database}/createdb.sql</srcFile>
+								</srcFiles>
+							</configuration>
+						</execution>
+
+						<execution>
+							<id>drop-schema</id>
+							<phase>test</phase>
+							<goals>
+								<goal>execute</goal>
+							</goals>
+							<configuration>
+								<autocommit>true</autocommit>
+								<srcFiles>
+									<srcFile>${project.build.directory}/classes/dbscripts/droptables.sql</srcFile>
+								</srcFiles>
+							</configuration>
+						</execution>
+
+						<!-- Shutdown DB in order to be able to run unit tests -->
+						<execution>
+							<id>shutdown-database</id>
+							<phase>test</phase>
+							<goals>
+								<goal>execute</goal>
+							</goals>
+							<configuration>
+								<url>${jdbc.url};shutdown=true;user=${jdbc.username};password=${jdbc.password}</url>
+								<skipOnConnectionError>true</skipOnConnectionError>
+							</configuration>
+						</execution>
+
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<reportSets>
 					<reportSet>
 						<reports>
 							<report>dependencies</report>
-							<report>dependency-management</report>							
+							<report>dependency-management</report>
 							<report>mailing-list</report>
 							<report>scm</report>
 							<report>issue-tracking</report>
-							<report>index</report>							
+							<report>index</report>
 							<report>license</report>
-							<report>summary</report>							
+							<report>summary</report>
 						</reports>
 					</reportSet>
-				</reportSets>                
-             </plugin>
-            <plugin>
-				<groupId>org.apache.maven.plugins</groupId>            
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <aggregate>true</aggregate>
-                </configuration>
-            </plugin>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>2.4.2</version>
 			</plugin>
-        </plugins>
-    </reporting>     
+		</plugins>
+	</reporting>
 </project>
