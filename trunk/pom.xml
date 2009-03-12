@@ -530,12 +530,12 @@
 					<executions>
 						<execution>
 							<id>copy-dependencies</id>
-							<phase>package</phase>
+							<phase>compile</phase>
 							<goals>
 								<goal>copy-dependencies</goal>
 							</goals>
 							<configuration>
-								<outputDirectory>${project.build.directory}/dependencies</outputDirectory>
+								<outputDirectory>${project.build.directory}/lib</outputDirectory>
 								<overWriteReleases>false</overWriteReleases>
 								<overWriteSnapshots>false</overWriteSnapshots>
 								<overWriteIfNewer>true</overWriteIfNewer>

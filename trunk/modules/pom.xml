@@ -103,15 +103,13 @@
 									<!-- <mkdir dir="${build.dbscripts}/oracle" /> -->
 									<mkdir dir="${build.dbscripts}/postgresql" />
 
+									<path id="texen.path">
+										<fileset dir="${project.build.directory}/lib" />
+										<pathelement location="${project.basedir}/src/main/scripts/sql/" />
+										<pathelement location="${project.basedir}/src/main/scripts/sql/database" />
+									</path>
 									<taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask"
-										classpathref="maven.dependency.classpath">
-										<classpath>
-											<pathelement path="maven.dependency.classpath" />
-											<pathelement location="${project.basedir}/src/main/scripts/sql/" />
-											<pathelement
-												location="${project.basedir}/src/main/scripts/sql/database" />
-										</classpath>
-									</taskdef>
+										classpathref="texen.path"/>
 
 									<texen controlTemplate="control.vm"
 										contextProperties="${project.basedir}/src/main/scripts/sql/dbscripts.properties"
@@ -141,6 +139,7 @@
 											<include name="hibernate.properties" />
 										</fileset>
 										<fileset dir="${project.basedir}/src/main/scripts" />
+										<fileset dir="${project.build.directory}/lib" />
 									</delete>
 								</tasks>
 							</configuration>
