@@ -1,4 +1,4 @@
-#summary 如何通过源代码编译生成Micrite
+#summary 如何通过源代码编译生成Gaixie Micrite
 #labels Phase-Implementation,Phase-Deploy
 
 = Introduction =
