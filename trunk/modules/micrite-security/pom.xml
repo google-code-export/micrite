@@ -194,10 +194,6 @@
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
-				<configuration>
-					<webAppSourceDirectory>${basedir}/target/${project.artifactId}-${project.version}</webAppSourceDirectory>
-				</configuration>					
-				
 			</plugin>
 			<!--
 				打jar包时，不能把struts.xml打入，否则assemblies时，一个项目会有多个struts.xml Web server
@@ -206,26 +202,54 @@
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>			
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 					<executions>
 						<execution>
 							<id>gen-resources</id>
-							<phase>compile</phase>
+							<phase>generate-resources</phase>
 							<configuration>
 								<tasks>
-									<property name="common.resources" value="../micrite-common/target" />
+									<property name="common.resources" value="../micrite-common/src/main" />
+									
+									<echo message="***Copy hibernate resources (included .svn directory) from common module***" />
+									<copy todir="${project.basedir}/src/main/resources/hibernate">
+										<fileset dir="${common.resources}/resources/hibernate" defaultexcludes="no"/>
+									</copy>
+									
+									<echo message="***Copy srcipts (included .svn directory) from common module***" />
+									<copy todir="${project.basedir}/src/main/webapp/js-lib">
+										<fileset dir="${common.resources}/scripts/js-lib" defaultexcludes="no"/>
+									</copy>
+																		
+								</tasks>
+							</configuration>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+						<!--
+						此execution 需要在compile编译之前执行，否则，资源文件源代码（上一个execution）编译输出到classes
+						copy 将无法覆盖它。copy写入和compile写入，谁先写入，以谁为准。
+						classes目录需要的是在micrite-common模块中编译好的配置文件。 
+								
+						<execution>
+							<id>recover-resources</id>
+							<phase>generate-resources</phase>
+							<configuration>
+								<tasks>
+									<property name="common.target" value="../micrite-common/target" />
 
-									<echo message="***Copy hibernate resources from common module***" />
-									<copy todir="${project.build.directory}/classes"
-										file="${common.resources}/classes/databaseResource-hibernate.xml" />
-									<copy todir="${project.build.directory}/classes"
-										file="${common.resources}/classes/hibernate.properties" />
-									<copy todir="${project.build.directory}/${project.artifactId}-${project.version}/js-lib">
-										<fileset dir="${common.resources}/classes/js-lib" />
+									<echo message="***recover hibernate resources from common module for mvn jetty:run***" />
+									<copy todir="${project.build.directory}/classes/hibernate">
+										<fileset dir="${common.target}/classes/hibernate" />
 									</copy>
 									<copy todir="${project.build.directory}/classes/dbscripts">
-										<fileset dir="${common.resources}/classes/dbscripts" />
+										<fileset dir="${common.target}/classes/dbscripts" />
 									</copy>
 
 								</tasks>
@@ -233,15 +257,31 @@
 							<goals>
 								<goal>run</goal>
 							</goals>
-						</execution>
+						</execution>						
+						-->
 					</executions>
 				
 			</plugin>
 
-			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
-			</plugin>
-
 		</plugins>
+		<!--
+		jetty:run输出时，调用的资源文件需要的是在micrite-common模块中编译好的配置文件。 
+		-->		
+	   <resources>
+	     <resource>
+	       <directory>src/main/resources</directory>
+	        <includes>
+	          <include>struts_xml/**</include>
+	          <include>*</include>	          
+	        </includes>
+	     </resource>	   
+	     <resource>
+	       <directory>../micrite-common/target/classes</directory>
+	        <includes>
+				<include>databaseResource-hibernate.xml</include>
+				<include>hibernate.properties</include>
+	        </includes>	       
+	     </resource>
+	   </resources>
 	</build>
 </project>

@@ -38,12 +38,12 @@
   </dependencySets>	
 	<fileSets>
 	    <fileSet>
-			<directory>target/classes</directory>
+			<directory>../modules/micrite-common/target/classes</directory>
 			<outputDirectory>WEB-INF/classes</outputDirectory>
 			<includes>
-				<include>**/databaseResource-hibernate.xml</include>				
-				<include>**/hibernate.properties</include>				
-				<include>**/dbscripts/**</include>	
+				<include>databaseResource-hibernate.xml</include>				
+				<include>hibernate.properties</include>				
+				<include>dbscripts/**</include>	
 			</includes>		
 	    </fileSet>	
 	    	
@@ -67,6 +67,9 @@
 	    <fileSet>
 			<directory>../modules/micrite-security/src/main/resources</directory>
 			<outputDirectory>WEB-INF/classes</outputDirectory>
+			<excludes>
+				<exclude>hibernate/**</exclude>				
+			</excludes>				
 	    </fileSet>
 	    <fileSet>
 			<directory>../modules/micrite-crm/target</directory>
