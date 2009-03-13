@@ -38,12 +38,12 @@
   </dependencySets>	
 	<fileSets>
 	    <fileSet>
-			<directory>target/classes</directory>
+			<directory>../modules/micrite-common/target/classes</directory>
 			<outputDirectory>WEB-INF/classes</outputDirectory>
 			<includes>
-				<include>**/databaseResource-hibernate.xml</include>				
-				<include>**/hibernate.properties</include>				
-				<include>**/dbscripts/**</include>	
+				<include>databaseResource-hibernate.xml</include>				
+				<include>hibernate.properties</include>				
+				<include>dbscripts/**</include>	
 			</includes>		
 	    </fileSet>	
 	    	
@@ -55,6 +55,9 @@
 	    <fileSet>
 			<directory>../modules/micrite-security/src/main/resources</directory>
 			<outputDirectory>WEB-INF/classes</outputDirectory>
+			<excludes>
+				<exclude>hibernate/**</exclude>				
+			</excludes>				
 	    </fileSet>
 
 	    <fileSet>
@@ -72,12 +75,6 @@
 				<include>**/struts_xml/*</include>	
 			</includes>				
 	    </fileSet>
-
-	    <fileSet>
-			<directory>../modules/micrite-common/target/classes/js-lib</directory>
-			<outputDirectory>js-lib</outputDirectory>
-	    </fileSet>	 
-
 
 	    <fileSet>
 			<directory>../modules/micrite-beans/src/main/java/org/gaixie/micrite/beans</directory>

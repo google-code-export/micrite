@@ -191,41 +191,7 @@
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
-				<configuration>
-					<webAppSourceDirectory>${basedir}/target/${project.artifactId}-${project.version}</webAppSourceDirectory>
-				</configuration>					
-				
 			</plugin>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-					<executions>
-						<execution>
-							<id>gen-resources</id>
-							<phase>compile</phase>
-							<configuration>
-								<tasks>
-									<property name="common.resources" value="../modules/micrite-common/target" />
-
-									<echo message="***Copy hibernate resources from common module***" />
-									<copy todir="${project.build.directory}/classes"
-										file="${common.resources}/classes/databaseResource-hibernate.xml" />
-									<copy todir="${project.build.directory}/classes"
-										file="${common.resources}/classes/hibernate.properties" />
-									<copy todir="${project.build.directory}/${project.artifactId}-${project.version}/js-lib">
-										<fileset dir="${common.resources}/classes/js-lib" />
-									</copy>
-									<copy todir="${project.build.directory}/classes/dbscripts">
-										<fileset dir="${common.resources}/classes/dbscripts" />
-									</copy>
-								</tasks>
-							</configuration>
-							<goals>
-								<goal>run</goal>
-							</goals>
-						</execution>
-					</executions>
-			</plugin>
-
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
