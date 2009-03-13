@@ -1,5 +1,5 @@
 #labels Phase-Implementation,Phase-Deploy
-#如何通过源代码编译生成Micrite
+#H如何通过源代码编译生成Micrite
 
 = Introduction =
 下面的内容介绍如何从源代码编译生成Micrite
