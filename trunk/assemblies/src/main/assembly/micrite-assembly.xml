@@ -96,7 +96,7 @@
 	    </fileSet>
 	    
 	    <fileSet>
-			<directory>../modules/micrite-bean/target</directory>
+			<directory>../modules/micrite-beans/target</directory>
 			<outputDirectory>WEB-INF/lib</outputDirectory>
 			<includes>
 				<include>*.jar</include>
@@ -115,7 +115,6 @@
 			<excludes>
 				<exclude>*-sources.jar</exclude>
 			</excludes>
-			
-	    </fileSet>		     
+	    </fileSet>
 	</fileSets>	    
 </assembly>

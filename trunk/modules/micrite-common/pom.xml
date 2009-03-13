@@ -51,7 +51,7 @@
 		</properties>
 	-->
 	<properties>
-			<!-- 内置Derby数据库供自动测试用 -->
+		<!-- 内置Derby数据库供自动测试用 -->
 		<jdbc.database>derby</jdbc.database>
 		<jdbc.driverClassName>org.apache.derby.jdbc.EmbeddedDriver</jdbc.driverClassName>
 		<jdbc.url>jdbc:derby:${project.build.directory}/micrite_db;create=true</jdbc.url>
