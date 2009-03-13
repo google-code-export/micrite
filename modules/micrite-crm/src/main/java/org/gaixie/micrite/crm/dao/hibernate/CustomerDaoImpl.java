@@ -1,4 +1,3 @@
-<%--
 /* ===========================================================
  * $Id$
  * This file is part of Micrite
@@ -22,7 +21,11 @@
  * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
---%>
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
-<s:action name="index" namespace="/crm" executeResult="true" />
+
+package org.gaixie.micrite.crm.dao.hibernate;
+
+import org.gaixie.micrite.crm.dao.ICustomerDao;
+
+public class CustomerDaoImpl extends AbstractDaoImpl implements ICustomerDao {
+
+}

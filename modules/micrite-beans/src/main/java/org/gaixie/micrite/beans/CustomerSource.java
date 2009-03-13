@@ -21,32 +21,50 @@
  * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+ 
+package org.gaixie.micrite.beans;
 
-package org.gaixie.micrite.crm.dao.hibernate;
+import java.util.Set;
 
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-import org.gaixie.micrite.crm.dao.IUserDao;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
-	public void save(Object entity){
-		getHibernateTemplate().save(entity);
+/**
+ * @author Maven.yu
+ *
+ */
+@Entity
+@Table(name = "customer_source")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class CustomerSource {
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
+	private String name;
+
+	public Integer getId() {
+		return id;
 	}
-	public void update(Object entity){
-		getHibernateTemplate().update(entity);
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	public List findAll(Class entityClass){
-		List list = getHibernateTemplate().find("from " + entityClass.getSimpleName() + " e");
-		return list;
+
+	public String getName() {
+		return name;
 	}
-	public List findSingleExact(Class entityClass, String column, String value) {
-		List list = getHibernateTemplate().find(
-				"from " + entityClass.getSimpleName() + " e where " + column + " = ?", value);
-		return list;
-	}
-	public Object getEntity(Class entityClass, int id){
-		Object o = getHibernateTemplate().get(entityClass.getClass(), id);
-		return o;
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

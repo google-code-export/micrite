@@ -21,10 +21,8 @@
  * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
- 
-package org.gaixie.micrite.beans;
 
-import java.util.Set;
+package org.gaixie.micrite.beans;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,7 +30,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
@@ -43,14 +41,21 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  *
  */
 @Entity
-@Table(name = "t_customer")
+@Table(name = "customers")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Customer {
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
+	
 	private String name;
+	
+	private String telephone;
+	
+	@ManyToOne(targetEntity = CustomerSource.class,  fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_source_id")
+	private CustomerSource customerSource;
 
 	public Integer getId() {
 		return id;
@@ -67,4 +72,21 @@ public class Customer {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public CustomerSource getCustomerSource() {
+		return customerSource;
+	}
+
+	public void setCustomerSource(CustomerSource customerSource) {
+		this.customerSource = customerSource;
+	}
+
 }

@@ -8,60 +8,69 @@
  * Project Info:  http://micrite.gaixie.org/
  *
  * Micrite is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * Micrite is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
-package org.gaixie.micrite.crm.dao;
+package org.gaixie.micrite.crm.service;
 
 import java.util.List;
 
 import org.gaixie.micrite.beans.Customer;
-import org.gaixie.micrite.beans.Member;
-import org.gaixie.micrite.beans.Role;
-import org.gaixie.micrite.beans.User;
+import org.gaixie.micrite.beans.CustomerSource;
 
-public interface IUserDao {
+/**
+ * @author Administrator
+ * 
+ */
+public interface ICustomerService {
 	/**
-	 * 新增用户
-	 * @param  user
+	 * 新增/修改客户
+	 * 
+	 * @param member
 	 * @return
 	 */
-	public void save(Object entity);
+	public void addOrUpdateCustomer(Customer customer, Integer customerSourceId);
 
 	/**
-	 * 更新用户
-	 * @param  user
+	 * 取得客户数量
+	 * 
+	 * @param user
 	 * @return
 	 */
-	public void update(Object entity);
-	/**
-	 * 查找所有记录
-	 * @return
-	 */
-	public List findAll(Class entityClass);
+	public int getCustomerNum();
+
 	/**
 	 * 根据电话精确查找
-	 * @param  telephone
+	 * 
+	 * @param telephone
 	 * @return
 	 */
-	public List findSingleExact(Class entityClass, String column, String value);
+	public List<Customer> findByTelExact(String telephone);
 
 	/**
 	 * 根据ID精确查找
-	 * @param  telephone
+	 * 
+	 * @param telephone
 	 * @return
 	 */
-	public Object getEntity(Class entityClass, int id);
-	
+	public Customer findByIdExact(int id);
+
+	/**
+	 * 取得客户来源
+	 * 
+	 * @return
+	 */
+	public List<CustomerSource> findALLCustomerSource();
+
 }

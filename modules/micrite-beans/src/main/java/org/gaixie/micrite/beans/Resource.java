@@ -45,7 +45,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * @author Maven.yu
  */
 @Entity
-@Table(name = "t_resource")
+@Table(name = "resources")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Resource {
 
