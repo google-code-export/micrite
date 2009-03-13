@@ -35,7 +35,7 @@ public class SecurityDaoImpl extends HibernateDaoSupport implements ISecurityDao
 
 	public List<User> loadUserByUsername(String username) {
 		List<User> users = getHibernateTemplate().find(
-				"FROM User user WHERE user.username = ? AND user.disabled = false", username);
+				"FROM User user WHERE user.loginname = ? AND user.isenabled = true", username);
 		return users;
 	}
 	
