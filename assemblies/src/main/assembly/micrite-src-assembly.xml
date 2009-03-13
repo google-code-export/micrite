@@ -25,7 +25,7 @@
 --> 
  
 <assembly>
-	<id>distribution</id>
+	<id>src-distribution</id>
 	<formats>
 		<format>war</format>
 	</formats>
@@ -53,32 +53,10 @@
 	    </fileSet>	 
 
 	    <fileSet>
-			<directory>../modules/micrite-security/target</directory>
-			<outputDirectory>WEB-INF/lib</outputDirectory>
-			<includes>
-				<include>*.jar</include>
-			</includes>
-			<excludes>
-				<exclude>*-sources.jar</exclude>
-			</excludes>
-			
-	    </fileSet>	 
-
-	    <fileSet>
 			<directory>../modules/micrite-security/src/main/resources</directory>
 			<outputDirectory>WEB-INF/classes</outputDirectory>
 	    </fileSet>
-	    <fileSet>
-			<directory>../modules/micrite-crm/target</directory>
-			<outputDirectory>WEB-INF/lib</outputDirectory>
-			<includes>
-				<include>*.jar</include>
-			</includes>
-			<excludes>
-				<exclude>*-sources.jar</exclude>
-			</excludes>
-			
-	    </fileSet>
+
 	    <fileSet>
 			<directory>../modules/micrite-crm/src/main/webapp</directory>
 			<outputDirectory></outputDirectory>
@@ -94,27 +72,36 @@
 				<include>**/struts_xml/*</include>	
 			</includes>				
 	    </fileSet>
+
+	    <fileSet>
+			<directory>../modules/micrite-common/target/classes/js-lib</directory>
+			<outputDirectory>js-lib</outputDirectory>
+	    </fileSet>	 
+
+
+	    <fileSet>
+			<directory>../modules/micrite-beans/src/main/java/org/gaixie/micrite/beans</directory>
+			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/beans</outputDirectory>
+	    </fileSet>	 
+
+
+	    <fileSet>
+			<directory>../modules/micrite-common/src/main/java/org/gaixie/micrite/commons</directory>
+			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/commons</outputDirectory>
+	    </fileSet>	 
+
+
+	    <fileSet>
+			<directory>../modules/micrite-crm/src/main/java/org/gaixie/micrite/crm</directory>
+			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/crm</outputDirectory>
+	    </fileSet>	 
+
+
+	    <fileSet>
+			<directory>../modules/micrite-security/src/main/java/org/gaixie/micrite/security</directory>
+			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/security</outputDirectory>
+	    </fileSet>	 
+
 	    
-	    <fileSet>
-			<directory>../modules/micrite-beans/target</directory>
-			<outputDirectory>WEB-INF/lib</outputDirectory>
-			<includes>
-				<include>*.jar</include>
-			</includes>
-			<excludes>
-				<exclude>*-sources.jar</exclude>
-			</excludes>
-			
-	    </fileSet>	   
-	    <fileSet>
-			<directory>../modules/micrite-common/target</directory>
-			<outputDirectory>WEB-INF/lib</outputDirectory>
-			<includes>
-				<include>*.jar</include>
-			</includes>
-			<excludes>
-				<exclude>*-sources.jar</exclude>
-			</excludes>
-	    </fileSet>
 	</fileSets>	    
 </assembly>

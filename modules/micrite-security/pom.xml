@@ -194,6 +194,10 @@
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
+				<configuration>
+					<webAppSourceDirectory>${basedir}/target/${project.artifactId}-${project.version}</webAppSourceDirectory>
+				</configuration>					
+				
 			</plugin>
 			<!--
 				打jar包时，不能把struts.xml打入，否则assemblies时，一个项目会有多个struts.xml Web server

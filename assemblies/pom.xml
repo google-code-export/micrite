@@ -193,8 +193,8 @@
 				<artifactId>maven-jetty-plugin</artifactId>
 				<configuration>
 					<webAppSourceDirectory>${basedir}/target/${project.artifactId}-${project.version}</webAppSourceDirectory>
-				</configuration>
-
+				</configuration>					
+				
 			</plugin>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
@@ -217,7 +217,6 @@
 									<copy todir="${project.build.directory}/classes/dbscripts">
 										<fileset dir="${common.resources}/classes/dbscripts" />
 									</copy>
-
 								</tasks>
 							</configuration>
 							<goals>
@@ -247,6 +246,23 @@
 							<appendAssemblyId>false</appendAssemblyId>
 							<descriptors>
 								<descriptor>${project.basedir}/src/main/assembly/micrite-assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+					
+					<!-- 对micrite的源代码进行组装，生成用于导入eclipse的war文件	-->
+					<execution>
+						<id>src-distribution</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<finalName>${project.artifactId}-${version}-src</finalName>
+							<outputDirectory>${project.build.directory}/src-war</outputDirectory>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptors>
+								<descriptor>${project.basedir}/src/main/assembly/micrite-src-assembly.xml</descriptor>
 							</descriptors>
 						</configuration>
 					</execution>

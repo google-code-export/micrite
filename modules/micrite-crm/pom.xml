@@ -197,18 +197,14 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
-				<version>6.1.7</version>
 				<configuration>
-					<scanIntervalSeconds>10</scanIntervalSeconds>
-				</configuration>
+					<webAppSourceDirectory>${basedir}/target/${project.artifactId}-${project.version}</webAppSourceDirectory>
+				</configuration>					
+				
 			</plugin>
 			<!--
 				打jar包时，不能把struts.xml打入，否则assemblies时，一个项目会有多个struts.xml Web server
