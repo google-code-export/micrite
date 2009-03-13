@@ -43,7 +43,7 @@
 	</table>
 </p>
 <br/>
-<p><a HREF="<s:url value="/crm/manage.action" />">用户管理</a>
+<p><a HREF="<s:url value="/crm/index.action" />">用户管理</a>
 <a href="<s:url value="secure/debug.jsp"/>">角色设置</a></p>
 <br/>
 <p><a href="j_spring_security_logout">Logout</a>(also clears any remember-me cookie)</p>
