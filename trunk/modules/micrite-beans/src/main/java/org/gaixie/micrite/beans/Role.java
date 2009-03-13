@@ -44,7 +44,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  *
  */
 @Entity
-@Table(name = "t_role")
+@Table(name = "roles")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Role {
 	
@@ -57,7 +57,7 @@ public class Role {
 	private String description;
 	
 	@ManyToMany(targetEntity = Resource.class, fetch = FetchType.EAGER)  
-	@JoinTable(name = "t_role_resource", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "resource_id"))  
+	@JoinTable(name = "role_resource_map", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "resource_id"))  
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)  
 	private Set<Resource> resources;  
 	/**

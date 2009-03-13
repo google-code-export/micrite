@@ -54,7 +54,7 @@ import org.springframework.security.userdetails.UserDetails;
  *
  */
 @Entity
-@Table(name = "t_user")
+@Table(name = "userbase")
 @Proxy(lazy = false)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User implements UserDetails {
@@ -65,18 +65,18 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-    private String name;
+    private String fullname;
     
-	private String username;
+	private String loginname;
 	
-	private String password;
+	private String cryptpassword;
 	
-	private String email;
+	private String emailaddress;
 	
-	private boolean disabled;
+	private boolean isenabled;
 	
 	@ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "t_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "user_role_map", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private Set<Role> roles;
 	
@@ -122,18 +122,14 @@ public class User implements UserDetails {
 	 * @see org.springframework.security.userdetails.UserDetails#getPassword()
 	 */
 	public String getPassword() {
-		return password;
+		return cryptpassword;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.springframework.security.userdetails.UserDetails#getUsername()
 	 */
 	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
+		return loginname;
 	}
 
 	public void setRoleResources(Map<String, List<Resource>> roleResources) {
@@ -165,7 +161,7 @@ public class User implements UserDetails {
 	 * @see org.springframework.security.userdetails.UserDetails#isEnabled()
 	 */
 	public boolean isEnabled() {
-		return !disabled;
+		return !isenabled;
 	}
 
 	/**
@@ -175,19 +171,6 @@ public class User implements UserDetails {
 		return id;
 	}
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @return the disabled
-	 */
-	public boolean isDisabled() {
-		return disabled;
-	}
 
 	/**
 	 * @return the roles
@@ -228,26 +211,6 @@ public class User implements UserDetails {
 		this.id = id;
 	}
 
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * @param password the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	/**
-	 * @param disabled the disabled to set
-	 */
-	public void setDisabled(boolean disabled) {
-		this.disabled = disabled;
-	}
 
 	/**
 	 * @param roles the roles to set
@@ -255,24 +218,80 @@ public class User implements UserDetails {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-    public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
 
 	public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append(super.toString() + ": ");
         sb.append("Id: " + this.getId() + "; ");
-        sb.append("Name: " + this.getName() + "; ");
+        sb.append("Name: " + this.getFullname() + "; ");
         sb.append("Username: " + this.getUsername() + "; ");
         sb.append("Password: " + this.getPassword() + "; ");
-        sb.append("Email: " + this.getEmail());
+        sb.append("Email: " + this.getEmailaddress());
 
         return sb.toString();
     }
+
+	/**
+	 * @return the fullname
+	 */
+	public String getFullname() {
+		return fullname;
+	}
+
+	/**
+	 * @param fullname the fullname to set
+	 */
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+
+	/**
+	 * @return the loginname
+	 */
+	public String getLoginname() {
+		return loginname;
+	}
+
+	/**
+	 * @param loginname the loginname to set
+	 */
+	public void setLoginname(String loginname) {
+		this.loginname = loginname;
+	}
+
+	/**
+	 * @return the cryptpassword
+	 */
+	public String getCryptpassword() {
+		return cryptpassword;
+	}
+
+	/**
+	 * @param cryptpassword the cryptpassword to set
+	 */
+	public void setCryptpassword(String cryptpassword) {
+		this.cryptpassword = cryptpassword;
+	}
+
+	/**
+	 * @return the emailaddress
+	 */
+	public String getEmailaddress() {
+		return emailaddress;
+	}
+
+	/**
+	 * @param emailaddress the emailaddress to set
+	 */
+	public void setEmailaddress(String emailaddress) {
+		this.emailaddress = emailaddress;
+	}
+
+	/**
+	 * @param isenabled the isenabled to set
+	 */
+	public void setIsenabled(boolean isenabled) {
+		this.isenabled = isenabled;
+	}
 	
 }

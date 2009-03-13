@@ -1,46 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--
-/* ===========================================================
- * $Id$
- * This file is part of Micrite
- * ===========================================================
- *
- * (C) Copyright 2009, by Gaixie.org and Contributors.
- * 
- * Project Info:  http://micrite.gaixie.org/
- *
- * Micrite is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Micrite is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
--->
-
 <!DOCTYPE struts PUBLIC
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
     <package name="micrite-crm" extends="struts-default" namespace="/crm">
-		<action name="manage" class="crmAction" method="manage">
-			<result name="success">/crm/manage.jsp</result>
+		<action name="index" class="customerAction" method="index">
+			<result name="success">/crm/customer.jsp</result>
 		</action>
- 		<action name="save" class="crmAction" method="save">
-			<result name="success">/crm/manage.jsp</result>
+ 		<action name="save" class="customerAction" method="save">
+			<result name="success">/crm/customer.jsp</result>
 		</action>
- 		<action name="find" class="crmAction" method="find">
-			<result name="success">/crm/manage.jsp</result>
+ 		<action name="find" class="customerAction" method="find">
+			<result name="success">/crm/customer.jsp</result>
 		</action>
- 		<action name="edit" class="crmAction" method="edit">
-			<result name="success">/crm/manage.jsp</result>
+ 		<action name="edit" class="customerAction" method="edit">
+			<result name="success">/crm/customer.jsp</result>
 		</action>
     </package>
 
