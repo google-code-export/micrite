@@ -161,7 +161,7 @@ public class User implements UserDetails {
 	 * @see org.springframework.security.userdetails.UserDetails#isEnabled()
 	 */
 	public boolean isEnabled() {
-		return !isenabled;
+		return isenabled;
 	}
 
 	/**
