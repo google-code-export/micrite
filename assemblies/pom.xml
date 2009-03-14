@@ -215,7 +215,7 @@
 							</descriptors>
 						</configuration>
 					</execution>
-					
+
 					<!-- 对micrite的源代码进行组装，生成用于导入eclipse的war文件	-->
 					<execution>
 						<id>src-distribution</id>

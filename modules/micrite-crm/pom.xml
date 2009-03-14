@@ -23,7 +23,7 @@
  * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
--->  
+-->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -211,52 +211,59 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
-					<executions>
-						<execution>
-							<id>gen-resources</id>
-							<phase>generate-resources</phase>
-							<configuration>
-								<tasks>
-									<property name="common.resources" value="../micrite-common/src/main" />
-									
-									<echo message="***Copy hibernate resources (included .svn directory) from common module***" />
-									<copy todir="${project.basedir}/src/main/resources/hibernate">
-										<fileset dir="${common.resources}/resources/hibernate" defaultexcludes="no"/>
-									</copy>
-									
-									<echo message="***Copy srcipts (included .svn directory) from common module***" />
-									<copy todir="${project.basedir}/src/main/webapp/js-lib">
-										<fileset dir="${common.resources}/scripts/js-lib" defaultexcludes="no"/>
-									</copy>
-																		
-								</tasks>
-							</configuration>
-							<goals>
-								<goal>run</goal>
-							</goals>
-						</execution>
-					</executions>
+				<executions>
+					<execution>
+						<id>process-crm-resources</id>
+						<phase>process-resources</phase>
+						<configuration>
+							<tasks>
+								<property name="common.resources" value="../micrite-common/src/main" />
+
+								<echo
+									message="***copy common resources from common module for mvn jetty:run***" />
+								<copy todir="${project.build.directory}/classes">
+									<fileset dir="../micrite-common/target/classes" />
+								</copy>
+
+								<echo
+									message="***Copy srcipts (included .svn directory) from common module***" />
+								<copy todir="${project.basedir}/src/main/webapp/js-lib">
+									<fileset dir="${common.resources}/scripts/js-lib"
+										defaultexcludes="no" />
+								</copy>
+
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+			</plugin>
+
 		</plugins>
-	   <resources>
-	     <resource>
-	       <directory>src/main/resources</directory>
-	        <includes>
-	          <include>struts_xml/**</include>
-	          <include>*</include>	          
-	        </includes>
-	     </resource>	   
-	     <resource>
-	       <directory>../micrite-common/target/classes</directory>
-	        <includes>
-				<include>databaseResource-hibernate.xml</include>
-				<include>hibernate.properties</include>
-	        </includes>	       
-	     </resource>
-	   </resources>		
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>struts_xml/**</include>
+					<include>*</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>target/classes</directory>
+				<includes>
+					<include>databaseResource-hibernate.xml</include>
+					<include>hibernate.properties</include>
+				</includes>
+			</resource>
+		</resources>
 	</build>
 
 </project>
