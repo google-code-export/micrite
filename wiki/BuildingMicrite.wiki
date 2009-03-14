@@ -1,5 +1,5 @@
 #summary This documents how to build the Gaixie Micrite project
-#labels Phase-Implementation,Phase-Deploy
+#labels Phase-Implementation,Phase-Deploy,Featured
 <wiki:toc max_depth="2" />
 = Introduction =
 This documents how to build the Gaixie Micrite project.
@@ -82,5 +82,4 @@ mvn jetty:run-exploded
 }}}
 And to stop, just CTRL-C.
 
-By default, Micrite use embedded Java database from the [http://db.apache.org/derby/ Apache Derby project], you can easily switch to another open source database such as MySQL,PostgreSQL.<br>
-See [ConfiguringMicrite] for more detail.
+By default, Micrite use embedded Java database from the [http://db.apache.org/derby/ Apache Derby project], you can easily switch to another open source database such as MySQL, PostgreSQL. See [ConfiguringMicrite] for more detail.
