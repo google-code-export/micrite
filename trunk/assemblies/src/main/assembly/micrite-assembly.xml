@@ -30,30 +30,34 @@
 		<format>war</format>
 	</formats>
 	<includeBaseDirectory>false</includeBaseDirectory>
-  <dependencySets>
-    <dependencySet>
-      <outputDirectory>WEB-INF/lib</outputDirectory>
-      <scope>runtime</scope>
-    </dependencySet>
-  </dependencySets>	
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<scope>runtime</scope>
+		</dependencySet>
+	</dependencySets>
 	<fileSets>
-	    <fileSet>
-			<directory>../modules/micrite-common/target/classes</directory>
+		<fileSet>
+			<directory>../modules/micrite-common/target/classes
+			</directory>
 			<outputDirectory>WEB-INF/classes</outputDirectory>
 			<includes>
-				<include>databaseResource-hibernate.xml</include>				
-				<include>hibernate.properties</include>				
-				<include>dbscripts/**</include>	
-			</includes>		
-	    </fileSet>	
-	    	
-	    <fileSet>
-			<directory>../modules/micrite-security/src/main/webapp</directory>
+				<include>databaseResource-hibernate.xml
+				</include>
+				<include>hibernate.properties</include>
+				<include>dbscripts/**</include>
+			</includes>
+		</fileSet>
+
+		<fileSet>
+			<directory>../modules/micrite-security/src/main/webapp
+			</directory>
 			<outputDirectory></outputDirectory>
-	    </fileSet>	 
+		</fileSet>
 
-	    <fileSet>
-			<directory>../modules/micrite-security/target</directory>
+		<fileSet>
+			<directory>../modules/micrite-security/target
+			</directory>
 			<outputDirectory>WEB-INF/lib</outputDirectory>
 			<includes>
 				<include>*.jar</include>
@@ -61,18 +65,20 @@
 			<excludes>
 				<exclude>*-sources.jar</exclude>
 			</excludes>
-			
-	    </fileSet>	 
 
-	    <fileSet>
-			<directory>../modules/micrite-security/src/main/resources</directory>
+		</fileSet>
+
+		<fileSet>
+			<directory>../modules/micrite-security/src/main/resources
+			</directory>
 			<outputDirectory>WEB-INF/classes</outputDirectory>
 			<excludes>
-				<exclude>hibernate/**</exclude>				
-			</excludes>				
-	    </fileSet>
-	    <fileSet>
-			<directory>../modules/micrite-crm/target</directory>
+				<exclude>hibernate/**</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<directory>../modules/micrite-crm/target
+			</directory>
 			<outputDirectory>WEB-INF/lib</outputDirectory>
 			<includes>
 				<include>*.jar</include>
@@ -80,26 +86,30 @@
 			<excludes>
 				<exclude>*-sources.jar</exclude>
 			</excludes>
-			
-	    </fileSet>
-	    <fileSet>
-			<directory>../modules/micrite-crm/src/main/webapp</directory>
+
+		</fileSet>
+		<fileSet>
+			<directory>../modules/micrite-crm/src/main/webapp
+			</directory>
 			<outputDirectory></outputDirectory>
 			<includes>
 				<include>crm/**</include>
-			</includes>		
-	    </fileSet>
-	    <fileSet>
-			<directory>../modules/micrite-crm/src/main/resources</directory>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>../modules/micrite-crm/src/main/resources
+			</directory>
 			<outputDirectory>WEB-INF/classes</outputDirectory>
 			<includes>
-				<include>**/applicationContext*.xml</include>				
-				<include>**/struts_xml/*</include>	
-			</includes>				
-	    </fileSet>
-	    
-	    <fileSet>
-			<directory>../modules/micrite-beans/target</directory>
+				<include>**/applicationContext*.xml
+				</include>
+				<include>**/struts_xml/*</include>
+			</includes>
+		</fileSet>
+
+		<fileSet>
+			<directory>../modules/micrite-beans/target
+			</directory>
 			<outputDirectory>WEB-INF/lib</outputDirectory>
 			<includes>
 				<include>*.jar</include>
@@ -107,10 +117,11 @@
 			<excludes>
 				<exclude>*-sources.jar</exclude>
 			</excludes>
-			
-	    </fileSet>	   
-	    <fileSet>
-			<directory>../modules/micrite-common/target</directory>
+
+		</fileSet>
+		<fileSet>
+			<directory>../modules/micrite-common/target
+			</directory>
 			<outputDirectory>WEB-INF/lib</outputDirectory>
 			<includes>
 				<include>*.jar</include>
@@ -118,6 +129,6 @@
 			<excludes>
 				<exclude>*-sources.jar</exclude>
 			</excludes>
-	    </fileSet>
-	</fileSets>	    
+		</fileSet>
+	</fileSets>
 </assembly>

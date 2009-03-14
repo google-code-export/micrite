@@ -22,83 +22,102 @@
  * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
---> 
- 
+-->
+
 <assembly>
 	<id>src-distribution</id>
 	<formats>
 		<format>war</format>
 	</formats>
 	<includeBaseDirectory>false</includeBaseDirectory>
-  <dependencySets>
-    <dependencySet>
-      <outputDirectory>WEB-INF/lib</outputDirectory>
-      <scope>runtime</scope>
-    </dependencySet>
-  </dependencySets>	
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<scope>runtime</scope>
+		</dependencySet>
+	</dependencySets>
 	<fileSets>
-	    <fileSet>
-			<directory>../modules/micrite-common/target/classes</directory>
+		<fileSet>
+			<directory>../modules/micrite-common/target/classes
+			</directory>
 			<outputDirectory>WEB-INF/classes</outputDirectory>
 			<includes>
-				<include>databaseResource-hibernate.xml</include>				
-				<include>hibernate.properties</include>				
-				<include>dbscripts/**</include>	
-			</includes>		
-	    </fileSet>	
-	    	
-	    <fileSet>
-			<directory>../modules/micrite-security/src/main/webapp</directory>
-			<outputDirectory></outputDirectory>
-	    </fileSet>	 
+				<include>databaseResource-hibernate.xml
+				</include>
+				<include>hibernate.properties</include>
+				<include>dbscripts/**</include>
+			</includes>
+		</fileSet>
 
-	    <fileSet>
-			<directory>../modules/micrite-security/src/main/resources</directory>
+		<fileSet>
+			<directory>../modules/micrite-security/src/main/webapp
+			</directory>
+			<outputDirectory></outputDirectory>
+		</fileSet>
+
+		<fileSet>
+			<directory>../modules/micrite-security/src/main/resources
+			</directory>
 			<outputDirectory>WEB-INF/classes</outputDirectory>
 			<excludes>
-				<exclude>hibernate/**</exclude>				
-			</excludes>				
-	    </fileSet>
+				<exclude>hibernate/**</exclude>
+			</excludes>
+		</fileSet>
 
-	    <fileSet>
-			<directory>../modules/micrite-crm/src/main/webapp</directory>
+		<fileSet>
+			<directory>../modules/micrite-crm/src/main/webapp
+			</directory>
 			<outputDirectory></outputDirectory>
 			<includes>
 				<include>crm/**</include>
-			</includes>		
-	    </fileSet>
-	    <fileSet>
-			<directory>../modules/micrite-crm/src/main/resources</directory>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>../modules/micrite-crm/src/main/resources
+			</directory>
 			<outputDirectory>WEB-INF/classes</outputDirectory>
 			<includes>
-				<include>**/applicationContext*.xml</include>				
-				<include>**/struts_xml/*</include>	
-			</includes>				
-	    </fileSet>
+				<include>**/applicationContext*.xml
+				</include>
+				<include>**/struts_xml/*</include>
+			</includes>
+		</fileSet>
 
-	    <fileSet>
-			<directory>../modules/micrite-beans/src/main/java/org/gaixie/micrite/beans</directory>
-			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/beans</outputDirectory>
-	    </fileSet>	 
-
-
-	    <fileSet>
-			<directory>../modules/micrite-common/src/main/java/org/gaixie/micrite/commons</directory>
-			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/commons</outputDirectory>
-	    </fileSet>	 
+		<fileSet>
+			<directory>
+				../modules/micrite-beans/src/main/java/org/gaixie/micrite/beans
+			</directory>
+			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/beans
+			</outputDirectory>
+		</fileSet>
 
 
-	    <fileSet>
-			<directory>../modules/micrite-crm/src/main/java/org/gaixie/micrite/crm</directory>
-			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/crm</outputDirectory>
-	    </fileSet>	 
+		<fileSet>
+			<directory>
+				../modules/micrite-common/src/main/java/org/gaixie/micrite/commons
+			</directory>
+			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/commons
+			</outputDirectory>
+		</fileSet>
 
 
-	    <fileSet>
-			<directory>../modules/micrite-security/src/main/java/org/gaixie/micrite/security</directory>
-			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/security</outputDirectory>
-	    </fileSet>	 
+		<fileSet>
+			<directory>
+				../modules/micrite-crm/src/main/java/org/gaixie/micrite/crm
+			</directory>
+			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/crm
+			</outputDirectory>
+		</fileSet>
 
-	    
-	</fileSets>	    
+
+		<fileSet>
+			<directory>
+				../modules/micrite-security/src/main/java/org/gaixie/micrite/security
+			</directory>
+			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/security
+			</outputDirectory>
+		</fileSet>
+
+
+	</fileSets>
 </assembly>
