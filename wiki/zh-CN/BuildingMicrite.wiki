@@ -2,7 +2,7 @@
 #labels Phase-Implementation,Phase-Deploy,Featured
 <wiki:toc max_depth="2" />
 = 概述 =
-This documents how to build the Gaixie Micrite project.
+此文档介绍如何从源代码开始编译生成Micrite项目.
 
 This guide is intended to cover how to build the latest svn/trunk,though other newer branches/tags should also follow similar instructions. <br>
 Micrite trees that use the same basic build tooling include:
