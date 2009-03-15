@@ -30,12 +30,6 @@
 		<format>war</format>
 	</formats>
 	<includeBaseDirectory>false</includeBaseDirectory>
-	<dependencySets>
-		<dependencySet>
-			<outputDirectory>WEB-INF/lib</outputDirectory>
-			<scope>runtime</scope>
-		</dependencySet>
-	</dependencySets>
 	<fileSets>
 		<fileSet>
 			<directory>../modules/micrite-common/target/classes
@@ -45,9 +39,20 @@
 				<include>databaseResource-hibernate.xml
 				</include>
 				<include>hibernate.properties</include>
+				<include>jdbc.properties</include>				
 				<include>dbscripts/**</include>
 			</includes>
 		</fileSet>
+
+		<fileSet>
+			<directory>../modules/micrite-security/target/micrite-security-${project.version}/WEB-INF/lib
+			</directory>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<excludes>
+				<exclude>micrite-*.jar</exclude>
+			</excludes>
+		</fileSet>
+
 
 		<fileSet>
 			<directory>../modules/micrite-security/src/main/webapp
