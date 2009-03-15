@@ -40,24 +40,14 @@
 	<artifactId>micrite-common</artifactId>
 	<name>Micrite Modules :: Common</name>
 	<packaging>jar</packaging>
-	<!--
-		修改为PostgreSQL，修改之前需建micrite_db数据库 <properties>
-		<jdbc.database>postgre</jdbc.database>
-		<jdbc.driverClassName>org.postgresql.Driver</jdbc.driverClassName>
-		<jdbc.url>jdbc:postgresql://10.10.10.9:5432/micrite_db?charSet=EUC_CN</jdbc.url>
-		<jdbc.username>golfuser</jdbc.username>
-		<jdbc.password>golfuser</jdbc.password>
-		<hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
-		</properties>
-	-->
+
 	<properties>
 		<!-- 内置Derby数据库供自动测试用 -->
 		<jdbc.database>derby</jdbc.database>
-		<jdbc.driverClassName>org.apache.derby.jdbc.EmbeddedDriver</jdbc.driverClassName>
+		<jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc.driver>
 		<jdbc.url>jdbc:derby:${project.build.directory}/micrite_db;create=true</jdbc.url>
 		<jdbc.username>derby</jdbc.username>
 		<jdbc.password>derby</jdbc.password>
-		<hibernate.dialect>org.hibernate.dialect.DerbyDialect</hibernate.dialect>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -141,7 +131,7 @@
 
 				<!-- common configuration shared by all executions -->
 				<configuration>
-					<driver>${jdbc.driverClassName}</driver>
+					<driver>${jdbc.driver}</driver>
 					<url>${jdbc.url}</url>
 					<username>${jdbc.username}</username>
 					<password>${jdbc.password}</password>
@@ -212,16 +202,14 @@
 				<directory>src/main/resources/hibernate</directory>
 				<filtering>true</filtering>
 				<includes>
-					<include>databaseResource-hibernate.xml</include>
-					<include>hibernate.properties</include>
+					<include>jdbc.properties</include>
 				</includes>
 			</resource>
 			<resource>
 				<directory>src/main/resources/hibernate</directory>
 				<filtering>false</filtering>
 				<excludes>
-					<exclude>databaseResource-hibernate.xml</exclude>
-					<exclude>hibernate.properties</exclude>
+					<exclude>jdbc.properties</exclude>
 				</excludes>
 			</resource>
 		</resources>
