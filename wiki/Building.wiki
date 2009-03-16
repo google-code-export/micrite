@@ -1,4 +1,5 @@
 #summary This documents how to build the Gaixie Micrite project
+#labels Featured,Phase-Implementation
 <wiki:toc max_depth="2" />
 = Introduction =
 This documents how to build the Gaixie Micrite project.
