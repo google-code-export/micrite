@@ -25,26 +25,62 @@ The function is invalid now.
 
 = Firing up Eclipse =
 
-# Import the project(s) to eclipse workspace using:
+ * Import the project(s) to eclipse workspace using:
 {{{
 File --> Import --> +General --> Existing Projects into Workspace
 }}}
-Select project or projects depending on how you created the project in the Creating Eclipse Projects step.
-# Set the Maven Classpath variable M2_REPO to tell Eclipse where the Maven repository is by clicking the "New" button in
+ Select project or projects depending on how you created the project in the Creating Eclipse Projects step.
+
+ * Set the Maven Classpath variable M2_REPO to tell Eclipse where the Maven repository is by clicking the "New" button in
 {{{
 Window --> Preferences --> Java --> Build Path --> Classpath Variables
 }}}
-Enter M2_REPO and set it to your maven2 repository directory. On linux this directory is usually located at
+ Enter M2_REPO and set it to your maven2 repository directory. On linux this directory is usually located at
 {{{
 ~/.m2/repository
 and on windows its usually at
 "%USERPROFILE%\.m2\repository"
 }}}
-
 == Code Formatting ==
 
-    * If you plan on contributing code or patches to the project, configure eclipse to not use tabs by doing the following:
+ * If you plan on contributing code or patches to the project, configure eclipse to not use tabs by doing the following:
+{{{
+Window --> Preferences --> Java --> Code Style --> Formatter --> Java Conventions [built-in]
+}}}
+ Click on "Edit". Under Indentation select Tab policy as "space only". Enter a new name for this profile and click "OK".
 
-      Window --> Preferences --> Java --> Code Style --> Formatter --> Java Conventions [built-in]
+ * Create new java file(s) with comments using
+ {{{
+ Window --> Preferences --> Java --> Code Style --> Code Templates --> Comments --> Files
+  }}}
+ Click on "Edit". Replace default content with following lines:
+ {{{
+ /* ===========================================================
+ * $$Id$$
+ * This file is part of Micrite
+ * ===========================================================
+ *
+ * (C) Copyright 2009, by Gaixie.org and Contributors.
+ * 
+ * Project Info:  http://micrite.gaixie.org/
+ *
+ * Micrite is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Micrite is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+ }}}
+= Other Userfule Information =
+If you plan on contributing code or patches to the project please configure your subversion client and follow the coding conventions described here:
 
-      Click on "Edit". Under Indentation select Tab policy as "space only". Enter a new name for this profile and click "OK".
+ * [SubversionClientConfiguration Subversion Client Configuration]
+ * [CodingStandards Coding Standards] 
