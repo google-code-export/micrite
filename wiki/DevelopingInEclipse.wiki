@@ -1,4 +1,4 @@
-#summary The document will enable you to get Micrite into the Eclipse 3.4 workspace as an eclipse project.
+#summary How to get Micrite into the Eclipse 3.4 workspace as an eclipse project.
 #labels Phase-Implementation
 <wiki:toc max_depth="2" />
 = Introduction =
