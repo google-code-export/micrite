@@ -1,8 +1,8 @@
-#summary This documents how to build the Gaixie Micrite project
+#summary This document how to build the Gaixie Micrite project
 #labels Featured,Phase-Implementation
 <wiki:toc max_depth="2" />
 = Introduction =
-This documents how to build the Gaixie Micrite project.
+This document how to build the Gaixie Micrite project.
 
 This guide is intended to cover how to build the latest svn/trunk,though other newer branches/tags should also follow similar instructions. <br>
 Micrite trees that use the same basic build tooling include:
