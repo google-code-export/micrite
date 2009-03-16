@@ -1,4 +1,4 @@
-#summary How to properly configure svn client so that the appropriate subversion properties are set on newly added files.
+#summary How to properly configure svn client.
 #labels Phase-Implementation
 
 Memberships need to properly configure their svn client so that the appropriate subversion properties are set on newly added files. One of the most important properties is the eol-style property that configures OS-specific line-endings for text files.
