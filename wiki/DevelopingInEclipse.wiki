@@ -79,8 +79,94 @@ Window --> Preferences --> Java --> Code Style --> Formatter --> Java Convention
  *
  */
  }}}
+
+= Coding Standars =
+
+== Indentation ==
+=== Java ===
+
+Lets follow Sun's coding standard rules which are pretty common in Java.
+
+http://java.sun.com/docs/codeconv/
+
+http://java.sun.com/docs/codeconv/html/CodeConvTOC.doc.html
+
+ * 4 characters indentation
+ * No tabs please!
+
+Correct brace style:
+{{{
+public class Foo {
+    public void foo(boolean a, int x, int y, int z) {
+        do {
+            try {
+                if (x > 0) {
+                    int someVariable = a ?  x : y;
+                } else if (x < 0) {
+                    int someVariable = (y + z);
+                    someVariable = x = x + y;
+                } else {
+                    for (int i = 0; i < 5; i++) {
+                        doSomething(i);
+                    }
+                }
+
+                switch (a) {
+                    case 0:
+                        doCase0();
+                        break;
+                    default:
+                        doDefault();
+                }
+            } catch (Exception e) {
+                processException(e.getMessage(), x + y, z, a);
+            } finally {
+                processFinally();
+            }
+        } while (true);
+
+        if (2 < 3) {
+            return;
+        }
+
+        if (3 < 4) {
+            return;
+        }
+
+        do {
+            x++
+        } while (x < 10000);
+
+        while (x < 50000) {
+            x++;
+        }
+
+        for (int i = 0; i < 5; i++) {
+            System.out.println(i);
+        }
+    }
+
+    private class InnerClass implements I1, I2 {
+        public void bar() throws E1, E2 {
+        }
+    }
+}
+}}}
+=== XML ===
+
+ * Use 4 characters. This is to allow IDEs such as Eclipse to use a unified formatting convention
+ * No tabs please!
+
+== Eclipse Auto-Formatting ==
+
+ * use Source -> Organise Imports to organize imports.
+ * use Source -> Format to format code (please make sure you are using spaces instead of tabs. See [DevelopingInEclipse Developing Micrite In Eclipse] for details).
+
+== JavaDoc Tags ==
+
+@version Should be: @version $Revision$ $Date$ .
+
 = Other Userfule Information =
-If you plan on contributing code or patches to the project please configure your subversion client and follow the coding conventions described here:
+If you plan on contributing code or patches to the project please configure your subversion client :
 
  * [SubversionClientConfiguration Subversion Client Configuration]
- * [CodingStandards Coding Standards] 
