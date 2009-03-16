@@ -78,7 +78,7 @@ Once you have build micrite fully, which will produce a war archive from the ass
 
 you can use jetty-maven-plugin to run it. From the assemblies directory run:
 {{{
-mvn jetty:run-exploded
+mvn jetty:run
 }}}
 And to stop, just CTRL-C.
 
