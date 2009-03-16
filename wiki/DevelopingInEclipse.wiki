@@ -1,0 +1,50 @@
+#summary The document will enable you to get Micrite into the Eclipse 3.4 workspace as an eclipse project.
+#labels Phase-Implementation
+<wiki:toc max_depth="2" />
+= Introduction =
+The following instructions will enable you to get Micrite into the Eclipse 3.4 workspace as an eclipse project. You will be able use eclipse to make code changes and run Unit tests. For purposes of this discussion the development OS is Windows. Please adjust these instructions for your environment.
+
+= Prerequisites =
+
+Install the software required for [Building Building Gaixie Micrite] and follow the instructions to build Geronimo.
+
+= Creating Eclipse Projects =
+You could import all subprojects in the workspace. But a more efficient way is to import only the modules that you want to work on.
+
+== Working with a single module ==
+If you are planning to modify a single micrite module, you can import only that module in the workspace by running the following commands:
+
+{{{
+mvn install
+cd modules\a_module
+mvn -o eclipse:eclipse
+}}}
+
+== Working with multiple modules ==
+The function is invalid now.
+
+= Firing up Eclipse =
+
+# Import the project(s) to eclipse workspace using:
+{{{
+File --> Import --> +General --> Existing Projects into Workspace
+}}}
+Select project or projects depending on how you created the project in the Creating Eclipse Projects step.
+# Set the Maven Classpath variable M2_REPO to tell Eclipse where the Maven repository is by clicking the "New" button in
+{{{
+Window --> Preferences --> Java --> Build Path --> Classpath Variables
+}}}
+Enter M2_REPO and set it to your maven2 repository directory. On linux this directory is usually located at
+{{{
+~/.m2/repository
+and on windows its usually at
+"%USERPROFILE%\.m2\repository"
+}}}
+
+== Code Formatting ==
+
+    * If you plan on contributing code or patches to the project, configure eclipse to not use tabs by doing the following:
+
+      Window --> Preferences --> Java --> Code Style --> Formatter --> Java Conventions [built-in]
+
+      Click on "Edit". Under Indentation select Tab policy as "space only". Enter a new name for this profile and click "OK".
