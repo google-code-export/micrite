@@ -35,38 +35,38 @@
     <!-- Include the assemblies in the assembly -->
     <fileSet>
       <directory>target/site</directory>
-      <outputDirectory>assemblies</outputDirectory>
+      <outputDirectory>micrite-assemblies</outputDirectory>
     </fileSet>
 
     <!-- Include the modules in the assembly -->
     <fileSet>
       <directory>../modules/target/site</directory>
-      <outputDirectory>modules</outputDirectory>
+      <outputDirectory>micrite-modules</outputDirectory>
     </fileSet>
 
     <fileSet>
       <directory>../modules/micrite-beans/target/site</directory>
-      <outputDirectory>modules/micrite-beans</outputDirectory>
+      <outputDirectory>micrite-modules/micrite-beans</outputDirectory>
     </fileSet>
 
     <fileSet>
       <directory>../modules/micrite-common/target/site</directory>
-      <outputDirectory>modules/micrite-common</outputDirectory>
+      <outputDirectory>micrite-modules/micrite-common</outputDirectory>
     </fileSet>
     
     <fileSet>
       <directory>../modules/micrite-core/target/site</directory>
-      <outputDirectory>modules/micrite-core</outputDirectory>
+      <outputDirectory>micrite-modules/micrite-core</outputDirectory>
     </fileSet>    
     
     <fileSet>
       <directory>../modules/micrite-crm/target/site</directory>
-      <outputDirectory>modules/micrite-crm</outputDirectory>
+      <outputDirectory>micrite-modules/micrite-crm</outputDirectory>
     </fileSet>  
 
     <fileSet>
       <directory>../modules/micrite-security/target/site</directory>
-      <outputDirectory>modules/micrite-security</outputDirectory>
+      <outputDirectory>micrite-modules/micrite-security</outputDirectory>
     </fileSet> 
 
     <!-- Include the root in the assembly -->

@@ -261,7 +261,6 @@
 				<includes>
 					<include>databaseResource-hibernate.xml</include>
 					<include>hibernate.properties</include>
-					<include>jdbc.properties</include>					
 				</includes>
 			</resource>
 		</resources>

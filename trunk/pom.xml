@@ -59,11 +59,18 @@
 	<licenses>
 		<license>
 			<name>GNU Lesser General Public License Version 3</name>
-			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+			<url>http://www.gnu.org/licenses/gpl.txt</url>
 			<distribution>repo</distribution>
 			<comments />
 		</license>
 	</licenses>
+
+	<distributionManagement>
+		<site>
+			<id>www.gaixie.org</id>
+			<url>scp://10.10.10.70/var/www/micrite/0.x</url>
+		</site>
+	</distributionManagement>
 
 	<mailingLists>
 		<mailingList>
@@ -71,6 +78,12 @@
 			<subscribe>
                 http://groups.google.com/group/gaixie-micrite-dev/subscribe?hl=en
             </subscribe>
+			<unsubscribe>
+                mailto:gaixie-micrite-dev+unsubscribe@googlegroups.com
+            </unsubscribe>
+			<post>
+                mailto:gaixie-micrite-dev@googlegroups.com
+            </post>                         
 			<archive>
                 http://groups.google.com/group/gaixie-micrite-dev?hl=en
             </archive>
@@ -80,6 +93,12 @@
 			<subscribe>
                 http://groups.google.com/group/gaixie-micrite-user/subscribe?hl=en
             </subscribe>
+			<unsubscribe>
+                mailto:gaixie-micrite-user+unsubscribe@googlegroups.com
+            </unsubscribe>
+			<post>
+                mailto:gaixie-micrite-user@googlegroups.com
+            </post>             
 			<archive>
                 http://groups.google.com/group/gaixie-micrite-user?hl=en
             </archive>
@@ -106,13 +125,6 @@
 		<PlanJMXSecurePort>9998</PlanJMXSecurePort>
 
 	</properties>
-
-	<distributionManagement>
-		<site>
-			<id>micrite-site</id>
-			<url>${project.artifactId}</url>
-		</site>
-	</distributionManagement>
 
 	<!--
 		下面<dependencyManagement>是整个micrite项目依赖包的全集，所有包都指定版本号。

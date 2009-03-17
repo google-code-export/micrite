@@ -36,15 +36,6 @@
 
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
-    <!-- For jdbc settings and future properties files -->
-	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	    <property name="locations">
-	        <list>
-	            <value>classpath:jdbc.properties</value>
-	        </list>
-	    </property>
-	</bean>
-	
 	<!-- Hibernate SessionFactory definition using exposed dataSource -->
 	<!-- hibernate.properties and hibernate.cfg.xml will be loaded on startup -->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">

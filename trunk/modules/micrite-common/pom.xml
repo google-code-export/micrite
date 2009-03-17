@@ -202,14 +202,14 @@
 				<directory>src/main/resources/hibernate</directory>
 				<filtering>true</filtering>
 				<includes>
-					<include>jdbc.properties</include>
+					<include>databaseResource-hibernate.xml</include>
 				</includes>
 			</resource>
 			<resource>
 				<directory>src/main/resources/hibernate</directory>
 				<filtering>false</filtering>
 				<excludes>
-					<exclude>jdbc.properties</exclude>
+					<exclude>databaseResource-hibernate.xml</exclude>
 				</excludes>
 			</resource>
 		</resources>
