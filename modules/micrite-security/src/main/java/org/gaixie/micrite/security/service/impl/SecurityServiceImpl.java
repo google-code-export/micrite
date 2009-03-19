@@ -37,10 +37,19 @@ import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
 
+/**
+ * 访问安全控制实现
+ * @author Maven Yu
+ * @see org.springframework.security.userdetails.UserDetailsService
+ * @see org.gaixie.micrite.security.service.ISecurityService
+ */
 public class SecurityServiceImpl implements UserDetailsService, ISecurityService   {
 
 	private ISecurityDao securityDao;
 	
+	/* (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
+	 */
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
 		List<User> users = securityDao.loadUserByUsername(username);
@@ -50,6 +59,9 @@ public class SecurityServiceImpl implements UserDetailsService, ISecurityService
 		return users.get(0);
 	}
 
+    /* (non-Javadoc)
+     * @see org.gaixie.micrite.security.service.ISecurityService#loadUrlAuthorities()
+     */
     public Map<String, String> loadUrlAuthorities() {
         Map<String, String> urlAuthorities = new HashMap<String, String>();  
         List<Resource> urlResources = securityDao.loadUrlAuthorities();  
@@ -59,10 +71,16 @@ public class SecurityServiceImpl implements UserDetailsService, ISecurityService
         return urlAuthorities;  
     }
 
+	/**
+	 * @return the securityDao
+	 */
 	public ISecurityDao getSecurityDao() {
 		return securityDao;
 	}
 
+	/**
+	 * @param securityDao  the securityDao to set
+	 */
 	public void setSecurityDao(ISecurityDao securityDao) {
 		this.securityDao = securityDao;
 	}

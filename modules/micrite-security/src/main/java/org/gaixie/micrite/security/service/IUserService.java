@@ -27,15 +27,15 @@ package org.gaixie.micrite.security.service;
 import org.gaixie.micrite.beans.User;
 
 /**
- * @author Administrator
+ * 用户业务模型
+ * @author Maven Yu
  *
  */
 public interface IUserService {
 	
 	/**
 	 * 随机查找一条记录
-	 * 
-	 * @return
+	 * @return 用户实体
 	 */
 	public User findByNameRandom();
 	

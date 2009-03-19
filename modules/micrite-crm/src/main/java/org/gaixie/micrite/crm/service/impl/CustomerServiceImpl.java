@@ -32,16 +32,16 @@ import org.gaixie.micrite.crm.dao.ICustomerDao;
 import org.gaixie.micrite.crm.service.ICustomerService;
 
 /**
- * @author Administrator
- * 
+ * 客户管理功能实现
+ * @author Maven Yu
+ * @see org.gaixie.micrite.crm.service.ICustomerService
  */
 public class CustomerServiceImpl implements ICustomerService {
 
 	private ICustomerDao customerDao;
 
 	/**
-	 * @param customerDao
-	 *            the customerDao to set
+	 * @param customerDao the customerDao to set
 	 */
 	public void setCustomerDao(ICustomerDao customerDao) {
 		this.customerDao = customerDao;

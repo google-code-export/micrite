@@ -30,12 +30,19 @@ import java.util.Random;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.dao.IUserDao;
 import org.gaixie.micrite.security.service.IUserService;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
+/**
+ * 用户业务实现
+ * @author Maven Yu
+ * @see org.gaixie.micrite.security.service.IUserService
+ */
 public class UserServiceImpl implements IUserService {
 
 	private IUserDao userDao;
     
+	/* (non-Javadoc)
+	 * @see org.gaixie.micrite.security.service.IUserService#findByNameRandom()
+	 */
 	public User findByNameRandom(){
 		List<User> list = userDao.findAll();
 		Random rnd = new Random();
@@ -43,10 +50,16 @@ public class UserServiceImpl implements IUserService {
 		return list.get(getNumber);
 	}
 
+	/**
+	 * @return the userDao
+	 */
 	public IUserDao getUserDao() {
 		return userDao;
 	}
 
+	/**
+	 * @param userDao the userDao to set
+	 */
 	public void setUserDao(IUserDao userDao) {
 		this.userDao = userDao;
 	}

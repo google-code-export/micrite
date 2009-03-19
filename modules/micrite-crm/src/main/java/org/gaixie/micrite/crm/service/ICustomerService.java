@@ -30,46 +30,44 @@ import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 
 /**
- * @author Administrator
- * 
+ * 客户管理服务接口，封装客户服务业务模型
+ * @author Maven Yu
  */
 public interface ICustomerService {
 	/**
-	 * 新增/修改客户
-	 * 
-	 * @param member
-	 * @return
+	 * 新增或修改客户
+	 * @see org.gaixie.micrite.beans.Customer
+	 * @param customer 客户实体
+	 * @param customerSourceId 客户来源id
 	 */
 	public void addOrUpdateCustomer(Customer customer, Integer customerSourceId);
 
 	/**
-	 * 取得客户数量
-	 * 
-	 * @param user
-	 * @return
+	 * 获取客户数量
+	 * @return 客户数量
 	 */
 	public int getCustomerNum();
 
 	/**
-	 * 根据电话精确查找
-	 * 
-	 * @param telephone
-	 * @return
+	 * 根据电话精确查找客户
+	 * @see org.gaixie.micrite.beans.Customer
+	 * @param telephone 客户电话
+	 * @return 客户实体集合
 	 */
 	public List<Customer> findByTelExact(String telephone);
 
 	/**
-	 * 根据ID精确查找
-	 * 
-	 * @param telephone
-	 * @return
+	 * 根据客户ID获取客户
+	 * @see org.gaixie.micrite.beans.Customer
+	 * @param id 客户id
+	 * @return 客户实体
 	 */
 	public Customer findByIdExact(int id);
 
 	/**
-	 * 取得客户来源
-	 * 
-	 * @return
+	 * 获取客户来源
+	 * @see org.gaixie.micrite.beans.CustomerSource
+	 * @return 客户来源集合
 	 */
 	public List<CustomerSource> findALLCustomerSource();
 

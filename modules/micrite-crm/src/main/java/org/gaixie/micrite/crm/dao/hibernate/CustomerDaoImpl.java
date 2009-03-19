@@ -26,6 +26,12 @@ package org.gaixie.micrite.crm.dao.hibernate;
 
 import org.gaixie.micrite.crm.dao.ICustomerDao;
 
+/**
+ * 客户管理持久化实现，基于hibernate
+ * @author Maven.yu
+ * @see org.gaixie.micrite.crm.dao.ICustomerDao
+ * @see org.gaixie.micrite.crm.dao.hibernate.AbstractDaoImpl
+ */
 public class CustomerDaoImpl extends AbstractDaoImpl implements ICustomerDao {
 
 }

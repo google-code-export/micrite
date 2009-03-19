@@ -28,10 +28,15 @@ import java.util.Map;
 
 
 /**
- * @author Downpour
+ * 安全模型
+ * @author Maven Yu
  */
 public interface ISecurityService {
 	    
+    /**
+     * 加载角色资源
+     * @return 资源集合<资源, 角色串>
+     */
     public Map<String, String> loadUrlAuthorities();
         
 }

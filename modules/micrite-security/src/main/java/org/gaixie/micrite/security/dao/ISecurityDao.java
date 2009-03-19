@@ -29,19 +29,22 @@ import java.util.List;
 import org.gaixie.micrite.beans.Resource;
 import org.gaixie.micrite.beans.User;
 
+/**
+ * 安全管理持久化管理
+ * @author Maven Yu
+ *
+ */
 public interface ISecurityDao {
 	/**
-	 * 加载用户
-	 * 
-	 * @param username
-	 * @return
+	 * 根据用户名加载用户	
+	 * @param username 用户名
+	 * @return 用户实体资源
 	 */
 	public List<User> loadUserByUsername(String username);
 	
 	/**
-	 * 加载资源
-	 * 
-	 * @return
+	 * 加载所有资源
+	 * @return 资源资源
 	 */
 	public List<Resource> loadUrlAuthorities();
 }
