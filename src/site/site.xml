@@ -27,21 +27,23 @@
 
 
 <project name="Gaixie Micrite">
+<!--
 	<skin>
 		<groupId>org.apache.maven.skins</groupId>
 		<artifactId>maven-stylus-skin</artifactId>
 		<version>1.1</version>
 	</skin>
+-->	
     <publishDate position="left"/>
     <version position="left"/>
     <bannerLeft>
         <name>Gaixie.org</name>
-        <src>http://www.gaixie.org/images/gx-logo.jpg</src>
+        <src>http://www.gaixie.org/images/gaixie-logo.jpg</src>
         <href>http://www.gaixie.org/</href>
     </bannerLeft>
     <bannerRight>
         <name>Micrite</name>
-        <src>http://micrite.gaixie.org/images/mic-logo.jpg</src>
+        <src>http://sites-by-maven.gaixie.org/micrite/images/micrite-logo.jpg</src>
         <href>http://micrite.gaixie.org/</href>
     </bannerRight>    
   <body>
