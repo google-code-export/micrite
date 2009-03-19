@@ -77,4 +77,4 @@ and on windows its usually at
 = Other Userfule Information =
 If you plan on contributing code or patches to the project please configure your subversion client :
 
- * [SubversionClientConfiguration Subversion Client Configuration]
+ * [http://docs.google.com/Doc?id=dggnm2v4_3d9zr5rcd Subversion Client Configuration]
