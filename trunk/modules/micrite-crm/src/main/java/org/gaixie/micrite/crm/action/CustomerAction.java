@@ -32,19 +32,18 @@ import org.gaixie.micrite.crm.service.ICustomerService;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+/**
+ * 客户管理
+ * @author Maven Yu
+ * @see com.opensymphony.xwork2.ActionSupport
+ */
 public class CustomerAction extends ActionSupport{ 
 	
 	private ICustomerService customerService;
-
-	public CustomerAction(ICustomerService customerService) {
-		this.customerService = customerService;
-	}
-
 	//输出到页面的数据
 	private int customerNum = 0;
 	private List<Customer> customers;
 	private List<CustomerSource> customerSource;
-	
 	//获取的页面参数
 	private Integer customerId;
 	private Customer customer;
@@ -52,8 +51,16 @@ public class CustomerAction extends ActionSupport{
 	private Integer customerSourceId;
 
 	/**
-	 * 
-	 * @return
+	 * 带参数构造函数，实例化对象，并通过参数初始化<strong>customerService</strong>
+	 * @param customerService ICustomerService接口，通过Ioc模式注入业务实例
+	 * @see org.gaixie.micrite.crm.service.ICustomerService
+	 */
+	public CustomerAction(ICustomerService customerService) {
+		this.customerService = customerService;
+	}
+	/**
+	 * 默认起始事件，获得显示数据，包含总客户数、客户来源
+	 * @return "success"
 	 */
 	public String index() {
 		customerNum = customerService.getCustomerNum();
@@ -61,9 +68,8 @@ public class CustomerAction extends ActionSupport{
         return SUCCESS;
 	}
 	/**
-	 * 新增/修改事件
-	 * 
-	 * @return
+	 * 保存客户信息
+	 * @return "success"
 	 */
 	public String save() {
 		customerService.addOrUpdateCustomer(customer, customerSourceId);
@@ -71,18 +77,16 @@ public class CustomerAction extends ActionSupport{
         return index();
 	}
 	/**
-	 * 查找用户事件
-	 * 
-	 * @return
+	 * 查找客户信息
+	 * @return "success"
 	 */
 	public String find() {
 		customers = customerService.findByTelExact(telephone);
         return index();
 	}
 	/**
-	 * 获取修改实体
-	 * 
-	 * @return
+	 * 获取修改的客户信息
+	 * @return "success"
 	 */
 	public String edit() {
 		customer = customerService.findByIdExact(customerId);

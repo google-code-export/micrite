@@ -32,9 +32,17 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import org.springframework.jmx.export.annotation.ManagedResource;
  
+/**
+ * 用户管理持久化实现，基于hibernate
+ * @author Maven Yu
+ *
+ */
 @ManagedResource(objectName="micrite:type=dao,name=UserDaoImpl", description="Micrite UserDaoImpl Bean")
 public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
 
+	/* (non-Javadoc)
+	 * @see org.gaixie.micrite.security.dao.IUserDao#findAll()
+	 */
 	public List<User> findAll(){
 		String hql = "from User e";
 		List<User> list = getHibernateTemplate().find(hql);

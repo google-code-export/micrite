@@ -9,8 +9,10 @@ import org.gaixie.micrite.crm.dao.IAbstractDao;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
- * @author Administrator
- * 
+ * 使用hibernate实现持久化数据操作
+ * @author Maven.yu
+ * @see org.gaixie.micrite.crm.dao.IAbstractDao
+ * @see org.springframework.orm.hibernate3.support.HibernateDaoSupport
  */
 public class AbstractDaoImpl extends HibernateDaoSupport implements
 		IAbstractDao {

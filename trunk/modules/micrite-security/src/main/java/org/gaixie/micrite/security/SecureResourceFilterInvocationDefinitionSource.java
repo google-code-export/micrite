@@ -40,7 +40,9 @@ import org.springframework.security.util.RegexUrlPathMatcher;
 import org.springframework.security.util.UrlMatcher;
 
 /**
- * @author Downpour
+ * 资源安全控制，负责校验用户访问的资源是否合法
+ * @author Maven Yu
+ * @see org.springframework.security.intercept.web.FilterInvocationDefinitionSource
  */
 public class SecureResourceFilterInvocationDefinitionSource implements FilterInvocationDefinitionSource, InitializingBean {
     
@@ -95,11 +97,8 @@ public class SecureResourceFilterInvocationDefinitionSource implements FilterInv
     public ConfigAttributeDefinition getAttributes(Object filter) throws IllegalArgumentException {
         
         FilterInvocation filterInvocation = (FilterInvocation) filter;
-        System.out.println("filterInvocation =" + filterInvocation);
         String requestURI = filterInvocation.getRequestUrl();
-        System.out.println("requestURI =" + requestURI);
         Map<String, String> urlAuthorities = this.getUrlAuthorities(filterInvocation);
-        System.out.println("urlAuthorities =" + urlAuthorities);
         
         String grantedAuthorities = null;
         System.out.println("iter =" + urlAuthorities.entrySet().iterator());

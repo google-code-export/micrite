@@ -34,7 +34,9 @@ import org.gaixie.micrite.security.service.ISecurityService;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
- * @author Downpour
+ * 此类用来在系统启动时加载所有角色的访问资源，将角色资源信息存储到ServletContext中
+ * @author Maven Yu
+ * @see javax.servlet.ServletContextListener
  */
 public class ServletContextLoaderListener implements ServletContextListener{
 
@@ -59,9 +61,10 @@ public class ServletContextLoaderListener implements ServletContextListener{
 
     /**
      * Get SecurityManager from ApplicationContext
-     * 
-     * @param servletContext
-     * @return
+     * @see javax.servlet.ServletContext
+     * @see org.gaixie.micrite.security.service.ISecurityService
+     * @param servletContext ApplicationContext
+     * @return SecurityService object
      */
     protected ISecurityService getSecurityManager(ServletContext servletContext) {
        return (ISecurityService) WebApplicationContextUtils.getWebApplicationContext(servletContext).getBean("securityManager"); 

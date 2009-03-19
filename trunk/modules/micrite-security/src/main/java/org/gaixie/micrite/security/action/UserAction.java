@@ -37,16 +37,15 @@ import com.opensymphony.xwork2.ActionSupport;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
  
+/**
+ * 登录用户管理
+ * @author Maven Yu
+ * @see com.opensymphony.xwork2.ActionSupport
+ * @see org.apache.struts2.interceptor.SessionAware
+ */
 @ManagedResource(objectName="micrite:type=action,name=UserAction", description="Micrite UserAction Bean")
 public class UserAction extends ActionSupport implements SessionAware{ 
 	
-	public UserAction(IUserService userService) {
-		this.userService = userService;
-	}
-	public void setSession(Map session) {
-		this.session = session;
-	}
-
 	private User user;
 	private String role;
     private String remoteAddress;
@@ -54,6 +53,18 @@ public class UserAction extends ActionSupport implements SessionAware{
 	private Map session;
 	private IUserService userService;
 
+	/**
+	 * 带参数构造函数，实例化对象
+	 * @param userService 用户业务接口
+	 * @see org.gaixie.micrite.security.service.IUserService
+	 */
+	public UserAction(IUserService userService) {
+		this.userService = userService;
+	}
+	/**
+	 * 默认起始事件，获得登录用户信息
+	 * @return "success"
+	 */
 	public String index() {
 		SecurityContext securityContext = (SecurityContext) session.get("SPRING_SECURITY_CONTEXT");
 		user = (User) securityContext.getAuthentication().getPrincipal();
@@ -69,34 +80,63 @@ public class UserAction extends ActionSupport implements SessionAware{
 		return SUCCESS;
     }    
 
+	/**
+	 * @return the role
+	 */
 	@ManagedAttribute(description="The role attribute")
 	public String getRole() {
 		return role;
 	}
 
+	/**
+	 * @return the remoteAddress
+	 */
 	@ManagedAttribute(description="The remoteAddress attribute")
 	public String getRemoteAddress() {
 		return remoteAddress;
 	}
 
+	/**
+	 * @return sessionId
+	 */
 	@ManagedAttribute(description="The sessionId attribute")
 	public String getSessionId() {
 		return sessionId;
 	}
+	/**
+	 * @return the userService
+	 */
 	public IUserService getUserService() {
 		return userService;
 	}
 
+	/**
+	 * @param userService 用户业务接口
+	 * @see org.gaixie.micrite.security.service.IUserService
+	 */
 	public void setUserService(IUserService userService) {
 		this.userService = userService;
 	}
 	
+    /**
+     * @return the user
+     */
     public User getUser() {
 		return user;
 	}
 
+	/**
+	 * @param user 用户实体
+	 */
 	public void setUser(User user) {
 		this.user = user;
 	}
+	/* (non-Javadoc)
+	 * @see org.apache.struts2.interceptor.SessionAware#setSession(java.util.Map)
+	 */
+	public void setSession(Map session) {
+		this.session = session;
+	}
+
 	
 }

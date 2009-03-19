@@ -28,11 +28,16 @@ import java.util.List;
 
 import org.gaixie.micrite.beans.User;
 
+/**
+ * 用户管理持久化接口
+ * @author Maven Yu
+ *
+ */
 public interface IUserDao {
 	/**
-	 * 查询所有记录
+	 * 查询所有用户
 	 * 
-	 * @return
+	 * @return 用户实体集合
 	 */
 	public List<User> findAll();
 	

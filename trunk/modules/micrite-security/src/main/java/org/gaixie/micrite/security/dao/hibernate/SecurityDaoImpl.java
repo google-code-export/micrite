@@ -31,14 +31,25 @@ import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.dao.ISecurityDao;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+/**
+ * 安全管理持久化实现，基于hibernate
+ * @author Maven Yu
+ *
+ */
 public class SecurityDaoImpl extends HibernateDaoSupport implements ISecurityDao {
 
+	/* (non-Javadoc)
+	 * @see org.gaixie.micrite.security.dao.ISecurityDao#loadUserByUsername(java.lang.String)
+	 */
 	public List<User> loadUserByUsername(String username) {
 		List<User> users = getHibernateTemplate().find(
 				"FROM User user WHERE user.loginname = ? AND user.isenabled = true", username);
 		return users;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.gaixie.micrite.security.dao.ISecurityDao#loadUrlAuthorities()
+	 */
 	public List<Resource> loadUrlAuthorities(){
         List<Resource> urlResources = getHibernateTemplate().find("FROM Resource resource WHERE resource.type = ?", "URL");
         return urlResources;
