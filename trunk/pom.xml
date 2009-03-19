@@ -65,10 +65,14 @@
 		</license>
 	</licenses>
 
+	<!--
+		发布maven生成的项目站点是，如果有大版本的改动，需要修改下面的路径
+		如: 0.x -> 1.x
+	-->
 	<distributionManagement>
 		<site>
 			<id>www.gaixie.org</id>
-			<url>scp://10.10.10.70/var/www/micrite/0.x</url>
+			<url>scp://sites-by-maven.gaixie.org/var/www/sites-by-maven/micrite/0.x</url>
 		</site>
 	</distributionManagement>
 
@@ -76,7 +80,7 @@
 		<mailingList>
 			<name>Micrite Developer List</name>
 			<subscribe>
-                http://groups.google.com/group/gaixie-micrite-dev/subscribe?hl=en
+                mailto:gaixie-micrite-dev-subscribe@googlegroups.com
             </subscribe>
 			<unsubscribe>
                 mailto:gaixie-micrite-dev+unsubscribe@googlegroups.com
@@ -91,7 +95,7 @@
 		<mailingList>
 			<name>Micrite User List</name>
 			<subscribe>
-                http://groups.google.com/group/gaixie-micrite-user/subscribe?hl=en
+                mailto:gaixie-micrite-users-subscribe@googlegroups.com
             </subscribe>
 			<unsubscribe>
                 mailto:gaixie-micrite-user+unsubscribe@googlegroups.com
@@ -608,6 +612,11 @@
 						</reports>
 					</reportSet>
 				</reportSets>
+				<configuration>
+					<charset>UTF-8</charset>
+					<docencoding>UTF-8</docencoding>
+					<encoding>UTF-8</encoding>
+				</configuration>				
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -615,12 +624,20 @@
 				<version>2.2</version>
 				<configuration>
 					<aggregate>true</aggregate>
+					<charset>UTF-8</charset>
+					<docencoding>UTF-8</docencoding>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>2.4.2</version>
+				<configuration>
+					<charset>UTF-8</charset>
+					<docencoding>UTF-8</docencoding>
+					<encoding>UTF-8</encoding>
+				</configuration>				
 			</plugin>
 		</plugins>
 	</reporting>
