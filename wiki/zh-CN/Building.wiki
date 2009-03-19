@@ -10,7 +10,7 @@ Micrite trees that use the same basic build tooling include:
   * [http://code.google.com/p/micrite/source/browse/#svn/trunk svn/trunk]
   * [http://code.google.com/p/micrite/source/browse/#svn/tags svn/tags/0.x]
 
-= Prerequisites =
+= 编译前需要配置的环境 =
 == Java Developer Kit (JDK) ==
 
 You will need a [http://java.sun.com/j2se/1.5.0/ JDK 5.0+ (J2SE 1.5.0+)] or compatible JDK to build Micrite. <br>
