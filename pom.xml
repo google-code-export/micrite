@@ -32,7 +32,7 @@
 	<groupId>org.gaixie.micrite</groupId>
 	<artifactId>micrite-parent</artifactId>
 	<name>Micrite</name>
-	<url>http://micrite.gaixie.org/</url>
+	<url>http://sites-by-maven.gaixie.org/micrite/0.x</url>
 	<packaging>pom</packaging>
 
 	<version>0.1-SNAPSHOT</version>
@@ -71,7 +71,7 @@
 	-->
 	<distributionManagement>
 		<site>
-			<id>www.gaixie.org</id>
+			<id>sites-by-maven.gaixie.org</id>
 			<url>scp://sites-by-maven.gaixie.org/var/www/sites-by-maven/micrite/0.x</url>
 		</site>
 	</distributionManagement>
