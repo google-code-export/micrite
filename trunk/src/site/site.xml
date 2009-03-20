@@ -49,7 +49,7 @@
   <body>
     <links>
         <item name="Gaixie" href="http://www.gaixie.org/"/>
-        <item name="Micrite" href="http://micrite.gaixie.org/"/>
+        <item name="Micrite" href="http://sites-by-maven.gaixie.org/micrite/stable"/>
     </links>
     
     <menu ref="reports" name="Reports"/> 
