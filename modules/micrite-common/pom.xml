@@ -162,12 +162,12 @@
 							<autocommit>true</autocommit>
 							<srcFiles>
 								<!--
-									><srcFile>${project.build.directory}/dbscripts/droptables.sql</srcFile>
+									<srcFile>${project.build.directory}/dbscripts/droptables.sql</srcFile>
 								-->
+								<srcFile>${project.build.directory}/dbscripts/droptables.sql</srcFile>
 								<srcFile>${project.build.directory}/dbscripts/${jdbc.database}/createdb.sql</srcFile>
 							</srcFiles>
 							<onError>continue</onError>
-
 						</configuration>
 					</execution>
 
@@ -182,23 +182,6 @@
 							<skipOnConnectionError>true</skipOnConnectionError>
 						</configuration>
 					</execution>
-					<!--  			
-					<execution>
-						<id>drop-schema</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<autocommit>true</autocommit>
-							<srcFiles>
-								<srcFile>${project.build.directory}/dbscripts/droptables.sql</srcFile>
-							</srcFiles>
-							<onError>continue</onError>
-						</configuration>
-					</execution>
-
--->		
 				</executions>
 			</plugin>
 
