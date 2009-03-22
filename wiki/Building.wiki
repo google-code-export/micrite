@@ -67,6 +67,8 @@ To build all changes incrementally, from project root directory run:
 {{{
 mvn install
 }}}
+The first time, this will lead to "table does not exist" error messages but they can be (and are) ignored. 
+
 To perform clean builds, which are sometimes needed after some changes to the source tree:
 {{{
 mvn clean install
