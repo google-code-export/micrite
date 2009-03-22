@@ -27,32 +27,49 @@
 <assembly>
 	<id>distribution</id>
 	<formats>
-		<format>war</format>
+		<format>zip</format>
 	</formats>
-	<includeBaseDirectory>false</includeBaseDirectory>
+	<includeBaseDirectory>true</includeBaseDirectory>
+	<componentDescriptors>
+	  <componentDescriptor>src/main/assembly/micrite-src-assembly.xml</componentDescriptor>
+	</componentDescriptors>
+
 	<fileSets>
+		<fileSet>
+			<directory>..</directory>
+			<outputDirectory></outputDirectory>
+			<includes>
+				<include>README*</include>
+				<include>LICENSE*</include>
+			</includes>
+		</fileSet>	
 		<fileSet>
 			<directory>../modules/micrite-common/target/classes
 			</directory>
-			<outputDirectory>WEB-INF/classes</outputDirectory>
+			<outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
 			<includes>
 				<include>databaseResource-hibernate.xml
 				</include>
 				<include>hibernate.properties</include>
-				<include>dbscripts/**</include>
 			</includes>
 		</fileSet>
 
 		<fileSet>
+			<directory>../modules/micrite-common/target/dbscripts
+			</directory>
+			<outputDirectory>dbscripts</outputDirectory>
+		</fileSet>
+		
+		<fileSet>
 			<directory>../modules/micrite-security/src/main/webapp
 			</directory>
-			<outputDirectory></outputDirectory>
+			<outputDirectory>webapp/micrite/</outputDirectory>
 		</fileSet>
 
 		<fileSet>
 			<directory>../modules/micrite-security/target
 			</directory>
-			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<outputDirectory>webapp/micrite/WEB-INF/lib</outputDirectory>
 			<includes>
 				<include>*.jar</include>
 			</includes>
@@ -64,7 +81,7 @@
 		<fileSet>
 			<directory>../modules/micrite-security/target/micrite-security-${project.version}/WEB-INF/lib
 			</directory>
-			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<outputDirectory>webapp/micrite/WEB-INF/lib</outputDirectory>
 			<includes>
 				<include>*.jar</include>
 			</includes>
@@ -74,7 +91,7 @@
 		<fileSet>
 			<directory>../modules/micrite-security/src/main/resources
 			</directory>
-			<outputDirectory>WEB-INF/classes</outputDirectory>
+			<outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
 			<excludes>
 				<exclude>hibernate/**</exclude>
 			</excludes>
@@ -82,7 +99,7 @@
 		<fileSet>
 			<directory>../modules/micrite-crm/target
 			</directory>
-			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<outputDirectory>webapp/micrite/WEB-INF/lib</outputDirectory>
 			<includes>
 				<include>*.jar</include>
 			</includes>
@@ -94,7 +111,7 @@
 		<fileSet>
 			<directory>../modules/micrite-crm/src/main/webapp
 			</directory>
-			<outputDirectory></outputDirectory>
+			<outputDirectory>webapp/micrite/</outputDirectory>
 			<includes>
 				<include>crm/**</include>
 			</includes>
@@ -102,7 +119,7 @@
 		<fileSet>
 			<directory>../modules/micrite-crm/src/main/resources
 			</directory>
-			<outputDirectory>WEB-INF/classes</outputDirectory>
+			<outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
 			<includes>
 				<include>**/applicationContext*.xml
 				</include>
@@ -113,7 +130,7 @@
 		<fileSet>
 			<directory>../modules/micrite-common/target
 			</directory>
-			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<outputDirectory>webapp/micrite/WEB-INF/lib</outputDirectory>
 			<includes>
 				<include>*.jar</include>
 			</includes>

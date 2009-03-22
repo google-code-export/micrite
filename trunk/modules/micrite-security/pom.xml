@@ -242,7 +242,21 @@
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 			</plugin>
-
+			<!--
+				自模块在war package时，不要把WEB-INF/lib中依赖的大量jar包打入
+				通过manifest加入classpath可以运行就行，最后组装的assemblies会有lib
+			-->				
+			<plugin>
+        		<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warSourceExcludes>WEB-INF/lib/*.jar</warSourceExcludes>
+					<archive>
+						<manifest>
+						<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+				</configuration>
+      		</plugin>
 		</plugins>
 		<!--
 		jetty:run输出时，调用的资源文件需要的是在micrite-common模块中编译好的配置文件。 

@@ -24,74 +24,14 @@
  */
 -->
 
-<assembly>
-	<id>src-distribution</id>
-	<formats>
-		<format>war</format>
-	</formats>
-	<includeBaseDirectory>false</includeBaseDirectory>
+<component>
+
 	<fileSets>
-		<fileSet>
-			<directory>../modules/micrite-common/target/classes
-			</directory>
-			<outputDirectory>WEB-INF/classes</outputDirectory>
-			<includes>
-				<include>databaseResource-hibernate.xml
-				</include>
-				<include>hibernate.properties</include>
-				<include>dbscripts/**</include>
-			</includes>
-		</fileSet>
-
-		<fileSet>
-			<directory>../modules/micrite-security/target/micrite-security-${project.version}/WEB-INF/lib
-			</directory>
-			<outputDirectory>WEB-INF/lib</outputDirectory>
-			<excludes>
-				<exclude>micrite-*.jar</exclude>
-			</excludes>
-		</fileSet>
-
-
-		<fileSet>
-			<directory>../modules/micrite-security/src/main/webapp
-			</directory>
-			<outputDirectory></outputDirectory>
-		</fileSet>
-
-		<fileSet>
-			<directory>../modules/micrite-security/src/main/resources
-			</directory>
-			<outputDirectory>WEB-INF/classes</outputDirectory>
-			<excludes>
-				<exclude>hibernate/**</exclude>
-			</excludes>
-		</fileSet>
-
-		<fileSet>
-			<directory>../modules/micrite-crm/src/main/webapp
-			</directory>
-			<outputDirectory></outputDirectory>
-			<includes>
-				<include>crm/**</include>
-			</includes>
-		</fileSet>
-		<fileSet>
-			<directory>../modules/micrite-crm/src/main/resources
-			</directory>
-			<outputDirectory>WEB-INF/classes</outputDirectory>
-			<includes>
-				<include>**/applicationContext*.xml
-				</include>
-				<include>**/struts_xml/*</include>
-			</includes>
-		</fileSet>
-
 		<fileSet>
 			<directory>
 				../modules/micrite-beans/src/main/java/org/gaixie/micrite/beans
 			</directory>
-			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/beans
+			<outputDirectory>src/org/gaixie/micrite/beans
 			</outputDirectory>
 		</fileSet>
 
@@ -100,7 +40,7 @@
 			<directory>
 				../modules/micrite-common/src/main/java/org/gaixie/micrite/commons
 			</directory>
-			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/commons
+			<outputDirectory>src/org/gaixie/micrite/commons
 			</outputDirectory>
 		</fileSet>
 
@@ -109,7 +49,7 @@
 			<directory>
 				../modules/micrite-crm/src/main/java/org/gaixie/micrite/crm
 			</directory>
-			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/crm
+			<outputDirectory>src/org/gaixie/micrite/crm
 			</outputDirectory>
 		</fileSet>
 
@@ -118,10 +58,9 @@
 			<directory>
 				../modules/micrite-security/src/main/java/org/gaixie/micrite/security
 			</directory>
-			<outputDirectory>WEB-INF/classes/org/gaixie/micrite/security
+			<outputDirectory>src/org/gaixie/micrite/security
 			</outputDirectory>
 		</fileSet>
-
-
 	</fileSets>
-</assembly>
+</component>
+

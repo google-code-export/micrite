@@ -70,6 +70,17 @@
 		如: 0.x -> 1.x
 	-->
 	<distributionManagement>
+        <repository>
+            <id>sites-by-maven.gaixie.org</id>
+            <name>Gaixie Maven Release Repository</name>
+            <url>scp://sites-by-maven.gaixie.org/var/www/sites-by-maven/repos/m2-release</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>sites-by-maven.gaixie.org</id>
+            <name>Gaixie Maven Repository (Snapshots and Test Builds)</name>
+            <url>scp://sites-by-maven.gaixie.org/var/www/sites-by-maven/repos/m2-snapshot</url>
+        </snapshotRepository>	        
 		<site>
 			<id>sites-by-maven.gaixie.org</id>
 			<url>scp://sites-by-maven.gaixie.org/var/www/sites-by-maven/micrite/0.x</url>
@@ -170,6 +181,7 @@
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>4.4</version>
+				<scope>test</scope>				
 			</dependency>
 
 			<!-- Spring -->
@@ -212,6 +224,7 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-test</artifactId>
 				<version>${spring.version}</version>
+				<scope>test</scope>					
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -334,6 +347,7 @@
 				<groupId>postgresql</groupId>
 				<artifactId>postgresql</artifactId>
 				<version>8.1-408.jdbc3</version>
+				<scope>provided</scope>				
 			</dependency>
 			<!-- Spring Security -->
 			<dependency>
@@ -470,7 +484,6 @@
 									<exclude>**/struts_xml/**</exclude>
 									<exclude>**/databaseResource-hibernate.xml</exclude>
 									<exclude>**/hibernate.properties</exclude>
-									<exclude>**/dbscripts/**</exclude>
 									<exclude>**/js-lib/**</exclude>
 								</excludes>
 							</configuration>

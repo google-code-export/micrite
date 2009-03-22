@@ -57,6 +57,9 @@
 	</dependencies>
 	<build>
 		<plugins>
+    		<plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>		
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 			</plugin>
@@ -70,7 +73,7 @@
 						<configuration>
 							<tasks>
 								<property name="build.dbscripts"
-									value="${project.build.directory}/classes/dbscripts" />
+									value="${project.build.directory}/dbscripts" />
 								<mkdir dir="${build.dbscripts}" />
 
 								<!--
@@ -159,9 +162,9 @@
 							<autocommit>true</autocommit>
 							<srcFiles>
 								<!--
-									><srcFile>${project.build.directory}/classes/dbscripts/droptables.sql</srcFile>
+									><srcFile>${project.build.directory}/dbscripts/droptables.sql</srcFile>
 								-->
-								<srcFile>${project.build.directory}/classes/dbscripts/${jdbc.database}/createdb.sql</srcFile>
+								<srcFile>${project.build.directory}/dbscripts/${jdbc.database}/createdb.sql</srcFile>
 							</srcFiles>
 							<onError>continue</onError>
 
@@ -179,7 +182,23 @@
 							<skipOnConnectionError>true</skipOnConnectionError>
 						</configuration>
 					</execution>
+					<!--  			
+					<execution>
+						<id>drop-schema</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<autocommit>true</autocommit>
+							<srcFiles>
+								<srcFile>${project.build.directory}/dbscripts/droptables.sql</srcFile>
+							</srcFiles>
+							<onError>continue</onError>
+						</configuration>
+					</execution>
 
+-->		
 				</executions>
 			</plugin>
 
