@@ -21,7 +21,7 @@ mvn -o eclipse:eclipse
 }}}
 
 == Working with multiple modules ==
-The function is invalid now.
+We have no import feature at this time. 
 
 = Firing up Eclipse =
 
