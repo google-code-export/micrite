@@ -1,5 +1,5 @@
 #summary This document describes how to install the Gaixie Micrite software.
-#labels Phase-Deploy
+#labels Phase-Deploy,Featured
 <wiki:toc max_depth="2" />
 =Introduction=
 This document describes how to install the Gaixie Micrite software. <br>
