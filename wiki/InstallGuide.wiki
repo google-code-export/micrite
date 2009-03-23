@@ -11,7 +11,7 @@ First, let's make sure you have everything you need to install and run Micrite.
 Micrite is a database-driven Java web application. To run it you need Java, a Java Servlet container such as Tomcat and a database such as MySQL. More specifically, here's what you need to install and run Micrite:
  * The Java development kit, specifically the Sun Java 2 SE 1.6 JDK. The computer on which you install Micrite should be configure to run with the Java SE 6.
  * A Java aplication server, or more specifically a Servlet container that supports the Servlet 2.4 API. Hereinafter, we'll just call this your server. The Micrite community tends to use and is best able to answer questions about Tomcat 5.5, Tomcat 6.0.
- * A relational database such as MySQL, Apache Derby or PostgreSQL. Micrite includes database creation scripts for Derby, MySQL and PostgreSQL.
+ * A relational database such as MySQL, Apache Derby or PostgreSQL. Micrite includes database creation scripts for Derby, MySQL, PostgreSQL and MsSQL.
 
 =Download and un-package Micrite=
 Download the Gaixie Micrite release file from http://micrite.gaixie.org and use your favorite ZIP program to unzip the release into a directory on your computer's disk.
@@ -19,12 +19,13 @@ Download the Gaixie Micrite release file from http://micrite.gaixie.org and use 
 ==Installation directory layout==
 Once you've unpackaged the files you'll find a directory structure like this:
 {{{
-micrite
-|--README.txt
-|--LICENSE.txt
-|--src
-|--webapp
-     |--micrite
+gaixie-micrite-x.x
+  |--README.txt
+  |--LICENSE.txt
+  |--src
+  |--dbscripts
+  |--webapp
+       |--micrite
 }}}
 
 ==The Micrite War==
@@ -48,11 +49,55 @@ If you're luck enough to have your own database administrator, ask them to setup
  * JDBC connection URL for database
  * JDBC driver class name
 
-If you don't have a database administrator then you'll have to refer to the documentation for your database and do it yourself. You need to create a database for Micrite, protected by username and password. For example, if you're using MySQL you might do something like this:
+If you don't have a database administrator then you'll have to refer to the documentation for your database and do it yourself. You need to create a database for Micrite, protected by username and password. 
+ * For example, if you're using Derby you might do something like this:
+  # To control derby, from project root directory run: 
 {{{
-    % mysql -u root -p
-    password: *****
-    mysql> create database micritedb;
+gaixie-micrite-x.x> java -cp webapp/micrite/WEB-INF/lib/derbytools-10.4.2.0.jar:webapp/micrite/WEB-INF/lib/derby-10.4.2.0.jar -Dderby.ui.codeset=utf8 org.apache.derby.tools.ij
+
+# Windows users need replace “:” (colon) with “;” (semi-colon), like this:
+gaixie-micrite-x.x> java -cp webapp/micrite/WEB-INF/lib/derbytools-10.4.2.0.jar;webapp/micrite/WEB-INF/lib/derby-10.4.2.0.jar -Dderby.ui.codeset=utf8 org.apache.derby.tools.ij
+}}}
+  # Connect Derby ,create database and tables:
+{{{ 
+ij> connect 'jdbc:derby:micrite_db;create=true;user=micrite;password=micrite';
+ij> run 'dbscripts/derby/createdb.sql';
+ij> exit;
+}}}
+  # Now, A directory has been created , check directory structure like this:
+{{{
+gaixie-micrite-x.x
+  |--README.txt
+  |--LICENSE.txt
+  |--src
+  |--dbscripts
+  |--micrite_db
+  |--webapp
+       |--micrite
+}}}
+
+ * MySQL like this:
+{{{
+$ mysql -u root -p
+password: *****
+mysql> create database micrite_db;
+mysql> grant all on micrite_db.* to micrite@'%' identified by 'micrite';
+mysql> use micrite_db;
+mysql> source {project_home}/dbscripts/mysql/createdb.sql
+}}}
+
+ * PostgreSQL like this:
+{{{
+$createdb -h localhost -p 5432 --encoding=utf8 -U postgres micrite_db
+# login database use postgresql admin account
+$ psql -h localhost -p 5432 -U postgres
+postgres>CREATE USER micrite_user WITH PASSWORD 'yourpassowrd';
+postgres>ALTER DATABASE micrite_db OWNER TO micrite_user;
+postgres>\q
+#relogin as micrite_user
+$ psql -h localhost -p 5432 -U micrite_user micrite_db
+# execute script file
+micrite_db>\i {project_home}/dbscripts/postgresql/createdb.sql
 }}}
 
 ==Check your JDBC driver setup==
@@ -63,19 +108,19 @@ Here is how to configure database connection for Micrite.
  # Find your _*WEB-INF/classes/databaseResource-hibernate.xml*_ file and open it in a text editor.
  # Search the beans with ids *dataSource* and change the value field of the following property.
 {{{
-<property name="driverClassName" value="JDBC driver class name />
-<property name="url" value="JDBC connection URL" />
-<property name="username" value="database username" />
-<property name="password" value="database password" />
+<property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+<property name="url" value="jdbc:derby:{ProjectHome}/micrite_db" />
+<property name="username" value="micrite" />
+<property name="password" value="micrite" />
 }}}
  # Find your _*WEB-INF/classes/hibernate.properties*_ file and open it in a text editor.
- # Search "Platforms" text and comment-out your database part,then comment default database. For example, if you're useing PostgreSQL  you might do it like this:
+ # Search "Platforms" text and comment-out your database part,then comment default database. For example, if you're useing Derby  you might do it like this:
 {{{
 ## Derby
-#hibernate.dialect org.hibernate.dialect.DerbyDialect
+hibernate.dialect org.hibernate.dialect.DerbyDialect
 
 ## PostgreSQL
-hibernate.dialect org.hibernate.dialect.PostgreSQLDialect
+#hibernate.dialect org.hibernate.dialect.PostgreSQLDialect
 }}}
 
 =Deploy Micrite=
