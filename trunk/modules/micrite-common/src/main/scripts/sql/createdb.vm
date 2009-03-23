@@ -9,7 +9,7 @@ DON'T RUN THIS, IT'S NOT A DATABASE CREATION SCRIPT!!!
 -- *****************************************************
 -- Create the tables and indices
 
---------------------------------------------------------
+-- ------------------------------------------------------
 -- loginname: 系统的登录用户名
 -- cryptpassword: 系统的登录密码
 -- isenabled: 用户状态 1=有效，0=无效
@@ -23,10 +23,10 @@ CREATE TABLE userbase (
 );
 ALTER TABLE userbase ADD CONSTRAINT userbase_loginname_uq UNIQUE ( loginname );
 
-insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('管理员','admin','e10adc3949ba59abbe56e057f20f883e',1);
-insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('一般用户','user','e10adc3949ba59abbe56e057f20f883e',1);
+insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('管理员','admin','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
+insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('一般用户','user','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
 
---------------------------------------------------------
+-- ------------------------------------------------------
 -- description: 此角色的详细描述
 CREATE TABLE roles (
 	id 					$db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
@@ -48,7 +48,7 @@ insert  into user_role_map(user_id,role_id) values (1,1);
 insert  into user_role_map(user_id,role_id) values (1,2);
 insert  into user_role_map(user_id,role_id) values (2,1);
 
---------------------------------------------------------
+-- ------------------------------------------------------
 -- type: 资源类型，如 URL 表示权限的控制类型为URL
 -- value: 对应于 type的具体的值，如:/** 表示可以访问所有URL
 CREATE TABLE resources (
@@ -69,7 +69,7 @@ ALTER TABLE role_resource_map ADD CONSTRAINT role_resource_map_role_id_uq UNIQUE
 insert  into role_resource_map(role_id,resource_id) values (1,1);
 insert  into role_resource_map(role_id,resource_id) values (2,1);
 
---------------------------------------------------------
+-- ------------------------------------------------------
 -- name: 客户的来源，如 电话咨询
 CREATE TABLE customer_source (
 	id 					$db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
