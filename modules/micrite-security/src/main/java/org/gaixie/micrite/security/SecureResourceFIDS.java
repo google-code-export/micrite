@@ -101,7 +101,6 @@ public class SecureResourceFIDS implements FilterInvocationDefinitionSource, Ini
         Map<String, String> urlAuthorities = this.getUrlAuthorities(filterInvocation);
         
         String grantedAuthorities = null;
-        System.out.println("iter =" + urlAuthorities.entrySet().iterator());
         for(Iterator<Map.Entry<String, String>> iter = urlAuthorities.entrySet().iterator(); iter.hasNext();) {
             Map.Entry<String, String> entry = iter.next();
             String url = entry.getKey();
@@ -146,7 +145,6 @@ public class SecureResourceFIDS implements FilterInvocationDefinitionSource, Ini
     @SuppressWarnings("unchecked")
 	private Map<String, String> getUrlAuthorities(FilterInvocation filterInvocation) {
         ServletContext servletContext = filterInvocation.getHttpRequest().getSession().getServletContext();
-        System.out.println("servletContext =" + servletContext);
         return (Map<String, String>)servletContext.getAttribute("urlAuthorities");
     }
 
