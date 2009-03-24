@@ -166,10 +166,6 @@
 			<artifactId>derbytools</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.derby</groupId>
-			<artifactId>derbyclient</artifactId>
-		</dependency>				
-		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>

@@ -350,12 +350,6 @@
 				<scope>runtime</scope>				
 			</dependency>
 			<dependency>
-				<groupId>org.apache.derby</groupId>
-				<artifactId>derbyclient</artifactId>
-				<version>10.4.2.0</version>
-				<scope>runtime</scope>				
-			</dependency>						
-			<dependency>
 				<groupId>postgresql</groupId>
 				<artifactId>postgresql</artifactId>
 				<version>8.1-408.jdbc3</version>
