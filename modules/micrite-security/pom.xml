@@ -193,6 +193,9 @@
 	<build>
 		<plugins>
 			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
 			<plugin>
@@ -207,9 +210,6 @@
 				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
 
-			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
-			</plugin>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
@@ -278,6 +278,9 @@
 				<includes>
 					<include>databaseResource-hibernate.xml</include>
 					<include>hibernate.properties</include>
+					<include>log4j.properties</include>
+					<include>struts.properties</include>
+					<include>struts.xml</include>
 				</includes>
 			</resource>
 		</resources>

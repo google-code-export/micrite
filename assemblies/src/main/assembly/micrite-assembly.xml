@@ -48,9 +48,11 @@
 			</directory>
 			<outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
 			<includes>
-				<include>databaseResource-hibernate.xml
-				</include>
+				<include>databaseResource-hibernate.xml</include>
 				<include>hibernate.properties</include>
+				<include>log4j.properties</include>
+				<include>struts.properties</include>
+				<include>struts.xml</include>
 			</includes>
 		</fileSet>
 
