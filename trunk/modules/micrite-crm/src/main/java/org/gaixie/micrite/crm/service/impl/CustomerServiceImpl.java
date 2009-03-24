@@ -55,10 +55,8 @@ public class CustomerServiceImpl implements ICustomerService {
 	 * .gaixie.micrite.beans.Customer)
 	 */
 	public void addOrUpdateCustomer(Customer customer, Integer customerSourceId) {
-		System.out.println("customerSourceId =" + customerSourceId);
 		CustomerSource cs = (CustomerSource) customerDao.getEntity(
 				CustomerSource.class, customerSourceId);
-		System.out.println("cs =" + cs);
 		customer.setCustomerSource(cs);
 		if (customer.getId() == null) {
 			customerDao.save(customer);
