@@ -7,9 +7,23 @@
  * Product and feature suggestions
 
 = Where do I start? =
- * Download latest release, run it.
- * Read documents in Wiki.
- * Check out source code from SVN, build it.
- * Discuss Gaixie Micrite with other people in mailing lists.
- * Post bugs and other issues in Issues page.
+ * Download [http://code.google.com/p/micrite/downloads/list latest release], [InstallGuide install and run it].
+ * Read documents in [http://code.google.com/p/micrite/w/list Wiki].
+ * Check out source code from *[http://code.google.com/p/micrite/source/checkout SVN]*, [Building build it].
+ * Discuss Gaixie Micrite with other people in *[http://groups.google.com/group/gaixie-micrite-dev mailing lists]*.
+ * Post bugs and other issues in *[http://code.google.com/p/micrite/issues/list Issues page]*.
  * Fix bug and send patch to us.
+
+----
+== 我们下面的几项工作急需人手 ==
+ * 代码编写与bug fix
+ * 文档编写
+ * 项目功能建议
+
+== 如何开始? ==
+ * 从Downloads页面下载 [http://code.google.com/p/micrite/downloads/list 最新版本], [InstallGuide 安装并运行它].
+ * 阅读在[http://code.google.com/p/micrite/w/list Wiki 页面]里的项目文档.
+ * 从 *[http://code.google.com/p/micrite/source/checkout SVN Check out]* 源代码, [Building 编译它].
+ * 在 *[http://groups.google.com/group/gaixie-micrite-dev 邮件列表]* 中与其他开发者对Micrite的各个方面进行讨论.
+ * 在 *[http://code.google.com/p/micrite/issues/list 问题报告]* 页面提交你发现的Bug，以及你希望的新特性.
+ * 修改bug，生成补丁邮件发送给我们.
