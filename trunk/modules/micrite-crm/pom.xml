@@ -20,19 +20,20 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Micrite.  If not, see <http://www.gnu.org/licenses />.
+ * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.gaixie.micrite</groupId>
 		<artifactId>micrite-modules</artifactId>
-		<version>0.1</version>
+		<version>0.1-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.gaixie.micrite</groupId>
@@ -223,14 +224,17 @@
 							<tasks>
 								<property name="common.resources" value="../micrite-common/src/main" />
 
-								<echo message="***copy common resources from common module for mvn jetty:run***" />
+								<echo
+									message="***copy common resources from common module for mvn jetty:run***" />
 								<copy todir="${project.build.directory}/classes">
 									<fileset dir="../micrite-common/target/classes" />
 								</copy>
 
-								<echo message="***Copy srcipts (included .svn directory) from common module***" />
+								<echo
+									message="***Copy srcipts (included .svn directory) from common module***" />
 								<copy todir="${project.basedir}/src/main/webapp/js-lib">
-									<fileset dir="${common.resources}/scripts/js-lib" defaultexcludes="no" />
+									<fileset dir="${common.resources}/scripts/js-lib"
+										defaultexcludes="no" />
 								</copy>
 
 							</tasks>
