@@ -136,4 +136,6 @@ Once Micrite is deployed, you'll see that it's listed among the other applicatio
 If Micrite doesn't start-up, look for the problem in the logs. You can find them in Tomcat's logs directory. The Tomcat log file is catalina.out.
 
 =Getting started with Micrite=
-Visit http://localhost:8080/micrite
+Visit http://localhost:8080/micrite <br>
+_username:*user*_ <br>
+_password:*123456*_
