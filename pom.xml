@@ -83,7 +83,7 @@
         </snapshotRepository>	        
 		<site>
 			<id>sites-by-maven.gaixie.org</id>
-			<url>scp://sites-by-maven.gaixie.org/var/www/sites-by-maven/micrite/0.x</url>
+			<url>scp://sites-by-maven.gaixie.org/var/www/sites-by-maven/micrite/0.1</url>
 		</site>
 	</distributionManagement>
 
