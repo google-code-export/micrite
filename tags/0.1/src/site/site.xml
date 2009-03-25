@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+/* ===========================================================
+ * $Id$
+ * This file is part of Micrite
+ * ===========================================================
+ *
+ * (C) Copyright 2009, by Gaixie.org and Contributors.
+ * 
+ * Project Info:  http://micrite.gaixie.org/
+ *
+ * Micrite is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Micrite is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+-->  
+
+
+<project name="Gaixie Micrite">
+<!--
+	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-stylus-skin</artifactId>
+		<version>1.1</version>
+	</skin>
+-->	
+    <publishDate position="left"/>
+    <version position="left"/>
+    <bannerLeft>
+        <name>Gaixie.org</name>
+        <src>http://www.gaixie.org/images/gaixie-logo.jpg</src>
+        <href>http://www.gaixie.org/</href>
+    </bannerLeft>
+    <bannerRight>
+        <name>Micrite</name>
+        <src>http://sites-by-maven.gaixie.org/micrite/images/micrite-logo.jpg</src>
+        <href>http://micrite.gaixie.org/</href>
+    </bannerRight>    
+  <body>
+    <links>
+        <item name="Gaixie" href="http://www.gaixie.org/"/>
+        <item name="Micrite" href="http://sites-by-maven.gaixie.org/micrite/stable"/>
+    </links>
+    
+    <menu ref="reports" name="Reports"/> 
+
+    <menu ref="parent" name="Parent"/> 
+       
+    <menu ref="modules" name="Modules"/> 
+    	        
+  </body>
+</project>
