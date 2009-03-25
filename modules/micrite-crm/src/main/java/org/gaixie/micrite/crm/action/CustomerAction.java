@@ -102,7 +102,6 @@ public class CustomerAction extends ActionSupport{
 	public String find() {
 		customers = customerService.findByTelExact(telephone);
 		JSONArray json = JSONArray.fromObject(customers);
-		System.out.println(json);
 		this.inputStream = new ByteArrayInputStream(json.toString().getBytes());
         return SUCCESS;
 	}
@@ -122,7 +121,6 @@ public class CustomerAction extends ActionSupport{
 	public String getPartner(){
 		customerSource = customerService.findALLCustomerSource();
 		JSONArray json = JSONArray.fromObject(customerSource);
-		System.out.println(json);
 		this.inputStream = new ByteArrayInputStream(json.toString().getBytes());
 		return SUCCESS;
 	}
