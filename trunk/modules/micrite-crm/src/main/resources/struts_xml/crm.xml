@@ -3,19 +3,23 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-    <package name="micrite-crm" extends="struts-default" namespace="/crm">
+	<package name="micrite-crm" extends="struts-default" namespace="/crm">
 		<action name="index" class="customerAction" method="index">
 			<result name="success">/crm/customer.jsp</result>
 		</action>
- 		<action name="save" class="customerAction" method="save">
-			<result name="success">/crm/customer.jsp</result>
+		<action name="saveData" class="customerAction" method="save">
+			<result name="success" type="stream"></result>
 		</action>
- 		<action name="find" class="customerAction" method="find">
-			<result name="success">/crm/customer.jsp</result>
+		<action name="find" class="customerAction" method="find">
+			<result name="success" type="stream"></result>
 		</action>
- 		<action name="edit" class="customerAction" method="edit">
-			<result name="success">/crm/customer.jsp</result>
+		<action name="edit" class="customerAction" method="edit">
+			<result name="success" type="stream"></result>
 		</action>
-    </package>
-
+		<action name="getPartner" class="customerAction" method="getPartner">
+			<result name="success" type="stream">
+<!--		    		<param name="contentType">text/html</param>-->
+			</result>
+		</action>
+	</package>
 </struts>

@@ -31,10 +31,21 @@
 <struts>
     <package name="micrite-security" extends="struts-default" namespace="/">
 
-		<action name="index" class="securityAction"
-			method="index">
-			<result name="success">/security/hello.jsp</result>
+		<action name="loginSuccess" class="securityAction"
+			method="loginSuccess">
+			<result name="success" type="stream">
+<!--		    		<param name="contentType">text/html</param>-->
+		    		<param name="inputName">inputStream</param>
+		  </result>
+
 		</action>
+		<action name="loginFailed" class="securityAction"
+			method="loginFaile">
+						<result name="success" type="stream">
+<!--		    		<param name="contentType">text/html</param>-->
+		    		<param name="inputName">inputStream</param>
+		  </result>
+		</action>		
     </package>
 
 </struts>
