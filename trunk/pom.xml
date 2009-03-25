@@ -20,12 +20,11 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Micrite.  If not, see <http://www.gnu.org/licenses />.
  *
  */
 -->  
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -35,7 +34,7 @@
 	<url>http://sites-by-maven.gaixie.org/micrite/0.x</url>
 	<packaging>pom</packaging>
 
-	<version>0.1-SNAPSHOT</version>
+	<version>0.1</version>
 
 	<description>
         Gaixie Micrite, the Java web application base on struts2 and spring.
@@ -47,8 +46,8 @@
 	</organization>
 
 	<scm>
-		<connection>scm:svn:https://micrite.googlecode.com/svn/trunk</connection>
-		<developerConnection>scm:svn:https://micrite.googlecode.com/svn/trunk</developerConnection>
+		<connection>scm:svn:https://micrite.googlecode.com/svn/tags/0.1</connection>
+		<developerConnection>scm:svn:https://micrite.googlecode.com/svn/tags/0.1</developerConnection>
 	</scm>
 
 	<issueManagement>
@@ -380,13 +379,13 @@
 			<dependency>
 				<groupId>org.gaixie.micrite</groupId>
 				<artifactId>micrite-beans</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>0.1</version>
 			</dependency>
 			<!-- 定义了所有公用类-->
 			<dependency>
 				<groupId>org.gaixie.micrite</groupId>
 				<artifactId>micrite-common</artifactId>
-				<version>0.1-SNAPSHOT</version>
+				<version>0.1</version>
 			</dependency>
 
 			<dependency>
