@@ -20,20 +20,19 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Micrite.  If not, see <http://www.gnu.org/licenses />.
  *
  */
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.gaixie.micrite</groupId>
 		<artifactId>micrite-modules</artifactId>
-		<version>0.1-SNAPSHOT</version>
+		<version>0.1</version>
 	</parent>
 
 	<groupId>org.gaixie.micrite</groupId>
@@ -72,8 +71,7 @@
 						<phase>process-resources</phase>
 						<configuration>
 							<tasks>
-								<property name="build.dbscripts"
-									value="${project.build.directory}/dbscripts" />
+								<property name="build.dbscripts" value="${project.build.directory}/dbscripts" />
 								<mkdir dir="${build.dbscripts}" />
 
 								<!--
@@ -91,17 +89,12 @@
 									<pathelement location="${project.basedir}/src/main/scripts/sql/" />
 									<pathelement location="${project.basedir}/src/main/scripts/sql/database" />
 								</path>
-								<taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask"
-									classpathref="texen.path" />
+								<taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask" classpathref="texen.path" />
 
-								<texen controlTemplate="control.vm"
-									contextProperties="${project.basedir}/src/main/scripts/sql/dbscripts.properties"
-									useClasspath="true" inputEncoding="UTF-8" outputEncoding="UTF-8"
-									outputDirectory="${build.dbscripts}" outputFile="README.txt" />
+								<texen controlTemplate="control.vm" contextProperties="${project.basedir}/src/main/scripts/sql/dbscripts.properties" useClasspath="true" inputEncoding="UTF-8" outputEncoding="UTF-8" outputDirectory="${build.dbscripts}" outputFile="README.txt" />
 
 								<!-- just copy over the droptables script -->
-								<copy todir="${build.dbscripts}"
-									file="${project.basedir}/src/main/scripts/sql/droptables.sql" />
+								<copy todir="${build.dbscripts}" file="${project.basedir}/src/main/scripts/sql/droptables.sql" />
 							</tasks>
 						</configuration>
 						<goals>
