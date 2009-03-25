@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,6 @@ public class CustomerActionTest {
 	@Test
 	public void testIndex() {
 		String result = customerAction.index();
-		List<CustomerSource> customerSources = customerAction.getCustomerSource();
-		assertNotNull(customerSources);
 		assertTrue(ActionSupport.SUCCESS.equals(result));
 	}
 
@@ -34,11 +31,11 @@ public class CustomerActionTest {
 	public void testSave() {
 		//	准备数据
 		Customer customer = new Customer();
-		customer.setName("customerName1");
-		customer.setTelephone("customerTel1");
+		customer.setName("customerNameTest");
+		customer.setTelephone("customerTelTest");
 		customerAction.setCustomer(customer);
 		//	找到一个customerSourceId
-		customerAction.index();
+		customerAction.getPartner();
 		int customerSourceId = customerAction.getCustomerSource().get(0).getId();
 		customerAction.setCustomerSourceId(customerSourceId);
 		String result = customerAction.save();
@@ -55,9 +52,11 @@ public class CustomerActionTest {
 	}
 
 	@Test
-	public void testEdit() {
-		customerAction.setCustomerId(1);
-		String result = customerAction.edit();
+	public void testGetPartner() {
+		String result = customerAction.getPartner();
+		List<CustomerSource> customerSources = customerAction.getCustomerSource();
+		assertNotNull(customerSources);
 		assertTrue(ActionSupport.SUCCESS.equals(result));
 	}
+
 }
