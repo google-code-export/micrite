@@ -29,8 +29,6 @@ public class CustomerActionUnitTest {
 		String result = customerAction.index();
 		int customerNum = customerAction.getCustomerNum();
 		assertTrue(customerServiceMock.getCustomers().size() == customerNum);
-		List<CustomerSource> customerSources = customerAction.getCustomerSource();
-		assertTrue(customerServiceMock.getCustomerSources().size() == customerSources.size());
 		assertTrue(ActionSupport.SUCCESS.equals(result));
 	}
 
@@ -55,8 +53,6 @@ public class CustomerActionUnitTest {
 		assertNotNull(customerSource);
 		assertTrue(customerSource.getId() == customerSourceId);
         assertTrue(ActionSupport.SUCCESS.equals(result));
-        //	测试save更新功能
-        //	TODO
 	}
 
 	@Test
@@ -77,17 +73,11 @@ public class CustomerActionUnitTest {
 	}
 
 	@Test
-	public void testEdit() {
-		//	准备数据
-		//	找到一个customer的id
-		int customerId = customerServiceMock.getCustomers().get(0).getId();
-		customerAction.setCustomerId(customerId);
+	public void testGetPartner() {
 		//	调用待测试方法
-		String result = customerAction.edit();
-		Customer customer = customerAction.getCustomer();
-		assertTrue(customer.getId() == customerId);
-		int customerSourceId = customerAction.getCustomerSourceId();
-		assertTrue(customer.getCustomerSource().getId() == customerSourceId);
+		String result = customerAction.getPartner();
+		List<CustomerSource> customerSources = customerAction.getCustomerSource();
+		assertNotNull(customerSources);
 		assertTrue(ActionSupport.SUCCESS.equals(result));
 	}
 }
