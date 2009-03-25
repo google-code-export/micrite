@@ -46,8 +46,8 @@
 		<jdbc.database>derby</jdbc.database>
 		<jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc.driver>
 		<jdbc.url>jdbc:derby:${project.build.directory}/micrite_db;create=true</jdbc.url>
-		<jdbc.username>derby</jdbc.username>
-		<jdbc.password>derby</jdbc.password>
+		<jdbc.username>micrite</jdbc.username>
+		<jdbc.password>micrite</jdbc.password>
 	</properties>
 	<dependencies>
 		<dependency>

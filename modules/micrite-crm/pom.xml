@@ -135,7 +135,12 @@
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-spring-plugin</artifactId>
 		</dependency>
-
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+			<classifier>jdk15</classifier>             
+		</dependency>  
+		
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
