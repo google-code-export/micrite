@@ -63,7 +63,7 @@
 </head>
 <body>
 <div id="north">
-<p>Hi!Micrite!</p>
+<p></p>
 </div>
 <div id="center1">joker</div>
 <div id="favo">
