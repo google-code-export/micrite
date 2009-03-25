@@ -1,0 +1,15 @@
+#summary Get Involved in Gaixie Micrite.
+#labels Phase-Implementation
+
+= What we are looking for? =
+ * Source code and fixes contributions
+ * Documentation assistance
+ * Product and feature suggestions
+
+= Where do I start? =
+ * Download latest release, run it.
+ * Read documents in Wiki.
+ * Check out source code from SVN, build it.
+ * Discuss Gaixie Micrite with other people in mailing lists.
+ * Post bugs and other issues in Issues page.
+ * Fix bug and send patch to us.
