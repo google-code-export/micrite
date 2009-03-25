@@ -34,7 +34,7 @@
 	<url>http://sites-by-maven.gaixie.org/micrite/0.x</url>
 	<packaging>pom</packaging>
 
-	<version>0.1</version>
+	<version>0.4-SNAPSHOT</version>
 
 	<description>
         Gaixie Micrite, the Java web application base on struts2 and spring.
@@ -46,8 +46,8 @@
 	</organization>
 
 	<scm>
-		<connection>scm:svn:https://micrite.googlecode.com/svn/tags/0.1</connection>
-		<developerConnection>scm:svn:https://micrite.googlecode.com/svn/tags/0.1</developerConnection>
+		<connection>scm:svn:https://micrite.googlecode.com/svn/trunk</connection>
+		<developerConnection>scm:svn:https://micrite.googlecode.com/svn/trunk</developerConnection>
 	</scm>
 
 	<issueManagement>
@@ -379,13 +379,13 @@
 			<dependency>
 				<groupId>org.gaixie.micrite</groupId>
 				<artifactId>micrite-beans</artifactId>
-				<version>0.1</version>
+				<version>0.4-SNAPSHOT</version>
 			</dependency>
 			<!-- 定义了所有公用类-->
 			<dependency>
 				<groupId>org.gaixie.micrite</groupId>
 				<artifactId>micrite-common</artifactId>
-				<version>0.1</version>
+				<version>0.4-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
