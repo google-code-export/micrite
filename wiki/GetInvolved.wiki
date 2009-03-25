@@ -7,7 +7,7 @@
  * Product and feature suggestions
 
 = Where do I start? =
- * Download *[http://code.google.com/p/micrite/downloads/list latest release], [InstallGuide install and run it]*.
+ * Download *[http://code.google.com/p/micrite/downloads/list latest release]*, [InstallGuide install and run it].
  * Read documents in *[http://code.google.com/p/micrite/w/list Wiki]*.
  * Check out source code from *[http://code.google.com/p/micrite/source/checkout SVN]*, [Building build it].
  * Discuss Gaixie Micrite with other people in *[http://groups.google.com/group/gaixie-micrite-dev mailing lists]*.
