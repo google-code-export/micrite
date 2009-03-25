@@ -35,7 +35,7 @@
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
     <bean id="securityAction" class="org.gaixie.micrite.security.action.UserAction">
-        <constructor-arg ref="securityService" />
+        <property name="userService" ref="securityService" />
     </bean>
     
 	<bean id="securityService" class="org.gaixie.micrite.security.service.impl.UserServiceImpl" >

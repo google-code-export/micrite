@@ -24,7 +24,15 @@
 
 package org.gaixie.micrite.crm.action;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.StringBufferInputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
@@ -40,10 +48,17 @@ import com.opensymphony.xwork2.ActionSupport;
 public class CustomerAction extends ActionSupport{ 
 	
 	private ICustomerService customerService;
+	private InputStream inputStream;
 	//输出到页面的数据
 	private int customerNum = 0;
 	private List<Customer> customers;
 	private List<CustomerSource> customerSource;
+	public InputStream getInputStream() {
+		return inputStream;
+	}
+	public void setInputStream(InputStream inputStream) {
+		this.inputStream = inputStream;
+	}
 	//获取的页面参数
 	private Integer customerId;
 	private Customer customer;
@@ -64,7 +79,7 @@ public class CustomerAction extends ActionSupport{
 	 */
 	public String index() {
 		customerNum = customerService.getCustomerNum();
-		customerSource = customerService.findALLCustomerSource();
+		
         return SUCCESS;
 	}
 	/**
@@ -72,9 +87,13 @@ public class CustomerAction extends ActionSupport{
 	 * @return "success"
 	 */
 	public String save() {
+		customer.setId(null);
 		customerService.addOrUpdateCustomer(customer, customerSourceId);
-		customer = null;
-        return index();
+		Map map = new HashMap();  
+		map.put( "success", true );  
+		JSONObject json = JSONObject.fromObject(map); 
+		this.inputStream = new ByteArrayInputStream(json.toString().getBytes());
+        return SUCCESS;
 	}
 	/**
 	 * 查找客户信息
@@ -82,16 +101,30 @@ public class CustomerAction extends ActionSupport{
 	 */
 	public String find() {
 		customers = customerService.findByTelExact(telephone);
-        return index();
+		JSONArray json = JSONArray.fromObject(customers);
+		System.out.println(json);
+		this.inputStream = new ByteArrayInputStream(json.toString().getBytes());
+        return SUCCESS;
 	}
 	/**
 	 * 获取修改的客户信息
 	 * @return "success"
 	 */
 	public String edit() {
-		customer = customerService.findByIdExact(customerId);
-		customerSourceId = customer.getCustomerSource().getId();
-        return index();
+		customerService.addOrUpdateCustomer(customer, customerSourceId);
+		Map map = new HashMap();  
+		map.put( "success", true );  
+		JSONObject json = JSONObject.fromObject(map); 
+		this.inputStream = new ByteArrayInputStream(json.toString().getBytes());
+        return SUCCESS;
+	}
+	
+	public String getPartner(){
+		customerSource = customerService.findALLCustomerSource();
+		JSONArray json = JSONArray.fromObject(customerSource);
+		System.out.println(json);
+		this.inputStream = new ByteArrayInputStream(json.toString().getBytes());
+		return SUCCESS;
 	}
 	
 	/**********************getting setting method**************************/

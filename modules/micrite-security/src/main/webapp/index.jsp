@@ -26,4 +26,5 @@
 
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
-<s:action name="index" namespace="/" executeResult="true" />
+<!--<s:action name="loginFailed.action" namespace="/" executeResult="true" />-->
+<meta http-equiv="refresh" content="0;url=security/login.jsp" />
