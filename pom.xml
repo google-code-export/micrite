@@ -406,6 +406,7 @@
 			</activation>
 
 			<modules>
+				<module>plugins</module>			
 				<module>modules</module>
 				<!-- <module>testsuite</module> -->
 				<module>assemblies</module>
