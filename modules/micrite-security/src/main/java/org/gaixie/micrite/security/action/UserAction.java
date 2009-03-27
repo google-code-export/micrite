@@ -101,7 +101,6 @@ public class UserAction extends ActionSupport implements SessionAware{
 
 		JSONObject jsonObject = JSONObject.fromObject(map); 
 		this.inputStream = new StringBufferInputStream(jsonObject.toString());
-		System.out.println( jsonObject );  
 		return SUCCESS;
     }    
 
@@ -113,7 +112,6 @@ public class UserAction extends ActionSupport implements SessionAware{
 		map.put( "errorMsg", errorMsg ); 
 		JSONObject jsonObject = JSONObject.fromObject(map); 
 		this.inputStream = new StringBufferInputStream(jsonObject.toString());
-		System.out.println( jsonObject );  
 		return SUCCESS;
 	}
 	public InputStream getInputStream() {
