@@ -35,6 +35,7 @@ public class CustomerActionUnitTest {
 	@Test
 	public void testSave() {
 		//	测试save新增功能
+		int customerCountBeforeSave = customerServiceMock.getCustomers().size();
 		//	准备数据
 		Customer customer = new Customer();
 		customer.setName("customerName1");
@@ -43,15 +44,12 @@ public class CustomerActionUnitTest {
 		//	找到一个customerSource的id
 		int customerSourceId = customerServiceMock.getCustomerSources().get(0).getId();
 		customerAction.setCustomerSourceId(customerSourceId);
-		
-		int customerCountBeforeSave = customerServiceMock.getCustomers().size();
 		//	调用待测试方法
 		String result = customerAction.save();
 		int customerCountAfterSave = customerServiceMock.getCustomers().size();
 		assertTrue(customerCountAfterSave - customerCountBeforeSave == 1);
-		CustomerSource customerSource = customer.getCustomerSource();
-		assertNotNull(customerSource);
-		assertTrue(customerSource.getId() == customerSourceId);
+		assertNotNull(customer.getId());
+		assertTrue(customer.getCustomerSource().getId() == customerSourceId);
         assertTrue(ActionSupport.SUCCESS.equals(result));
 	}
 
@@ -63,7 +61,6 @@ public class CustomerActionUnitTest {
 		//	调用待测试方法
 		String result = customerAction.find();
 		List<Customer> customers = customerAction.getCustomers();
-		assertNotNull(customers);
 		assertTrue(customers.size() > 0);
 		for (Customer customer:customers)
 		{
@@ -74,10 +71,16 @@ public class CustomerActionUnitTest {
 
 	@Test
 	public void testGetPartner() {
+		List<CustomerSource> customerSourcesWanted = customerServiceMock.getCustomerSources();
 		//	调用待测试方法
 		String result = customerAction.getPartner();
 		List<CustomerSource> customerSources = customerAction.getCustomerSource();
-		assertNotNull(customerSources);
+		assertTrue(customerSources.size() > 0);
+		for (int i = 0;i < customerSources.size();i++)
+		{
+			assertEquals(customerSourcesWanted.get(i).getId(), customerSources.get(i).getId());
+			assertEquals(customerSourcesWanted.get(i).getName(), customerSources.get(i).getName());
+		}
 		assertTrue(ActionSupport.SUCCESS.equals(result));
 	}
 }
