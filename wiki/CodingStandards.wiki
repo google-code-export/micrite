@@ -1,0 +1,18 @@
+#summary This page describes the standards used for Micrite code (java, xml, whatever). Code is read by a human being more often than it is actually written by a human being, make the code a pleasure to read.
+#labels Phase-Implementation
+
+= Introduction =
+This page describes the standards used for Micrite code (java, xml, whatever). Code is read by a human being more often than it is actually written by a human being, make the code a pleasure to read.
+
+In addition, check the wiki for details on [DevelopinInEclipse] and [SubversionClientConfiguration].
+
+= Indentation =
+== Java ==
+== XML ==
+== Javascripts ==
+= Interfaces =
+= Exceptions =
+= Package Naming =
+= JavaDoc =
+= Unit Test Cases =
+= Logging =
