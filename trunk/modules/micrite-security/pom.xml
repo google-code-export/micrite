@@ -138,7 +138,11 @@
             <groupId>net.sf.json-lib</groupId>
             <artifactId>json-lib</artifactId>
 			<classifier>jdk15</classifier>               
-		</dependency>                
+		</dependency> 
+        <dependency>
+            <groupId>org.gaixie.micrite</groupId>
+            <artifactId>struts2-json-plugin</artifactId>
+		</dependency>		               
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>

@@ -260,6 +260,12 @@
 				<classifier>jdk15</classifier>                  
             </dependency>
 
+	        <dependency>
+	            <groupId>org.gaixie.micrite</groupId>
+	            <artifactId>struts2-json-plugin</artifactId>
+				<version>0.4-SNAPSHOT</version>	            
+			</dependency> 
+		
 			<dependency>
 				<groupId>org.aspectj</groupId>
 				<artifactId>aspectjweaver</artifactId>
