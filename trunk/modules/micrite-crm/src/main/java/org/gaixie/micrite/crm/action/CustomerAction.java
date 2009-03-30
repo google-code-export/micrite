@@ -35,13 +35,17 @@ import org.gaixie.micrite.crm.service.ICustomerService;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * 客户管理
- * @author Maven Yu
- * @see com.opensymphony.xwork2.ActionSupport
+ * CustomerAction用来响应用户对Customer基本信息维护时的操作，并调用相关的Service。
+ * <p>
+ * 通过调用相关的Service类，完成对Customer基本信息的增加，删除，修改，查询。
+ * @see org.gaixie.micrite.crm.service.ICustomerService
  */
 public class CustomerAction extends ActionSupport{ 
 	
 	private ICustomerService customerService;
+
+    //以Map格式存放操作的结果，然后由struts2-json插件转换为json对象
+
 	private Map<String,String> result = new HashMap<String,String>();
 
 	//输出到页面的数据

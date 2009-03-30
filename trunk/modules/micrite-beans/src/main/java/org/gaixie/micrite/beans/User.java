@@ -50,8 +50,7 @@ import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UserDetails;
 
 /**
- * @author Maven.yu
- *
+ * 映射 userbase 表.
  */
 @Entity
 @Table(name = "userbase")

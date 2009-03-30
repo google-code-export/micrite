@@ -30,7 +30,6 @@ import org.gaixie.micrite.beans.User;
 
 /**
  * 用户管理持久化接口
- * @author Maven Yu
  *
  */
 public interface IUserDao {

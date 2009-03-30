@@ -25,4 +25,5 @@
 --%>
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
-<s:action name="index" namespace="/crm" executeResult="true" />
+<p>在使用独立运行模式时，如果要访问下列模块，请先将对应的js文件中的renderTo: bd注释打开</p>
+<a href="crm/customer.jsp">customer</a>

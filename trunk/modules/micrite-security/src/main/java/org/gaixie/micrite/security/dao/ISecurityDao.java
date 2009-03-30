@@ -31,7 +31,6 @@ import org.gaixie.micrite.beans.User;
 
 /**
  * 安全管理持久化管理
- * @author Maven Yu
  *
  */
 public interface ISecurityDao {

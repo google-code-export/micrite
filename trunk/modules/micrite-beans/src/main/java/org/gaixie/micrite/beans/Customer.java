@@ -37,8 +37,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * @author Maven.yu
- *
+ * 映射 customers 表.
  */
 @Entity
 @Table(name = "customers")

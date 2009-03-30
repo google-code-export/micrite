@@ -10,7 +10,6 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
  * 使用hibernate实现持久化数据操作
- * @author Maven.yu
  * @see org.gaixie.micrite.crm.dao.IAbstractDao
  * @see org.springframework.orm.hibernate3.support.HibernateDaoSupport
  */

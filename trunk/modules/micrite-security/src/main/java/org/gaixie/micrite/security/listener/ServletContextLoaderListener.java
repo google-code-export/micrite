@@ -22,7 +22,7 @@
  *
  */
 
-package org.gaixie.micrite.security;
+package org.gaixie.micrite.security.listener;
 
 import java.util.Map;
 
@@ -35,7 +35,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  * 此类用来在系统启动时加载所有角色的访问资源，将角色资源信息存储到ServletContext中
- * @author Maven Yu
  * @see javax.servlet.ServletContextListener
  */
 public class ServletContextLoaderListener implements ServletContextListener{

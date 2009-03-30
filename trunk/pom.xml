@@ -393,6 +393,12 @@
 				<artifactId>micrite-common</artifactId>
 				<version>0.4-SNAPSHOT</version>
 			</dependency>
+			<!-- 定义了所有核心类-->
+			<dependency>
+				<groupId>org.gaixie.micrite</groupId>
+				<artifactId>micrite-core</artifactId>
+				<version>0.4-SNAPSHOT</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.apache.velocity</groupId>
