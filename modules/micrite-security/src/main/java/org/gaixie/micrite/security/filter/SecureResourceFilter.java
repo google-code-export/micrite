@@ -22,7 +22,7 @@
  *
  */
 
-package org.gaixie.micrite.security;
+package org.gaixie.micrite.security.filter;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -41,10 +41,9 @@ import org.springframework.security.util.UrlMatcher;
 
 /**
  * 资源安全控制，负责校验用户访问的资源是否合法
- * @author Maven Yu
  * @see org.springframework.security.intercept.web.FilterInvocationDefinitionSource
  */
-public class SecureResourceFIDS implements FilterInvocationDefinitionSource, InitializingBean {
+public class SecureResourceFilter implements FilterInvocationDefinitionSource, InitializingBean {
     
     private UrlMatcher urlMatcher;
 

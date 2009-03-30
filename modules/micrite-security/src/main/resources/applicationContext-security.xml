@@ -67,5 +67,5 @@
 	    <custom-filter after="LAST" />
 	</beans:bean>
 	
-	<beans:bean id="secureResourceFilterInvocationDefinitionSource" class="org.gaixie.micrite.security.SecureResourceFIDS" />
+	<beans:bean id="secureResourceFilterInvocationDefinitionSource" class="org.gaixie.micrite.security.filter.SecureResourceFilter" />
 </beans:beans>

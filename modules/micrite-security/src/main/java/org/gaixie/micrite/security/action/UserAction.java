@@ -46,7 +46,6 @@ import com.opensymphony.xwork2.ActionSupport;
  
 /**
  * 登录用户管理
- * @author Maven Yu
  * @see com.opensymphony.xwork2.ActionSupport
  * @see org.apache.struts2.interceptor.SessionAware
  */

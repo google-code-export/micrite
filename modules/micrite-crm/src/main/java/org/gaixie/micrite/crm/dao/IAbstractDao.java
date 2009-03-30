@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * 持久化数据操作接口
- * @author Maven.yu
  */
 public interface IAbstractDao {
 	/**

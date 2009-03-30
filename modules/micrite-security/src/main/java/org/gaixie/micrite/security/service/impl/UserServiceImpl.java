@@ -33,7 +33,6 @@ import org.gaixie.micrite.security.service.IUserService;
 
 /**
  * 用户业务实现
- * @author Maven Yu
  * @see org.gaixie.micrite.security.service.IUserService
  */
 public class UserServiceImpl implements IUserService {

@@ -29,7 +29,6 @@ import java.util.Map;
 
 /**
  * 安全模型
- * @author Maven Yu
  */
 public interface ISecurityService {
 	    

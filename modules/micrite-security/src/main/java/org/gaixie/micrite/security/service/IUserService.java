@@ -28,7 +28,6 @@ import org.gaixie.micrite.beans.User;
 
 /**
  * 用户业务模型
- * @author Maven Yu
  *
  */
 public interface IUserService {

@@ -31,7 +31,6 @@ import org.gaixie.micrite.beans.CustomerSource;
 
 /**
  * 客户管理服务接口，封装客户服务业务模型
- * @author Maven Yu
  */
 public interface ICustomerService {
 	/**

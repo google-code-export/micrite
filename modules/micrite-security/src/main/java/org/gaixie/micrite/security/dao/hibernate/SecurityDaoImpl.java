@@ -33,7 +33,6 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
  * 安全管理持久化实现，基于hibernate
- * @author Maven Yu
  *
  */
 public class SecurityDaoImpl extends HibernateDaoSupport implements ISecurityDao {

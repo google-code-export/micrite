@@ -33,7 +33,6 @@ import org.gaixie.micrite.crm.service.ICustomerService;
 
 /**
  * 客户管理功能实现
- * @author Maven Yu
  * @see org.gaixie.micrite.crm.service.ICustomerService
  */
 public class CustomerServiceImpl implements ICustomerService {

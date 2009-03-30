@@ -34,7 +34,6 @@ import org.springframework.jmx.export.annotation.ManagedResource;
  
 /**
  * 用户管理持久化实现，基于hibernate
- * @author Maven Yu
  *
  */
 @ManagedResource(objectName="micrite:type=dao,name=UserDaoImpl", description="Micrite UserDaoImpl Bean")
