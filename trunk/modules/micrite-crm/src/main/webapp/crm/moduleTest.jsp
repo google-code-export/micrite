@@ -23,7 +23,20 @@
  *
  */
 --%>
-
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
-<s:action name="index" executeResult="true" />
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Welcome to Micrite!</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../js-lib/ext-js/resources/css/ext-all.css">
+    <script type="text/javascript" src="../js-lib/ext-js/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../js-lib/ext-js/ext-all-debug.js"></script>
+</head>
+<body>
+<%if(request.getParameter("moduleName").equals("customerList")){%>
+<%@ include file="customerList.jsp"%>
+<%}%>
+</body>
+</html>
