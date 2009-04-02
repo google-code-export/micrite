@@ -40,91 +40,104 @@
 }
 </style>
 <script type="text/javascript">
-Ext.onReady( function() {
-	Ext.QuickTips.init();
+Ext.SSL_SECURE_URL = "resources/images/default/s.gif";
+Ext.BLANK_IMAGE_URL = "resources/images/default/s.gif";
 
-	// Create a variable to hold our EXT Form Panel. 
-		// Assign various config options as seen.	 
-		var login = new Ext.FormPanel(
-				{
-					labelWidth :90,
-					url :'${pageContext.request.contextPath}/j_spring_security_check',
-					frame :true,
-					title :'Please Login',
-					defaultType :'textfield',
-					monitorValid :true,
-					// Specific attributes for the text fields for username / password. 
-					// The "name" attribute defines the name of variables sent to the server.
-					items : [ {
-						fieldLabel :'Username',
-						name :'j_username',
-						labelStyle :'text-align:right',
-						allowBlank :false
-					}, {
-						fieldLabel :'Password',
-						name :'j_password',
-						inputType :'password',
-						labelStyle :'text-align:right',
-						allowBlank :false
-					}, {
-
-						name :'_spring_security_remember_me',
-						inputType :'checkbox',
-						fieldLabel :'Remember me',
-						labelStyle :'padding-right:70px; float: right;',
-						ctCls :'micrite',
-						labelSeparator :'',
-						allowBlank :true
-					} ],
-
-					// All the magic happens after the user clicks the button     
-					buttons : [ {
-						text :'登录',
-						formBind :true,
-						// Function that fires when user clicks the button 
-						handler : function() {
-							login
-									.getForm()
-									.submit(
-											{
-												method :'POST',
-												waitTitle :'Connecting',
-												waitMsg :'Sending data...',
-												success : function() {
-													window.location = 'main.jsp';
-												},
-
-												failure : function(form,action) {
-													if (action.response.status == 200) {
-														obj = Ext.util.JSON.decode(action.response.responseText);
-														Ext.Msg.alert('登录失败!',obj.errorMsg.reason);
-													} else {
-														Ext.Msg.alert('警报!','服务器故障 : '
-																+ action.response.responseText);
-													}
-													login.getForm().reset();
-												}
-											});
-						}
-					} ]
-				});
-
-		// This just creates a window to wrap the login form. 
-		// The login object is passed to the items collection.       
-		var win = new Ext.Window( {
-			layout :'fit',
-			width :300,
-			height :160,
-			closable :false,
-			resizable :false,
-			plain :true,
-			border :false,
-			items : [ login ]
+LoginWindow = function(config) {
+	this.width = 400;
+	this.height = 260;
+	this.closable = false;
+	this.title = "Micrite Login";
+	this.bbar = [
+			'->',
+			{
+				text :'<a href="http://micrite.gaixie.org" target="_blank">micrite.gaixie.org</a>',
+				xtype :'tbtext'
+			} ];
+	Ext.apply(this, config);
+	LoginWindow.superclass.constructor.call(this);
+}
+Ext.extend(LoginWindow, Ext.Window, {
+	onActionComplete : function(f, a) {
+		window.location = 'main.jsp';
+	},
+	onActionFailed : function(f, a) {
+		obj = Ext.util.JSON.decode(a.response.responseText);
+		Ext.Msg.alert('登录失败!', obj.errorMsg.reason);
+	},
+	initComponent : function() {
+		this.submitUrl = "../j_spring_security_check";
+		this.loginPanel = new Ext.form.FormPanel( {
+			frame :true,
+			region :'center',
+			id :'loginpanel',
+			bodyStyle :'padding:10px',
+			buttons : [ {
+				text :'Submit',
+				handler :onSubmit
+			}, {
+				text :'Cancel',
+				handler :Ext.emptyFn
+			} ],
+			items : {
+				layout :'form',
+				labelWidth :100,
+				layoutConfig : {
+					labelSeparator :''
+				},
+				items : [ {
+					fieldLabel :'Username',
+					labelStyle :'text-align:right',
+					name :'j_username',
+					xtype :'textfield',
+					anchor :'80%'
+				}, {
+					fieldLabel :'Password',
+					labelStyle :'text-align:right',
+					xtype :'textfield',
+					inputType :'password',
+					name :'j_password',
+					anchor :'80%'
+				} ]
+			},
+			listeners : {
+				'actioncomplete' : {
+					fn :this.onActionComplete,
+					scope :this
+				},
+				'actionfailed' : {
+					fn :this.onActionFailed,
+					scope :this
+				}
+			},
+			url :this.submitUrl
 		});
-		win.show();
-	});
+		var form = this.loginPanel.getForm();
+		function onSubmit() {
+			form.submit( {
+				reset :true
+			});
+		}
+		;
+
+		this.layout = "border";
+		this.border = false;
+		this.items = [ {
+			xtype :'panel',
+			contentEl :'logo',
+			region :'north',
+			height :100
+		}, this.loginPanel ];
+		LoginWindow.superclass.initComponent.call(this);
+	}
+});
+Ext.onReady( function() {
+	var loginwindow = new LoginWindow();
+	loginwindow.show();
+});
 </script>
 </head>
 <body>
-
+<div id="logo"><img src="images/framework/login.jpg" /></div>
+</body>
 </html>
