@@ -3,7 +3,7 @@ NavPanel = function() {
     NavPanel.superclass.constructor.call(this, {
         id:'module-tree',
         region:'west',
-        title:'Modules',
+        title:'Navigator',
         split:true,
         width: 225,
         minSize: 175,
@@ -18,42 +18,54 @@ NavPanel = function() {
         collapseFirst:false,
 
         tbar: [{
-            iconCls:'add-feed',
-            text:'Add Module',
-            handler: this.showWindow,
+            iconCls:'icon-expand-all',
+            text:'Expand All',
+            handler: function(){this.root.expand(true); },
             scope: this
-        },{
-            id:'delete',
-            iconCls:'delete-icon',
-            text:'Remove',
-            handler: function(){
-                var s = this.getSelectionModel().getSelectedNode();
-                if(s){
-                    this.removeFeed(s.attributes.url);
-                }
-            },
+       },{
+            iconCls:'icon-collapse-all',
+            text:'Collapse All',
+            handler: function(){this.root.collapse(true); },
             scope: this
         }]
     });
 
     // 增加根节点，实际是模块的一个分组节点
-    this.feeds = this.root.appendChild(
+    this.favoritesRoot = this.root.appendChild(
         new Ext.tree.TreeNode({
+        	id:'favoritesRoot',
             text:'My Favorites',
-            cls:'feeds-node',
+            cls:'modules-node',
             expanded:true
         })
     );
-    // add some default feeds
-    this.addFeed({
+    this.allModulesRoot = this.root.appendChild(
+            new Ext.tree.TreeNode({
+            	id:'allModulesRoot',
+                text:'All Modules',
+                cls:'modules-node',
+                expanded:false
+            })
+        );
+    
+    // allModuleRoot 父节点id
+    // 01            设定当前节点的id
+    // false         不是叶子节点
+    // false         不是favorite的节点
+    this.initModule({
+        url:'crm',
+        text: 'CRM Modules'
+    }, 'allModulesRoot','01',false,false);
+    
+    this.initModule({
         url:'../crm/customerList.jsp',
         text: 'Customer List'
-    }, true);
+    }, '01','01.001',true,true);
 
-    this.addFeed({
+    this.initModule({
         url:'../crm/customerDetail.jsp',
         text: 'Customer Detail'
-    }, true);
+    }, '01','01.002',true,true);
 
     // 选择节点前先判断是否叶子节点
     this.getSelectionModel().on({
@@ -63,119 +75,44 @@ NavPanel = function() {
         scope:this
     });
 
-    //this.addEvents({moduleselect:true});
-
-    this.on('contextmenu', this.onContextMenu, this);
 }
 // 指明NavPanel的父类
 Ext.extend(NavPanel, Ext.tree.TreePanel, {
 
-    onContextMenu : function(node, e){
-        if(!this.menu){ // create context menu on first right click
-            this.menu = new Ext.menu.Menu({
-                id:'feeds-ctx',
-                items: [{
-                    id:'load',
-                    iconCls:'load-icon',
-                    text:'Load Module',
-                    scope: this,
-                    handler:function(){
-                        this.ctxNode.select();
-                    }
-                },{
-                    text:'Remove',
-                    iconCls:'delete-icon',
-                    scope: this,
-                    handler:function(){
-                        this.ctxNode.ui.removeClass('x-node-ctx');
-                        this.removeFeed(this.ctxNode.attributes.url);
-                        this.ctxNode = null;
-                    }
-                },'-',{
-                    iconCls:'add-feed',
-                    text:'Add Module',
-                    handler: this.showWindow,
-                    scope: this
-                }]
-            });
-            this.menu.on('hide', this.onContextHide, this);
-        }
-        if(this.ctxNode){
-            this.ctxNode.ui.removeClass('x-node-ctx');
-            this.ctxNode = null;
-        }
-        if(node.isLeaf()){
-            this.ctxNode = node;
-            this.ctxNode.ui.addClass('x-node-ctx');
-            this.menu.items.get('load').setDisabled(node.isSelected());
-            this.menu.showAt(e.getXY());
-        }
-    },
-
-    onContextHide : function(){
-        if(this.ctxNode){
-            this.ctxNode.ui.removeClass('x-node-ctx');
-            this.ctxNode = null;
-        }
-    },
-
-    showWindow : function(btn){
-        if(!this.win){
-            this.win = new FeedWindow();
-            this.win.on('validfeed', this.addFeed, this);
-        }
-        this.win.show(btn);
-    },
-
-    selectFeed: function(url){
-    	alert(url);
-        this.getNodeById(url).select();
-    },
-
-    removeFeed: function(url){
-        var node = this.getNodeById(url);
-        if(node){
-            node.unselect();
-            Ext.fly(node.ui.elNode).ghost('l', {
-                callback: node.remove, scope: node, duration: .4
-            });
-        }
-    },
-
-    addFeed : function(attrs, inactive, preventAnim){
-        var exists = this.getNodeById(attrs.url);
+    // 创建favorites module，已经在initModule被创建，这里加fav区分为不同的id
+    addFavorite : function(attrs,cnodeId){
+        var exists = this.getNodeById(cnodeId+'.fav');
         if(exists){
-            if(!inactive){
-                exists.select();
-                exists.ui.highlight();
-            }
+            exists.select();
             return;
-        }
+        }    	
         Ext.apply(attrs, {
-            iconCls: 'feed-icon',
             leaf:true,
             cls:'feed',
-            id: attrs.url
+            id: cnodeId+'.fav'
         });
         var node = new Ext.tree.TreeNode(attrs);
-        this.feeds.appendChild(node);
-        if(!inactive){
-            if(!preventAnim){
-                Ext.fly(node.ui.elNode).slideIn('l', {
-                    callback: node.select, scope: node, duration: .4
-                });
-            }else{
-                node.select();
-            }
-        }
+        this.favoritesRoot.appendChild(node);
         return node;
     },
 
-    // prevent the default context menu when you miss the node
-    afterRender : function(){
-        NavPanel.superclass.afterRender.call(this);
-        this.el.on('contextmenu', function(e){
-            e.preventDefault();
+    // 载入全部module，如果added为true，需要增加到favorites
+    initModule : function(attrs, parent,cnodeId,isLeaf,added){
+        var exists = this.getNodeById(cnodeId);
+        if(exists){
+            return;
+        }
+        Ext.apply(attrs, {
+        	leaf:isLeaf,
+            cls:'feed',
+            id: cnodeId
         });
+        var parentNode = this.getNodeById(parent);
+        var node = new Ext.tree.TreeNode(attrs);
+        parentNode.appendChild(node);
+        if(added){
+        	this.addFavorite(attrs,cnodeId);
+        }
+        return node;
     }
 });

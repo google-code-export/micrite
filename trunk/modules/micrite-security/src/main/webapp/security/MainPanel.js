@@ -20,11 +20,11 @@ Ext.extend(MainPanel, Ext.TabPanel, {
 	onClick: function(e, target){
 		e.stopEvent();
 		if(target.className == 'inner-link'){
-			this.loadFeed(target.href,target.id);
+			this.loadModule(target.href,target.id);
 		}
 	},
 	
-    loadFeed : function(href,tabTitle){
+    loadModule : function(href,tabTitle){
         var tab;
         if(!(tab = this.getItem(tabTitle))){
         	var autoLoad = {url: href,scripts:true};

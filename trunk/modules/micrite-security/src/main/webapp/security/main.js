@@ -19,14 +19,6 @@ Ext.onReady(function(){
                 text:'Home',
                 tooltip: 'home',  // <-- i
                 iconCls :'home'
-            },'-',{
-                text:'Menu',
-                tooltip: 'menu',
-                iconCls :'menu'
-            },'-',{
-                text:'Email',
-                tooltip: 'open email',
-                iconCls :'email'
             },'->',{
                 text:'User',
                 tooltip: 'user infomation',
@@ -46,7 +38,7 @@ Ext.onReady(function(){
     navPanel.on('click', function(node, e){
         if(node.isLeaf()){
            e.stopEvent();
-           mainPanel.loadFeed(node.attributes.url, node.attributes.text);
+           mainPanel.loadModule(node.attributes.url, node.attributes.text);
         }
    });
     

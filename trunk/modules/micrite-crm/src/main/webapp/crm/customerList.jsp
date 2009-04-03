@@ -129,7 +129,7 @@ Ext.onReady(function(){
 	               new Ext.app.SearchField({
 	                   store: ds,
 	                   width:220
-	               }),'<a href="../crm/customerDetail.jsp" id="Customer Detail" class="inner-link">ss</a>'
+	               }),'-','<a href="../crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>'
 			    ],	            
 	            ds: ds,
 	            cm: colModel,
