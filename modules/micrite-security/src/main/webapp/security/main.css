@@ -1,17 +1,13 @@
-
 .main-header .x-panel-body {
     background:transparent;
 }
-.delete-icon {
-    background-image:url(../extjs/examples/feed-viewer/images/rss_delete.gif) !important;
+.icon-expand-all {
+    background-image: url(images/framework/expand-all.gif) !important;
 }
-.load-icon {
-    background-image:url(../extjs/examples/feed-viewer/images/rss_load.gif) !important;
+.icon-collapse-all {
+    background-image: url(images/framework/collapse-all.gif) !important;
 }
-.add-feed {
-    background-image: url(../extjs/examples/feed-viewer/images/rss_add.gif) !important;
-}
-.x-tree-node div.feeds-node{
+.x-tree-node div.modules-node{
     background:#eee url(../extjs/examples/feed-viewer/images/cmp-bg.gif) repeat-x;
     margin-top:1px;
     border-top:1px solid #ddd;
@@ -19,21 +15,8 @@
     padding-top:2px;
     padding-bottom:1px;
 }
-.feeds-node .x-tree-node-icon {
-    display:none;
-}
-.feed-icon {
-    background-image:url(../extjs/examples/feed-viewer/images/rss.gif) !important;
-}
-
 .home {
 	background-image: url(images/framework/home.gif) !important;
-}
-.menu {
-	background-image: url(images/framework/menu.gif) !important;
-}
-.email {
-	background-image: url(images/framework/email.gif) !important;
 }
 .user {
 	background-image: url(images/framework/user.gif) !important;

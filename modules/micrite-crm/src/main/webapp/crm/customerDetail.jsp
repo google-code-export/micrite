@@ -49,63 +49,14 @@ Ext.onReady(function(){
         header: false,
         border: false,
         bodyBorder: false,
-        layout: 'fit',	// Specifies that the items will now be arranged in columns
+        style: {
+            "margin-top": "10px" // when you add custom margin in IE 6...
+        },        
+//        layout: 'fit',	// Specifies that the items will now be arranged in columns
 
         items: [{
             border:false,
-            items: {
-	            border: false,
-		        tbar: [{
-	               iconCls:'modify',
-	               text:'Modify',
-	               handler: function(){
-		        	gridForm.form.submit({
-		                url: '/' + document.location.href.split("/")[3] + '/crm/edit.action',
-		                method: 'POST',
-		                disabled:true,
-		                waitMsg: 'Saving Data...',
-		                params:{
-		        		customerSourceId: Ext.getCmp('partnerSelect').getValue(),
-						'customer.id': Ext.getCmp('cid').getValue(),
-						'customer.name': Ext.getCmp('cname').getValue(),
-						'customer.telephone' : Ext.getCmp('ctelephone').getValue()
-		    			},
-		                success: function(form, action){
-		                    Ext.MessageBox.alert('Message', 'Plan saved.');
-		                },
-		                failure: function(form, action){
-		                    Ext.MessageBox.alert('Message', 'Save failed');
-		                }
-		            });},	               
-	               scope: this
-			    },{
-		           iconCls:'add',
-		           text:'Add',
-		            handler: function(){
-		        	gridForm.form.submit({
-		                url: '/' + document.location.href.split("/")[3] + '/crm/saveData.action',
-		                method: 'POST',
-		                disabled:true,
-		                waitMsg: 'Saving Data...',
-		                params:{
-		    				customerSourceId: Ext.getCmp('partnerSelect').getValue(),
-		    				'customer.id': Ext.getCmp('cid').getValue(),
-		    				'customer.name': Ext.getCmp('cname').getValue(),
-		    				'customer.telephone' : Ext.getCmp('ctelephone').getValue()
-		    			},
-		                success: function(form, action){
-		                    Ext.MessageBox.alert('Message', 'Plan saved.');
-		                },
-		                failure: function(form, action){
-		                    Ext.MessageBox.alert('Message', 'Save failed');
-		                }
-		            });
-		        },
-	           scope: this
-				}]
-        	}
         },{
-        	columnWidth: 0.4,
             xtype: 'fieldset',
             labelWidth: 40,
             title:'Customer Detail',
@@ -149,9 +100,34 @@ Ext.onReady(function(){
                 typeAhead: true
 
                 
-            })],
-
+            })]
+               
         }],
+        buttons: [{
+            text: 'Save',
+            handler: function(){
+        	gridForm.form.submit({
+                url: '/' + document.location.href.split("/")[3] + '/crm/saveData.action',
+                method: 'POST',
+                disabled:true,
+                waitMsg: 'Saving Data...',
+                params:{
+    				customerSourceId: Ext.getCmp('partnerSelect').getValue(),
+    				'customer.id': Ext.getCmp('cid').getValue(),
+    				'customer.name': Ext.getCmp('cname').getValue(),
+    				'customer.telephone' : Ext.getCmp('ctelephone').getValue()
+    			},
+                success: function(form, action){
+                    Ext.MessageBox.alert('Message', 'Plan saved.');
+                },
+                failure: function(form, action){
+                    Ext.MessageBox.alert('Message', 'Save failed');
+                }
+            });},	                
+        },{
+            text: 'Cancel'
+        }],
+        buttonAlign:'left',
         renderTo: 'customerDetail'
     });
     
