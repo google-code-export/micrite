@@ -38,7 +38,7 @@
 		<intercept-url pattern="/security/images/**" filters="none" />
 		<intercept-url pattern="/js-lib/**" filters="none" />
 	    <form-login login-page="/j_spring_security_logout" authentication-failure-url="/loginFailed.action" default-target-url="/loginSuccess.action"  />
-	    <logout logout-success-url="/security/login.jsp"/>
+	    <logout logout-success-url="/security//login.action"/>
 	    <http-basic />
 	    <remember-me key="e37f4b31-0c45-11dd-bd0b-0800200c9a66" />
 	</http>

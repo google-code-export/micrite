@@ -38,5 +38,8 @@
 <%if(request.getParameter("moduleName").equals("customerList")){%>
 <%@ include file="customerList.jsp"%>
 <%}%>
+<%if(request.getParameter("moduleName").equals("customerDetail")){%>
+<%@ include file="customerDetail.jsp"%>
+<%}%>
 </body>
 </html>
