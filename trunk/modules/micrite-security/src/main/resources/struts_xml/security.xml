@@ -45,7 +45,13 @@
 <!--		    		<param name="contentType">text/html</param>-->
 		    		<param name="inputName">inputStream</param>
 		  </result>
-		</action>		
+		</action>	
+        <action name="login" >
+            <result name="success" type="redirect" >
+                <param name="location">/security/login.jsp</param>
+
+            </result>
+        </action>			
     </package>
 
 </struts>

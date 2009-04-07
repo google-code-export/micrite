@@ -48,17 +48,13 @@ Ext.app.SearchField = Ext.extend(Ext.form.TwinTriggerField, {
     }
 });
 
-Ext.onReady(function(){
+function parnterName(val){
+	return val.name;
+}
 
-    Ext.QuickTips.init();
-
-//    var store = new Ext.data.Store({
-//    	url: 'getPartner.action',
-//    	fields: ['abbr', 'state'],
-//    	reader:new Ext.data.JsonReader({
-//    		id:'id'
-//    	})
-//    });
+Ext.ns('micrite.crm.customerList');
+FromPanel = function() {
+    // 显式调用父类构造器    
     var RecordDef = Ext.data.Record.create([    
             {name: 'id'},{name: 'name'}                   
         ]); 
@@ -95,18 +91,12 @@ Ext.onReady(function(){
     // the DefaultColumnModel expects this blob to define columns. It can be extended to provide
     // custom or reusable ColumnModels
     var colModel = new Ext.grid.ColumnModel([
-        {id:'id',header: "ID", width: 40, sortable: true, locked:false, dataIndex: 'id'},
-        {header: "Name", width: 100, sortable: true,  dataIndex: 'name'},
-        {header: "Mobile", width: 100, sortable: true,  dataIndex: 'telephone'},
-        {header: "Partner", width: 100, sortable: true,  dataIndex: 'customerSource',renderer:parnterName}
-    ]);
-
-//    bd.createChild({tag: 'h2', html: 'Using a Grid with a Form'});
-
-/*
- *	Here is where we create the Form
- */
-    var gridForm = new Ext.FormPanel({
+        {id:'id',header: this.colModelId, width: 40, sortable: true, locked:false, dataIndex: 'id'},
+        {header: this.colModelName, width: 100, sortable: true,  dataIndex: 'name'},
+        {header: this.colModelMobile, width: 100, sortable: true,  dataIndex: 'telephone'},
+        {header: this.colModelPartner, width: 100, sortable: true,  dataIndex: 'customerSource',renderer:parnterName}
+    ]);    
+    FromPanel.superclass.constructor.call(this, {
         id: 'viewCustomerForm',
         frame: false,
         labelAlign: 'left',
@@ -123,13 +113,13 @@ Ext.onReady(function(){
 	            xtype: 'grid',
 	            border: false,
 		        tbar: [{
-	               text:'Search By Telephone',
+	               text:this.searchText,
 	               scope: this
 			    },
 	               new Ext.app.SearchField({
 	                   store: ds,
 	                   width:220
-	               }),'-','<a href="../crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>'
+	               }),'-',this.newCustomerLink
 			    ],	            
 	            ds: ds,
 	            cm: colModel,
@@ -138,22 +128,36 @@ Ext.onReady(function(){
 	                listeners: {
 	                    rowselect: function(sm, row, rec) {
 	                        Ext.getCmp("viewCustomerForm").getForm().loadRecord(rec);
-	            	       	alert(rec.json.customerSource.id);
 	                    }
 	                }
 	            })
         	}
-        }],
-
-
-        renderTo: 'customerList'
+        }]
     });
-    
+};
+
+//指明NavPanel的父类
+micrite.crm.customerList.FormPanel=Ext.extend(FromPanel, Ext.FormPanel, {
+	colModelId:'ID',
+	colModelName:'Name',
+	colModelMobile:'Mobile',
+	colModelPartner:'Partner',
+	searchText:'Search By Telephone',
+	newCustomerLink:'<a href="../crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>'
+});
+
+//因为采用autoload模式，不能用默认的国际化模式，只能显式的通过方法去加载国际化
+//现判断是否选择了非默认语言
+<%if(session.getAttribute("WW_TRANS_I18N_LOCALE")!=null){%>
+customerListLocale();
+<%}%>
+
+Ext.onReady(function(){
+    Ext.QuickTips.init();
+    var formPanel = new micrite.crm.customerList.FormPanel();
+    formPanel.render('customerList');
 });
 
 
-function parnterName(val){
-	return val.name;
-}
 </script>
 </div>

@@ -28,7 +28,7 @@
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <html>
 <head>
-<title>登录</title>
+<title>Micrite</title>
 <link rel="stylesheet" type="text/css"
 	href="../js-lib/ext-js/resources/css/ext-all.css" />
 <script type="text/javascript" src="../js-lib/ext-js/adapter/ext/ext-base.js"></script>
@@ -47,24 +47,36 @@ LoginWindow = function(config) {
 	this.width = 400;
 	this.height = 260;
 	this.closable = false;
-	this.title = "Micrite Login";
+	this.title = this.titleText;
 	this.bbar = [
-			'->',
-			{
+			'->', {
 				text :'<a href="http://micrite.gaixie.org" target="_blank">micrite.gaixie.org</a>',
 				xtype :'tbtext'
-			} ];
+			}];
 	Ext.apply(this, config);
 	LoginWindow.superclass.constructor.call(this);
 }
-Ext.extend(LoginWindow, Ext.Window, {
+
+Ext.namespace('micrite.security.framework');
+
+micrite.security.framework.LoginWindow = Ext.extend(LoginWindow, Ext.Window, {
+	// 类成员变量
+    titleText:'Micrite Login',
+    submitText:'Submit',
+    cancelText:'Cancel',    
+    usernameText:'Username:',
+    passwordText:'Password:',
+    
+    // 类成员函数	
 	onActionComplete : function(f, a) {
 		window.location = 'main.jsp';
 	},
+	
 	onActionFailed : function(f, a) {
 		obj = Ext.util.JSON.decode(a.response.responseText);
 		Ext.Msg.alert('登录失败!', obj.errorMsg.reason);
 	},
+	
 	initComponent : function() {
 		this.submitUrl = "../j_spring_security_check";
 		this.loginPanel = new Ext.form.FormPanel( {
@@ -73,10 +85,10 @@ Ext.extend(LoginWindow, Ext.Window, {
 			id :'loginpanel',
 			bodyStyle :'padding:10px',
 			buttons : [ {
-				text :'Submit',
+				text :this.submitText,
 				handler :onSubmit
 			}, {
-				text :'Cancel',
+				text :this.cancelText,
 				handler :Ext.emptyFn
 			} ],
 			items : {
@@ -86,13 +98,13 @@ Ext.extend(LoginWindow, Ext.Window, {
 					labelSeparator :''
 				},
 				items : [ {
-					fieldLabel :'Username',
+					fieldLabel :this.usernameText,
 					labelStyle :'text-align:right',
 					name :'j_username',
 					xtype :'textfield',
 					anchor :'80%'
 				}, {
-					fieldLabel :'Password',
+					fieldLabel :this.passwordText,
 					labelStyle :'text-align:right',
 					xtype :'textfield',
 					inputType :'password',
@@ -117,8 +129,7 @@ Ext.extend(LoginWindow, Ext.Window, {
 			form.submit( {
 				reset :true
 			});
-		}
-		;
+		};
 
 		this.layout = "border";
 		this.border = false;
@@ -128,16 +139,25 @@ Ext.extend(LoginWindow, Ext.Window, {
 			region :'north',
 			height :100
 		}, this.loginPanel ];
-		LoginWindow.superclass.initComponent.call(this);
+		
+		micrite.security.framework.LoginWindow.superclass.initComponent.call(this);
 	}
 });
+
 Ext.onReady( function() {
-	var loginwindow = new LoginWindow();
-	loginwindow.show();
+	var loginWindow = new micrite.security.framework.LoginWindow();
+	loginWindow.show();
 });
 </script>
+<%if(session.getAttribute("WW_TRANS_I18N_LOCALE")!=null){%>
+<script type="text/javascript" src="../security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
+<%}%>
 </head>
 <body>
+<%
+//out.println("Locale is :"+session.getAttribute("WW_TRANS_I18N_LOCALE"));
+//out.println("Locale is :"+request.getParameter("request_locale"));
+%>
 <div id="logo"><img src="images/framework/login.jpg" /></div>
 </body>
 </html>
