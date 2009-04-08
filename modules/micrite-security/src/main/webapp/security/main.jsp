@@ -11,10 +11,8 @@
     <script type="text/javascript" src="../js-lib/ext-js/ext-all-debug.js"></script>
     <script type="text/javascript" src="main.js"></script>
     <link rel="stylesheet" type="text/css" href="main.css" />
-<%if(!"en".equals(session.getAttribute("WW_TRANS_I18N_LOCALE").toString())){%>
-<script type="text/javascript" src="../security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
-<script type="text/javascript" src="../crm/locale/micrite-crm-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
-<%}%>
+	<script type="text/javascript" src="../security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
+	<script type="text/javascript" src="../crm/locale/micrite-crm-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 
 </head>
 <body>

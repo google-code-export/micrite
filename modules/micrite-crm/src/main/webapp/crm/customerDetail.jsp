@@ -128,10 +128,8 @@ micrite.crm.customerDetail.FormPanel=Ext.extend(FromPanel, Ext.FormPanel, {
 	waitingMsg:'Saving Data...'
 	
 });
-
-<%if(!"en".equals(session.getAttribute("WW_TRANS_I18N_LOCALE").toString())){%>
-customerDetailLocale();
-<%}%>
+try{ customerDetailLocale(); }
+catch(e){}
 
 Ext.onReady(function(){
 

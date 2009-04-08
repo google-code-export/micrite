@@ -222,7 +222,6 @@ micrite.security.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
 });
 
 
-
 Ext.onReady(function(){
     Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 

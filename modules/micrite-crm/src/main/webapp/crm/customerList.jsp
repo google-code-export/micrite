@@ -147,10 +147,9 @@ micrite.crm.customerList.FormPanel=Ext.extend(FromPanel, Ext.FormPanel, {
 });
 
 //因为采用autoload模式，不能用默认的国际化模式，只能显式的通过方法去加载国际化
-//现判断是否选择了非默认语言
-<%if(!"en".equals(session.getAttribute("WW_TRANS_I18N_LOCALE").toString())){%>
-customerListLocale();
-<%}%>
+//采用此方式，如果没有相应的locale文件，会报错，catch它，用重载前的类变量也可以正常运行
+try{ customerListLocale(); }
+catch(e){}
 
 Ext.onReady(function(){
     Ext.QuickTips.init();
