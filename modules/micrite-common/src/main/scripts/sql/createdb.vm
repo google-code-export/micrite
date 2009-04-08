@@ -70,14 +70,14 @@ insert  into role_resource_map(role_id,resource_id) values (1,1);
 insert  into role_resource_map(role_id,resource_id) values (2,1);
 
 -- ------------------------------------------------------
--- name: 客户的来源，如 电话咨询
+-- name: 客户的来源，如 陌生拜访，亲友
 CREATE TABLE customer_source (
 	id 					$db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
 	name 				varchar(255)
 );
 ALTER TABLE customer_source ADD CONSTRAINT customer_source_name_uq UNIQUE ( name );
 
-insert  into customer_source(name) values('中国移动'),('招商银行'); 
+insert  into customer_source(name) values('Unfamiliar Visit'),('Familiar'); 
 
 CREATE TABLE customers (
 	id 					$db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,

@@ -65,14 +65,14 @@ FromPanel = function() {
 	            fieldLabel: this.mobileText,
 	            name: 'telephone'
 	        }, new Ext.form.ComboBox({
-	        	id:'partnerSelect',
+	        	id:'sourceSelect',
 	        	name:'customerSource',
 	            selectOnFocus:true,
 	            valueField:'id',
 	            hiddenName:'id',
 	            displayField:'name',
-	            fieldLabel: this.partnerText,
-	            emptyText:'Select a partner...',
+	            fieldLabel: this.sourceText,
+	            emptyText:this.comboEmptyText,
 	            editable:false,
 	            width: 170,
 	            forceSelection:true,
@@ -95,7 +95,7 @@ FromPanel = function() {
 	            disabled:true,
 	            waitMsg: this.waitingMsg,
 	            params:{
-					customerSourceId: Ext.getCmp('partnerSelect').getValue(),
+					customerSourceId: Ext.getCmp('sourceSelect').getValue(),
 					'customer.id': Ext.getCmp('cid').getValue(),
 					'customer.name': Ext.getCmp('cname').getValue(),
 					'customer.telephone' : Ext.getCmp('ctelephone').getValue()
@@ -121,14 +121,15 @@ micrite.crm.customerDetail.FormPanel=Ext.extend(FromPanel, Ext.FormPanel, {
 	idText:'ID',
 	nameText:'Name',
 	mobileText:'Mobile',
-	partnerText:'Partner',
+	sourceText:'Source',
 	submitText:'Save',
 	cancelText:'Cancel',
+	comboEmptyText:'Select a source...',
 	waitingMsg:'Saving Data...'
 	
 });
 
-<%if(session.getAttribute("WW_TRANS_I18N_LOCALE")!=null){%>
+<%if(!"en".equals(session.getAttribute("WW_TRANS_I18N_LOCALE").toString())){%>
 customerDetailLocale();
 <%}%>
 

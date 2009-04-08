@@ -4,7 +4,7 @@ function customerListLocale(){
 	    	colModelId:'ID',
 	    	colModelName:'姓名',
 	    	colModelMobile:'手机号',
-	    	colModelPartner:'来源',
+	    	colModelSource:'来源',
 	    	searchText:'查找',
 	    	newCustomerLink:'<a href="../crm/customerDetail.jsp" id="Customer Detail" class="inner-link">增加新客户</a>'
 	    });
@@ -17,9 +17,10 @@ function customerDetailLocale(){
 	    	idText:'ID',
 	    	nameText:'姓名',
 	    	mobileText:'手机号',
-	    	partnerText:'来源',
+	    	sourceText:'来源',
 	    	submitText:'提交',
 	    	cancelText:'取消',
+	    	comboEmptyText:'选择客户来源...',
 	    	waitingMsg:'提交数据...'
 	    });
 	}	
