@@ -55,7 +55,7 @@ LoginWindow = function(config) {
 			}];
 	Ext.apply(this, config);
 	LoginWindow.superclass.constructor.call(this);
-}
+};
 
 Ext.namespace('micrite.security.framework');
 
@@ -129,7 +129,7 @@ micrite.security.framework.LoginWindow = Ext.extend(LoginWindow, Ext.Window, {
 			form.submit( {
 				reset :true
 			});
-		};
+		}
 
 		this.layout = "border";
 		this.border = false;

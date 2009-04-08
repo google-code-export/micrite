@@ -3,9 +3,26 @@
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
 <title>Welcome to Micrite</title>
+<style type="text/css">
+#ct-wrap { text-align:center; }
+#ct { text-align:left; margin:auto; width:400px; }
+#center { float:left; width: 200px;}
+#east { float:right; clear:right; width: 200px;}
+body { font-size:13px; vertical-align:middle; margin-top: 20%; padding:0;}
+.font{ text-decoration:none; font-size: 42px;}
+.red{ color:red; }
+.blue{ color:blue; }
+#center a:hover{ color:white; background-color:red;}
+#east a:hover{ color:white; background-color: blue;}
+</style>
 </head>
+
 <body>
-<a href="security/login.action?request_locale=en" >English</a><br>
-<a href="security/login.action?request_locale=zh_CN" >中文简体</a>
+	<div id="ct-wrap">
+		<div id="ct">
+			<div id="center"><a href="security/login.action?request_locale=zh_CN" class="font red">中文简体</a></div>
+			<div id="east"><a href="security/login.action?request_locale=en" class="font blue">English</a></div>
+		</div>
+	</div>
 </body>
 </html>
