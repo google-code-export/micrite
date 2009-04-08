@@ -173,7 +173,7 @@ if(micrite.security.framework.LoginWindow) {
         submitText:'登录',
         cancelText:'取消',    
         usernameText:'用户名：',
-        passwordText:'密码：',
+        passwordText:'密码：'
     });
 }
 
