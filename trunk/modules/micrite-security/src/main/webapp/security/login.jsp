@@ -149,8 +149,7 @@ Ext.onReady( function() {
 	loginWindow.show();
 });
 </script>
-<%if((session.getAttribute("WW_TRANS_I18N_LOCALE")!=null)&&
-	!session.getAttribute("WW_TRANS_I18N_LOCALE").equals("en")){%>
+<%if(!"en".equals(session.getAttribute("WW_TRANS_I18N_LOCALE").toString())){%>
 <script type="text/javascript" src="../security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 <%}%>
 </head>

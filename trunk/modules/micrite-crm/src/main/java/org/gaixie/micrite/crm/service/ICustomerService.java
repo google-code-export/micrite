@@ -56,6 +56,14 @@ public interface ICustomerService {
 	public List<Customer> findByTelExact(String telephone);
 
 	/**
+	 * 根据电话模糊查找客户
+	 * @see org.gaixie.micrite.beans.Customer
+	 * @param telephone 客户电话
+	 * @return 客户实体集合
+	 */
+	public List<Customer> findByTelVague(String telephone);
+
+	/**
 	 * 根据客户ID获取客户
 	 * @see org.gaixie.micrite.beans.Customer
 	 * @param id 客户id

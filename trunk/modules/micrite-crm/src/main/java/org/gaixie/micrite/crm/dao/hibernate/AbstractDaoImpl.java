@@ -89,7 +89,7 @@ public class AbstractDaoImpl extends HibernateDaoSupport implements
 	public List findVague(Class entityClass, String column, String value) {
 		List list = getHibernateTemplate().find(
 				"from " + entityClass.getSimpleName() + " e where " + column
-						+ " like '%?%'", value);
+						+ " like ?", "%"+value+"%");
 		return list;
 	}
 

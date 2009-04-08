@@ -91,7 +91,7 @@ public class CustomerAction extends ActionSupport{
 	 * @return "success"
 	 */
 	public String find() {
-		customers = customerService.findByTelExact(telephone);
+		customers = customerService.findByTelVague(telephone);
         return SUCCESS;
 	}
 	/**

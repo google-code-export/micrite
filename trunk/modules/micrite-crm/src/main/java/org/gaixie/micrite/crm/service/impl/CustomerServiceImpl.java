@@ -101,6 +101,19 @@ public class CustomerServiceImpl implements ICustomerService {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * org.gaixie.micrite.crm.service.ICustomerService#findByTelExact(java.lang
+	 * .String)
+	 */
+	public List<Customer> findByTelVague(String telephone) {
+		List<Customer> list = customerDao.findVague(Customer.class,
+				"telephone", telephone);
+		return list;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.gaixie.micrite.crm.service.ICustomerService#getCustomerNum()
 	 */
 	public int getCustomerNum() {

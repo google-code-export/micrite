@@ -41,11 +41,11 @@ public class CustomerServiceImplMock implements ICustomerService {
 		customerSources = new ArrayList<CustomerSource>();
 		CustomerSource customerSource1 = new CustomerSource();
 		customerSource1.setId(1);
-		customerSource1.setName("招商银行");
+		customerSource1.setName("Unfamiliar Visit");
 		customerSources.add(customerSource1);
 		CustomerSource customerSource2 = new CustomerSource();
 		customerSource2.setId(2);
-		customerSource2.setName("中国移动");
+		customerSource2.setName("Familiar");
 		customerSources.add(customerSource2);
 		//	构建customer列表
 		customers = new ArrayList<Customer>();
@@ -132,6 +132,18 @@ public class CustomerServiceImplMock implements ICustomerService {
 		return wantedCustomers;
 	}
 
+	public List<Customer> findByTelVague(String telephone) {
+		List<Customer> wantedCustomers = new ArrayList<Customer>();
+		for (Customer customer:customers)
+		{
+			if (customer.getTelephone().equals(telephone))
+			{
+				wantedCustomers.add(customer);
+			}
+		}
+		return wantedCustomers;
+	}
+	
 	public int getCustomerNum() {
 		return customers.size();
 	}

@@ -48,7 +48,7 @@ Ext.app.SearchField = Ext.extend(Ext.form.TwinTriggerField, {
     }
 });
 
-function parnterName(val){
+function sourceType(val){
 	return val.name;
 }
 
@@ -94,7 +94,7 @@ FromPanel = function() {
         {id:'id',header: this.colModelId, width: 40, sortable: true, locked:false, dataIndex: 'id'},
         {header: this.colModelName, width: 100, sortable: true,  dataIndex: 'name'},
         {header: this.colModelMobile, width: 100, sortable: true,  dataIndex: 'telephone'},
-        {header: this.colModelPartner, width: 100, sortable: true,  dataIndex: 'customerSource',renderer:parnterName}
+        {header: this.colModelSource, width: 100, sortable: true,  dataIndex: 'customerSource',renderer:sourceType}
     ]);    
     FromPanel.superclass.constructor.call(this, {
         id: 'viewCustomerForm',
@@ -141,14 +141,14 @@ micrite.crm.customerList.FormPanel=Ext.extend(FromPanel, Ext.FormPanel, {
 	colModelId:'ID',
 	colModelName:'Name',
 	colModelMobile:'Mobile',
-	colModelPartner:'Partner',
+	colModelSource:'Source',
 	searchText:'Search By Telephone',
 	newCustomerLink:'<a href="../crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>'
 });
 
 //因为采用autoload模式，不能用默认的国际化模式，只能显式的通过方法去加载国际化
 //现判断是否选择了非默认语言
-<%if(session.getAttribute("WW_TRANS_I18N_LOCALE")!=null){%>
+<%if(!"en".equals(session.getAttribute("WW_TRANS_I18N_LOCALE").toString())){%>
 customerListLocale();
 <%}%>
 
