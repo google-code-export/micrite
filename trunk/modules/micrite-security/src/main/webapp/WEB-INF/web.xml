@@ -28,7 +28,7 @@
 <web-app id="person" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-    <display-name>person</display-name>
+    <display-name>Micrite</display-name>
     <filter>
         <filter-name>struts2</filter-name>
         <filter-class>
@@ -55,7 +55,7 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 	<session-config>
-		<session-timeout>1</session-timeout>
+		<session-timeout>10</session-timeout>
 	</session-config>
 	
 	<context-param>
