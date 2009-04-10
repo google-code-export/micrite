@@ -135,7 +135,7 @@ micrite.security.framework.LoginWindow = Ext.extend(LoginWindow, Ext.Window, {
 		this.border = false;
 		this.items = [ {
 			xtype :'panel',
-			contentEl :'logo',
+			html :'<div><img src="images/framework/login.jpg" /></div>',
 			region :'north',
 			height :100
 		}, this.loginPanel ];
@@ -152,6 +152,5 @@ Ext.onReady( function() {
 <script type="text/javascript" src="../security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 </head>
 <body>
-<div id="logo"><img src="images/framework/login.jpg" /></div>
 </body>
 </html>
