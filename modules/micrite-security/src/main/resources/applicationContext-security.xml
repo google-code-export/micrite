@@ -38,7 +38,7 @@
 		<intercept-url pattern="/index.html" filters="none" />
 		<intercept-url pattern="/security/locale/**" filters="none" />
 		<intercept-url pattern="/security/login.jsp" filters="none" />
-		<intercept-url pattern="/security/expired.jsp" filters="none" />
+		<intercept-url pattern="/security/expire.jsp" filters="none" />
 		<intercept-url pattern="/security/images/**" filters="none" />
 		<intercept-url pattern="/js-lib/**" filters="none" />
 	    <form-login login-page="/security/expire.jsp" authentication-failure-url="/loginFailed.action" default-target-url="/loginSuccess.action"  />

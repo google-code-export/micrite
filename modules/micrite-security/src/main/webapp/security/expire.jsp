@@ -20,6 +20,6 @@ Ext.onReady(function(){
 </script>
 </head>
 <body>
-<a id="expired" href="#">Expired</a>
+Session expired, please <a id="expired" href="#">relogin</a>.
 </body>
 </html>
