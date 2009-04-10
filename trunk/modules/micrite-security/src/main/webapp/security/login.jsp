@@ -40,8 +40,8 @@
 }
 </style>
 <script type="text/javascript">
-Ext.SSL_SECURE_URL = "resources/images/default/s.gif";
-Ext.BLANK_IMAGE_URL = "resources/images/default/s.gif";
+Ext.SSL_SECURE_URL = "../js-lib/ext-js/resources/images/default/s.gif";
+Ext.BLANK_IMAGE_URL = "../js-lib/ext-js/resources/images/default/s.gif";
 
 LoginWindow = function(config) {
 	this.width = 400;

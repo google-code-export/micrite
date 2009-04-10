@@ -1,3 +1,5 @@
+Ext.BLANK_IMAGE_URL = "../js-lib/ext-js/resources/images/default/s.gif";
+
 Ext.ns('micrite.security.framework');
 micrite.security.framework.HeaderPanel = Ext.extend(Ext.Panel, {
 
