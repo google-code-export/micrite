@@ -32,11 +32,4 @@ import org.gaixie.micrite.beans.User;
  */
 public interface IUserService {
 	
-	/**
-	 * 随机查找一条记录
-	 * @return 用户实体
-	 */
-	public User findByNameRandom();
-	
-
 }
