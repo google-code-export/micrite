@@ -31,7 +31,7 @@
 <struts>
     <package name="micrite-security" extends="struts-default" namespace="/">
 
-		<action name="loginSuccess" class="securityAction"
+		<action name="loginSuccess" class="loginAction"
 			method="loginSuccess">
 			<result name="success" type="stream">
 <!--		    		<param name="contentType">text/html</param>-->
@@ -39,7 +39,7 @@
 		  </result>
 
 		</action>
-		<action name="loginFailed" class="securityAction"
+		<action name="loginFailed" class="loginAction"
 			method="loginFaile">
 						<result name="success" type="stream">
 <!--		    		<param name="contentType">text/html</param>-->
