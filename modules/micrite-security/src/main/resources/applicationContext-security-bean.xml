@@ -34,20 +34,11 @@
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-    <bean id="securityAction" class="org.gaixie.micrite.security.action.UserAction">
-        <property name="userService" ref="securityService" />
-    </bean>
+    <bean id="loginAction" class="org.gaixie.micrite.security.action.LoginAction" />
     
-	<bean id="securityService" class="org.gaixie.micrite.security.service.impl.UserServiceImpl" >
-		<property name="userDao" ref="userSecurityDao" />
-	</bean>
 	<bean id="securityManager" class="org.gaixie.micrite.security.service.impl.SecurityServiceImpl" >
 		<property name="securityDao" ref="securityDao" />
 	</bean>
-	
-	<bean id="userSecurityDao" class="org.gaixie.micrite.security.dao.hibernate.UserDaoImpl">
-	   <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
 	
 	<bean id="securityDao" class="org.gaixie.micrite.security.dao.hibernate.SecurityDaoImpl">
 	    <property name="sessionFactory" ref="sessionFactory" />

@@ -49,15 +49,14 @@ import com.opensymphony.xwork2.ActionSupport;
  * @see com.opensymphony.xwork2.ActionSupport
  * @see org.apache.struts2.interceptor.SessionAware
  */
-@ManagedResource(objectName="micrite:type=action,name=UserAction", description="Micrite UserAction Bean")
-public class UserAction extends ActionSupport implements SessionAware{ 
+@ManagedResource(objectName="micrite:type=action,name=LoginAction", description="Micrite LoginAction Bean")
+public class LoginAction extends ActionSupport implements SessionAware{ 
 	
 	private User user;
 	private String role;
     private String remoteAddress;
     private String sessionId;
 	private Map session;
-	private IUserService userService;
 	private boolean success;
 	private Map<String,String> errorMsg = new HashMap<String,String>();
 	private InputStream inputStream;
@@ -143,20 +142,6 @@ public class UserAction extends ActionSupport implements SessionAware{
 	@ManagedAttribute(description="The sessionId attribute")
 	public String getSessionId() {
 		return sessionId;
-	}
-	/**
-	 * @return the userService
-	 */
-	public IUserService getUserService() {
-		return userService;
-	}
-
-	/**
-	 * @param userService 用户业务接口
-	 * @see org.gaixie.micrite.security.service.IUserService
-	 */
-	public void setUserService(IUserService userService) {
-		this.userService = userService;
 	}
 	
     /**
