@@ -54,13 +54,12 @@ public class CustomerServiceImpl implements ICustomerService {
 	 * .gaixie.micrite.beans.Customer)
 	 */
 	public void addOrUpdateCustomer(Customer customer, Integer customerSourceId) {
-		CustomerSource cs = (CustomerSource) customerDao.getEntity(
-				CustomerSource.class, customerSourceId);
+		CustomerSource cs = customerDao.getCustomerSource(customerSourceId);
 		customer.setCustomerSource(cs);
 		if (customer.getId() == null) {
-			customerDao.save(customer);
+			customerDao.saveCustomer(customer);
 		} else {
-			customerDao.update(customer);
+			customerDao.updateCustomer(customer);
 		}
 	}
 
@@ -72,7 +71,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	 */
 	public List<CustomerSource> findALLCustomerSource() {
 		List<CustomerSource> customerSource = customerDao
-				.findAll(CustomerSource.class);
+				.findAllCustomerSource();
 		return customerSource;
 	}
 
@@ -82,7 +81,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	 * @see org.gaixie.micrite.crm.service.ICustomerService#findByIdExact(int)
 	 */
 	public Customer findByIdExact(int id) {
-		return (Customer) customerDao.getEntity(Customer.class, id);
+		return customerDao.getCustomer(id);
 	}
 
 	/*
@@ -93,8 +92,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	 * .String)
 	 */
 	public List<Customer> findByTelExact(String telephone) {
-		List<Customer> list = customerDao.findExact(Customer.class,
-				"telephone", telephone);
+		List<Customer> list = customerDao.findCustomerExact("telephone", telephone);
 		return list;
 	}
 
@@ -106,8 +104,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	 * .String)
 	 */
 	public List<Customer> findByTelVague(String telephone) {
-		List<Customer> list = customerDao.findVague(Customer.class,
-				"telephone", telephone);
+		List<Customer> list = customerDao.findCustomerVague("telephone", telephone);
 		return list;
 	}
 	
@@ -117,8 +114,8 @@ public class CustomerServiceImpl implements ICustomerService {
 	 * @see org.gaixie.micrite.crm.service.ICustomerService#getCustomerNum()
 	 */
 	public int getCustomerNum() {
-		List<Customer> customers = customerDao.findAll(Customer.class);
-		return customers == null ? 0 : customers.size();
+		int count = customerDao.getCustomerCount();
+		return  count;
 	}
 
 }

@@ -39,16 +39,6 @@ public class UserServiceImpl implements IUserService {
 
 	private IUserDao userDao;
     
-	/* (non-Javadoc)
-	 * @see org.gaixie.micrite.security.service.IUserService#findByNameRandom()
-	 */
-	public User findByNameRandom(){
-		List<User> list = userDao.findAll();
-		Random rnd = new Random();
-		int getNumber = rnd.nextInt(list.size());
-		return list.get(getNumber);
-	}
-
 	/**
 	 * @return the userDao
 	 */
