@@ -79,9 +79,6 @@ public class User implements UserDetails {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private Set<Role> roles;
 	
-	@Transient
-	private Map<String, List<Resource>> roleResources;
-	
 	/**
 	 * The default constructor
 	 */
@@ -92,20 +89,18 @@ public class User implements UserDetails {
 	/* (non-Javadoc)
 	 * @see org.springframework.security.userdetails.UserDetails#getAuthorities()
 	 */
+	@Transient
 	public GrantedAuthority[] getAuthorities() {
-		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>(roles.size());
-    	for(Role role : roles) {
-    		grantedAuthorities.add(new GrantedAuthorityImpl(role.getName()));
-    	}
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>(roles.size());
+        for(Role role : roles) {
+                grantedAuthorities.add(new GrantedAuthorityImpl(role.getName()));
+        }
         return grantedAuthorities.toArray(new GrantedAuthority[roles.size()]);
 	}
 	
 	/**
 	 * Returns the authorites string
 	 * 
-	 * eg. 
-	 *    downpour --- ROLE_ADMIN,ROLE_USER
-	 *    robbin --- ROLE_ADMIN
 	 * 
 	 * @return
 	 */
@@ -131,13 +126,10 @@ public class User implements UserDetails {
 		return loginname;
 	}
 
-	public void setRoleResources(Map<String, List<Resource>> roleResources) {
-		this.roleResources = roleResources;
-	}
-
 	/* (non-Javadoc)
 	 * @see org.springframework.security.userdetails.UserDetails#isAccountNonExpired()
 	 */
+	@Transient
 	public boolean isAccountNonExpired() {
 		return true;
 	}
@@ -145,6 +137,7 @@ public class User implements UserDetails {
 	/* (non-Javadoc)
 	 * @see org.springframework.security.userdetails.UserDetails#isAccountNonLocked()
 	 */
+	@Transient
 	public boolean isAccountNonLocked() {
 		return true;
 	}
@@ -152,6 +145,7 @@ public class User implements UserDetails {
 	/* (non-Javadoc)
 	 * @see org.springframework.security.userdetails.UserDetails#isCredentialsNonExpired()
 	 */
+	@Transient
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
@@ -159,6 +153,7 @@ public class User implements UserDetails {
 	/* (non-Javadoc)
 	 * @see org.springframework.security.userdetails.UserDetails#isEnabled()
 	 */
+	@Transient
 	public boolean isEnabled() {
 		return isenabled;
 	}
@@ -178,30 +173,6 @@ public class User implements UserDetails {
 		return roles;
 	}
 
-	/**
-	 * @return the roleResources
-	 */
-	public Map<String, List<Resource>> getRoleResources() {
-		// init roleResources for the first time
-		if(this.roleResources == null) {
-			
-			this.roleResources = new HashMap<String, List<Resource>>();
-			
-			for(Role role : this.roles) {
-				String roleName = role.getName();
-				Set<Resource> resources = role.getResources();
-				for(Resource resource : resources) {
-					String key = roleName + "_" + resource.getType();
-					if(!this.roleResources.containsKey(key)) {
-						this.roleResources.put(key, new ArrayList<Resource>());
-					}
-					this.roleResources.get(key).add(resource);					
-				}
-			}
-			
-		}
-		return this.roleResources;
-	}
 
 	/**
 	 * @param id the id to set
@@ -217,18 +188,6 @@ public class User implements UserDetails {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-
-	public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append(super.toString() + ": ");
-        sb.append("Id: " + this.getId() + "; ");
-        sb.append("Name: " + this.getFullname() + "; ");
-        sb.append("Username: " + this.getUsername() + "; ");
-        sb.append("Password: " + this.getPassword() + "; ");
-        sb.append("Email: " + this.getEmailaddress());
-
-        return sb.toString();
-    }
 
 	/**
 	 * @return the fullname

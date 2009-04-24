@@ -55,10 +55,10 @@ public class Role {
 	
 	private String description;
 	
-	@ManyToMany(targetEntity = Resource.class, fetch = FetchType.EAGER)  
-	@JoinTable(name = "role_resource_map", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "resource_id"))  
+	@ManyToMany(targetEntity = Authority.class, fetch = FetchType.EAGER)  
+	@JoinTable(name = "role_authority_map", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))  
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)  
-	private Set<Resource> resources;  
+	private Set<Authority> authorities;  
 	/**
 	 * The default constructor
 	 */
@@ -108,12 +108,12 @@ public class Role {
 		this.description = description;
 	}
 
-	public Set<Resource> getResources() {
-		return resources;
+	public Set<Authority> getAuthorities() {
+		return authorities;
 	}
 
-	public void setResources(Set<Resource> resources) {
-		this.resources = resources;
+	public void setAuthorities(Set<Authority> authorities) {
+		this.authorities = authorities;
 	}
 
 }

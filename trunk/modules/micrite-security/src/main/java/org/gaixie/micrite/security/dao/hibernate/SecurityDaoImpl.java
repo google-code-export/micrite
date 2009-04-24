@@ -26,9 +26,12 @@ package org.gaixie.micrite.security.dao.hibernate;
 
 import java.util.List;
 
-import org.gaixie.micrite.beans.Resource;
+import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.dao.ISecurityDao;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Order;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
@@ -40,18 +43,21 @@ public class SecurityDaoImpl extends HibernateDaoSupport implements ISecurityDao
 	/* (non-Javadoc)
 	 * @see org.gaixie.micrite.security.dao.ISecurityDao#loadUserByUsername(java.lang.String)
 	 */
-	public List<User> loadUserByUsername(String username) {
-		List<User> users = getHibernateTemplate().find(
+	public User loadUserByUsername(String username) {
+		List<User> list = getHibernateTemplate().find(
 				"FROM User user WHERE user.loginname = ? AND user.isenabled = true", username);
-		return users;
+		if (!list.isEmpty()) {  
+			return list.get(0);  
+		}  
+		
+		return null;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.gaixie.micrite.security.dao.ISecurityDao#loadUrlAuthorities()
-	 */
-	public List<Resource> loadUrlAuthorities(){
-        List<Resource> urlResources = getHibernateTemplate().find("FROM Resource resource WHERE resource.type = ?", "URL");
-        return urlResources;
-	}
-	
+    @SuppressWarnings("unchecked")
+    public List<Authority> find(String type) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(Authority.class);
+        criteria.add(Expression.eq("type", type));
+        criteria.addOrder(Order.desc("value"));
+        return getHibernateTemplate().findByCriteria(criteria);
+    }	
 }

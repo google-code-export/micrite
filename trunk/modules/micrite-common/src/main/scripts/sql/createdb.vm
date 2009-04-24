@@ -24,6 +24,7 @@ CREATE TABLE userbase (
 ALTER TABLE userbase ADD CONSTRAINT userbase_loginname_uq UNIQUE ( loginname );
 
 insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('管理员','admin','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
+insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('bitorb','bitorb','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
 insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('一般用户','user','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
 
 -- ------------------------------------------------------
@@ -35,8 +36,10 @@ CREATE TABLE roles (
 );
 ALTER TABLE roles ADD CONSTRAINT roles_name_uq UNIQUE ( name );
 
-insert  into roles(name,description) values ('ROLE_USER','ROLE_USER');
-insert  into roles(name,description) values ('ROLE_ADMIN','ROLE_ADMIN');
+insert  into roles(name,description) values ('ROLE_ADMIN','系统管理员，拥有全部模块权限');
+insert  into roles(name,description) values ('ROLE_USER','基本用户，登录后没有任何权限的用户');
+insert  into roles(name,description) values ('ROLE_CRM_USER','CRM用户，登录后可以只读CRM模块');
+
 
 CREATE TABLE user_role_map (
 	user_id 			integer NOT NULL,
@@ -45,29 +48,41 @@ CREATE TABLE user_role_map (
 ALTER TABLE user_role_map ADD CONSTRAINT user_role_map_user_id_uq UNIQUE ( user_id,role_id );
 
 insert  into user_role_map(user_id,role_id) values (1,1);
-insert  into user_role_map(user_id,role_id) values (1,2);
-insert  into user_role_map(user_id,role_id) values (2,1);
+insert  into user_role_map(user_id,role_id) values (2,2);
+insert  into user_role_map(user_id,role_id) values (3,3);
 
 -- ------------------------------------------------------
 -- type: 资源类型，如 URL 表示权限的控制类型为URL
 -- value: 对应于 type的具体的值，如:/** 表示可以访问所有URL
-CREATE TABLE resources (
+CREATE TABLE authorities (
 	id 					$db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
+	name 				varchar(255) NOT NULL,
 	type 				varchar(64) NOT NULL,
 	value 				varchar(255) NOT NULL
 );
-ALTER TABLE resources ADD CONSTRAINT resources_value_uq UNIQUE ( type,value );
+ALTER TABLE authorities ADD CONSTRAINT authorities_value_uq UNIQUE ( type,value );
 
-insert  into resources(type,value) values ('URL','/**');
+insert  into authorities(name,type,value) values ('MAIN','URL','/*/main*');
+insert  into authorities(name,type,value) values ('CUSTOMERLIST','URL','/*/customerList*');
+insert  into authorities(name,type,value) values ('CUSTOMERDETAIL','URL','/*/customerDetail*');
+insert  into authorities(name,type,value) values ('ADD','METHOD','* org.gaixie.micrite.crm.service.ICustomerService.addOrUpdateCustomer(..)');
 
-CREATE TABLE role_resource_map (
+CREATE TABLE role_authority_map (
 	role_id				integer NOT NULL,
-	resource_id 		integer NOT NULL
+	authority_id 		integer NOT NULL
 );
-ALTER TABLE role_resource_map ADD CONSTRAINT role_resource_map_role_id_uq UNIQUE ( role_id,resource_id );
+ALTER TABLE role_authority_map ADD CONSTRAINT role_authority_map_role_id_uq UNIQUE ( role_id,authority_id );
 
-insert  into role_resource_map(role_id,resource_id) values (1,1);
-insert  into role_resource_map(role_id,resource_id) values (2,1);
+insert  into role_authority_map(role_id,authority_id) values (1,1);
+insert  into role_authority_map(role_id,authority_id) values (1,2);
+insert  into role_authority_map(role_id,authority_id) values (1,3);
+insert  into role_authority_map(role_id,authority_id) values (1,4);
+
+insert  into role_authority_map(role_id,authority_id) values (2,1);
+
+insert  into role_authority_map(role_id,authority_id) values (3,1);
+insert  into role_authority_map(role_id,authority_id) values (3,2);
+insert  into role_authority_map(role_id,authority_id) values (3,3);
 
 -- ------------------------------------------------------
 -- name: 客户的来源，如 陌生拜访，亲友
@@ -86,11 +101,11 @@ CREATE TABLE customers (
 	customer_source_id 	integer NOT NULL
 );
 
-ALTER TABLE role_resource_map ADD CONSTRAINT rrmap_role_id_fk FOREIGN KEY (role_id)
+ALTER TABLE role_authority_map ADD CONSTRAINT rrmap_role_id_fk FOREIGN KEY (role_id)
 	REFERENCES roles (id);
 	
-ALTER TABLE role_resource_map ADD CONSTRAINT rrmap_resource_id_fk FOREIGN KEY (resource_id)
-	REFERENCES resources (id);
+ALTER TABLE role_authority_map ADD CONSTRAINT rrmap_authority_id_fk FOREIGN KEY (authority_id)
+	REFERENCES authorities (id);
 
 ALTER TABLE user_role_map ADD CONSTRAINT urmap_role_id_fk FOREIGN KEY (role_id)
 	REFERENCES roles (id);

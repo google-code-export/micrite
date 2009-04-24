@@ -53,7 +53,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class LoginAction extends ActionSupport implements SessionAware{ 
 	
 	private User user;
-	private String role;
+	private String authorities;
     private String remoteAddress;
     private String sessionId;
 	private Map session;
@@ -83,9 +83,9 @@ public class LoginAction extends ActionSupport implements SessionAware{
 	public String loginSuccess() {
 		SecurityContext securityContext = (SecurityContext) session.get("SPRING_SECURITY_CONTEXT");
 		user = (User) securityContext.getAuthentication().getPrincipal();
-		role = "";
+		authorities = "";
 		for (GrantedAuthority grantedAuthority : securityContext.getAuthentication().getAuthorities()) {
-			role = (role.equals("")) ? grantedAuthority.getAuthority() : role
+			authorities = (authorities.equals("")) ? grantedAuthority.getAuthority() : authorities
 					+ "," + grantedAuthority.getAuthority();
 		}
 		WebAuthenticationDetails webAuthenticationDetails = (WebAuthenticationDetails) securityContext
@@ -93,7 +93,6 @@ public class LoginAction extends ActionSupport implements SessionAware{
 		remoteAddress = webAuthenticationDetails.getRemoteAddress();
 		sessionId = webAuthenticationDetails.getSessionId();
 		
-
 		Map map = new HashMap();  
 		map.put( "success", true );  
 
@@ -121,11 +120,11 @@ public class LoginAction extends ActionSupport implements SessionAware{
 	}
 
 	/**
-	 * @return the role
+	 * @return the authorities
 	 */
-	@ManagedAttribute(description="The role attribute")
-	public String getRole() {
-		return role;
+	@ManagedAttribute(description="The authorities attribute")
+	public String getAuthorities() {
+		return authorities;
 	}
 
 	/**

@@ -15,7 +15,7 @@
 -- directory of this distribution.
 
 -- drop tables with foreign key
-DROP TABLE role_resource_map;
+DROP TABLE role_authority_map;
 DROP TABLE user_role_map;
 DROP TABLE customers;
 
@@ -26,4 +26,4 @@ DROP TABLE customer_source;
 -- drop core tables
 DROP TABLE roles;
 DROP TABLE userbase;
-DROP TABLE resources;
+DROP TABLE authorities;
