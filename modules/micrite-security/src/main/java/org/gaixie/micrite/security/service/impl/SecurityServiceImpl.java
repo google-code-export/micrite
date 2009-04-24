@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.gaixie.micrite.beans.Resource;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.dao.ISecurityDao;
 import org.gaixie.micrite.security.service.ISecurityService;
@@ -51,24 +50,14 @@ public class SecurityServiceImpl implements UserDetailsService, ISecurityService
 	 */
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
-		List<User> users = securityDao.loadUserByUsername(username);
-		if (users.isEmpty()) {
+		User user = securityDao.loadUserByUsername(username);
+ 
+		if (user==null) {
 			throw new UsernameNotFoundException("User " + username + " has no GrantedAuthority");
 		}
-		return users.get(0);
+		
+		return user;
 	}
-
-    /* (non-Javadoc)
-     * @see org.gaixie.micrite.security.service.ISecurityService#loadUrlAuthorities()
-     */
-    public Map<String, String> loadUrlAuthorities() {
-        Map<String, String> urlAuthorities = new HashMap<String, String>();  
-        List<Resource> urlResources = securityDao.loadUrlAuthorities();  
-        for(Resource resource : urlResources) {  
-            urlAuthorities.put(resource.getValue(), resource.getRoleAuthorities());  
-        }  
-        return urlAuthorities;  
-    }
 
 	/**
 	 * @return the securityDao

@@ -42,29 +42,31 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * 映射 resources 表.
+ * 映射 authorities 表.
  */
 @Entity
-@Table(name = "resources")
+@Table(name = "authorities")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Resource {
+public class Authority {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	private String name;
 	
 	private String type;
 	
 	private String value;
 	
-	@ManyToMany(mappedBy = "resources", targetEntity = Role.class, fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "authorities", targetEntity = Role.class, fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private Set<Role> roles;
 	
 	/**
 	 * The default constructor
 	 */
-	public Resource() {
+	public Authority() {
 		
 	}
 	
@@ -89,6 +91,13 @@ public class Resource {
 		return id;
 	}
 
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	
 	/**
 	 * @return the type
 	 */
@@ -117,6 +126,13 @@ public class Resource {
 		this.id = id;
 	}
 
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	/**
 	 * @param type the type to set
 	 */

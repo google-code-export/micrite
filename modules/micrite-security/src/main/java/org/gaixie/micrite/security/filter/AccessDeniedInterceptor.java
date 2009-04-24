@@ -22,29 +22,22 @@
  *
  */
 
-package org.gaixie.micrite.security.dao;
+package org.gaixie.micrite.security.filter;
 
-import java.util.List;
-
-import org.gaixie.micrite.beans.Authority;
-import org.gaixie.micrite.beans.User;
+import java.lang.reflect.Method;
+import org.springframework.aop.ThrowsAdvice;
+import org.springframework.security.AccessDeniedException;
 
 /**
- * 安全管理持久化管理
+ * 控制权限的AOP拦截器抛出AccessDeniedException后，进行相应后续处理
+ * 
  *
  */
-public interface ISecurityDao {
-	/**
-	 * 根据用户名加载用户	
-	 * @param username 用户名
-	 * @return 用户实体资源
-	 */
-	public User loadUserByUsername(String username);
+public class AccessDeniedInterceptor implements ThrowsAdvice {
 
-	/**
-	 * 根据权限类型加载权限	
-	 * @param type 权限类型
-	 * @return 用户权限
-	 */	
-	public List<Authority> find(String type);
+    public void afterThrowing(Method method, Object[] args, Object target,
+            AccessDeniedException exception) {
+        System.out.println("access denied.....");
+        //TODO 通过DatabaseMethodDefinitionSource拒绝访问后的处理
+    }
 }
