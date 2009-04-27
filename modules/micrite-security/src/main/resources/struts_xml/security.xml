@@ -48,7 +48,7 @@
 		</action>	
         <action name="login" >
             <result name="success" type="redirect" >
-                <param name="location">/security/login.jsp</param>
+                <param name="location">/login.jsp</param>
 
             </result>
         </action>			

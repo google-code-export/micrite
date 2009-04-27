@@ -37,16 +37,16 @@
     <bean class="org.springframework.security.event.authorization.LoggerListener"/>   
 
     <!-- ===================== SECURITY DEFINITIONS ======================= -->
-	<sec:http access-denied-page="/security/403.jsp" >
+	<sec:http access-denied-page="/403.jsp" >
 		<sec:intercept-url pattern="/" filters="none" />
-		<sec:intercept-url pattern="/index.html" filters="none" />
+		<sec:intercept-url pattern="/index.jsp" filters="none" />
 		<sec:intercept-url pattern="/*/locale/**" filters="none" />
-		<sec:intercept-url pattern="/security/login.jsp" filters="none" />
-		<sec:intercept-url pattern="/security/expire.jsp" filters="none" />
+		<sec:intercept-url pattern="/login.jsp" filters="none" />
+		<sec:intercept-url pattern="/expire.jsp" filters="none" />
 		<sec:intercept-url pattern="/security/images/**" filters="none" />
 		<sec:intercept-url pattern="/js-lib/**" filters="none" />
-	    <sec:form-login login-page="/security/expire.jsp" authentication-failure-url="/loginFailed.action" default-target-url="/loginSuccess.action"  />
-	    <sec:logout logout-success-url="/index.html"/>
+	    <sec:form-login login-page="/expire.jsp" authentication-failure-url="/loginFailed.action" default-target-url="/loginSuccess.action"  />
+	    <sec:logout logout-success-url="/index.jsp"/>
 	    <sec:http-basic />
 	</sec:http>
 
@@ -70,7 +70,8 @@
     
     <bean id="passwordEncoder"  
         class="org.springframework.security.providers.encoding.Md5PasswordEncoder" /> 
-        
+    
+    <!-- 使用Ehcache缓存user信息 -->        
     <bean id="userCache"
         class="org.springframework.security.providers.dao.cache.EhCacheBasedUserCache">
         <property name="cache" ref="userCacheBacked" />
@@ -89,6 +90,10 @@
                 
 
     <!-- ~~~~~~~~~~~~~~~~~~~~ AUTHORIZATION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->
+    <!--
+        经过投票机制来决定是否可以访问某一资源
+        allowIfAllAbstainDecisions为false时如果有一个或以上的decisionVoters投票通过,则授权通过
+    -->
 	<bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
 	    <property name="allowIfAllAbstainDecisions" value="false"/>
 	    <property name="decisionVoters">
@@ -108,13 +113,13 @@
 	    <property name="objectDefinitionSource" ref="urlDefinitionSource" />
 	</bean>
 
-    <!-- 获取访问被访问的资源所需要的权限（authority），以ConfigAttributeDefinition形式返回 -->
+    <!-- 获取访问被访问的URL所需要的权限（authority），以ConfigAttributeDefinition形式返回 -->
     <bean id="urlDefinitionSource"
         class="org.springframework.security.intercept.web.DefaultFilterInvocationDefinitionSource">
-        <!-- 匹配url的matcher -->
+        <!-- 匹配URL的matcher -->
         <constructor-arg type="org.springframework.security.util.UrlMatcher"
             ref="antUrlPathMatcher" />
-        <!-- url对应authority的map -->
+        <!-- URL对应authority的map -->
         <constructor-arg type="java.util.LinkedHashMap" ref="requestMap" />
     </bean>
 
@@ -135,7 +140,8 @@
         <property name="accessDecisionManager" ref="accessDecisionManager" />
         <property name="objectDefinitionSource" ref="methodDefinitionSource" />
     </bean>
-    
+
+    <!-- 获取访问被访问的Method所需要的权限（authority），以ConfigAttributeDefinition形式返回 -->    
     <bean id="methodDefinitionSource"
         class="org.gaixie.micrite.security.filter.DefaultMethodDefinitionSource">
         <constructor-arg index="0">
@@ -147,7 +153,9 @@
             </bean>
         </constructor-arg>
     </bean>
-    	
+    
+    <!-- 使用Spring AOP，当访问所有service包下以Service结尾的类的任何方法时，任何方法时，
+          通知accessDeniedInterceptor和methodSecurityInterceptor两个拦截器。 --> 	
     <aop:config>  
         <aop:pointcut id="securityPointcut"  
             expression="execution(* org.gaixie.micrite..service.*Service+.*(..))" />  

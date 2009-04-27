@@ -1,4 +1,44 @@
-Ext.BLANK_IMAGE_URL = "../js-lib/ext-js/resources/images/default/s.gif";
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Welcome to Micrite!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="js-lib/ext-js/resources/css/ext-all.css">
+<script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
+<style type="text/css">
+.main-header .x-panel-body {
+    background:transparent;
+}
+.icon-expand-all {
+    background-image: url(security/images/framework/expand-all.gif) !important;
+}
+.icon-collapse-all {
+    background-image: url(security/images/framework/collapse-all.gif) !important;
+}
+.x-tree-node div.modules-node{
+    background:#eee url(extjs/examples/feed-viewer/images/cmp-bg.gif) repeat-x;
+    margin-top:1px;
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ccc;
+    padding-top:2px;
+    padding-bottom:1px;
+}
+.home {
+	background-image: url(security/images/framework/home.gif) !important;
+}
+.user {
+	background-image: url(security/images/framework/user.gif) !important;
+}
+.exit {
+	background-image: url(security/images/framework/exit.gif) !important;
+}
+</style>
+<script type="text/javascript">
+Ext.BLANK_IMAGE_URL = "js-lib/ext-js/resources/images/default/s.gif";
 
 Ext.ns('micrite.security.framework');
 micrite.security.framework.HeaderPanel = Ext.extend(Ext.Panel, {
@@ -35,7 +75,7 @@ micrite.security.framework.HeaderPanel = Ext.extend(Ext.Panel, {
                     tooltip: 'exit',
                     iconCls :'exit',
 					handler : function() {
-						window.location = '../j_spring_security_logout';
+						window.location = 'j_spring_security_logout';
 					}
                 }]
             })
@@ -105,12 +145,12 @@ NavPanel = function() {
     }, 'allModulesRoot','01',false,false);
     
     this.initModule({
-        url:'../crm/customerList.jsp',
+        url:'crm/customerList.jsp',
         text: 'Customer List'
     }, '01','01.001',true,true);
 
     this.initModule({
-        url:'../crm/customerDetail.jsp',
+        url:'crm/customerDetail.jsp',
         text: 'Customer Detail'
     }, '01','01.002',true,true);
 
@@ -248,3 +288,12 @@ Ext.onReady(function(){
     });
 
 });
+</script>
+<script type="text/javascript" src="security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
+<script type="text/javascript" src="crm/locale/micrite-crm-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
+</head>
+
+<body>
+<div id="header"></div>
+</body>
+</html>

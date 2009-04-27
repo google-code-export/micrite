@@ -29,10 +29,9 @@
 <html>
 <head>
 <title>Micrite</title>
-<link rel="stylesheet" type="text/css"
-	href="../js-lib/ext-js/resources/css/ext-all.css" />
-<script type="text/javascript" src="../js-lib/ext-js/adapter/ext/ext-base.js"></script>
-<script type="text/javascript" src="../js-lib/ext-js/ext-all.js"></script>
+<link rel="stylesheet" type="text/css"	href="js-lib/ext-js/resources/css/ext-all.css" />
+<script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="js-lib/ext-js/ext-all.js"></script>
 <style>
 .micrite {
 	padding-top: 4px;
@@ -40,8 +39,8 @@
 }
 </style>
 <script type="text/javascript">
-Ext.SSL_SECURE_URL = "../js-lib/ext-js/resources/images/default/s.gif";
-Ext.BLANK_IMAGE_URL = "../js-lib/ext-js/resources/images/default/s.gif";
+Ext.SSL_SECURE_URL = "js-lib/ext-js/resources/images/default/s.gif";
+Ext.BLANK_IMAGE_URL = "js-lib/ext-js/resources/images/default/s.gif";
 
 LoginWindow = function(config) {
 	this.width = 400;
@@ -78,7 +77,7 @@ micrite.security.framework.LoginWindow = Ext.extend(LoginWindow, Ext.Window, {
 	},
 	
 	initComponent : function() {
-		this.submitUrl = "../j_spring_security_check";
+		this.submitUrl = "j_spring_security_check";
 		this.loginPanel = new Ext.form.FormPanel( {
 			frame :true,
 			region :'center',
@@ -135,7 +134,7 @@ micrite.security.framework.LoginWindow = Ext.extend(LoginWindow, Ext.Window, {
 		this.border = false;
 		this.items = [ {
 			xtype :'panel',
-			html :'<div><img src="images/framework/login.jpg" /></div>',
+			html :'<div><img src="security/images/framework/login.jpg" /></div>',
 			region :'north',
 			height :100
 		}, this.loginPanel ];
@@ -149,7 +148,7 @@ Ext.onReady( function() {
 	loginWindow.show();
 });
 </script>
-<script type="text/javascript" src="../security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
+<script type="text/javascript" src="security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 </head>
 <body>
 </body>
