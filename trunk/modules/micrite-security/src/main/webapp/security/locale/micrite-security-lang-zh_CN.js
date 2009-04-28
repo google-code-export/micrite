@@ -190,7 +190,6 @@ if(micrite.security.framework.NavPanel) {
     	navPanelText:'导航',
     	expandText:'展开',
     	collapseText:'收缩',	
-    	favoritesText:'常用模块',
     	allModulesText:'所有模块'
     });
 }
