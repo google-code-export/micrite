@@ -27,7 +27,9 @@ package org.gaixie.micrite.security.action;
 import java.io.InputStream;
 import java.io.StringBufferInputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
@@ -35,6 +37,8 @@ import net.sf.json.util.PropertyFilter;
 
 import org.apache.struts2.interceptor.SessionAware;
 import org.gaixie.micrite.beans.User;
+import org.gaixie.micrite.beans.Role;
+import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.security.service.IUserService;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
@@ -51,23 +55,41 @@ import com.opensymphony.xwork2.ActionSupport;
  */
 @ManagedResource(objectName="micrite:type=action,name=LoginAction", description="Micrite LoginAction Bean")
 public class LoginAction extends ActionSupport implements SessionAware{ 
+
+	private IUserService userService;
 	
 	private User user;
-	private String authorities;
-    private String remoteAddress;
-    private String sessionId;
+    private String node;
 	private Map session;
-	private boolean success;
+	private Set<Map<String,Object>> menu;
+	private Map loginResult = new HashMap<String,Object>();
 	private Map<String,String> errorMsg = new HashMap<String,String>();
-	private InputStream inputStream;
-	public boolean isSuccess() {
-		return success;
+	
+	/**
+	 * 带参数构造函数，实例化对象，并通过参数初始化<strong>userService</strong>
+	 * @param userService IUserService接口，通过Ioc模式注入业务实例
+	 * @see org.gaixie.micrite.security.service.IUserService
+	 */
+	public LoginAction(IUserService userService) {
+		this.userService = userService;
 	}
 
-	public void setSuccess(boolean success) {
-		this.success = success;
+	public Set<Map<String,Object>> getMenu() {
+		return menu;
 	}
 
+	public void setMenu(Set<Map<String,Object>> menu) {
+		this.menu = menu;
+	}
+	
+	public Map<String, Object> getLoginResult() {
+		return loginResult;
+	}
+
+	public void setLoginResult(Map<String, Object> loginResult) {
+		this.loginResult = loginResult;
+	}
+	
 	public Map<String, String> getErrorMsg() {
 		return errorMsg;
 	}
@@ -83,64 +105,28 @@ public class LoginAction extends ActionSupport implements SessionAware{
 	public String loginSuccess() {
 		SecurityContext securityContext = (SecurityContext) session.get("SPRING_SECURITY_CONTEXT");
 		user = (User) securityContext.getAuthentication().getPrincipal();
-		authorities = "";
-		for (GrantedAuthority grantedAuthority : securityContext.getAuthentication().getAuthorities()) {
-			authorities = (authorities.equals("")) ? grantedAuthority.getAuthority() : authorities
-					+ "," + grantedAuthority.getAuthority();
-		}
-		WebAuthenticationDetails webAuthenticationDetails = (WebAuthenticationDetails) securityContext
-				.getAuthentication().getDetails();
-		remoteAddress = webAuthenticationDetails.getRemoteAddress();
-		sessionId = webAuthenticationDetails.getSessionId();
-		
-		Map map = new HashMap();  
-		map.put( "success", true );  
-
-		JSONObject jsonObject = JSONObject.fromObject(map); 
-		this.inputStream = new StringBufferInputStream(jsonObject.toString());
+		loginResult.put("success", true);
 		return SUCCESS;
     }    
 
 	public String loginFaile(){
-		success = false;
 		errorMsg.put("reason", "login faile");
-		Map map = new HashMap();  
-		map.put( "success", false );  
-		map.put( "errorMsg", errorMsg ); 
-		JSONObject jsonObject = JSONObject.fromObject(map); 
-		this.inputStream = new StringBufferInputStream(jsonObject.toString());
+		loginResult.put( "success", false );  
+		loginResult.put( "errorMsg", errorMsg ); 
 		return SUCCESS;
 	}
-	public InputStream getInputStream() {
-		return inputStream;
-	}
 
-	public void setInputStream(InputStream inputStream) {
-		this.inputStream = inputStream;
+	public String loadMenu(){
+		menu = userService.loadMenuByUser(user,node);
+		return SUCCESS;
 	}
-
-	/**
-	 * @return the authorities
-	 */
-	@ManagedAttribute(description="The authorities attribute")
-	public String getAuthorities() {
-		return authorities;
-	}
+	
 
 	/**
-	 * @return the remoteAddress
+	 * @return node
 	 */
-	@ManagedAttribute(description="The remoteAddress attribute")
-	public String getRemoteAddress() {
-		return remoteAddress;
-	}
-
-	/**
-	 * @return sessionId
-	 */
-	@ManagedAttribute(description="The sessionId attribute")
-	public String getSessionId() {
-		return sessionId;
+	public String getNode() {
+		return node;
 	}
 	
     /**
@@ -163,5 +149,11 @@ public class LoginAction extends ActionSupport implements SessionAware{
 		this.session = session;
 	}
 
+	/**
+	 * @param node 菜单上选择的节点id
+	 */
+	public void setNode(String node) {
+		this.node = node;
+	}
 	
 }

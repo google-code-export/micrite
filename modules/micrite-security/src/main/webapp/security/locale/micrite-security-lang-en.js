@@ -332,7 +332,6 @@ if(micrite.security.framework.NavPanel) {
     	navPanelText:'Navigator',
     	expandText:'Expand All',
     	collapseText:'Collapse All',	
-    	favoritesText:'My Favorites',
     	allModulesText:'All Modules'
     });
 }
