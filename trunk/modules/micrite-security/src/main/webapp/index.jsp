@@ -47,8 +47,8 @@ body { font-size:13px; vertical-align:middle; margin-top: 20%; padding:0;}
 <body>
 	<div id="ct-wrap">
 		<div id="ct">
-			<div id="center"><a href="security/login.action?request_locale=zh_CN" class="font red">中文简体</a></div>
-			<div id="east"><a href="security/login.action?request_locale=en" class="font blue">English</a></div>
+			<div id="center"><a href="login.action?request_locale=zh_CN" class="font red">中文简体</a></div>
+			<div id="east"><a href="login.action?request_locale=en" class="font blue">English</a></div>
 		</div>
 	</div>
 </body>

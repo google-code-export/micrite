@@ -31,6 +31,7 @@ import java.util.Map;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.dao.ISecurityDao;
 import org.gaixie.micrite.security.service.ISecurityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
@@ -43,6 +44,7 @@ import org.springframework.security.userdetails.UsernameNotFoundException;
  */
 public class SecurityServiceImpl implements UserDetailsService, ISecurityService   {
 
+	@Autowired
 	private ISecurityDao securityDao;
 	
 	/* (non-Javadoc)
@@ -58,19 +60,4 @@ public class SecurityServiceImpl implements UserDetailsService, ISecurityService
 		
 		return user;
 	}
-
-	/**
-	 * @return the securityDao
-	 */
-	public ISecurityDao getSecurityDao() {
-		return securityDao;
-	}
-
-	/**
-	 * @param securityDao  the securityDao to set
-	 */
-	public void setSecurityDao(ISecurityDao securityDao) {
-		this.securityDao = securityDao;
-	}
-    
 }

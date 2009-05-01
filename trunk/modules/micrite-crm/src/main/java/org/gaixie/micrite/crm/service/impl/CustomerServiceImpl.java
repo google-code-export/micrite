@@ -31,20 +31,15 @@ import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.dao.ICustomerDao;
 import org.gaixie.micrite.crm.service.ICustomerService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 客户管理功能实现
  * @see org.gaixie.micrite.crm.service.ICustomerService
  */
 public class CustomerServiceImpl implements ICustomerService {
 
+	@Autowired
 	private ICustomerDao customerDao;
-
-	/**
-	 * @param customerDao the customerDao to set
-	 */
-	public void setCustomerDao(ICustomerDao customerDao) {
-		this.customerDao = customerDao;
-	}
 
 	/*
 	 * (non-Javadoc)

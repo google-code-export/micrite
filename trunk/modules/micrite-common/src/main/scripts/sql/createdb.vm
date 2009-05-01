@@ -62,15 +62,11 @@ CREATE TABLE authorities (
 );
 ALTER TABLE authorities ADD CONSTRAINT authorities_value_uq UNIQUE ( type,value );
 
-insert  into authorities(name,type,value) values ('Customer List URL Filter','URL','/crm/customerList.jsp');
-insert  into authorities(name,type,value) values ('Customer Detail URL Filter','URL','/crm/customerDetail.jsp');
+insert  into authorities(name,type,value) values ('All URL','URL','/**');
+insert  into authorities(name,type,value) values ('/CRM Modules/Customer List','URL','/crm/customerList.jsp');
+insert  into authorities(name,type,value) values ('/CRM Modules/Customer Detail','URL','/crm/customerDetail.jsp');
 insert  into authorities(name,type,value) values ('Customer Detail Add Method Filter','METHOD','* org.gaixie.micrite.crm.service.ICustomerService.addOrUpdateCustomer(..)');
-insert  into authorities(name,type,value) values ('CRM','MENU','crm');
-insert  into authorities(name,type,value) values ('Customer List','MENU','crm/customerList.jsp');
-insert  into authorities(name,type,value) values ('Customer Detail','MENU','crm/customerDetail.jsp');
-insert  into authorities(name,type,value) values ('Security','MENU','security');
-insert  into authorities(name,type,value) values ('User List','MENU','security/userList.jsp');
-insert  into authorities(name,type,value) values ('User Detail','MENU','security/userDetail.jsp');
+insert  into authorities(name,type,value) values ('/Customer www','URL','/crm/wwwcustomerDetail.jsp');
 
 CREATE TABLE role_authority_map (
 	role_id				integer NOT NULL,
@@ -81,17 +77,12 @@ ALTER TABLE role_authority_map ADD CONSTRAINT role_authority_map_role_id_uq UNIQ
 insert  into role_authority_map(role_id,authority_id) values (1,1);
 insert  into role_authority_map(role_id,authority_id) values (1,2);
 insert  into role_authority_map(role_id,authority_id) values (1,3);
+insert  into role_authority_map(role_id,authority_id) values (1,5);
 
 insert  into role_authority_map(role_id,authority_id) values (2,1);
 
 insert  into role_authority_map(role_id,authority_id) values (3,1);
 insert  into role_authority_map(role_id,authority_id) values (3,2);
-insert  into role_authority_map(role_id,authority_id) values (3,4);
-insert  into role_authority_map(role_id,authority_id) values (3,5);
-insert  into role_authority_map(role_id,authority_id) values (3,6);
-insert  into role_authority_map(role_id,authority_id) values (3,7);
-insert  into role_authority_map(role_id,authority_id) values (3,8);
-insert  into role_authority_map(role_id,authority_id) values (3,9);
 -- ------------------------------------------------------
 -- name: 客户的来源，如 陌生拜访，亲友
 CREATE TABLE customer_source (
