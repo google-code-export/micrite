@@ -41,7 +41,7 @@
 		<sec:intercept-url pattern="/" filters="none" />
 		<sec:intercept-url pattern="/index.jsp" filters="none" />
 		<sec:intercept-url pattern="/*/locale/**" filters="none" />
-		<sec:intercept-url pattern="/login.jsp" filters="none" />
+		<sec:intercept-url pattern="/login*" filters="none" />
 		<sec:intercept-url pattern="/expire.jsp" filters="none" />
 		<sec:intercept-url pattern="/security/images/**" filters="none" />
 		<sec:intercept-url pattern="/js-lib/**" filters="none" />
@@ -64,7 +64,7 @@
         class="org.springframework.security.providers.dao.DaoAuthenticationProvider">  
         <sec:custom-authentication-provider />
         <property name="passwordEncoder" ref="passwordEncoder"></property> 
-        <property name="userDetailsService" ref="securityManager"></property>
+        <property name="userDetailsService" ref="securityService"></property>
         <property name="userCache" ref="userCache" /> 
     </bean>  
     

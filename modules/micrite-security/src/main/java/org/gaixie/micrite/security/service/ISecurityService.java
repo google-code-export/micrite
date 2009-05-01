@@ -28,7 +28,10 @@ import java.util.Map;
 
 
 /**
- * 安全模型
+ * 类通过实现<code>ISecurityService</code>接口提供安全相关的服务。
+ * 
+ * <p>
+ * 实现主要以Spring Security 为基础。
  */
 public interface ISecurityService {
 	    

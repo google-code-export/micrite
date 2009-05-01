@@ -50,7 +50,7 @@ import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UserDetails;
 
 /**
- * 映射 userbase 表.
+ * Micrite应用的一个user.
  */
 @Entity
 @Table(name = "userbase")
