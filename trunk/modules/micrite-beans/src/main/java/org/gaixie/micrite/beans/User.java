@@ -50,7 +50,10 @@ import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UserDetails;
 
 /**
- * Micrite应用的一个user.
+ * Micrite应用的一个用户。
+ * <p>
+ * 通过实现 <code>UserDetails</code> 接口，系统会在成功登录后，得到所拥有的 <code>Role</code> 列表，
+ * 用于在每次Spring Security进行安全拦截验证时，与所拦截资源要求的角色进行匹配。
  */
 @Entity
 @Table(name = "userbase")
@@ -58,198 +61,124 @@ import org.springframework.security.userdetails.UserDetails;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User implements UserDetails {
 	
-	private static final long serialVersionUID = 8026813053768023527L;
+    private static final long serialVersionUID = 8026813053768023527L;
 
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
-    private String fullname;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     
-	private String loginname;
-	
-	private String cryptpassword;
-	
-	private String emailaddress;
-	
-	private boolean isenabled;
-	
-	@ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
+    private String fullname;
+    private String loginname;
+    private String cryptpassword;
+    private String emailaddress;
+    private boolean isenabled;
+    
+    @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role_map", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	private Set<Role> roles;
-	
-	/**
-	 * The default constructor
-	 */
-	public User() {
-		
-	}
+    private Set<Role> roles;
+    
+    /**
+     * No-arg constructor for JavaBean tools.
+     */
+    public User() {
+        
+    }
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetails#getAuthorities()
-	 */
-	@Transient
-	public GrantedAuthority[] getAuthorities() {
+    // ~~~~~~~~~~~~~~~~~~~~~~~ 实现 UserDetails Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
+    /**
+     * 这里的Authorities指的是Spring Security的权限标识符，这里对应 <code>Role</code>。
+     * 
+     * @see org.springframework.security.userdetails.UserDetails#getAuthorities()
+     */
+    @Transient
+    public GrantedAuthority[] getAuthorities() {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>(roles.size());
         for(Role role : roles) {
                 grantedAuthorities.add(new GrantedAuthorityImpl(role.getName()));
         }
         return grantedAuthorities.toArray(new GrantedAuthority[roles.size()]);
-	}
-	
-	/**
-	 * Returns the authorites string
-	 * 
-	 * 
-	 * @return
-	 */
-	public String getAuthoritiesString() {
-	    List<String> authorities = new ArrayList<String>();
-	    for(GrantedAuthority authority : this.getAuthorities()) {
-	        authorities.add(authority.getAuthority());
-	    }
-	    return StringUtils.join(authorities, ",");
-	}
+    }
+    
+    public String getPassword() {
+        return cryptpassword;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetails#getPassword()
-	 */
-	public String getPassword() {
-		return cryptpassword;
-	}
+    public String getUsername() {
+        return loginname;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetails#getUsername()
-	 */
-	public String getUsername() {
-		return loginname;
-	}
+    @Transient
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetails#isAccountNonExpired()
-	 */
-	@Transient
-	public boolean isAccountNonExpired() {
-		return true;
-	}
+    @Transient
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetails#isAccountNonLocked()
-	 */
-	@Transient
-	public boolean isAccountNonLocked() {
-		return true;
-	}
+    @Transient
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetails#isCredentialsNonExpired()
-	 */
-	@Transient
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
+    @Transient
+    public boolean isEnabled() {
+        return isenabled;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetails#isEnabled()
-	 */
-	@Transient
-	public boolean isEnabled() {
-		return isenabled;
-	}
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
+    public Integer getId() {
+        return id;
+    }
 
-	/**
-	 * @return the id
-	 */
-	public Integer getId() {
-		return id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
-	/**
-	 * @return the roles
-	 */
-	public Set<Role> getRoles() {
-		return roles;
-	}
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
+    public String getFullname() {
+        return fullname;
+    }
 
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
 
+    public String getLoginname() {
+        return loginname;
+    }
 
-	/**
-	 * @param roles the roles to set
-	 */
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
+    public void setLoginname(String loginname) {
+        this.loginname = loginname;
+    }
 
-	/**
-	 * @return the fullname
-	 */
-	public String getFullname() {
-		return fullname;
-	}
+    public String getCryptpassword() {
+        return cryptpassword;
+    }
 
-	/**
-	 * @param fullname the fullname to set
-	 */
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
-	}
+    public void setCryptpassword(String cryptpassword) {
+        this.cryptpassword = cryptpassword;
+    }
 
-	/**
-	 * @return the loginname
-	 */
-	public String getLoginname() {
-		return loginname;
-	}
+    public String getEmailaddress() {
+        return emailaddress;
+    }
 
-	/**
-	 * @param loginname the loginname to set
-	 */
-	public void setLoginname(String loginname) {
-		this.loginname = loginname;
-	}
+    public void setEmailaddress(String emailaddress) {
+        this.emailaddress = emailaddress;
+    }
 
-	/**
-	 * @return the cryptpassword
-	 */
-	public String getCryptpassword() {
-		return cryptpassword;
-	}
-
-	/**
-	 * @param cryptpassword the cryptpassword to set
-	 */
-	public void setCryptpassword(String cryptpassword) {
-		this.cryptpassword = cryptpassword;
-	}
-
-	/**
-	 * @return the emailaddress
-	 */
-	public String getEmailaddress() {
-		return emailaddress;
-	}
-
-	/**
-	 * @param emailaddress the emailaddress to set
-	 */
-	public void setEmailaddress(String emailaddress) {
-		this.emailaddress = emailaddress;
-	}
-
-	/**
-	 * @param isenabled the isenabled to set
-	 */
-	public void setIsenabled(boolean isenabled) {
-		this.isenabled = isenabled;
-	}
-	
+    public void setIsenabled(boolean isenabled) {
+        this.isenabled = isenabled;
+    }
+    
 }

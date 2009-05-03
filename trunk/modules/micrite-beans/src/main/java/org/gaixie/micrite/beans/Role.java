@@ -40,80 +40,64 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * 映射 roles 表.
+ * Micrite应用的一个角色。
  */
 @Entity
 @Table(name = "roles")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Role {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
-	private String name;
-	
-	private String description;
-	
-	@ManyToMany(targetEntity = Authority.class, fetch = FetchType.EAGER)  
-	@JoinTable(name = "role_authority_map", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))  
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)  
-	private Set<Authority> authorities;  
-	/**
-	 * The default constructor
-	 */
-	public Role() {
-		
-	}
 
-	/**
-	 * @return the id
-	 */
-	public Integer getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    
+    private String name;
+    
+    private String description;
+    
+    @ManyToMany(targetEntity = Authority.class, fetch = FetchType.EAGER)  
+    @JoinTable(name = "role_authority_map", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))  
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)  
+    private Set<Authority> authorities;  
+    
+    /**
+     * No-arg constructor for JavaBean tools.
+     */
+    public Role() {
+        
+    }
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//     
+    public Integer getId() {
+        return id;
+    }
 
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public String getName() {
+        return name;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
 
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Set<Authority> getAuthorities() {
-		return authorities;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setAuthorities(Set<Authority> authorities) {
-		this.authorities = authorities;
-	}
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
 
 }

@@ -27,194 +27,194 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.gaixie.micrite</groupId>
-		<artifactId>micrite-modules</artifactId>
-		<version>0.5-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>org.gaixie.micrite</groupId>
+        <artifactId>micrite-modules</artifactId>
+        <version>0.5-SNAPSHOT</version>
+    </parent>
 
-	<groupId>org.gaixie.micrite</groupId>
-	<artifactId>micrite-common</artifactId>
-	<name>Micrite Modules :: Common</name>
-	<packaging>jar</packaging>
+    <groupId>org.gaixie.micrite</groupId>
+    <artifactId>micrite-common</artifactId>
+    <name>Micrite Modules :: Common</name>
+    <packaging>jar</packaging>
 
-	<properties>
-		<!-- 内置Derby数据库供自动测试用 -->
-		<jdbc.database>derby</jdbc.database>
-		<jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc.driver>
-		<jdbc.url>jdbc:derby:${project.build.directory}/micrite_db;create=true</jdbc.url>
-		<jdbc.username>micrite</jdbc.username>
-		<jdbc.password>micrite</jdbc.password>
-	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity</artifactId>
-		</dependency>
-	</dependencies>
-	<build>
-		<plugins>
-    		<plugin>
+    <properties>
+        <!-- 内置Derby数据库供自动测试用 -->
+        <jdbc.database>derby</jdbc.database>
+        <jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc.driver>
+        <jdbc.url>jdbc:derby:${project.build.directory}/micrite_db;create=true</jdbc.url>
+        <jdbc.username>micrite</jdbc.username>
+        <jdbc.password>micrite</jdbc.password>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>		
-			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>process-dbscripts</id>
-						<phase>process-resources</phase>
-						<configuration>
-							<tasks>
-								<property name="build.dbscripts" value="${project.build.directory}/dbscripts" />
-								<mkdir dir="${build.dbscripts}" />
+            </plugin>        
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>process-dbscripts</id>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <property name="build.dbscripts" value="${project.build.directory}/dbscripts" />
+                                <mkdir dir="${build.dbscripts}" />
 
-								<!--
-									need a directory for each db to exist before generation can
-									happen
-								-->
-								<mkdir dir="${build.dbscripts}/derby" />
-								<mkdir dir="${build.dbscripts}/mssql" />
-								<mkdir dir="${build.dbscripts}/mysql" />
-								<!-- <mkdir dir="${build.dbscripts}/oracle" /> -->
-								<mkdir dir="${build.dbscripts}/postgresql" />
+                                <!--
+                                    need a directory for each db to exist before generation can
+                                    happen
+                                -->
+                                <mkdir dir="${build.dbscripts}/derby" />
+                                <mkdir dir="${build.dbscripts}/mssql" />
+                                <mkdir dir="${build.dbscripts}/mysql" />
+                                <!-- <mkdir dir="${build.dbscripts}/oracle" /> -->
+                                <mkdir dir="${build.dbscripts}/postgresql" />
 
-								<path id="texen.path">
-									<fileset dir="${project.build.directory}/lib" />
-									<pathelement location="${project.basedir}/src/main/scripts/sql/" />
-									<pathelement location="${project.basedir}/src/main/scripts/sql/database" />
-								</path>
-								<taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask" classpathref="texen.path" />
+                                <path id="texen.path">
+                                    <fileset dir="${project.build.directory}/lib" />
+                                    <pathelement location="${project.basedir}/src/main/scripts/sql/" />
+                                    <pathelement location="${project.basedir}/src/main/scripts/sql/database" />
+                                </path>
+                                <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask" classpathref="texen.path" />
 
-								<texen controlTemplate="control.vm" contextProperties="${project.basedir}/src/main/scripts/sql/dbscripts.properties" useClasspath="true" inputEncoding="UTF-8" outputEncoding="UTF-8" outputDirectory="${build.dbscripts}" outputFile="README.txt" />
+                                <texen controlTemplate="control.vm" contextProperties="${project.basedir}/src/main/scripts/sql/dbscripts.properties" useClasspath="true" inputEncoding="UTF-8" outputEncoding="UTF-8" outputDirectory="${build.dbscripts}" outputFile="README.txt" />
 
-								<!-- just copy over the droptables script -->
-								<copy todir="${build.dbscripts}" file="${project.basedir}/src/main/scripts/sql/droptables.sql" />
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
+                                <!-- just copy over the droptables script -->
+                                <copy todir="${build.dbscripts}" file="${project.basedir}/src/main/scripts/sql/droptables.sql" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
 
-				</executions>
-			</plugin>
+                </executions>
+            </plugin>
 
-			<!-- sql-maven-plugin -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>sql-maven-plugin</artifactId>
-				<version>1.3</version>
+            <!-- sql-maven-plugin -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <version>1.3</version>
 
-				<dependencies>
-					<!-- specify the dependent jdbc driver here -->
-					<!--
-						修改为PostgreSQL <dependency> <groupId>postgresql</groupId>
-						<artifactId>postgresql</artifactId>
-						<version>8.1-408.jdbc3</version> </dependency>
-					-->
-					<dependency>
-						<groupId>org.apache.derby</groupId>
-						<artifactId>derby</artifactId>
-						<version>10.4.2.0</version>
-					</dependency>
-				</dependencies>
+                <dependencies>
+                    <!-- specify the dependent jdbc driver here -->
+                    <!--
+                        修改为PostgreSQL <dependency> <groupId>postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>8.1-408.jdbc3</version> </dependency>
+                    -->
+                    <dependency>
+                        <groupId>org.apache.derby</groupId>
+                        <artifactId>derby</artifactId>
+                        <version>10.4.2.0</version>
+                    </dependency>
+                </dependencies>
 
-				<!-- common configuration shared by all executions -->
-				<configuration>
-					<driver>${jdbc.driver}</driver>
-					<url>${jdbc.url}</url>
-					<username>${jdbc.username}</username>
-					<password>${jdbc.password}</password>
-					<encoding>UTF-8</encoding>
-					<!--
-						<username>postgres</username> <password>password</password>
-					-->
-					<!--
-						You can comment out username/password configurations and have
-						maven to look them up in your settings.xml using ${settingsKey}
-					-->
-					<settingsKey>sensibleKey</settingsKey>
-					<!--all executions are ignored if -Dmaven.test.skip=true-->
-					<skip>${maven.test.skip}</skip>
-				</configuration>
+                <!-- common configuration shared by all executions -->
+                <configuration>
+                    <driver>${jdbc.driver}</driver>
+                    <url>${jdbc.url}</url>
+                    <username>${jdbc.username}</username>
+                    <password>${jdbc.password}</password>
+                    <encoding>UTF-8</encoding>
+                    <!--
+                        <username>postgres</username> <password>password</password>
+                    -->
+                    <!--
+                        You can comment out username/password configurations and have
+                        maven to look them up in your settings.xml using ${settingsKey}
+                    -->
+                    <settingsKey>sensibleKey</settingsKey>
+                    <!--all executions are ignored if -Dmaven.test.skip=true-->
+                    <skip>${maven.test.skip}</skip>
+                </configuration>
 
-				<executions>
-					<execution>
-						<id>create-schema</id>
-						<phase>process-test-classes</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<autocommit>true</autocommit>
-							<srcFiles>
-								<!--
-									<srcFile>${project.build.directory}/dbscripts/droptables.sql</srcFile>
-								-->
-								<srcFile>${project.build.directory}/dbscripts/droptables.sql</srcFile>
-								<srcFile>${project.build.directory}/dbscripts/${jdbc.database}/createdb.sql</srcFile>
-							</srcFiles>
-							<onError>continue</onError>
-						</configuration>
-					</execution>
+                <executions>
+                    <execution>
+                        <id>create-schema</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <autocommit>true</autocommit>
+                            <srcFiles>
+                                <!--
+                                    <srcFile>${project.build.directory}/dbscripts/droptables.sql</srcFile>
+                                -->
+                                <srcFile>${project.build.directory}/dbscripts/droptables.sql</srcFile>
+                                <srcFile>${project.build.directory}/dbscripts/${jdbc.database}/createdb.sql</srcFile>
+                            </srcFiles>
+                            <onError>continue</onError>
+                        </configuration>
+                    </execution>
 
-					<execution>
-						<id>shutdown-database</id>
-						<phase>process-test-classes</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<url>${jdbc.url};shutdown=true;user=${jdbc.username};password=${jdbc.password}</url>
-							<skipOnConnectionError>true</skipOnConnectionError>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+                    <execution>
+                        <id>shutdown-database</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <url>${jdbc.url};shutdown=true;user=${jdbc.username};password=${jdbc.password}</url>
+                            <skipOnConnectionError>true</skipOnConnectionError>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
 
-			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
-			</plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
 
-			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-			</plugin>
-		</plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+        </plugins>
 
-		<!--
-			通过资源文件的过滤，生成本地derby配置信息，放入target/classes目录
-			供其他模块调用。
-		-->
-		<resources>
-			<resource>
-				<directory>src/main/resources/hibernate</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>databaseResource-hibernate.xml</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/resources/hibernate</directory>
-				<filtering>false</filtering>
-				<excludes>
-					<exclude>databaseResource-hibernate.xml</exclude>
-				</excludes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>*</include>
-				</includes>
-			</resource>			
-		</resources>
+        <!--
+            通过资源文件的过滤，生成本地derby配置信息，放入target/classes目录
+            供其他模块调用。
+        -->
+        <resources>
+            <resource>
+                <directory>src/main/resources/hibernate</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>databaseResource-hibernate.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/hibernate</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>databaseResource-hibernate.xml</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*</include>
+                </includes>
+            </resource>            
+        </resources>
 
-	</build>
+    </build>
 
 </project>
