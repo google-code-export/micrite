@@ -11,10 +11,10 @@
     <script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
 <script>
 Ext.onReady(function(){
-	var a = Ext.get('expired');
-	a.on('click',function(){
-		window.location='j_spring_security_logout';
-		})
+    var a = Ext.get('expired');
+    a.on('click',function(){
+        window.location='j_spring_security_logout';
+        })
 })
 
 </script>

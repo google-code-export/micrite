@@ -29,31 +29,32 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-    <package name="micrite-security" extends="json-default" namespace="/">
+    <package name="micrite-security" extends="json-default"
+        namespace="/">
 
-		<action name="loginSuccess" class="loginAction"	method="loginSuccess">
-			<result name="success" type="json">
+        <action name="loginSuccess" class="loginAction" method="loginSuccess">
+            <result name="success" type="json">
                 <param name="target">loginResult</param>
             </result>
 
-		</action>
-		<action name="loginFailed" class="loginAction"	method="loginFaile">
-			<result name="success" type="json">
+        </action>
+        <action name="loginFailed" class="loginAction" method="loginFaile">
+            <result name="success" type="json">
                 <param name="target">loginResult</param>
             </result>
-		</action>	
+        </action>
 
-		<action name="loadMenu" class="loginAction"	method="loadMenu">
-			<result name="success" type="json">
+        <action name="loadMenu" class="loginAction" method="loadMenu">
+            <result name="success" type="json">
                 <param name="target">menu</param>
             </result>
-		</action>	
-				
-        <action name="login" >
-            <result name="success" type="redirect" >
+        </action>
+
+        <action name="login">
+            <result name="success" type="redirect">
                 <param name="location">/login.jsp</param>
             </result>
-        </action>			
+        </action>
     </package>
 
 </struts>

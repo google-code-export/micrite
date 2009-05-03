@@ -22,29 +22,28 @@
  *
  */
 
-package org.gaixie.micrite.security.dao;
+package org.gaixie.micrite.security.dao.hibernate;
 
 import java.util.List;
 
 import org.gaixie.micrite.beans.Authority;
-import org.gaixie.micrite.beans.User;
+import org.gaixie.micrite.security.dao.IAuthorityDao;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Order;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
- * 安全管理持久化管理
+ * 接口<code>IAuthorityDao</code> 的Hibernate实现。
  *
  */
-public interface ISecurityDao {
-	/**
-	 * 根据用户名加载用户	
-	 * @param username 用户名
-	 * @return 用户实体资源
-	 */
-	public User loadUserByUsername(String username);
+public class AuthorityDaoImpl extends HibernateDaoSupport implements IAuthorityDao {
 
-	/**
-	 * 根据权限类型加载权限	
-	 * @param type 权限类型
-	 * @return 用户权限
-	 */	
-	public List<Authority> find(String type);
+    @SuppressWarnings("unchecked")
+    public List<Authority> findByType(String type) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(Authority.class);
+        criteria.add(Expression.eq("type", type));
+        criteria.addOrder(Order.desc("value"));
+        return getHibernateTemplate().findByCriteria(criteria);
+    }	
 }

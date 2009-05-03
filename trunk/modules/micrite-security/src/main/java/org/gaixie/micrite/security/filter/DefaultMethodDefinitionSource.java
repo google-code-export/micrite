@@ -24,24 +24,25 @@
 
 package org.gaixie.micrite.security.filter;
 
-import org.springframework.security.ConfigAttributeDefinition;
-import org.springframework.security.intercept.method.AbstractMethodDefinitionSource;
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import org.springframework.security.ConfigAttributeDefinition;
+import org.springframework.security.intercept.method.AbstractMethodDefinitionSource;
+
 /**
- * 从MethodMapFactoryBean中获取被调用的方法所需要的权限标识符，如 ROLE_ADMIN
+ * 从 <code>MethodMapFactoryBean</code> 中获取被调用的方法所需要的权限标识符。
  * 
  * @see org.gaixie.micrite.security.filter.MethodMapFactoryBean
  */
-public class DefaultMethodDefinitionSource extends AbstractMethodDefinitionSource {
+public class DefaultMethodDefinitionSource extends
+        AbstractMethodDefinitionSource {
 
-    private AspectJMethodMatcher                          methodMatcher;
+    private AspectJMethodMatcher methodMatcher;
     private LinkedHashMap<String, ConfigAttributeDefinition> methodMap = new LinkedHashMap<String, ConfigAttributeDefinition>();
 
     public DefaultMethodDefinitionSource(AspectJMethodMatcher methodMatcher,
@@ -50,13 +51,15 @@ public class DefaultMethodDefinitionSource extends AbstractMethodDefinitionSourc
         this.methodMap = methodMap;
     }
 
+    @SuppressWarnings("unchecked")
     public Collection getConfigAttributeDefinitions() {
         return null;
     }
 
     @Override
     protected ConfigAttributeDefinition lookupAttributes(Method method) {
-        Set<Entry<String, ConfigAttributeDefinition>> set = getMethodMap().entrySet();
+        Set<Entry<String, ConfigAttributeDefinition>> set = getMethodMap()
+                .entrySet();
         for (Entry<String, ConfigAttributeDefinition> entry : set) {
             String pattern = entry.getKey();
             boolean matched = getMethodMatcher().match(pattern, method);
@@ -67,10 +70,12 @@ public class DefaultMethodDefinitionSource extends AbstractMethodDefinitionSourc
         return null;
     }
 
-    public ConfigAttributeDefinition getAttributes(Method method, Class targetClass) {
+    @SuppressWarnings("unchecked")
+    public ConfigAttributeDefinition getAttributes(Method method,
+            Class targetClass) {
         return null;
     }
-    
+
     public Map<String, ConfigAttributeDefinition> getMethodMap() {
         return methodMap;
     }

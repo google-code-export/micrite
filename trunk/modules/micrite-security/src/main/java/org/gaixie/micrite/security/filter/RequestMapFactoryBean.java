@@ -26,38 +26,43 @@ package org.gaixie.micrite.security.filter;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+
 import org.gaixie.micrite.beans.Authority;
-import org.gaixie.micrite.security.dao.ISecurityDao;
+import org.gaixie.micrite.security.dao.IAuthorityDao;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.security.ConfigAttribute;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.ConfigAttributeDefinition;
-import org.springframework.security.SecurityConfig;
-import org.springframework.security.intercept.web.RequestKey;
 import org.springframework.security.ConfigAttributeEditor;
+import org.springframework.security.intercept.web.RequestKey;
 
 /**
- * 产生一个map，包含所有url:authority的映射
- * key是authoritie的value（ant表达式，表示一个url集合）
- * value是访问这些url所需要的权限（authority）
- * 用于设置urlDefinitionSource中的requestMap
- * 
+ * 获取所有类型为 <code>URL</code> 的权限标识符。
+ * <p>
+ * 在Bean初始化时，获取所有类型为 <code>URL</code> 的权限标识符， 以 <code>LinkedHashMap</code>
+ * 格式保存，供Spring Security在进行URL拦截验证时访问。
+ * </p>
+ * <p>
+ * <code>LinkedHashMap</code> 的key是 <code>Authority</code> 的value，
+ * value是访问这些method所需要的权限 <code>ConfigAttributeDefinition</code>。
  */
 public class RequestMapFactoryBean implements FactoryBean {
 
-    private static final String                                  AUTHORITY_TYPE = "URL";
-	private ISecurityDao                                         securityDao;                            
+    private static final String AUTHORITY_TYPE = "URL";
+    @Autowired
+    private IAuthorityDao authorityDao;
     private LinkedHashMap<RequestKey, ConfigAttributeDefinition> requestMap;
 
     public void init() {
         requestMap = new LinkedHashMap<RequestKey, ConfigAttributeDefinition>();
-        List<Authority> authorities = securityDao.find(AUTHORITY_TYPE);
+        List<Authority> authorities = authorityDao.findByType(AUTHORITY_TYPE);
         for (Authority authority : authorities) {
             RequestKey key = new RequestKey(authority.getValue());
-            String grantedAuthorities = authority.getRoleAuthorities();
-            if(grantedAuthorities != null) {
+            String grantedAuthorities = authority.getRolesString();
+            if (grantedAuthorities != null) {
                 ConfigAttributeEditor configAttrEditor = new ConfigAttributeEditor();
                 configAttrEditor.setAsText(grantedAuthorities);
-                ConfigAttributeDefinition definition = (ConfigAttributeDefinition) configAttrEditor.getValue();
+                ConfigAttributeDefinition definition = (ConfigAttributeDefinition) configAttrEditor
+                        .getValue();
                 requestMap.put(key, definition);
             }
         }
@@ -70,6 +75,7 @@ public class RequestMapFactoryBean implements FactoryBean {
         return requestMap;
     }
 
+    @SuppressWarnings("unchecked")
     public Class getObjectType() {
         return LinkedHashMap.class;
     }
@@ -78,17 +84,4 @@ public class RequestMapFactoryBean implements FactoryBean {
         return true;
     }
 
-	/**
-	 * @return the securityDao
-	 */
-	public ISecurityDao getSecurityDao() {
-		return securityDao;
-	}
-
-	/**
-	 * @param securityDao  the securityDao to set
-	 */
-	public void setSecurityDao(ISecurityDao securityDao) {
-		this.securityDao = securityDao;
-	}
 }

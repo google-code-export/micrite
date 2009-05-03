@@ -24,13 +24,8 @@
 
 package org.gaixie.micrite.security.service.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.gaixie.micrite.beans.User;
-import org.gaixie.micrite.security.dao.ISecurityDao;
-import org.gaixie.micrite.security.service.ISecurityService;
+import org.gaixie.micrite.security.dao.IUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.userdetails.UserDetails;
@@ -38,26 +33,26 @@ import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
 
 /**
- * 访问安全控制实现
+ * 提供基于Spring Security的用户身份验证。
+ * <p>
+ * Spring Security在用户登录时、进行URL和Method安全拦截时， 都会调用 <code>UserDetailsService</code>
+ * 接口进行身份验证。
+ * 
  * @see org.springframework.security.userdetails.UserDetailsService
- * @see org.gaixie.micrite.security.service.ISecurityService
  */
-public class SecurityServiceImpl implements UserDetailsService, ISecurityService   {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
-	@Autowired
-	private ISecurityDao securityDao;
-	
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
-	 */
-	public UserDetails loadUserByUsername(String username)
-			throws UsernameNotFoundException, DataAccessException {
-		User user = securityDao.loadUserByUsername(username);
- 
-		if (user==null) {
-			throw new UsernameNotFoundException("User " + username + " has no GrantedAuthority");
-		}
-		
-		return user;
-	}
+    @Autowired
+    private IUserDao userDao;
+
+    public UserDetails loadUserByUsername(String username)
+            throws UsernameNotFoundException, DataAccessException {
+        User user = userDao.findByUsername(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User " + username
+                    + " has no GrantedAuthority");
+        }
+        return user;
+    }
 }

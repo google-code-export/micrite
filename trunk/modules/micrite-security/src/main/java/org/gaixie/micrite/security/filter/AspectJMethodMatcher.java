@@ -1,4 +1,3 @@
-package org.gaixie.micrite.security.filter;
 /* ===========================================================
  * $Id$
  * This file is part of Micrite
@@ -23,20 +22,22 @@ package org.gaixie.micrite.security.filter;
  *
  */
 
+package org.gaixie.micrite.security.filter;
+
 import java.lang.reflect.Method;
+
 import org.aspectj.weaver.tools.PointcutExpression;
 import org.aspectj.weaver.tools.PointcutParser;
 import org.aspectj.weaver.tools.ShadowMatch;
 
 /**
- * Method匹配器实现
- * 用AspectJ PointCut表达式匹配目标方法
+ * Method匹配器实现，采用AspectJ PointCut表达式匹配目标方法。
  * 
  */
 public class AspectJMethodMatcher {
 
     private PointcutParser pointcutParser = PointcutParser
-                                                  .getPointcutParserSupportingAllPrimitivesAndUsingContextClassloaderForResolution();
+            .getPointcutParserSupportingAllPrimitivesAndUsingContextClassloaderForResolution();
 
     public boolean match(String pattern, Method method) {
         pattern = "execution(" + pattern + ")";
