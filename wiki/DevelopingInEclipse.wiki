@@ -42,8 +42,13 @@ and on windows its usually at
 "%USERPROFILE%\.m2\repository"
 }}}
 == Code Formatting ==
+ * Configure eclipse to not use tabs by doing the following:
+{{{
+Window --> Preferences --> Java --> Code Style --> Formatter --> Java Conventions [built-in]
+}}}
+Click on "Edit". Under Indentation select Tab policy as "space only". Enter a new name for this profile and click "OK".
 
- * Create new java file(s) with comments using
+ * Create new java file(s) with comments using:
  {{{
  Window --> Preferences --> Java --> Code Style --> Code Templates --> Comments --> Files
   }}}

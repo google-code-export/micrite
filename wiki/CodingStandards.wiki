@@ -1,5 +1,6 @@
 #summary This page describes the standards used for Micrite code (java, xml, whatever).
 #labels Phase-Implementation
+<wiki:toc max_depth="3" />
 
 = Introduction =
 This page describes the standards used for Micrite code (java, xml, whatever). Code is read by a human being more often than it is actually written by a human being, make the code a pleasure to read.
@@ -8,11 +9,137 @@ In addition, check the wiki for details on [DevelopingInEclipse].
 
 = Indentation =
 == Java ==
+Lets follow Sun's coding standard rules which are pretty common in Java.
+
+http://java.sun.com/docs/codeconv/
+
+http://java.sun.com/docs/codeconv/html/CodeConvTOC.doc.html
+
+ * 4 characters indentation
+ * *No tabs* please!
+
+Correct brace style:
+{{{
+public class Foo {
+    public void foo(boolean a, int x, int y, int z) {
+        do {
+            try {
+                if (x > 0) {
+                    int someVariable = a ?  x : y;
+                } else if (x < 0) {
+                    int someVariable = (y + z);
+                    someVariable = x = x + y;
+                } else {
+                    for (int i = 0; i < 5; i++) {
+                        doSomething(i);
+                    }
+                }
+
+                switch (a) {
+                    case 0:
+                        doCase0();
+                        break;
+                    default:
+                        doDefault();
+                }
+            } catch (Exception e) {
+                processException(e.getMessage(), x + y, z, a);
+            } finally {
+                processFinally();
+            }
+        } while (true);
+
+        if (2 < 3) {
+            return;
+        }
+
+        if (3 < 4) {
+            return;
+        }
+
+        do {
+            x++
+        } while (x < 10000);
+
+        while (x < 50000) {
+            x++;
+        }
+
+        for (int i = 0; i < 5; i++) {
+            System.out.println(i);
+        }
+    }
+
+    private class InnerClass implements I1, I2 {
+        public void bar() throws E1, E2 {
+        }
+    }
+}
+}}}
+
 == XML ==
+ * Use 4 characters. This is to allow IDEs such as Eclipse to use a unified formatting convention
+ * *No tabs* please!
+
 == Javascripts ==
-= Interfaces =
+ * Use 4 characters.
+ * *No tabs* please!
+ 
+= Classes and Interfaces =
+ * Sun's naming guidelines states.
+ Class names should be nouns, in mixed case with the first letter of each internal word capitalized. Try to keep your class names simple and descriptive. Use whole words - avoid acronyms and abbreviations (unless the abbreviation is much more widely used than the long form, such as URL or HTML). 
+ Examples:
+ {{{
+ class UserAction
+ }}}
+ * Interface names should be capitalized like class names.
+ For interface names, we follow the "I"-for-interface convention: all interface names are prefixed with an "I". 
+ Examples:
+ {{{
+  interface IUserDao
+ }}} 
+ This convention aids code readability by making interface names more readily recognizable.
+
 = Exceptions =
-= Package Naming =
+The names of exception classes (subclasses of Exception) should follow the common practice of ending in "Exception". 
+
+= Imports =
+ * Should be fully qualified e.g. 
+{{{
+import java.util.Vector
+//and not
+import java.util.*
+}}}
+ * Should be sorted alphabetically, with java, then javax packages listed first, and then other packages sorted by package name.
+
 = JavaDoc =
+[http://java.sun.com/j2se/javadoc/writingapispecs/index.html Sun's Requirements for Writing Java API Specifications] deals with required semantic content of documentation comments for API specifications for the Java platform. Micrite APIs should follow these conventions.
+
+[http://java.sun.com/j2se/javadoc/writingdoccomments/index.html Sun's How to Write Doc Comments for Javadoc] contains style guide and tag conventions for documentation comments. These conventions lead to high-quality code and API documentation. All code written for the Micrite should follow these conventions except as noted below. 
+ * @version Should *not be used* in source code at all.
+ * @author Should *not be used* in source code at all.
+ * All HTML tags appearing in Javadoc comments must be explicitly terminated, even the ones that are considered optional in older versions of HTML such as
+ {{{
+ <p>...</p>
+ }}}
+ Various internal tools that post-process the extracted HTML documentation into other forms (e.g., Windows help file) need these tags.
+ * Documenting interface method implementations
+ When a method declared in an interface gets implemented in some class, there's often not a lot more to say about the method that wasn't already said in the Javadoc for the interface. In such cases, the Javadoc for the method can be omitted entirely. If the interface and the class will be Javadoc'd together, the standard 1.2 doclet automatically copies the method's description and tags from the interface to the class; if Javadoc'd separately, the automatically generated Javadoc for the method in the class will at least link it to the method in the interface.
+
+ In the source code, the implementation method should be flagged with a non-doc comment like
+ {{{
+ /*
+  * Implements a method in IPath.
+  */
+ }}}
+ to alert the reader that the contract for the method is described in the named interface. This reduces the amount of method contract duplication---a serious maintenance headache---without compromising readability of the code. 
 = Unit Test Cases =
+Use the naming scheme {{{ *Test.java }}} for unit tests.
 = Logging =
+Use Log4j rather than others.
+ * The TRACE Level designates finer-grained informational events than the DEBUG
+ * The DEBUG Level designates fine-grained informational events that are most useful to debug an application. 
+ * The INFO level designates informational messages that highlight the progress of the application at coarse-grained level. 
+ * The WARN level designates potentially harmful situations. 
+ * The ERROR level designates error events that might still allow the application to continue running. 
+ * The FATAL level designates very severe error events that will presumably lead the application to abort. 
