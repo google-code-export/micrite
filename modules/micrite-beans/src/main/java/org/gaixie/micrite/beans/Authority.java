@@ -42,116 +42,92 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * 映射 authorities 表.
+ * Micrite的一个授权资源，结合角色来实现系统安全策略。
  */
 @Entity
 @Table(name = "authorities")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Authority {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    private Integer id;
 
-	private String name;
-	
-	private String type;
-	
-	private String value;
-	
-	@ManyToMany(mappedBy = "authorities", targetEntity = Role.class, fetch = FetchType.EAGER)
+    private String name;
+
+    private String type;
+
+    private String value;
+
+    @ManyToMany(mappedBy = "authorities", targetEntity = Role.class, fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	private Set<Role> roles;
-	
-	/**
-	 * The default constructor
-	 */
-	public Authority() {
-		
-	}
-	
+    private Set<Role> roles;
+
     /**
-     * Get role authorities as string
-     * 
-     * @return
+     * No-arg constructor for JavaBean tools.
      */
-    @Transient
-	public String getRoleAuthorities() {
-    	List<String> roleAuthorities = new ArrayList<String>();
-    	for(Role role : roles) {
-    		roleAuthorities.add(role.getName());
-    	}
-        return StringUtils.join(roleAuthorities, ",");
+    public Authority() {
+
     }
 
-	/**
-	 * @return the id
-	 */
-	public Integer getId() {
-		return id;
-	}
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
+    public Integer getId() {
+        return id;
+    }
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * @return the value
-	 */
-	public String getValue() {
-		return value;
-	}
+    public String getType() {
+        return type;
+    }
 
-	/**
-	 * @return the roles
-	 */
-	public Set<Role> getRoles() {
-		return roles;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	/**
-	 * @param value the value to set
-	 */
-	public void setValue(String value) {
-		this.value = value;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	/**
-	 * @param roles the roles to set
-	 */
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Business Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//
+    /**
+     * 得到 <code>Authority</code> 被分配角色名称的字符串，并以 "," 分隔开。 
+     * <p>
+     * 如果访问一个 <code>URL</code> 需要拥有 <code>ROLE_ADMIN</code> 
+     * 或者 <code>ROLE_USER</code> 角色，那么得到的字符串的值为：
+     * </p>
+     * <p>
+     * <code>ROLE_ADMIN,ROLE_USER</code>
+     * </p>
+     */
+    @Transient
+    public String getRolesString() {
+        List<String> rolesList = new ArrayList<String>();
+        for (Role role : roles) {
+            rolesList.add(role.getName());
+        }
+        return StringUtils.join(rolesList, ",");
+    }    
 }
