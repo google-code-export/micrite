@@ -38,79 +38,42 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class CustomerServiceImpl implements ICustomerService {
 
-	@Autowired
-	private ICustomerDao customerDao;
+    @Autowired
+    private ICustomerDao customerDao;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.gaixie.micrite.crm.service.ICustomerService#addOrUpdateCustomer(org
-	 * .gaixie.micrite.beans.Customer)
-	 */
-	public void addOrUpdateCustomer(Customer customer, Integer customerSourceId) {
-		CustomerSource cs = customerDao.getCustomerSource(customerSourceId);
-		customer.setCustomerSource(cs);
-		if (customer.getId() == null) {
-			customerDao.saveCustomer(customer);
-		} else {
-			customerDao.updateCustomer(customer);
-		}
-	}
+    public void addOrUpdateCustomer(Customer customer, Integer customerSourceId) {
+        CustomerSource cs = customerDao.getCustomerSource(customerSourceId);
+        customer.setCustomerSource(cs);
+        if (customer.getId() == null) {
+            customerDao.saveCustomer(customer);
+        } else {
+            customerDao.updateCustomer(customer);
+        }
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.gaixie.micrite.crm.service.ICustomerService#findALLCustomerSource()
-	 */
-	public List<CustomerSource> findALLCustomerSource() {
-		List<CustomerSource> customerSource = customerDao
-				.findAllCustomerSource();
-		return customerSource;
-	}
+    public List<CustomerSource> findALLCustomerSource() {
+        List<CustomerSource> customerSource = customerDao
+                .findAllCustomerSource();
+        return customerSource;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.gaixie.micrite.crm.service.ICustomerService#findByIdExact(int)
-	 */
-	public Customer findByIdExact(int id) {
-		return customerDao.getCustomer(id);
-	}
+    public Customer findByIdExact(int id) {
+        return customerDao.getCustomer(id);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.gaixie.micrite.crm.service.ICustomerService#findByTelExact(java.lang
-	 * .String)
-	 */
-	public List<Customer> findByTelExact(String telephone) {
-		List<Customer> list = customerDao.findCustomerExact("telephone", telephone);
-		return list;
-	}
+    public List<Customer> findByTelExact(String telephone) {
+        List<Customer> list = customerDao.findCustomerExact("telephone", telephone);
+        return list;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.gaixie.micrite.crm.service.ICustomerService#findByTelExact(java.lang
-	 * .String)
-	 */
-	public List<Customer> findByTelVague(String telephone) {
-		List<Customer> list = customerDao.findCustomerVague("telephone", telephone);
-		return list;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.gaixie.micrite.crm.service.ICustomerService#getCustomerNum()
-	 */
-	public int getCustomerNum() {
-		int count = customerDao.getCustomerCount();
-		return  count;
-	}
+    public List<Customer> findByTelVague(String telephone) {
+        List<Customer> list = customerDao.findCustomerVague("telephone", telephone);
+        return list;
+    }
+    
+    public int getCustomerNum() {
+        int count = customerDao.getCustomerCount();
+        return  count;
+    }
 
 }

@@ -32,6 +32,7 @@
     <package name="micrite-security" extends="json-default"
         namespace="/">
 
+        <!-- ~~~~~~~~~~~~~~~~~~~~ LOGIN ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->
         <action name="loginSuccess" class="loginAction" method="loginSuccess">
             <result name="success" type="json">
                 <param name="target">loginResult</param>
@@ -55,6 +56,8 @@
                 <param name="location">/login.jsp</param>
             </result>
         </action>
+        
+        <!-- ~~~~~~~~~~~~~~~~~~~~ USER ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->        
     </package>
 
 </struts>

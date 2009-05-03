@@ -49,7 +49,7 @@ Ext.app.SearchField = Ext.extend(Ext.form.TwinTriggerField, {
 });
 
 function sourceType(val){
-	return val.name;
+    return val.name;
 }
 
 Ext.ns('micrite.crm.customerList');
@@ -59,9 +59,9 @@ FromPanel = function() {
             {name: 'id'},{name: 'name'}                   
         ]); 
     var store = new Ext.data.Store({    
-    	autoLoad:true,
+        autoLoad:true,
         //设定读取的地址
-        proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/crm/getPartner.action'}),    
+        proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/crm/customerGetPartner.action'}),    
         //设定读取的格式    
         reader: new Ext.data.JsonReader({    
             id:"id"
@@ -73,10 +73,10 @@ FromPanel = function() {
     Ext.form.Field.prototype.msgTarget = 'side';
 
     var ds = new Ext.data.Store({
-     	proxy: new Ext.data.HttpProxy({
-        	url: '/' + document.location.href.split("/")[3] + '/crm/find.action', // serverside script to post to
-        	method: 'POST' // method of posting .. GET or POST .. I've used POST
-    	}),
+         proxy: new Ext.data.HttpProxy({
+            url: '/' + document.location.href.split("/")[3] + '/crm/customerFind.action', // serverside script to post to
+            method: 'POST' // method of posting .. GET or POST .. I've used POST
+        }),
         reader: new Ext.data.JsonReader({}, [
                {name: 'id',type:'int'},
                {name: 'name'},
@@ -103,47 +103,47 @@ FromPanel = function() {
         header: false,
         border: false,
         bodyBorder: false,
-        layout: 'fit',	// Specifies that the items will now be arranged in columns
+        layout: 'fit',    // Specifies that the items will now be arranged in columns
 
         items: [{
             border:false,
             layout: 'fit',
             height: 350,            
             items: {
-	            xtype: 'grid',
-	            border: false,
-		        tbar: [{
-	               text:this.searchText,
-	               scope: this
-			    },
-	               new Ext.app.SearchField({
-	                   store: ds,
-	                   width:220
-	               }),'-',this.newCustomerLink
-			    ],	            
-	            ds: ds,
-	            cm: colModel,
-	            sm: new Ext.grid.RowSelectionModel({
-	                singleSelect: true,
-	                listeners: {
-	                    rowselect: function(sm, row, rec) {
-	                        Ext.getCmp("viewCustomerForm").getForm().loadRecord(rec);
-	                    }
-	                }
-	            })
-        	}
+                xtype: 'grid',
+                border: false,
+                tbar: [{
+                   text:this.searchText,
+                   scope: this
+                },
+                   new Ext.app.SearchField({
+                       store: ds,
+                       width:220
+                   }),'-',this.newCustomerLink
+                ],                
+                ds: ds,
+                cm: colModel,
+                sm: new Ext.grid.RowSelectionModel({
+                    singleSelect: true,
+                    listeners: {
+                        rowselect: function(sm, row, rec) {
+                            Ext.getCmp("viewCustomerForm").getForm().loadRecord(rec);
+                        }
+                    }
+                })
+            }
         }]
     });
 };
 
 //指明NavPanel的父类
 micrite.crm.customerList.FormPanel=Ext.extend(FromPanel, Ext.FormPanel, {
-	colModelId:'ID',
-	colModelName:'Name',
-	colModelMobile:'Mobile',
-	colModelSource:'Source',
-	searchText:'Search By Telephone',
-	newCustomerLink:'<a href="../crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>'
+    colModelId:'ID',
+    colModelName:'Name',
+    colModelMobile:'Mobile',
+    colModelSource:'Source',
+    searchText:'Search By Telephone',
+    newCustomerLink:'<a href="../crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>'
 });
 
 //因为采用autoload模式，不能用默认的国际化模式，只能显式的通过方法去加载国际化
