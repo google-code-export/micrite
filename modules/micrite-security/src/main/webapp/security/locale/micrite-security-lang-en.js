@@ -321,23 +321,23 @@ if(micrite.security.framework.LoginWindow) {
 
 if(micrite.security.framework.HeaderPanel) {
     Ext.override(micrite.security.framework.HeaderPanel, {
-    	homeText:'Home',
-    	userText:'User',
-    	exitText:'Exit'
+        homeText:'Home',
+        userText:'User',
+        exitText:'Exit'
     });
 }
 
 if(micrite.security.framework.NavPanel) {
     Ext.override(micrite.security.framework.NavPanel, {
-    	navPanelText:'Navigator',
-    	expandText:'Expand All',
-    	collapseText:'Collapse All',	
-    	allModulesText:'All Modules'
+        navPanelText:'Navigator',
+        expandText:'Expand All',
+        collapseText:'Collapse All',    
+        allModulesText:'All Modules'
     });
 }
 
 if(micrite.security.framework.MainPanel) {
     Ext.override(micrite.security.framework.MainPanel, {
-    	centerPanelText:'Center Panel'
+        centerPanelText:'Center Panel'
     });
 }

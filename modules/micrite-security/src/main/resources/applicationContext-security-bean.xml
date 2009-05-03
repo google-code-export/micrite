@@ -30,21 +30,20 @@
     xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean id="loginAction" class="org.gaixie.micrite.security.action.LoginAction" >
-    	<constructor-arg ref="userService" />
+    <bean id="loginAction" class="org.gaixie.micrite.security.action.LoginAction">
+        <constructor-arg ref="loginService" />
     </bean>
 
-	<bean id="userService" class="org.gaixie.micrite.security.service.impl.UserServiceImpl" />
+    <bean id="loginService" class="org.gaixie.micrite.security.service.impl.LoginServiceImpl" />
+    <bean id="userService"  class="org.gaixie.micrite.security.service.impl.UserServiceImpl" />
 
-	<bean id="securityService" class="org.gaixie.micrite.security.service.impl.SecurityServiceImpl" />
-	
-	<bean id="userDao" class="org.gaixie.micrite.security.dao.hibernate.UserDaoImpl">
-	    <property name="sessionFactory" ref="sessionFactory" />
-    </bean>	
-    
-	<bean id="securityDao" class="org.gaixie.micrite.security.dao.hibernate.SecurityDaoImpl">
-	    <property name="sessionFactory" ref="sessionFactory" />
-    </bean>	
-	
-	
+    <bean id="userDao" class="org.gaixie.micrite.security.dao.hibernate.UserDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="authorityDao" class="org.gaixie.micrite.security.dao.hibernate.AuthorityDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+
 </beans>

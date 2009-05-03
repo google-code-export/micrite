@@ -69,20 +69,20 @@ Ext.BLANK_IMAGE_URL = "js-lib/ext-js/resources/images/default/s.gif";
 Ext.ns('micrite.security.framework');
 micrite.security.framework.HeaderPanel = Ext.extend(Ext.Panel, {
 
-	homeText:'Home',
-	userText:'User',
-	exitText:'Exit',
-	
+    homeText:'Home',
+    userText:'User',
+    exitText:'Exit',
+    
     initComponent:function() {
         Ext.apply(this, {
-    		border :false,
-    		layout :'anchor',
-    		region :'north',
+            border :false,
+            layout :'anchor',
+            region :'north',
             cls: 'main-header',
-    		height :60,
+            height :60,
             items:[{
-    		    xtype :'box',
-    		    border :false,
+                xtype :'box',
+                border :false,
                 el: 'header',
                 height :30
             },
@@ -100,9 +100,9 @@ micrite.security.framework.HeaderPanel = Ext.extend(Ext.Panel, {
                     text:this.exitText,
                     tooltip: 'exit',
                     iconCls :'exit',
-					handler : function() {
-						window.location = 'j_spring_security_logout';
-					}
+                    handler : function() {
+                        window.location = 'j_spring_security_logout';
+                    }
                 }]
             })
             ]
@@ -148,8 +148,8 @@ NavPanel = function() {
     });
 
     this.root.appendChild(
-   		new Ext.tree.AsyncTreeNode({
-           	id:'allModulesRoot',
+           new Ext.tree.AsyncTreeNode({
+               id:'allModulesRoot',
             text:this.allModulesText,
             cls:'modules-node',
             leaf:false,
@@ -169,11 +169,11 @@ NavPanel = function() {
 // 指明NavPanel的父类
 micrite.security.framework.NavPanel=Ext.extend(NavPanel, Ext.tree.TreePanel, {
 
-	navPanelText:'Navigator',
-	expandText:'Expand All',
-	collapseText:'Collapse All',	
-	allModulesText:'All Modules'
-	
+    navPanelText:'Navigator',
+    expandText:'Expand All',
+    collapseText:'Collapse All',    
+    allModulesText:'All Modules'
+    
 });
 
 
@@ -194,28 +194,28 @@ MainPanel = function() {
 }
 
 micrite.security.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
-	centerPanelText:'Center Panel',
+    centerPanelText:'Center Panel',
     initEvents : function(){
-	    MainPanel.superclass.initEvents.call(this);
-	    this.body.on('click', this.onClick, this);
-//	    this.on("remove", function (e, tabItem){
-//	    	tabItem.cancel = true;
-//	    });
+        MainPanel.superclass.initEvents.call(this);
+        this.body.on('click', this.onClick, this);
+//        this.on("remove", function (e, tabItem){
+//            tabItem.cancel = true;
+//        });
 
-	},
-	// 点击tab上的链接，创建新的tab页并显示，class必须为inner-link，id为新tab的名字
-	onClick: function(e, target){
-		e.stopEvent();
-		if(target.className == 'inner-link'){
-			this.loadModule(target.href,target.id);
-		}
-	},
+    },
+    // 点击tab上的链接，创建新的tab页并显示，class必须为inner-link，id为新tab的名字
+    onClick: function(e, target){
+        e.stopEvent();
+        if(target.className == 'inner-link'){
+            this.loadModule(target.href,target.id);
+        }
+    },
 
 
     loadModule : function(href,tabTitle){
         var tab;
         if(!(tab = this.getItem(tabTitle))){
-        	var autoLoad = {url: href,scripts:true};
+            var autoLoad = {url: href,scripts:true};
             tab = new Ext.Panel({
                 id: tabTitle,
                 title: tabTitle,

@@ -22,18 +22,22 @@
  *
  */
 
-package org.gaixie.micrite.security.service;
+package org.gaixie.micrite.security.dao;
 
-import java.util.Map;
+import java.util.List;
 
+import org.gaixie.micrite.beans.Authority;
 
 /**
- * 类通过实现<code>ISecurityService</code>接口提供安全相关的服务。
+ * 提供与 <code>Authority</code> 实体有关的DAO接口。
  * 
- * <p>
- * 实现主要以Spring Security 为基础。
  */
-public interface ISecurityService {
-	    
-       
+public interface IAuthorityDao {
+    /**
+     * 根据权限类型获得权限对象集合。
+     * 
+     * @param type 权限类型
+     * @return <code>Authority</code> 对象集合
+     */
+    public List<Authority> findByType(String type);
 }

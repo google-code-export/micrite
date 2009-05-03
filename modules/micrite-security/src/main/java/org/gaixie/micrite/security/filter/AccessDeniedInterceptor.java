@@ -29,15 +29,14 @@ import org.springframework.aop.ThrowsAdvice;
 import org.springframework.security.AccessDeniedException;
 
 /**
- * 控制权限的AOP拦截器抛出AccessDeniedException后，进行相应后续处理
+ * 控制权限的AOP拦截器抛出 <code>AccessDeniedException</code> 后，进行相应后续处理。
  * 
- *
  */
 public class AccessDeniedInterceptor implements ThrowsAdvice {
 
     public void afterThrowing(Method method, Object[] args, Object target,
             AccessDeniedException exception) {
         System.out.println("access denied.....");
-        //TODO 通过DatabaseMethodDefinitionSource拒绝访问后的处理
+        // TODO 通过DatabaseMethodDefinitionSource拒绝访问后的处理
     }
 }

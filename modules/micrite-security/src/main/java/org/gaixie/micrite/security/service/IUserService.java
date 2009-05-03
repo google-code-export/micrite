@@ -24,23 +24,10 @@
 
 package org.gaixie.micrite.security.service;
 
-import java.util.Set;
-import java.util.Map;
-import org.gaixie.micrite.beans.User;
-
 /**
- * 用户业务模型
- *
+ * 提供与用户管理有关的服务。
+ * 
  */
 public interface IUserService {
 
-	/**
-	 * 根据User获得对应的入口 URL，用于显式在菜单上
-	 * @see org.gaixie.micrite.beans.User
-	 * @param user User实体
-	 * @param node 菜单上当前节点id
-	 * @return Menu Item List
-	 */
-	public Set<Map<String,Object>> loadMenuByUser(User user,String node);
-	
 }

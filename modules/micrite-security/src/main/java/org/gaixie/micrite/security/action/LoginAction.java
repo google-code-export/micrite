@@ -24,27 +24,15 @@
 
 package org.gaixie.micrite.security.action;
 
-import java.io.InputStream;
-import java.io.StringBufferInputStream;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-import net.sf.json.util.PropertyFilter;
-
 import org.apache.struts2.interceptor.SessionAware;
 import org.gaixie.micrite.beans.User;
-import org.gaixie.micrite.beans.Role;
-import org.gaixie.micrite.beans.Authority;
-import org.gaixie.micrite.security.service.IUserService;
-import org.springframework.jmx.export.annotation.ManagedAttribute;
+import org.gaixie.micrite.security.service.ILoginService;
 import org.springframework.jmx.export.annotation.ManagedResource;
-import org.springframework.security.GrantedAuthority;
 import org.springframework.security.context.SecurityContext;
-import org.springframework.security.ui.WebAuthenticationDetails;
 
 import com.opensymphony.xwork2.ActionSupport;
  
@@ -56,7 +44,7 @@ import com.opensymphony.xwork2.ActionSupport;
 @ManagedResource(objectName="micrite:type=action,name=LoginAction", description="Micrite LoginAction Bean")
 public class LoginAction extends ActionSupport implements SessionAware{ 
 
-	private IUserService userService;
+	private ILoginService loginService;
 	
 	private User user;
     private String node;
@@ -66,12 +54,12 @@ public class LoginAction extends ActionSupport implements SessionAware{
 	private Map<String,String> errorMsg = new HashMap<String,String>();
 	
 	/**
-	 * 带参数构造函数，实例化对象，并通过参数初始化<strong>userService</strong>
-	 * @param userService IUserService接口，通过Ioc模式注入业务实例
-	 * @see org.gaixie.micrite.security.service.IUserService
+	 * 带参数构造函数，实例化对象，并通过参数初始化<strong>loginService</strong>
+	 * @param loginService ILoginService接口，通过Ioc模式注入业务实例
+	 * @see org.gaixie.micrite.security.service.ILoginService
 	 */
-	public LoginAction(IUserService userService) {
-		this.userService = userService;
+	public LoginAction(ILoginService loginService) {
+		this.loginService = loginService;
 	}
 
 	public Set<Map<String,Object>> getMenu() {
@@ -117,7 +105,7 @@ public class LoginAction extends ActionSupport implements SessionAware{
 	}
 
 	public String loadMenu(){
-		menu = userService.loadMenuByUser(user,node);
+		menu = loginService.loadChildNodes(user,node);
 		return SUCCESS;
 	}
 	

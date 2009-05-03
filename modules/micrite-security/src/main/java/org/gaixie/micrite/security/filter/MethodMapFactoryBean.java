@@ -26,37 +26,43 @@ package org.gaixie.micrite.security.filter;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-import org.gaixie.micrite.security.dao.ISecurityDao;
+
 import org.gaixie.micrite.beans.Authority;
+import org.gaixie.micrite.security.dao.IAuthorityDao;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.security.ConfigAttribute;
-import org.springframework.security.SecurityConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.ConfigAttributeDefinition;
 import org.springframework.security.ConfigAttributeEditor;
 
 /**
- * 从数据库中取得所有Method相关的权限标识符
- * 产生一个map，包含所有method:authority的映射
- * key是authoritie的value（表示一个method集合）
- * value是访问这些method所需要的权限（authority）
+ * 获取所有类型为 <code>METHOD</code> 的权限标识符。
+ * <p>
+ * 在Bean初始化时，获取所有类型为 <code>METHOD</code> 的权限标识符， 以 <code>LinkedHashMap</code>
+ * 格式保存，供Spring Security在进行Method拦截验证时访问。
+ * </p>
+ * <p>
+ * <code>LinkedHashMap</code> 的key是 <code>Authority</code> 的value，
+ * value是访问这些method所需要的权限 <code>ConfigAttributeDefinition</code>。
  */
 public class MethodMapFactoryBean implements FactoryBean {
 
-    private static final String                              AUTHORITY_TYPE = "METHOD";
-    private ISecurityDao                                     securityDao;
+    private static final String AUTHORITY_TYPE = "METHOD";
+    @Autowired
+    private IAuthorityDao authorityDao;
     private LinkedHashMap<String, ConfigAttributeDefinition> methodMap;
 
     public void init() {
-        List<Authority> authorities = securityDao.find(AUTHORITY_TYPE);
+        List<Authority> authorities = authorityDao.findByType(AUTHORITY_TYPE);
         methodMap = new LinkedHashMap<String, ConfigAttributeDefinition>();
         for (Authority authority : authorities) {
-            String grantedAuthorities = authority.getRoleAuthorities();
-            if(grantedAuthorities != null) {
+            String grantedAuthorities = authority.getRolesString();
+            if (grantedAuthorities != null) {
                 ConfigAttributeEditor configAttrEditor = new ConfigAttributeEditor();
                 configAttrEditor.setAsText(grantedAuthorities);
-                ConfigAttributeDefinition definition = (ConfigAttributeDefinition) configAttrEditor.getValue();
+                ConfigAttributeDefinition definition = (ConfigAttributeDefinition) configAttrEditor
+                        .getValue();
                 methodMap.put(authority.getValue(), definition);
-            }        	
+            }
         }
     }
 
@@ -67,19 +73,12 @@ public class MethodMapFactoryBean implements FactoryBean {
         return methodMap;
     }
 
+    @SuppressWarnings("unchecked")
     public Class getObjectType() {
         return LinkedHashMap.class;
     }
 
     public boolean isSingleton() {
         return true;
-    }
-
-    public ISecurityDao getSecurityDao() {
-        return securityDao;
-    }
-
-    public void setSecurityDao(ISecurityDao securityDao) {
-        this.securityDao = securityDao;
     }
 }
