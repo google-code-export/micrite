@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.SessionAware;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.service.ILoginService;
@@ -44,6 +45,7 @@ import com.opensymphony.xwork2.ActionSupport;
 @ManagedResource(objectName="micrite:type=action,name=LoginAction", description="Micrite LoginAction Bean")
 public class LoginAction extends ActionSupport implements SessionAware{ 
 
+    private static final Logger logger = Logger.getLogger(LoginAction.class); 
 	private ILoginService loginService;
 	
 	private User user;
@@ -62,30 +64,7 @@ public class LoginAction extends ActionSupport implements SessionAware{
 		this.loginService = loginService;
 	}
 
-	public Set<Map<String,Object>> getMenu() {
-		return menu;
-	}
-
-	public void setMenu(Set<Map<String,Object>> menu) {
-		this.menu = menu;
-	}
-	
-	public Map<String, Object> getLoginResult() {
-		return loginResult;
-	}
-
-	public void setLoginResult(Map<String, Object> loginResult) {
-		this.loginResult = loginResult;
-	}
-	
-	public Map<String, String> getErrorMsg() {
-		return errorMsg;
-	}
-
-	public void setErrorMsg(Map<String, String> errorMsg) {
-		this.errorMsg = errorMsg;
-	}
-
+    // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
 	/**
 	 * 默认起始事件，获得登录用户信息
 	 * @return "success"
@@ -93,6 +72,7 @@ public class LoginAction extends ActionSupport implements SessionAware{
 	public String loginSuccess() {
 		SecurityContext securityContext = (SecurityContext) session.get("SPRING_SECURITY_CONTEXT");
 		user = (User) securityContext.getAuthentication().getPrincipal();
+		logger.debug(user.toString());
 		loginResult.put("success", true);
 		return SUCCESS;
     }    
@@ -109,14 +89,21 @@ public class LoginAction extends ActionSupport implements SessionAware{
 		return SUCCESS;
 	}
 	
-
+    // ~~~~~~~~~~~~~~~~~~~~~~~  Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
 	/**
 	 * @return node
 	 */
 	public String getNode() {
 		return node;
 	}
-	
+
+    /**
+     * @param node 菜单上选择的节点id
+     */
+    public void setNode(String node) {
+        this.node = node;
+    }
+    
     /**
      * @return the user
      */
@@ -137,11 +124,27 @@ public class LoginAction extends ActionSupport implements SessionAware{
 		this.session = session;
 	}
 
-	/**
-	 * @param node 菜单上选择的节点id
-	 */
-	public void setNode(String node) {
-		this.node = node;
-	}
-	
+    public Set<Map<String,Object>> getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Set<Map<String,Object>> menu) {
+        this.menu = menu;
+    }
+    
+    public Map<String, Object> getLoginResult() {
+        return loginResult;
+    }
+
+    public void setLoginResult(Map<String, Object> loginResult) {
+        this.loginResult = loginResult;
+    }
+    
+    public Map<String, String> getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(Map<String, String> errorMsg) {
+        this.errorMsg = errorMsg;
+    }    
 }

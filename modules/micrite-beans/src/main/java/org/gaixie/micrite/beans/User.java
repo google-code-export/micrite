@@ -180,5 +180,21 @@ public class User implements UserDetails {
     public void setIsenabled(boolean isenabled) {
         this.isenabled = isenabled;
     }
-    
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Common Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//  
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        final User user = (User) o;
+        return getLoginname().equals(user.getLoginname());
+    }
+
+    public int hashCode() {
+        return getLoginname().hashCode();
+    }
+
+    public String toString() {
+        return  "User ('" + getId() + "'), " +
+                "Username: '" + getLoginname() + "'";
+    }
 }
