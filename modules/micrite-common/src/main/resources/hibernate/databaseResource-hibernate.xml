@@ -117,6 +117,6 @@
         <property name="attributeSource" ref="jmxAttributeSource"/>
     </bean>
 
-    <!-- 该 BeanPostProcessor 将自动起作用，对标注 @Autowired 的 Bean 进行自动注入 -->   
+    <!-- BeanPostProcessor detect @Autowired flag to inject -->   
     <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>     
 </beans>
