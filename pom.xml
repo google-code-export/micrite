@@ -500,7 +500,7 @@
 
 				<!--
 					打jar包时，不能把struts.xml打入，否则assemblies时，一个项目会有多个struts.xml Web server
-					会包错
+					会包错，为了方便修改配置，相应的配置文件也不打入
 				-->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -513,12 +513,14 @@
 							</goals>
 							<configuration>
 								<excludes>
-									<exclude>**/applicationContext*.xml</exclude>
-									<exclude>**/struts.xml</exclude>
-									<exclude>**/struts_xml/**</exclude>
-									<exclude>**/databaseResource-hibernate.xml</exclude>
-									<exclude>**/hibernate.properties</exclude>
-									<exclude>**/js-lib/**</exclude>
+									<exclude>applicationContext*.xml</exclude>
+									<exclude>struts.xml</exclude>
+									<exclude>struts_xml/**</exclude>
+									<exclude>databaseResource-hibernate.xml</exclude>
+									<exclude>hibernate.properties</exclude>
+                                    <exclude>struts.properties</exclude>
+                                    <exclude>log4j.properties</exclude>
+                                    <exclude>ehcache*.xml</exclude>
 								</excludes>
 							</configuration>
 						</execution>
