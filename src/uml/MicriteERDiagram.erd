@@ -5,12 +5,12 @@
       <error></error>
       <linkedPath></linkedPath>
       <tableName>AUTHORITIES</tableName>
-      <logicalName></logicalName>
-      <description></description>
+      <logicalName>权限资源</logicalName>
+      <description>记录Micrite中可以被分配到角色的权限资源。</description>
       <columns>
         <net.java.amateras.db.visual.model.ColumnModel>
           <columnName>ID</columnName>
-          <logicalName></logicalName>
+          <logicalName>ID</logicalName>
           <columnType class="net.java.amateras.db.dialect.ColumnType">
             <name>INTEGER</name>
             <logicalName>Integer</logicalName>
@@ -20,13 +20,13 @@
           <size>10</size>
           <notNull>true</notNull>
           <primaryKey>true</primaryKey>
-          <description></description>
+          <description>权限资源的唯一标识，在其它表中被引用。</description>
           <autoIncrement>true</autoIncrement>
           <defaultValue></defaultValue>
         </net.java.amateras.db.visual.model.ColumnModel>
         <net.java.amateras.db.visual.model.ColumnModel>
           <columnName>NAME</columnName>
-          <logicalName></logicalName>
+          <logicalName>NAME</logicalName>
           <columnType class="net.java.amateras.db.dialect.ColumnType">
             <name>VARCHAR</name>
             <logicalName>String</logicalName>
@@ -36,29 +36,31 @@
           <size>255</size>
           <notNull>true</notNull>
           <primaryKey>false</primaryKey>
-          <description></description>
+          <description>授权资源的名称。</description>
           <autoIncrement>false</autoIncrement>
           <defaultValue></defaultValue>
         </net.java.amateras.db.visual.model.ColumnModel>
         <net.java.amateras.db.visual.model.ColumnModel>
           <columnName>TYPE</columnName>
-          <logicalName></logicalName>
+          <logicalName>TYPE</logicalName>
           <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../net.java.amateras.db.visual.model.ColumnModel[2]/columnType"/>
           <size>64</size>
           <notNull>true</notNull>
           <primaryKey>false</primaryKey>
-          <description></description>
+          <description>&apos;URL&apos; 用于URL级别的权限控制，
+&apos;METHOD&apos; 用于调用方法级的权限控制，
+&apos;MENU&apos; 拥有登录后菜单树的显式。</description>
           <autoIncrement>false</autoIncrement>
           <defaultValue></defaultValue>
         </net.java.amateras.db.visual.model.ColumnModel>
         <net.java.amateras.db.visual.model.ColumnModel>
           <columnName>VALUE</columnName>
-          <logicalName></logicalName>
+          <logicalName>VALUE</logicalName>
           <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../net.java.amateras.db.visual.model.ColumnModel[2]/columnType"/>
           <size>255</size>
           <notNull>true</notNull>
           <primaryKey>false</primaryKey>
-          <description></description>
+          <description>权限资源的具体值。</description>
           <autoIncrement>false</autoIncrement>
           <defaultValue></defaultValue>
         </net.java.amateras.db.visual.model.ColumnModel>
@@ -96,12 +98,12 @@
               <net.java.amateras.db.visual.model.ColumnModel reference="../../../../../columns/net.java.amateras.db.visual.model.ColumnModel"/>
               <net.java.amateras.db.visual.model.ColumnModel>
                 <columnName>AUTHORITY_ID</columnName>
-                <logicalName></logicalName>
+                <logicalName>AUTHORITY_ID</logicalName>
                 <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../../../columns/net.java.amateras.db.visual.model.ColumnModel/columnType"/>
                 <size>10</size>
                 <notNull>true</notNull>
                 <primaryKey>false</primaryKey>
-                <description></description>
+                <description>权限资源。(外键关联 AUTHORITIES.ID )</description>
                 <autoIncrement>false</autoIncrement>
                 <defaultValue></defaultValue>
               </net.java.amateras.db.visual.model.ColumnModel>
@@ -111,17 +113,17 @@
             <error></error>
             <linkedPath></linkedPath>
             <tableName>ROLE_AUTHORITY_MAP</tableName>
-            <logicalName></logicalName>
-            <description></description>
+            <logicalName>角色权限映射</logicalName>
+            <description>描述角色与权限资源的关系，一个角色拥有的权限资源和一个权限资源对应的角色。</description>
             <columns>
               <net.java.amateras.db.visual.model.ColumnModel>
                 <columnName>ROLE_ID</columnName>
-                <logicalName></logicalName>
+                <logicalName>ROLE_ID</logicalName>
                 <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../../../columns/net.java.amateras.db.visual.model.ColumnModel/columnType"/>
                 <size>10</size>
                 <notNull>true</notNull>
                 <primaryKey>false</primaryKey>
-                <description></description>
+                <description>角色。(外键关联 ROLES.ID )</description>
                 <autoIncrement>false</autoIncrement>
                 <defaultValue></defaultValue>
               </net.java.amateras.db.visual.model.ColumnModel>
@@ -176,12 +178,12 @@
                   <entry>
                     <net.java.amateras.db.visual.model.ColumnModel>
                       <columnName>ID</columnName>
-                      <logicalName></logicalName>
+                      <logicalName>ID</logicalName>
                       <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../../../../../../columns/net.java.amateras.db.visual.model.ColumnModel/columnType"/>
                       <size>10</size>
                       <notNull>true</notNull>
                       <primaryKey>true</primaryKey>
-                      <description></description>
+                      <description>角色的唯一标识，在其它表中被引用。</description>
                       <autoIncrement>true</autoIncrement>
                       <defaultValue></defaultValue>
                     </net.java.amateras.db.visual.model.ColumnModel>
@@ -193,24 +195,24 @@
                   <error></error>
                   <linkedPath></linkedPath>
                   <tableName>ROLES</tableName>
-                  <logicalName></logicalName>
-                  <description></description>
+                  <logicalName>角色</logicalName>
+                  <description>记录Micrite的角色，一个角色对应一行。</description>
                   <columns>
                     <net.java.amateras.db.visual.model.ColumnModel reference="../../../references/entry/net.java.amateras.db.visual.model.ColumnModel"/>
                     <net.java.amateras.db.visual.model.ColumnModel>
                       <columnName>NAME</columnName>
-                      <logicalName></logicalName>
+                      <logicalName>NAME</logicalName>
                       <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../../../../../../columns/net.java.amateras.db.visual.model.ColumnModel[2]/columnType"/>
                       <size>255</size>
                       <notNull>true</notNull>
                       <primaryKey>false</primaryKey>
-                      <description></description>
+                      <description>角色的名称。</description>
                       <autoIncrement>false</autoIncrement>
                       <defaultValue></defaultValue>
                     </net.java.amateras.db.visual.model.ColumnModel>
                     <net.java.amateras.db.visual.model.ColumnModel>
                       <columnName>DESCRIPTION</columnName>
-                      <logicalName></logicalName>
+                      <logicalName>DESCRIPTION</logicalName>
                       <columnType class="net.java.amateras.db.dialect.ColumnType">
                         <name>INT</name>
                         <logicalName>Integer</logicalName>
@@ -220,7 +222,7 @@
                       <size>102400</size>
                       <notNull>true</notNull>
                       <primaryKey>false</primaryKey>
-                      <description></description>
+                      <description>角色的详细描述，表示此角色的权限范围。</description>
                       <autoIncrement>false</autoIncrement>
                       <defaultValue></defaultValue>
                     </net.java.amateras.db.visual.model.ColumnModel>
@@ -258,12 +260,12 @@
                           <net.java.amateras.db.visual.model.ColumnModel reference="../../../../../../references/entry/net.java.amateras.db.visual.model.ColumnModel"/>
                           <net.java.amateras.db.visual.model.ColumnModel>
                             <columnName>ROLE_ID</columnName>
-                            <logicalName></logicalName>
+                            <logicalName>ROLE_ID</logicalName>
                             <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../../../../../../../../../columns/net.java.amateras.db.visual.model.ColumnModel/columnType"/>
                             <size>10</size>
                             <notNull>true</notNull>
                             <primaryKey>false</primaryKey>
-                            <description></description>
+                            <description>角色。(外键关联 ROLES.ID )</description>
                             <autoIncrement>false</autoIncrement>
                             <defaultValue></defaultValue>
                           </net.java.amateras.db.visual.model.ColumnModel>
@@ -273,17 +275,17 @@
                         <error></error>
                         <linkedPath></linkedPath>
                         <tableName>USER_ROLE_MAP</tableName>
-                        <logicalName></logicalName>
-                        <description></description>
+                        <logicalName>用户角色映射</logicalName>
+                        <description>描述用户与角色的关系，一个角色拥有的用户和一个用户拥有的角色。</description>
                         <columns>
                           <net.java.amateras.db.visual.model.ColumnModel>
                             <columnName>USER_ID</columnName>
-                            <logicalName></logicalName>
+                            <logicalName>USER_ID</logicalName>
                             <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../../../../../../../../../columns/net.java.amateras.db.visual.model.ColumnModel/columnType"/>
                             <size>10</size>
                             <notNull>true</notNull>
                             <primaryKey>false</primaryKey>
-                            <description></description>
+                            <description>用户。(外键关联 USERBASE.ID )</description>
                             <autoIncrement>false</autoIncrement>
                             <defaultValue></defaultValue>
                           </net.java.amateras.db.visual.model.ColumnModel>
@@ -338,12 +340,12 @@
                               <entry>
                                 <net.java.amateras.db.visual.model.ColumnModel>
                                   <columnName>ID</columnName>
-                                  <logicalName></logicalName>
+                                  <logicalName>ID</logicalName>
                                   <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../../../../../../../../../../../../columns/net.java.amateras.db.visual.model.ColumnModel/columnType"/>
                                   <size>10</size>
                                   <notNull>true</notNull>
                                   <primaryKey>true</primaryKey>
-                                  <description></description>
+                                  <description>用户的唯一标识，在其它表中被引用</description>
                                   <autoIncrement>true</autoIncrement>
                                   <defaultValue></defaultValue>
                                 </net.java.amateras.db.visual.model.ColumnModel>
@@ -355,57 +357,62 @@
                               <error></error>
                               <linkedPath></linkedPath>
                               <tableName>USERBASE</tableName>
-                              <logicalName></logicalName>
-                              <description></description>
+                              <logicalName>用户</logicalName>
+                              <description>记录Micrite的用户，一个用户对应一行。</description>
                               <columns>
                                 <net.java.amateras.db.visual.model.ColumnModel reference="../../../references/entry/net.java.amateras.db.visual.model.ColumnModel"/>
                                 <net.java.amateras.db.visual.model.ColumnModel>
                                   <columnName>LOGINNAME</columnName>
-                                  <logicalName></logicalName>
-                                  <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../../../../../../../../../../../../columns/net.java.amateras.db.visual.model.ColumnModel[2]/columnType"/>
+                                  <logicalName>LOGINNAME</logicalName>
+                                  <columnType class="net.java.amateras.db.dialect.ColumnType">
+                                    <name>VARCHAR</name>
+                                    <logicalName>String</logicalName>
+                                    <supportSize>true</supportSize>
+                                    <type>12</type>
+                                  </columnType>
                                   <size>255</size>
                                   <notNull>true</notNull>
                                   <primaryKey>false</primaryKey>
-                                  <description></description>
+                                  <description>用户的登录名，在用户登录时被使用</description>
                                   <autoIncrement>false</autoIncrement>
                                   <defaultValue></defaultValue>
                                 </net.java.amateras.db.visual.model.ColumnModel>
                                 <net.java.amateras.db.visual.model.ColumnModel>
                                   <columnName>CRYPTPASSWORD</columnName>
-                                  <logicalName></logicalName>
-                                  <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../../../../../../../../../../../../columns/net.java.amateras.db.visual.model.ColumnModel[2]/columnType"/>
+                                  <logicalName>CRYPTPASSWORD</logicalName>
+                                  <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../net.java.amateras.db.visual.model.ColumnModel[2]/columnType"/>
                                   <size>255</size>
                                   <notNull>true</notNull>
                                   <primaryKey>false</primaryKey>
-                                  <description></description>
+                                  <description>用户的登录密码，以MD5算法加密</description>
                                   <autoIncrement>false</autoIncrement>
                                   <defaultValue></defaultValue>
                                 </net.java.amateras.db.visual.model.ColumnModel>
                                 <net.java.amateras.db.visual.model.ColumnModel>
                                   <columnName>FULLNAME</columnName>
-                                  <logicalName></logicalName>
-                                  <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../../../../../../../../../../../../columns/net.java.amateras.db.visual.model.ColumnModel[2]/columnType"/>
+                                  <logicalName>FULLNAME</logicalName>
+                                  <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../net.java.amateras.db.visual.model.ColumnModel[2]/columnType"/>
                                   <size>255</size>
                                   <notNull>true</notNull>
                                   <primaryKey>false</primaryKey>
-                                  <description></description>
+                                  <description>用户的真实姓名</description>
                                   <autoIncrement>false</autoIncrement>
                                   <defaultValue></defaultValue>
                                 </net.java.amateras.db.visual.model.ColumnModel>
                                 <net.java.amateras.db.visual.model.ColumnModel>
                                   <columnName>EMAILADDRESS</columnName>
-                                  <logicalName></logicalName>
-                                  <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../../../../../../../../../../../../columns/net.java.amateras.db.visual.model.ColumnModel[2]/columnType"/>
+                                  <logicalName>EMAILADDRESS</logicalName>
+                                  <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../net.java.amateras.db.visual.model.ColumnModel[2]/columnType"/>
                                   <size>255</size>
                                   <notNull>false</notNull>
                                   <primaryKey>false</primaryKey>
-                                  <description></description>
+                                  <description>用户的邮件地址</description>
                                   <autoIncrement>false</autoIncrement>
                                   <defaultValue></defaultValue>
                                 </net.java.amateras.db.visual.model.ColumnModel>
                                 <net.java.amateras.db.visual.model.ColumnModel>
                                   <columnName>ISENABLED</columnName>
-                                  <logicalName></logicalName>
+                                  <logicalName>ISENABLED</logicalName>
                                   <columnType class="net.java.amateras.db.dialect.ColumnType">
                                     <name>SMALLINT</name>
                                     <logicalName>Integer</logicalName>
@@ -415,9 +422,9 @@
                                   <size>5</size>
                                   <notNull>true</notNull>
                                   <primaryKey>false</primaryKey>
-                                  <description></description>
+                                  <description>1 此用户的状态为有效，0 此用户的状态无效</description>
                                   <autoIncrement>false</autoIncrement>
-                                  <defaultValue></defaultValue>
+                                  <defaultValue>1</defaultValue>
                                 </net.java.amateras.db.visual.model.ColumnModel>
                               </columns>
                               <indices>
@@ -551,50 +558,50 @@
       <error></error>
       <linkedPath></linkedPath>
       <tableName>CUSTOMERS</tableName>
-      <logicalName></logicalName>
-      <description></description>
+      <logicalName>客户</logicalName>
+      <description>记录Micrite中客户，一个客户对应一行。</description>
       <columns>
         <net.java.amateras.db.visual.model.ColumnModel>
           <columnName>ID</columnName>
-          <logicalName></logicalName>
+          <logicalName>ID</logicalName>
           <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../net.java.amateras.db.visual.model.TableModel/columns/net.java.amateras.db.visual.model.ColumnModel/columnType"/>
           <size>10</size>
           <notNull>true</notNull>
           <primaryKey>true</primaryKey>
-          <description></description>
+          <description>客户的唯一标识，在其它表中被引用。</description>
           <autoIncrement>true</autoIncrement>
           <defaultValue></defaultValue>
         </net.java.amateras.db.visual.model.ColumnModel>
         <net.java.amateras.db.visual.model.ColumnModel>
           <columnName>NAME</columnName>
-          <logicalName></logicalName>
+          <logicalName>NAME</logicalName>
           <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../net.java.amateras.db.visual.model.TableModel/columns/net.java.amateras.db.visual.model.ColumnModel[2]/columnType"/>
           <size>255</size>
           <notNull>true</notNull>
           <primaryKey>false</primaryKey>
-          <description></description>
+          <description>客户的姓名。</description>
           <autoIncrement>false</autoIncrement>
           <defaultValue></defaultValue>
         </net.java.amateras.db.visual.model.ColumnModel>
         <net.java.amateras.db.visual.model.ColumnModel>
           <columnName>TELEPHONE</columnName>
-          <logicalName></logicalName>
+          <logicalName>TELEPHONE</logicalName>
           <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../net.java.amateras.db.visual.model.TableModel/columns/net.java.amateras.db.visual.model.ColumnModel[2]/columnType"/>
           <size>20</size>
           <notNull>true</notNull>
           <primaryKey>false</primaryKey>
-          <description></description>
+          <description>客户的手机号。</description>
           <autoIncrement>false</autoIncrement>
           <defaultValue></defaultValue>
         </net.java.amateras.db.visual.model.ColumnModel>
         <net.java.amateras.db.visual.model.ColumnModel>
           <columnName>CUSTOMER_SOURCE_ID</columnName>
-          <logicalName></logicalName>
+          <logicalName>CUSTOMER</logicalName>
           <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../net.java.amateras.db.visual.model.TableModel/columns/net.java.amateras.db.visual.model.ColumnModel/columnType"/>
           <size>10</size>
           <notNull>true</notNull>
           <primaryKey>false</primaryKey>
-          <description></description>
+          <description>客户的来源。(外键关联 CUSTOMER_SOURCE.ID )</description>
           <autoIncrement>false</autoIncrement>
           <defaultValue></defaultValue>
         </net.java.amateras.db.visual.model.ColumnModel>
@@ -629,7 +636,7 @@
             <entry>
               <net.java.amateras.db.visual.model.ColumnModel>
                 <columnName>ID</columnName>
-                <logicalName></logicalName>
+                <logicalName>ID</logicalName>
                 <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../../../../net.java.amateras.db.visual.model.TableModel/columns/net.java.amateras.db.visual.model.ColumnModel/columnType"/>
                 <size>10</size>
                 <notNull>true</notNull>
@@ -646,13 +653,13 @@
             <error></error>
             <linkedPath></linkedPath>
             <tableName>CUSTOMER_SOURCE</tableName>
-            <logicalName></logicalName>
-            <description></description>
+            <logicalName>客户来源</logicalName>
+            <description>记录客户的来源的值。</description>
             <columns>
               <net.java.amateras.db.visual.model.ColumnModel reference="../../../references/entry/net.java.amateras.db.visual.model.ColumnModel"/>
               <net.java.amateras.db.visual.model.ColumnModel>
                 <columnName>NAME</columnName>
-                <logicalName></logicalName>
+                <logicalName>NAME</logicalName>
                 <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../../../../net.java.amateras.db.visual.model.TableModel/columns/net.java.amateras.db.visual.model.ColumnModel[2]/columnType"/>
                 <size>255</size>
                 <notNull>false</notNull>
