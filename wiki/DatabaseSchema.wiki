@@ -2,9 +2,14 @@
 #labels Phase-Implementation
 
 = Introduction =
+This document describes the Micrite database schema.
 
-This document is generated automatically by Eclipse Plugin named AmaterasERD.
+This document is generated automatically by the [http://amateras.sourceforge.jp/cgi-bin/fswiki_en/wiki.cgi?page=AmaterasERD AmaterasERD] from Eclipse Plugin Central.
 
 The purpose of this document is to act as a reference for developers of Micrite.
 
 = Details =
+|| *Version* || *Meta data* || *ER Diagram* || *Schema* || *Date* ||
+|| [http://code.google.com/p/micrite/source/browse/trunk trunk] || [http://code.google.com/p/micrite/source/browse/trunk/src/uml/MicriteERDiagram.erd view] || [http://sites-by-maven.gaixie.org/micrite/trunk/images/MicriteERDiagram.erd.jpg view] || [http://sites-by-maven.gaixie.org/micrite/trunk/schema/ view] || 2009-05-07 ||
+|| [http://code.google.com/p/micrite/source/browse/tags/0.4 0.4] || -- || -- || -- || -- ||
+|| [http://code.google.com/p/micrite/source/browse/tags/0.1 0.1] || -- || -- || -- || -- ||
