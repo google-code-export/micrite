@@ -1,0 +1,10 @@
+#summary This document describes the Micrite database schema.
+#labels Phase-Implementation
+
+= Introduction =
+
+This document is generated automatically by Eclipse Plugin named AmaterasERD.
+
+The purpose of this document is to act as a reference for developers of Micrite.
+
+= Details =
