@@ -23,6 +23,8 @@ CREATE TABLE userbase (
 );
 ALTER TABLE userbase ADD CONSTRAINT userbase_loginname_uq UNIQUE ( loginname );
 
+#addAutoIncrement("userbase")
+
 insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('管理员','admin','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
 insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('bitorb','bitorb','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
 insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('一般用户','user','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
@@ -35,6 +37,8 @@ CREATE TABLE roles (
     description            $db.TEXT_SQL_TYPE NOT NULL
 );
 ALTER TABLE roles ADD CONSTRAINT roles_name_uq UNIQUE ( name );
+
+#addAutoIncrement("roles")
 
 insert  into roles(name,description) values ('ROLE_ADMIN','系统管理员，拥有全部模块权限');
 insert  into roles(name,description) values ('ROLE_USER','基本用户，登录后没有任何权限的用户');
@@ -62,11 +66,14 @@ CREATE TABLE authorities (
 );
 ALTER TABLE authorities ADD CONSTRAINT authorities_value_uq UNIQUE ( type,value );
 
+#addAutoIncrement("authorities")
+
 insert  into authorities(name,type,value) values ('All URL','URL','/**');
 insert  into authorities(name,type,value) values ('/CRM Modules/Customer List','URL','/crm/customerList.jsp');
 insert  into authorities(name,type,value) values ('/CRM Modules/Customer Detail','URL','/crm/customerDetail.jsp');
-insert  into authorities(name,type,value) values ('Customer Detail Add Method Filter','METHOD','* org.gaixie.micrite.crm.service.ICustomerService.addOrUpdateCustomer(..)');
-insert  into authorities(name,type,value) values ('/Customer www','URL','/crm/wwwcustomerDetail.jsp');
+-- insert  into authorities(name,type,value) values ('Customer Detail Add Method Filter','METHOD','* org.gaixie.micrite.crm.service.ICustomerService.addOrUpdateCustomer(..)');
+insert  into authorities(name,type,value) values ('/User Detail','URL','/security/userDetail.jsp');
+
 
 CREATE TABLE role_authority_map (
     role_id                integer NOT NULL,
@@ -78,7 +85,7 @@ insert  into role_authority_map(role_id,authority_id) values (1,1);
 insert  into role_authority_map(role_id,authority_id) values (1,2);
 insert  into role_authority_map(role_id,authority_id) values (1,3);
 insert  into role_authority_map(role_id,authority_id) values (1,4);
-insert  into role_authority_map(role_id,authority_id) values (1,5);
+-- insert  into role_authority_map(role_id,authority_id) values (1,5);
 
 insert  into role_authority_map(role_id,authority_id) values (2,1);
 insert  into role_authority_map(role_id,authority_id) values (2,2);
@@ -94,7 +101,10 @@ CREATE TABLE customer_source (
 );
 ALTER TABLE customer_source ADD CONSTRAINT customer_source_name_uq UNIQUE ( name );
 
-insert  into customer_source(name) values('Unfamiliar Visit'),('Familiar'); 
+#addAutoIncrement("customer_source")
+
+insert  into customer_source(name) values('Unfamiliar Visit');
+insert  into customer_source(name) values('Familiar'); 
 
 CREATE TABLE customers (
     id                     $db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
@@ -102,6 +112,8 @@ CREATE TABLE customers (
     telephone              varchar(20) NOT NULL,
     customer_source_id     integer NOT NULL
 );
+
+#addAutoIncrement("customers")
 
 ALTER TABLE role_authority_map ADD CONSTRAINT rrmap_role_id_fk FOREIGN KEY (role_id)
     REFERENCES roles (id);

@@ -81,7 +81,7 @@
                                 <mkdir dir="${build.dbscripts}/derby" />
                                 <mkdir dir="${build.dbscripts}/mssql" />
                                 <mkdir dir="${build.dbscripts}/mysql" />
-                                <!-- <mkdir dir="${build.dbscripts}/oracle" /> -->
+                                <mkdir dir="${build.dbscripts}/oracle" />
                                 <mkdir dir="${build.dbscripts}/postgresql" />
 
                                 <path id="texen.path">
@@ -93,8 +93,6 @@
 
                                 <texen controlTemplate="control.vm" contextProperties="${project.basedir}/src/main/scripts/sql/dbscripts.properties" useClasspath="true" inputEncoding="UTF-8" outputEncoding="UTF-8" outputDirectory="${build.dbscripts}" outputFile="README.txt" />
 
-                                <!-- just copy over the droptables script -->
-                                <copy todir="${build.dbscripts}" file="${project.basedir}/src/main/scripts/sql/droptables.sql" />
                             </tasks>
                         </configuration>
                         <goals>
@@ -157,7 +155,7 @@
                                 <!--
                                     <srcFile>${project.build.directory}/dbscripts/droptables.sql</srcFile>
                                 -->
-                                <srcFile>${project.build.directory}/dbscripts/droptables.sql</srcFile>
+                                <srcFile>${project.build.directory}/dbscripts/${jdbc.database}/dropdb.sql</srcFile>
                                 <srcFile>${project.build.directory}/dbscripts/${jdbc.database}/createdb.sql</srcFile>
                             </srcFiles>
                             <onError>continue</onError>
