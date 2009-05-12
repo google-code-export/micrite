@@ -169,7 +169,39 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+            <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derby</artifactId>
+                <version>10.4.2.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derbytools</artifactId>
+                <version>10.4.2.0</version>
+                <scope>runtime</scope>              
+            </dependency>
+            <dependency>
+                <groupId>postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>8.1-408.jdbc3</version>
+                <scope>provided</scope>             
+            </dependency>
+            <!--
+             先从Oracle网站下载相应的jdbc驱动，然后装载到local repository
+             假设下载的是 支持oracle 11.1.0.7.0版本，jdk5的jar包，那么应该用下面命令： 
+            mvn install:install-file  -Dfile=ojdbc5.jar \
+                                      -DgroupId=com.oracle \
+                                      -DartifactId=ojdbc5 \
+                                      -Dversion=11.1.0.7.0 \
+                                      -DgeneratePom=true \
+                                      -Dpackaging=jar
 
+            <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc5</artifactId>
+                <version>11.1.0.7.0</version>
+            </dependency>
+            -->
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
@@ -345,23 +377,6 @@
 				<groupId>commons-lang</groupId>
 				<artifactId>commons-lang</artifactId>
 				<version>2.4</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.derby</groupId>
-				<artifactId>derby</artifactId>
-				<version>10.4.2.0</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.derby</groupId>
-				<artifactId>derbytools</artifactId>
-				<version>10.4.2.0</version>
-				<scope>runtime</scope>				
-			</dependency>
-			<dependency>
-				<groupId>postgresql</groupId>
-				<artifactId>postgresql</artifactId>
-				<version>8.1-408.jdbc3</version>
-				<scope>provided</scope>				
 			</dependency>
 			<!-- Spring Security -->
 			<dependency>
