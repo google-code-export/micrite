@@ -30,11 +30,11 @@
 }
 
 .y-hour-right a {
-	background-image: url(images/arrowRight.gif);
+	background-image: url(../images/arrowRight.gif);
 	margin-right:2px;
 }
 .y-hour-left a{
-	background-image: url(images/arrowLeft.gif);
+	background-image: url(../images/arrowLeft.gif);
 	margin-left:2px;
 }    
 .y-minute-middle,.y-minute-left,.y-minute-right {
@@ -63,10 +63,10 @@
 }
 
 .y-minute-right a {
-	background-image: url(images/arrowRight.gif);
+	background-image: url(../images/arrowRight.gif);
 	margin-right:2px;
 }
 .y-minute-left a{
-	background-image: url(images/arrowLeft.gif);
+	background-image: url(../images/arrowLeft.gif);
 	margin-left:2px;
 }    
