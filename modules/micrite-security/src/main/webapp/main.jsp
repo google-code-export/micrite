@@ -35,6 +35,8 @@
 <link rel="stylesheet" type="text/css" href="js-lib/ext-js/resources/css/ext-all.css">
 <script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base.js"></script>
 <script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/datetime.js"></script>
+<link rel="stylesheet" type="text/css" href="js-lib/ext-us-js/resources/css/datetime.css">
 <style type="text/css">
 .main-header .x-panel-body {
     background:transparent;
@@ -221,6 +223,7 @@ micrite.security.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
                 title: tabTitle,
                 closable:true,
                 autoLoad: autoLoad,
+                layout:"fit",
                 border:false
             });
             this.add(tab);
@@ -233,9 +236,9 @@ micrite.security.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
 Ext.onReady(function(){
     Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 
-    var hearderPanel = new micrite.security.framework.HeaderPanel();
+    var headerPanel = new micrite.security.framework.HeaderPanel();
     var navPanel = new micrite.security.framework.NavPanel();
-    var mainPanel = new micrite.security.framework.MainPanel();
+    mainPanel = new micrite.security.framework.MainPanel();
 
     navPanel.on('click', function(node, e){
         if(node.isLeaf()){
@@ -247,7 +250,7 @@ Ext.onReady(function(){
     var viewport = new Ext.Viewport({
         layout:'border',
         items:[
-            hearderPanel,
+            headerPanel,
             navPanel,
             mainPanel
         ]
@@ -257,6 +260,7 @@ Ext.onReady(function(){
 </script>
 <script type="text/javascript" src="security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 <script type="text/javascript" src="crm/locale/micrite-crm-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
+
 </head>
 
 <body>
