@@ -31,7 +31,7 @@
 <title>Welcome to Micrite!</title>
 </head>
 <body>
-<a href="crm/moduleTest.jsp?moduleName=customerList" >Customer List</a><br>
-<a href="crm/moduleTest.jsp?moduleName=customerDetail" >Customer Detail</a>
+<a href="crm/moduleTest.jsp?moduleName=customerList&request_locale=zh_CN" >Customer List</a><br>
+<a href="crm/moduleTest.jsp?moduleName=customerDetail&request_locale=zh_CN" >Customer Detail</a>
 </body>
 </html>

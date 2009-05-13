@@ -1,143 +1,313 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<div id="customerList">
+<jsp:include page="<%="locale/micrite-crm-lang-"+session.getAttribute("WW_TRANS_I18N_LOCALE")+".jsp"%>"  ></jsp:include>  
 <script type="text/javascript">
-Ext.app.SearchField = Ext.extend(Ext.form.TwinTriggerField, {
-    initComponent : function(){
-        Ext.app.SearchField.superclass.initComponent.call(this);
-        this.on('specialkey', function(f, e){
-            if(e.getKey() == e.ENTER){
-                this.onTrigger2Click();
-            }
-        }, this);
-    },
+/**
+ * 初始化命名空间，其实就是通过a={}来建立一个对象
+ */
+(function() {
+	Ext.namespace('micrite.crm.customerList');
+})();
 
-    validationEvent:false,
-    validateOnBlur:false,
-    trigger1Class:'x-form-clear-trigger',
-    trigger2Class:'x-form-search-trigger',
-    hideTrigger1:true,
-    width:180,
-    hasSearch : false,
-    paramName : 'telephone',
+/**
+ * 查询面板配置项
+ * 
+ * @param {}
+ *            config
+ */
+micrite.crm.customerList.SearchPanel = function(config) {
+	var config = config || {};
+	Ext.apply(this, config);
 
-    onTrigger1Click : function(){
-        if(this.hasSearch){
-            this.el.dom.value = '';
-            var o = {start: 0};
-            this.store.baseParams = this.store.baseParams || {};
-            this.store.baseParams[this.paramName] = '';
-            this.store.reload({params:o});
-            this.triggers[0].hide();
-            this.hasSearch = false;
-        }
-    },
+	//建立表格
+	this.grid = new micrite.crm.customerList.SearchResultGrid({
+	});
 
-    onTrigger2Click : function(){
-        var v = this.getRawValue();
-        if(v.length < 1){
-            this.onTrigger1Click();
-            return;
-        }
-        var o = {start: 0};
-        this.store.baseParams = this.store.baseParams || {};
-        this.store.baseParams[this.paramName] = v;
-        this.store.reload({params:o});
-        this.hasSearch = true;
-        this.triggers[0].show();
-    }
-});
+	// 构建查询条件
+	this.searchComponents = {
+		'cdr' : [{
+					xtype : 'textfield',
+					name : 'search-all-field',
+					width : 100
+				}, {
+					xtype : 'button',
+					id : 'gavsearch-artifact',
+					size : 100,
+					scope : this,
+					handler : this.startSearch
+				}],
+		'pdpsdr' : [{
+					xtype : 'datetimefield',
+					width : 300
+				}],
+		'wapsdr' : [{
+					xtype : 'datetimefield',
+					width : 135
+				}, {
+					xtype : 'tbspacer'
+				}, {
+					xtype : 'datetimefield',
+					width : 135
+				}, '&nbsp;&nbsp;', {
+					xtype : 'checkbox',
+					boxLabel : 'Gb',
+					id : 'gb',
+					width : 40
+				}, {
+					xtype : 'checkbox',
+					boxLabel : 'Gn',
+					id : 'gn',
+					checked : true,
+					width : 40
+				}, {
+					xtype : 'checkbox',
+					boxLabel : 'Gi',
+					id : 'gi',
+					width : 40
+				}, {
+					xtype : 'checkbox',
+					boxLabel : 'Gw',
+					id : 'gw',
+					width : 40
+				}, {
+					xtype : 'tbspacer'
+				}, {
+					xtype : 'button',
+					text : 'Search',
+					border : true
+				}, {
+					icon : '/images/icons/search.gif',
+					cls : 'x-btn-icon',
+					scope : this,
+					handler : this.startSearch
+				}]
+	};
 
-function sourceType(val){
-    return val.name;
-}
+	// 构建查询组合条件菜单
+	this.searchTypeButtonConfig = {
+		text : 'WapSDR',
+		value : 'wapsdr',
+		tooltip : 'Click for more search options',
+		handler : this.switchSearchType,
+		scope : this,
+		menu : {
+			items : [{
+						text : 'CDR',
+						value : 'cdr',
+						scope : this,
+						handler : this.switchSearchType
+					}, {
+						text : 'PdpSDR',
+						value : 'pdpsdr',
+						scope : this,
+						handler : this.switchSearchType
+					}, {
+						text : 'WapSDR',
+						value : 'wapsdr',
+						scope : this,
+						handler : this.switchSearchType
+					}]
+		}
+	};
 
-Ext.ns('micrite.crm.customerList');
-FromPanel = function() {
-    // 显式调用父类构造器    
-    var RecordDef = Ext.data.Record.create([    
-            {name: 'id'},{name: 'name'}                   
-        ]); 
-    var store = new Ext.data.Store({    
-        autoLoad:true,
-        //设定读取的地址
-        proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/crm/customerGetPartner.action'}),    
-        //设定读取的格式    
-        reader: new Ext.data.JsonReader({    
-            id:"id"
-        }, RecordDef),    
-        remoteSort: true   
-    });
+	this.searchTypeButton = new Ext.Button(this.searchTypeButtonConfig);
 
-    // turn on validation errors beside the field globally
-    Ext.form.Field.prototype.msgTarget = 'side';
+	var toolbaritems = [this.searchTypeButton];
 
-    var ds = new Ext.data.Store({
-         proxy: new Ext.data.HttpProxy({
-            url: '/' + document.location.href.split("/")[3] + '/crm/customerFind.action', // serverside script to post to
-            method: 'POST' // method of posting .. GET or POST .. I've used POST
-        }),
-        reader: new Ext.data.JsonReader({}, [
-               {name: 'id',type:'int'},
-               {name: 'name'},
-               {name: 'telephone'},
-               {name: 'customerSource'}
-          ])
-    });
-//    ds.loadData(myData);
+	this.searchToolbar = new Ext.Toolbar({
+				ctCls : 'search-all-tbar',
+				items : toolbaritems
+			});
 
+	// this.artifactInformationPanel = new
+	// Sonatype.repoServer.ArtifactInformationPanel({});
 
+	micrite.crm.customerList.SearchPanel.superclass.constructor.call(this, {
+				layout:'fit',
+				border:false,
+				//height:'auto',
+			//	hideMode : 'offsets',
+				tbar : this.searchToolbar,
+				items : [this.grid]
+			});
 
-    // the DefaultColumnModel expects this blob to define columns. It can be extended to provide
-    // custom or reusable ColumnModels
-    var colModel = new Ext.grid.ColumnModel([
-        {id:'id',header: this.colModelId, width: 40, sortable: true, locked:false, dataIndex: 'id'},
-        {header: this.colModelName, width: 100, sortable: true,  dataIndex: 'name'},
-        {header: this.colModelMobile, width: 100, sortable: true,  dataIndex: 'telephone'},
-        {header: this.colModelSource, width: 100, sortable: true,  dataIndex: 'customerSource',renderer:sourceType}
-    ]);    
-    FromPanel.superclass.constructor.call(this, {
-        id: 'viewCustomerForm',
-        frame: false,
-        labelAlign: 'left',
-        header: false,
-        border: false,
-        bodyBorder: false,
-        layout: 'fit',    // Specifies that the items will now be arranged in columns
+	this.gavFields = [];
+	this.gavParams = ['telephone'];
 
-        items: [{
-            border:false,
-            layout: 'fit',
-            height: 350,            
-            items: {
-                xtype: 'grid',
-                border: false,
-                tbar: [{
-                   text:this.searchText,
-                   scope: this
-                },
-                   new Ext.app.SearchField({
-                       store: ds,
-                       width:220
-                   }),'-',this.newCustomerLink
-                ],                
-                ds: ds,
-                cm: colModel,
-                sm: new Ext.grid.RowSelectionModel({
-                    singleSelect: true,
-                    listeners: {
-                        rowselect: function(sm, row, rec) {
-                            Ext.getCmp("viewCustomerForm").getForm().loadRecord(rec);
-                        }
-                    }
-                })
-            }
-        }]
-    });
+	this.on({
+				'render' : function() {
+					var items = this.searchComponents['wapsdr'];// 默认菜单
+					for (var i = 0; i < items.length; i++) {
+						var item = items[i];
+						if (item.xtype == 'textfield') {
+							item = new Ext.form.TextField(item);
+							this.gavFields[this.gavFields.length] = item;
+						} else if (item.xtype == 'checkbox') {
+							item = new Ext.form.Checkbox(item);
+							this.gavFields[this.gavFields.length] = item;
+						} else if (item.xtype == 'datetimefield') {
+							item = new Ext.boco.DateTimeField(item);
+							this.gavFields[this.gavFields.length] = item;
+						}
+						this.searchToolbar.add(item);
+					}
+				},
+				scope : this
+			});
+
+	// this.grid.on( 'rowclick', this.displayArtifactInformation, this );
+	// this.grid.clearButton.on( 'click', this.clearArtifactInformation, this );
 };
 
-//指明NavPanel的父类
-micrite.crm.customerList.FormPanel=Ext.extend(FromPanel, Ext.FormPanel, {
+/**
+ * 定义查询面板的方法
+ */
+Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
+	fetchFirst50 : function(p) {
+		// p.artifactInformationPanel.collapse();
+		p.grid.totalRecords = 0;
+		p.grid.store.load({
+					params : {
+						from : 0,
+						count : 50
+					}
+				});
+	},
+
+	switchSearchType : function(button, event) {
+		this.setSearchType(this, button.value);
+	},
+
+	setSearchType : function(panel, t) {
+		if (t != panel.searchTypeButton.value) {
+			var items = panel.searchTypeButtonConfig.menu.items;
+			panel.searchTypeButton.value = t;
+			for (var i = 0; i < items.length; i++) {
+				if (items[i].value == t) {
+					panel.searchTypeButton.setText(items[i].text);
+				}
+			}
+
+			panel.createToolbarItems(panel, t);
+		}
+	},
+
+	createToolbarItems : function(panel, searchType) {
+		while (panel.searchToolbar.items.length > 1) {
+			var item = panel.searchToolbar.items.last();
+			panel.searchToolbar.items.remove(item);
+			item.destroy();
+		}
+
+		this.gavFields = [];
+
+		var items = panel.searchComponents[searchType];
+		for (var i = 0; i < items.length; i++) {
+			var item = items[i];
+
+			if (item.xtype == 'textfield') {
+				item = new Ext.form.TextField(item);
+				this.gavFields[this.gavFields.length] = item;
+			} else if (item.xtype == 'checkbox') {
+				item = new Ext.form.Checkbox(item);
+				this.gavFields[this.gavFields.length] = item;
+			} else if (item.xtype == 'datetimefield') {
+				item = new Ext.boco.DateTimeField(item);
+				this.gavFields[this.gavFields.length] = item;
+			}
+			panel.searchToolbar.add(item);
+		}
+
+	},
+
+	startSearch : function() {
+		this.grid.store.baseParams = {};
+
+		var n = 0;
+		for (var i = 0; i < this.gavFields.length; i++) {
+			var v = null;
+
+			if (this.gavFields[i].xtype == 'checkbox') {
+				v = this.gavFields[i].checked;
+			} else {
+				v = this.gavFields[i].getRawValue();
+			}
+			console.log(v);
+			this.grid.store.baseParams[this.gavParams[i]] = v;
+			n++;
+			//临时语句
+			if (n>0) break; 
+		}
+
+		if ( n ) {
+			this.grid.store.load();
+		}
+	},
+
+	gavEnterHandler : function(f, e) {
+		if (e.getKey() == e.ENTER) {
+			this.startSearch();
+		}
+	}
+
+});
+
+micrite.crm.customerList.SearchResultGrid = function(config) {
+
+		  Ext.apply(this, config);
+		  var resultReader = new Ext.data.JsonReader({}, [
+             {name: 'id',type:'int'},
+             {name: 'name'},
+             {name: 'telephone'},
+             {name: 'customerSource'}]);
+
+		  var requestProxy = new Ext.data.HttpProxy({
+		    url:  '/' + document.location.href.split("/")[3] + '/crm/customerFind.action',
+		    method: 'GET'
+		    //headers: {Accept: 'application/json'}
+		  });
+
+		  this.store = new Ext.data.Store({
+		    proxy: requestProxy,
+		    reader: resultReader
+		  });
+		    var pagingBar = new Ext.PagingToolbar({
+		        pageSize: 1,
+		        store: this.store,
+		        displayInfo: true,
+		        displayMsg: 'Displaying topics {0} - {1} of {2}',
+		        emptyMsg: "No topics to display"
+		    });
+		    
+		 // this.store.setDefaultSort('id', "ASC");
+
+		  this.columns = [
+		                  {id:'id',header: this.colModelId, width: 40, sortable: true, locked:false, dataIndex: 'id'},
+		                  {header: this.colModelName, width: 100, sortable: true,  dataIndex: 'name'},
+		                  {header: this.colModelMobile, width: 100, sortable: true,  dataIndex: 'telephone'},
+		                  {header: this.colModelSource, width: 100, sortable: true,  dataIndex: 'customerSource',renderer:sourceType}
+		   ];
+	
+
+		  micrite.crm.customerList.SearchResultGrid.superclass.constructor.call(this, {
+		    //region:'center',
+		      id: 'search-result-grid',
+		    // height:'auto',
+		     border:false,
+		      loadMask: {msg:'Loading Results...'},
+		      stripeRows: true,
+		      sm: new Ext.grid.RowSelectionModel({
+		          singleSelect: true
+		      }),
+		      bbar:pagingBar,
+
+		      viewConfig: {
+		          forceFit:true,
+		          enableRowBody:true
+		      }
+		  });
+		};
+
+Ext.extend(micrite.crm.customerList.SearchResultGrid, Ext.grid.GridPanel, {
     colModelId:'ID',
     colModelName:'Name',
     colModelMobile:'Mobile',
@@ -146,17 +316,16 @@ micrite.crm.customerList.FormPanel=Ext.extend(FromPanel, Ext.FormPanel, {
     newCustomerLink:'<a href="../crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>'
 });
 
-//因为采用autoload模式，不能用默认的国际化模式，只能显式的通过方法去加载国际化
-//采用此方式，如果没有相应的locale文件，会报错，catch它，用重载前的类变量也可以正常运行
-try{ customerListLocale(); }
-catch(e){}
+function sourceType(val){
+    return val.name;
+}
+
+try{ customerListLocale();}catch(e){}
 
 Ext.onReady(function(){
     Ext.QuickTips.init();
-    var formPanel = new micrite.crm.customerList.FormPanel();
-    formPanel.render('customerList');
+    formPanel = new micrite.crm.customerList.SearchPanel();
+    mainPanel.getActiveTab().add(formPanel);
+    mainPanel.getActiveTab().doLayout();
 });
-
-
 </script>
-</div>
