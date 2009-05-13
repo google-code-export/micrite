@@ -1,6 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<div id="customerDetail">
 <script type="text/javascript">
 Ext.ns('micrite.crm.customerDetail');
 FromPanel = function() {
@@ -33,6 +31,7 @@ FromPanel = function() {
         header: false,
         border: false,
         bodyBorder: false,
+        autoHeight:true,
         style: {
             "margin-top": "10px" // when you add custom margin in IE 6...
         },        
@@ -110,8 +109,7 @@ FromPanel = function() {
         },{
             text: this.cancelText
         }],
-        buttonAlign:'left',
-        renderTo: 'customerDetail'
+        buttonAlign:'left'
     });
     
 }
@@ -135,7 +133,16 @@ Ext.onReady(function(){
 
     Ext.QuickTips.init();
     var formPanel = new micrite.crm.customerDetail.FormPanel();
-    formPanel.render('customerDetail');    
+    if (mainPanel){
+        mainPanel.getActiveTab().add(formPanel);
+        mainPanel.getActiveTab().doLayout();
+    }else{
+        new Ext.Viewport({
+        	layout:'fit',
+	        items:[
+	        	formPanel
+	        ]
+        });
+    }
 });
 </script>
-</div>

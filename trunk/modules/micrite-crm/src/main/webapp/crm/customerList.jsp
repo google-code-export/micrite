@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<jsp:include page="<%="locale/micrite-crm-lang-"+session.getAttribute("WW_TRANS_I18N_LOCALE")+".jsp"%>"  ></jsp:include>  
 <script type="text/javascript">
 /**
  * 初始化命名空间，其实就是通过a={}来建立一个对象
@@ -79,7 +78,7 @@ micrite.crm.customerList.SearchPanel = function(config) {
 					cls : 'x-btn-icon',
 					scope : this,
 					handler : this.startSearch
-				}]
+				},'-',this.newCustomerLink]
 	};
 
 	// 构建查询组合条件菜单
@@ -252,7 +251,7 @@ Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
 });
 
 micrite.crm.customerList.SearchResultGrid = function(config) {
-
+	newCustomerLink:'<a href="../crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>'
 		  Ext.apply(this, config);
 		  var resultReader = new Ext.data.JsonReader({}, [
              {name: 'id',type:'int'},
@@ -307,13 +306,14 @@ micrite.crm.customerList.SearchResultGrid = function(config) {
 		  });
 		};
 
+
 Ext.extend(micrite.crm.customerList.SearchResultGrid, Ext.grid.GridPanel, {
     colModelId:'ID',
     colModelName:'Name',
     colModelMobile:'Mobile',
     colModelSource:'Source',
     searchText:'Search By Telephone',
-    newCustomerLink:'<a href="../crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>'
+    newCustomerLink:'<a href="crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>'
 });
 
 function sourceType(val){
@@ -325,7 +325,16 @@ try{ customerListLocale();}catch(e){}
 Ext.onReady(function(){
     Ext.QuickTips.init();
     formPanel = new micrite.crm.customerList.SearchPanel();
-    mainPanel.getActiveTab().add(formPanel);
-    mainPanel.getActiveTab().doLayout();
+    if (mainPanel){
+        mainPanel.getActiveTab().add(formPanel);
+        mainPanel.getActiveTab().doLayout();
+    }else{
+        new Ext.Viewport({
+        	layout:'fit',
+	        items:[
+	        	formPanel
+	        ]
+        });
+    }
 });
 </script>
