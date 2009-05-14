@@ -57,7 +57,30 @@
             </result>
         </action>
         
-        <!-- ~~~~~~~~~~~~~~~~~~~~ USER ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->        
+        <!-- ~~~~~~~~~~~~~~~~~~~~ USER ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->    
+        <action name="userSave" class="userAction" method="save">
+            <result name="success" type="json">
+                <param name="target">actionResult</param>
+            </result>
+        </action>
+
+        <action name="userModifyInfo" class="userAction" method="modifyInfo">
+            <result name="success" type="json">
+                <param name="target">actionResult</param>
+            </result>
+        </action>
+            
+        <action name="userFindUsers" class="userAction" method="findUsersByUsername">
+            <result name="success" type="json">
+                <param name="target">users</param>
+            </result>
+        </action>
+
+        <action name="userGetAllRoles" class="userAction" method="getAllRoles">
+            <result name="success" type="json">
+                <param name="target">roles</param>
+            </result>
+        </action>
     </package>
 
 </struts>
