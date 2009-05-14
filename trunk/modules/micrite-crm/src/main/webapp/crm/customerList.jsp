@@ -78,7 +78,7 @@ micrite.crm.customerList.SearchPanel = function(config) {
 					cls : 'x-btn-icon',
 					scope : this,
 					handler : this.startSearch
-				},'-',this.newCustomerLink]
+				},'->',this.newCustomerLink]
 	};
 
 	// 构建查询组合条件菜单
@@ -161,6 +161,8 @@ micrite.crm.customerList.SearchPanel = function(config) {
  * 定义查询面板的方法
  */
 Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
+    searchText:'Search By Telephone',
+    newCustomerLink:'<a href="crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>',	
 	fetchFirst50 : function(p) {
 		// p.artifactInformationPanel.collapse();
 		p.grid.totalRecords = 0;
@@ -251,7 +253,6 @@ Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
 });
 
 micrite.crm.customerList.SearchResultGrid = function(config) {
-	newCustomerLink:'<a href="../crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>'
 		  Ext.apply(this, config);
 		  var resultReader = new Ext.data.JsonReader({}, [
              {name: 'id',type:'int'},
@@ -311,9 +312,7 @@ Ext.extend(micrite.crm.customerList.SearchResultGrid, Ext.grid.GridPanel, {
     colModelId:'ID',
     colModelName:'Name',
     colModelMobile:'Mobile',
-    colModelSource:'Source',
-    searchText:'Search By Telephone',
-    newCustomerLink:'<a href="crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>'
+    colModelSource:'Source'
 });
 
 function sourceType(val){
