@@ -25,13 +25,13 @@
 package org.gaixie.micrite.security.dao.hibernate;
 
 import java.util.List;
-
-import org.gaixie.micrite.beans.User;
-import org.gaixie.micrite.security.dao.IUserDao;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import org.gaixie.micrite.beans.User;
+import org.gaixie.micrite.security.dao.IUserDao;
 
 /**
  * 接口<code>IUserDao</code> 的Hibernate实现。
@@ -39,13 +39,6 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  */
 @ManagedResource(objectName = "micrite:type=dao,name=UserDaoImpl", description = "Micrite UserDaoImpl Bean")
 public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
-
-    @SuppressWarnings("unchecked")
-    public List<User> findAll() {
-        String hql = "from User e";
-        List<User> list = getHibernateTemplate().find(hql);
-        return list;
-    }
 
     @SuppressWarnings("unchecked")
     public User findByUsername(String username) {
@@ -59,5 +52,20 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
         }
 
         return null;
+    }
+
+    public void save(User user) {
+        getHibernateTemplate().save(user);
+    }
+    
+    public void update(User user) {
+        getHibernateTemplate().update(user);
+    }
+    
+    public List<User> findUsersByUsername(String username) {
+        String hql = "from User u where u.loginname like ?";
+        String[] paras = {"%" + username + "%"};
+        List<User> users = getHibernateTemplate().find(hql,paras);
+        return users;
     }
 }

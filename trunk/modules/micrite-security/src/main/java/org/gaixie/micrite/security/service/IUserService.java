@@ -24,10 +24,58 @@
 
 package org.gaixie.micrite.security.service;
 
+import java.util.List;
+
+import org.gaixie.micrite.beans.User;
+
 /**
  * 提供与用户管理有关的服务。
  * 
  */
 public interface IUserService {
+    
+    /**
+     * 增加新用户。
+     * 
+     * @see org.gaixie.micrite.beans.User
+     * @param user <code>User</code>对象
+     * @return true:成功；false：失败
+     */
+    public boolean add(User user);
+    
+    /**
+     * 修改用户信息。
+     * 
+     * @see org.gaixie.micrite.beans.User
+     * @param user <code>User</code>对象
+     * @return true:成功；false：失败
+     */
+    public boolean modifyInfo(User user);
+    
+    /**
+     * 用户置无效。
+     * 
+     * @see org.gaixie.micrite.beans.User
+     * @param user <code>User</code>对象
+     * @return true:成功；false：失败
+     */
+    public boolean setInvalid(User user);
 
+    /**
+     * 用户置有效。
+     * 
+     * @see org.gaixie.micrite.beans.User
+     * @param user <code>User</code>对象
+     * @return true:成功；false：失败
+     */
+    public boolean setValid(User user);
+
+    /**
+     * 根据用户名查询用户集合（模糊查询）。
+     * 
+     * @see org.gaixie.micrite.beans.User
+     * @param username 用户名
+     * @return <code>User</code>对象列表
+     */
+    public List<User> findUsersByUsername(String username);
 }
