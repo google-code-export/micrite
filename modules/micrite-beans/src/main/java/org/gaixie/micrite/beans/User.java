@@ -70,6 +70,7 @@ public class User implements UserDetails {
     private String fullname;
     private String loginname;
     private String cryptpassword;
+    private String plainpassword;
     private String emailaddress;
     private boolean isenabled;
     
@@ -167,6 +168,14 @@ public class User implements UserDetails {
 
     public void setCryptpassword(String cryptpassword) {
         this.cryptpassword = cryptpassword;
+    }
+
+    public String getPlainpassword() {
+        return plainpassword;
+    }
+
+    public void setPlainpassword(String plainpassword) {
+        this.plainpassword = plainpassword;
     }
 
     public String getEmailaddress() {
