@@ -70,6 +70,7 @@ public class User implements UserDetails {
     private String fullname;
     private String loginname;
     private String cryptpassword;
+    @Transient
     private String plainpassword;
     private String emailaddress;
     private boolean isenabled;
