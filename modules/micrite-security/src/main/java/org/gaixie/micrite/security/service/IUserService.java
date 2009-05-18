@@ -44,32 +44,23 @@ public interface IUserService {
     public boolean add(User user);
     
     /**
-     * 修改用户信息。
+     * 根据用户名判断用户在系统中是否存在。
      * 
-     * @see org.gaixie.micrite.beans.User
-     * @param user <code>User</code>对象
+     * @param username 用户名
+     * @return true:存在；false：不存在
+     */
+    public boolean isUserExistent(String username);
+
+    /**
+     * 修改用户名密码，只有用户名不为空字符串时才修改用户名，只有密码不为空字符串时才修改密码。
+     * 
+     * @param id 用户id
+     * @param username 用户名
+     * @param plainpassword 明文密码
      * @return true:成功；false：失败
      */
-    public boolean modifyInfo(User user);
+    public boolean modifyUsernamePassword(Integer id, String username, String plainpassword);
     
-    /**
-     * 用户置无效。
-     * 
-     * @see org.gaixie.micrite.beans.User
-     * @param user <code>User</code>对象
-     * @return true:成功；false：失败
-     */
-    public boolean setInvalid(User user);
-
-    /**
-     * 用户置有效。
-     * 
-     * @see org.gaixie.micrite.beans.User
-     * @param user <code>User</code>对象
-     * @return true:成功；false：失败
-     */
-    public boolean setValid(User user);
-
     /**
      * 根据用户名查询用户集合（模糊查询）。
      * 

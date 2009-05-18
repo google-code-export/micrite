@@ -26,6 +26,7 @@ package org.gaixie.micrite.security.service.impl;
 
 import java.util.List;
 import org.apache.log4j.Logger;
+import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.gaixie.micrite.beans.User;
@@ -43,10 +44,17 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private IUserDao userDao;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     
     public boolean add(User user) {
         boolean result = false;
-        try {
+        try {       
+            //  明文密码
+            String plainpassword = user.getPlainpassword();
+            //  加密后的密码
+            String cryptpassword = passwordEncoder.encodePassword(plainpassword, null);
+            user.setCryptpassword(cryptpassword);
             userDao.save(user);
             result = true;
         } catch (Exception e) {
@@ -55,33 +63,32 @@ public class UserServiceImpl implements IUserService {
         return result;
     }
 
-    public boolean modifyInfo(User user) {
+    public boolean isUserExistent(String username) {
         boolean result = false;
         try {
-            userDao.update(user);
-            result = true;
+            List<User> users = userDao.findUsersByUsername(username);
+            if (users.size() > 0) {
+                result = true;
+            }
         } catch (Exception e) {
             logger.error("exception=" + e);
         }
         return result;
     }
     
-    public boolean setInvalid(User user) {
+    public boolean modifyUsernamePassword(Integer id, String username, String plainpassword) {
         boolean result = false;
-        user.setIsenabled(false);
         try {
-            userDao.update(user);
-            result = true;
-        } catch (Exception e) {
-            logger.error("exception=" + e);
-        }
-        return result;
-    }
-
-    public boolean setValid(User user) {
-        boolean result = false;
-        user.setIsenabled(true);
-        try {
+            User user = userDao.get(id);
+            //  用户名为非空字符串，才修改
+            if (!username.equals("")) {
+                user.setLoginname(username);
+            }
+            //  密码为非空字符串，才修改
+            if (!plainpassword.equals("")) {
+                String cryptpassword = passwordEncoder.encodePassword(plainpassword, null);
+                user.setCryptpassword(cryptpassword);
+            }
             userDao.update(user);
             result = true;
         } catch (Exception e) {
