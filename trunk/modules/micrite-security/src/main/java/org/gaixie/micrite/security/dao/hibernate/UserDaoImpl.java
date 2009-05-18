@@ -62,6 +62,11 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
         getHibernateTemplate().update(user);
     }
     
+    public User get(Integer id) {
+        User user = (User)getHibernateTemplate().get(User.class, id);
+        return user;
+    }
+
     public List<User> findUsersByUsername(String username) {
         String hql = "from User u where u.loginname like ?";
         String[] paras = {"%" + username + "%"};

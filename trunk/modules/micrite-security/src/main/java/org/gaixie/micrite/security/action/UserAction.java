@@ -49,12 +49,13 @@ public class UserAction extends ActionSupport {
     
     //  用户
     private User user;
-    //  查询条件，用户名
-    private String username;
+    //  全部角色列表，为前端页面多选框提供数据
+    private List<Role> allRoles;
     //  查询结果
     private List<User> users;
-    //  角色列表，为前端页面多选框提供数据
-    private List<Role> roles;
+    //  老用户名
+    private String usernameOld;
+    
     //  action处理结果（map对象），以供客户端读取action处理结果信息
     private Map<String,Object> actionResult = new HashMap<String,Object>();
     
@@ -64,30 +65,51 @@ public class UserAction extends ActionSupport {
      * 
      * @return 永远返回"success"
      */
-    public String save() {
+    public String add() {
         boolean result = false;
         result = userService.add(user);
         if (result) {
             actionResult.put("success", true);
         } else {
-            actionResult.put("failure", true);
+            actionResult.put("success", false);
         }
         logger.debug("actionResult=" + actionResult);
         return SUCCESS;
     }
 
     /**
-     * 修改用户信息。
+     * 判断用户在系统中是否存在。
      * 
      * @return 永远返回"success"
      */
-    public String modifyInfo() {
+    public String isUserExistent() {
         boolean result = false;
-        result = userService.modifyInfo(user);
+        String usename = user.getUsername();
+        result = userService.isUserExistent(usename);
         if (result) {
             actionResult.put("success", true);
         } else {
-            actionResult.put("failure", true);
+            actionResult.put("success", false);
+        }
+        logger.debug("actionResult=" + actionResult);
+        return SUCCESS;
+    }
+
+    /**
+     * 修改用户名密码。
+     * 
+     * @return 永远返回"success"
+     */
+    public String modifyUsernamePassword() {
+        boolean result = false;
+        Integer id = user.getId();
+        String username = user.getUsername();
+        String plainpassword = user.getPlainpassword();
+        result = userService.modifyUsernamePassword(id, username, plainpassword);
+        if (result) {
+            actionResult.put("success", true);
+        } else {
+            actionResult.put("success", false);
         }
         logger.debug("actionResult=" + actionResult);
         return SUCCESS;
@@ -99,7 +121,7 @@ public class UserAction extends ActionSupport {
      * @return 永远返回"success"
      */
     public String findUsersByUsername() {
-        users = userService.findUsersByUsername(username);
+        users = userService.findUsersByUsername(user.getUsername());
         return SUCCESS;
     }
     
@@ -108,8 +130,8 @@ public class UserAction extends ActionSupport {
      * 
      * @return 永远返回"success"
      */
-    public String getAllRoles() {
-        roles = null;
+    public String getAllRoleList() {
+        allRoles = null;
         return SUCCESS;
     }
 
@@ -120,14 +142,6 @@ public class UserAction extends ActionSupport {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public List<User> getUsers() {
@@ -146,11 +160,19 @@ public class UserAction extends ActionSupport {
         this.actionResult = actionResult;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public void setAllRoles(List<Role> allRoles) {
+        this.allRoles = allRoles;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public String getUsernameOld() {
+        return usernameOld;
+    }
+
+    public void setUsernameOld(String usernameOld) {
+        this.usernameOld = usernameOld;
+    }
+
+    public List<Role> getAllRoles() {
+        return allRoles;
     }
 }

@@ -60,6 +60,15 @@ public interface IUserDao {
     public void update(User user);
     
     /**
+     * 根据id得到用户。
+     * 
+     * @see org.gaixie.micrite.beans.User
+     * @param id 用户id
+     * @return <code>User</code>对象
+     */
+    public User get(Integer id);
+    
+    /**
      * 根据用户名查询用户集合（模糊查询）。
      * 
      * @see org.gaixie.micrite.beans.User
