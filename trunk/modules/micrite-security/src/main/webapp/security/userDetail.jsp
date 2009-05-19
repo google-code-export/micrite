@@ -1,100 +1,129 @@
-<!-- Do NOT put any DOCTYPE here unless you want problems in IEs. -->
-<html>
- 
-<!-- Each valid html page must have a head; let's create one. -->
-<head>
-  <!-- The following line defines content type and utf-8 as character set. -->
-  <!-- If you want your application to work flawlessly with various local -->
-  <!-- characters, just make ALL strings, on the page, json and database utf-8. -->
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- 
-  <!-- Ext relies on its default css so include it here. -->
-  <!-- This must come BEFORE javascript includes! -->
-  <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css">
-  <link rel="stylesheet" type="text/css" href="multiselectitemselector/Multiselect.css">
-  <!-- Include here your own css files if you have them. -->
- 
-  <!-- First of javascript includes must be an adapter... -->
-  <script type="text/javascript" src="ext/adapter/ext/ext-base.js"></script>
- 
-  <!-- ...then you need the Ext itself, either debug or production version. -->
-  <script type="text/javascript" src="ext/ext-all-debug.js"></script>
-  <script type="text/javascript" src="multiselectitemselector/DDView.js"></script> 
-  <script type="text/javascript" src="multiselectitemselector/Multiselect.js"></script> 
-  <!-- Include here your extended classes if you have some. -->
- 
-  <!-- Include here you application javascript file if you have it. -->
- 
-  <!-- Set a title for the page (id is not necessary). -->
-  <title id="page-title">Title</title>
- 
-  <!-- You can have onReady function here or in your application file. -->
-  <!-- If you have it in your application file delete the whole -->
-  <!-- following script tag as we must have only one onReady. -->
-  <script type="text/javascript">
- 
-  // Path to the blank image must point to a valid location on your server
-  Ext.BLANK_IMAGE_URL = 'ext/resources/images/default/s.gif';
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<script type="text/javascript">
+Ext.ns('micrite.security.userDetail');
+FormPanel = function() {
+    Ext.form.Field.prototype.msgTarget = 'side';
 
-  // Main application entry point
-Ext.onReady(function() {    
-    new Ext.FormPanel({
-            id: 'user-form',
-            border: false,
-            items:[{
-                xtype: 'fieldset',
-                labelWidth: 110,
-                title:'User Detail',
-                defaults: {width: 140},
-                defaultType: 'textfield',
-                autoHeight: true,
-                border: false,
-                items: [{
-                    fieldLabel: 'Full Name',
-                    name: 'fullname',
-                },{
-                    fieldLabel: 'Email Address',
-                    name: 'emailaddress',
-                },{
-                    fieldLabel: 'User Name',
-                    name: 'loginname'
-                },{
-                    fieldLabel: 'Password',
-                    name: 'password'
-                },{
-                     xtype:"multiselect",
-                     fieldLabel:"Roles",
-                     name:"multiselect",
-                     dataFields:["code", "desc"], 
-                     data:[[123,"One Hundred Twenty Three"],
-                      ["1", "One"], ["2", "Two"], ["3", "Three"], ["4", "Four"], ["5", "Five"],
-                      ["6", "Six"], ["7", "Seven"], ["8", "Eight"], ["9", "Nine"]],
-                     valueField:"code",
-                     displayField:"desc",
-                     width:250,
-                     height:200,
-                     allowBlank:true,
-                     legend:"Multiselect"
-                }]
-            }],
-            buttons: [{
-                text: 'Submit'
-            },{
-                text: 'Cancel'
-            }],
-            buttonAlign:'left',
-            renderTo: 'userDetail'
+    var recordDef = Ext.data.Record.create([
+        {name: 'id'},{name: 'name'}                   
+    ]); 
+    var dataStore = new Ext.data.Store({    
+        autoLoad:true,
+        //设定读取的地址
+        proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/userGetAllRoleList.action'}),    
+        //设定读取的格式    
+        reader: new Ext.data.JsonReader({    
+            id:"id"
+        }, recordDef),
+        remoteSort: true
     });
-})
+    
+    FormPanel.superclass.constructor.call(this, {
+        id: 'userDetailForm',
+        frame: false,
+        labelAlign: 'left',
+        header: false,
+        border: false,
+        bodyBorder: false,
+        autoHeight:true,
+        style: {
+            "margin-top": "10px" 
+        },    
+        items: [{
+            border:false
+        },{
+            xtype: 'fieldset',
+            labelWidth: 90,
+            title:this.userDetailText,
+            layout:'form',
+            width: 300,
+            defaults: {width: 150},    
+            defaultType: 'textfield',
+            autoHeight: true,
+            style: {
+                "margin-left": "10px" 
+            },
+            items: [{
+                id: 'fullname',
+                fieldLabel: this.fullnameText
+            },{
+                id: 'emailaddress',
+                fieldLabel: this.emailaddressText
+            },{
+                id: 'loginname',
+                fieldLabel: this.loginnameText
+            },{
+                id: 'plainpassword',
+                fieldLabel: this.passwordText
+            },{
+                xtype:'multiselect',
+                id:"userRoles",
+                fieldLabel:this.rolesText,
+                dataFields:["id", "name"], 
+                store: dataStore,
+                valueField:"id",
+                displayField:"name",
+                width:150,
+                height:120,
+                allowBlank:true,
+                legend:"Multiselect"
+           }]
+       }],
+        buttons: [{
+            text: this.submitText,
+            handler: function(){
+            Ext.getCmp("userDetailForm").getForm().submit({
+                url: '/' + document.location.href.split("/")[3] + '/userAdd.action',
+                method: 'POST',
+                disabled:true,
+                waitMsg: this.waitingMsg,
+                params:{
+                    'user.fullname': Ext.getCmp('fullname').getValue(),
+                    'user.emailaddress': Ext.getCmp('emailaddress').getValue(),
+                    'user.loginname': Ext.getCmp('loginname').getValue(),
+                    'user.plainpassword': Ext.getCmp('plainpassword').getValue(),
+                    'userRolesStr': Ext.getCmp('userRoles').getValue()
+                },
+                success: function(form, action){
+                    Ext.MessageBox.alert('Message', 'Plan saved.');
+                },
+                failure: function(form, action){
+                    Ext.MessageBox.alert('Message', 'Save failed.');
+                }
+            });}                    
+        },{
+            text: this.cancelText
+        }],
+        buttonAlign:'left'
+    });
+    
+}
+
+micrite.security.userDetail.FormPanel=Ext.extend(FormPanel, Ext.FormPanel, {
+    userDetailText: 'User Detail',
+    fullnameText: 'Full Name',
+    emailaddressText: 'Email Address',
+    loginnameText: 'User Name',
+    passwordText: 'Password',
+    rolesText: 'Roles',
+    submitText: 'Save',
+    cancelText: 'Cancel',
+    waitingMsg: 'Saving Data...'
+});
+
+Ext.onReady(function() {
+    Ext.QuickTips.init();
+    var formPanel = new micrite.security.userDetail.FormPanel();
+    if (mainPanel){
+        mainPanel.getActiveTab().add(formPanel);
+        mainPanel.getActiveTab().doLayout();
+    }else{
+        new Ext.Viewport({
+            layout:'fit',
+            items:[
+                formPanel
+            ]
+        });
+    }
+});
 </script>
- 
-<!-- Close the head -->  
-</head>
- 
-<!-- You can leave the body empty in many cases, or you write your content in it. -->
-<body>
-<div id="userDetail"></div>
-</body>
- 
-<!-- Close html tag at last -->
-</html>

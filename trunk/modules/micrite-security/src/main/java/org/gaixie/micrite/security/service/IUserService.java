@@ -26,6 +26,7 @@ package org.gaixie.micrite.security.service;
 
 import java.util.List;
 
+import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
 
 /**
@@ -39,9 +40,10 @@ public interface IUserService {
      * 
      * @see org.gaixie.micrite.beans.User
      * @param user <code>User</code>对象
+     * @param userRoleIds 用户所属角色id列表
      * @return true:成功；false：失败
      */
-    public boolean add(User user);
+    public boolean add(User user,String[] userRoleIds);
     
     /**
      * 根据用户名判断用户在系统中是否存在。
@@ -69,4 +71,6 @@ public interface IUserService {
      * @return <code>User</code>对象列表
      */
     public List<User> findUsersByUsername(String username);
+    
+    public List<Role> getAllRoles();
 }

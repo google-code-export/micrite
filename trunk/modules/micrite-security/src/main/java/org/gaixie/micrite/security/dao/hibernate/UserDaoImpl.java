@@ -30,6 +30,7 @@ import org.hibernate.criterion.Expression;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.dao.IUserDao;
 
@@ -72,5 +73,16 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
         String[] paras = {"%" + username + "%"};
         List<User> users = getHibernateTemplate().find(hql,paras);
         return users;
+    }
+    
+    public List<Role> getAllRoles() {
+        String hql = "from Role r";
+        List<Role> roles = getHibernateTemplate().find(hql);
+        return roles;
+    }
+    
+    public Role getRole(Integer id) {
+        Role role = (Role)getHibernateTemplate().get(Role.class, id);
+        return role;
     }
 }
