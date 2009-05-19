@@ -24,11 +24,15 @@
 
 package org.gaixie.micrite.security.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.dao.IUserDao;
 import org.gaixie.micrite.security.service.IUserService;
@@ -47,14 +51,23 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     
-    public boolean add(User user) {
+    public boolean add(User user, String[] userRoleIds) {
         boolean result = false;
         try {       
             //  明文密码
             String plainpassword = user.getPlainpassword();
+            logger.debug("plainpassword=" + plainpassword);
             //  加密后的密码
             String cryptpassword = passwordEncoder.encodePassword(plainpassword, null);
+            logger.debug("cryptpassword=" + cryptpassword);
             user.setCryptpassword(cryptpassword);
+            //  设置用户的权限列表
+            Set<Role> roles = new HashSet<Role>();
+            for (String userRoleId : userRoleIds) {
+                Role role = userDao.getRole(Integer.parseInt(userRoleId));
+                roles.add(role);
+            }
+            user.setRoles(roles);
             userDao.save(user);
             result = true;
         } catch (Exception e) {
@@ -100,5 +113,10 @@ public class UserServiceImpl implements IUserService {
     public List<User> findUsersByUsername(String username) {
         List<User> users = userDao.findUsersByUsername(username);
         return users;
-    }    
+    }
+    
+    public List<Role> getAllRoles() {
+        List<Role> roles = userDao.getAllRoles();
+        return roles;
+    }
 }

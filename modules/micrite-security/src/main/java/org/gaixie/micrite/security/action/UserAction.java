@@ -27,7 +27,10 @@ package org.gaixie.micrite.security.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -45,12 +48,15 @@ public class UserAction extends ActionSupport {
     private static final Logger logger = Logger.getLogger(UserAction.class);
 
     //  提供 用户管理服务，本类要调用它来完成功能
+    @Autowired
     private IUserService userService;
     
     //  用户
     private User user;
     //  全部角色列表，为前端页面多选框提供数据
     private List<Role> allRoles;
+    //  用户角色拼串，型如“2,4,6”
+    private String userRolesStr;
     //  查询结果
     private List<User> users;
     //  老用户名
@@ -67,7 +73,10 @@ public class UserAction extends ActionSupport {
      */
     public String add() {
         boolean result = false;
-        result = userService.add(user);
+        logger.debug("user=" + user);
+        logger.debug("userRolesStr=" + userRolesStr);
+        String[] userRoleIds = StringUtils.split(userRolesStr, ",");
+        result = userService.add(user,userRoleIds);
         if (result) {
             actionResult.put("success", true);
         } else {
@@ -84,7 +93,7 @@ public class UserAction extends ActionSupport {
      */
     public String isUserExistent() {
         boolean result = false;
-        String usename = user.getUsername();
+        String usename = user.getLoginname();
         result = userService.isUserExistent(usename);
         if (result) {
             actionResult.put("success", true);
@@ -103,7 +112,7 @@ public class UserAction extends ActionSupport {
     public String modifyUsernamePassword() {
         boolean result = false;
         Integer id = user.getId();
-        String username = user.getUsername();
+        String username = user.getLoginname();
         String plainpassword = user.getPlainpassword();
         result = userService.modifyUsernamePassword(id, username, plainpassword);
         if (result) {
@@ -121,7 +130,10 @@ public class UserAction extends ActionSupport {
      * @return 永远返回"success"
      */
     public String findUsersByUsername() {
-        users = userService.findUsersByUsername(user.getUsername());
+        logger.debug("userService=" + userService);
+        logger.debug("user=" + user);
+        String username = user.getLoginname();
+        users = userService.findUsersByUsername(username);
         return SUCCESS;
     }
     
@@ -131,7 +143,11 @@ public class UserAction extends ActionSupport {
      * @return 永远返回"success"
      */
     public String getAllRoleList() {
-        allRoles = null;
+        allRoles = userService.getAllRoles();
+        //  防止js进行json对象死循环查找
+        for (Role role:allRoles) {
+            role.setAuthorities(null);
+        }
         return SUCCESS;
     }
 
@@ -156,14 +172,6 @@ public class UserAction extends ActionSupport {
         return actionResult;
     }
 
-    public void setActionResult(Map<String, Object> actionResult) {
-        this.actionResult = actionResult;
-    }
-
-    public void setAllRoles(List<Role> allRoles) {
-        this.allRoles = allRoles;
-    }
-
     public String getUsernameOld() {
         return usernameOld;
     }
@@ -172,7 +180,23 @@ public class UserAction extends ActionSupport {
         this.usernameOld = usernameOld;
     }
 
+    public void setActionResult(Map<String, Object> actionResult) {
+        this.actionResult = actionResult;
+    }
+
+    public void setAllRoles(List<Role> allRoles) {
+        this.allRoles = allRoles;
+    }
+
     public List<Role> getAllRoles() {
         return allRoles;
+    }
+
+    public String getUserRolesStr() {
+        return userRolesStr;
+    }
+
+    public void setUserRolesStr(String userRolesStr) {
+        this.userRolesStr = userRolesStr;
     }
 }

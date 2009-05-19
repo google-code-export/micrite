@@ -73,7 +73,7 @@ public class User implements UserDetails {
     @Transient
     private String plainpassword;
     private String emailaddress;
-    private boolean isenabled;
+    private boolean isenabled = true;
     
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role_map", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))

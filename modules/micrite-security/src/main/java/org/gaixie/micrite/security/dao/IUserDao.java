@@ -26,6 +26,7 @@ package org.gaixie.micrite.security.dao;
 
 import java.util.List;
 
+import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
 
 /**
@@ -76,4 +77,8 @@ public interface IUserDao {
      * @return <code>User</code>对象列表
      */
     public List<User> findUsersByUsername(String username);
+    
+    public List<Role> getAllRoles();
+    
+    public Role getRole(Integer id);
 }

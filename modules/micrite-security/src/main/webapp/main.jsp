@@ -36,7 +36,10 @@
 <script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base.js"></script>
 <script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/datetime.js"></script>
-<link rel="stylesheet" type="text/css" href="js-lib/ext-us-js/resources/css/datetime.css">
+<script type="text/javascript" src="js-lib/ext-ux-js/DDView.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/Multiselect.js"></script>
+<link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/datetime.css">
+<link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/Multiselect.css">
 <style type="text/css">
 .main-header .x-panel-body {
     background:transparent;
