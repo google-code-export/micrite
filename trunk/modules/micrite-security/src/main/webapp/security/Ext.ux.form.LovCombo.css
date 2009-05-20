@@ -1,4 +1,4 @@
-/* ===========================================================
+/** ===========================================================
  * $Id$
  * This file is part of Micrite
  * ===========================================================
@@ -22,36 +22,18 @@
  *
  */
 
-package org.gaixie.micrite.security.dao;
-
-import java.util.List;
-
-import org.gaixie.micrite.beans.Authority;
-import org.gaixie.micrite.beans.Customer;
-
-/**
- * 提供与 <code>Authority</code> 实体有关的DAO接口。
- * 
- */
-public interface IAuthorityDao {
-    /**
-     * 根据权限类型获得权限对象集合。
-     * 
-     * @param type 权限类型
-     * @return <code>Authority</code> 对象集合
-     */
-    public List<Authority> findByType(String type);
-    
-    /**
-     * 保存Authority
-     * @param  authority authority对象
-     */
-    public void saveAuthority(Authority authority);
-
-    /**
-     * 更新Authority
-     * @param  authority authority对象
-     */
-    public void updateAuthority(Authority authority);
-
+.ux-lovcombo-icon {
+	width:16px;
+	height:16px;
+	float:left;
+	background-position: -1px -1px ! important;
+	background-repeat:no-repeat ! important;
 }
+.ux-lovcombo-icon-checked {
+	background: transparent url(../js-lib/ext-js/resources/images/default/menu/checked.gif);
+}
+.ux-lovcombo-icon-unchecked {
+	background: transparent url(../js-lib/ext-js/resources/images/default/menu/unchecked.gif);
+}
+ 
+/* eof */
