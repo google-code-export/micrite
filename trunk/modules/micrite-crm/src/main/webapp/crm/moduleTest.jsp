@@ -33,8 +33,8 @@
     <link rel="stylesheet" type="text/css" href="../js-lib/ext-js/resources/css/ext-all.css">
     <script type="text/javascript" src="../js-lib/ext-js/adapter/ext/ext-base.js"></script>
     <script type="text/javascript" src="../js-lib/ext-js/ext-all-debug.js"></script>
-    <link rel="stylesheet" type="text/css" href="../js-lib/ext-ux-js/resources/css/datetime.css">
-    <script type="text/javascript" src="../js-lib/ext-ux-js/datetime.js"></script>
+    <link rel="stylesheet" type="text/css" href="../js-lib/ext-ux-js/resources/css/DateTime.css">
+    <script type="text/javascript" src="../js-lib/ext-ux-js/DateTime.js"></script>
     <script type="text/javascript" src="locale/micrite-crm-lang-<%=request.getParameter("request_locale")%>.js"></script>
     
 <script>
