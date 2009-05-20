@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="micrite-crm" extends="json-default" namespace="/crm">
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~ CUSTOMER ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->
+		<action name="customerSave" class="customerAction" method="save">
+            <result name="success" type="json">
+                <param name="target">result</param>
+            </result>
+		</action>
+		<action name="customerFind" class="customerAction" method="find">
+            <result name="success" type="json">
+                <param name="target">customers</param>
+            </result>
+		</action>
+		<action name="customerEdit" class="customerAction" method="edit">
+            <result name="success" type="json">
+                <param name="target">result</param>
+            </result>
+		</action>
+		<action name="customerGetPartner" class="customerAction" method="getPartner">
+			<result name="success" type="json">
+                <param name="target">customerSource</param>
+            </result>
+		</action>
+	</package>
+</struts>
