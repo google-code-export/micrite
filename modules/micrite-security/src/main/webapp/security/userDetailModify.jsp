@@ -1,7 +1,19 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <script type="text/javascript">
 Ext.ns('micrite.security.userDetailModify');
+Ext.apply(Ext.form.VTypes, {
+    passwordAgain: function(val, field) {
+        var plainpassword = Ext.getCmp('modify.plainpassword').getValue();
+        if (val != plainpassword) {
+            return false;
+        } else {
+            return true;
+        }
+    },
+    passwordAgainText: '请确保两次输入的密码相同'
+});
 FormPanel = function() {
+    Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
 
     FormPanel.superclass.constructor.call(this, {
@@ -19,11 +31,11 @@ FormPanel = function() {
             border:false
         },{
             xtype: 'fieldset',
-            labelWidth: 90,
+            labelWidth: 120,
             title:this.userDetailModifyText,
             layout:'form',
-            width: 300,
-            defaults: {width: 150},    
+            width: 350,
+            defaults: {width: 170},    
             defaultType: 'textfield',
             autoHeight: true,
             style: {
@@ -36,15 +48,22 @@ FormPanel = function() {
             },{
                 id: 'modify.fullname',
                 name: 'modify.fullname',
-                fieldLabel: this.fullnameText
+                fieldLabel: this.fullnameText,
+                allowBlank:false
             },{
                 id: 'modify.emailaddress',
                 name: 'modify.emailaddress',
-                fieldLabel: this.emailaddressText
+                fieldLabel: this.emailaddressText,
+                vtype: 'email'
+            },{
+                xtype:'hidden',
+                id: 'usernameOld',
+                name: 'usernameOld'
             },{
                 id: 'modify.loginname',
                 name: 'modify.loginname',
-                fieldLabel: this.loginnameText
+                fieldLabel: this.loginnameText,
+                allowBlank:false
             },{
                 id: 'modify.plainpassword',
                 name: 'modify.plainpassword',
@@ -54,7 +73,8 @@ FormPanel = function() {
                 id: 'modify.plainpasswordAgain',
                 name: 'modify.plainpasswordAgain',
                 inputType: 'password',
-                fieldLabel: this.passwordAgainText
+                fieldLabel: this.passwordAgainText,
+                vtype: 'passwordAgain'
             }]
         }],
         reader: new Ext.data.JsonReader({
@@ -82,10 +102,10 @@ FormPanel = function() {
                     'user.plainpassword': Ext.getCmp('modify.plainpassword').getValue()
                 },
                 success: function(form, action){
-                    Ext.MessageBox.alert('Message', 'Modify successed.');
+                    Ext.MessageBox.alert('Message', 'Save successed.');
                 },
                 failure: function(form, action){
-                    Ext.MessageBox.alert('Message', 'Modify failed.');
+                    Ext.MessageBox.alert('Message', 'Save failed.');
                 }
             });}                    
         },{
@@ -102,7 +122,7 @@ micrite.security.userDetailModify.FormPanel=Ext.extend(FormPanel, Ext.FormPanel,
     loginnameText: 'User Name',
     passwordText: 'Password',
     passwordAgainText: 'Password Again',
-    submitText: 'Modify',
+    submitText: 'Save',
     cancelText: 'Cancel',
     waitingMsg: 'Saving Data...'
 });
