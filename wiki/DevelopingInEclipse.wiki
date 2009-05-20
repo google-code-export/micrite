@@ -79,7 +79,7 @@ Click on "Edit". Under Indentation select Tab policy as "space only". Enter a ne
  */
  }}}
 
-= Other Userfule Information =
+= Other Useful Information =
 If you plan on contributing code or patches to the project please configure your subversion client :
 
  * [http://docs.google.com/Doc?id=dggnm2v4_3d9zr5rcd Subversion Client Configuration]
