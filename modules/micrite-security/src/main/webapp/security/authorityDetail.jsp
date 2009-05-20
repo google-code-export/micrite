@@ -77,7 +77,7 @@ FromPanel = function() {
             items: [{
                 id:'authority_cid',
                 fieldLabel: this.idText,
-                readOnly:true,
+                disabled:true,
                 name: 'id'
             },{
                 id:'authority_cname',
