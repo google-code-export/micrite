@@ -1,10 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<style>
-.details .x-btn-text {
-    background-image: url(../js-lib/ext-ux-js/resources/images/search.png);
-}
-
-</style>
 <script type="text/javascript">
 /**
  * 初始化命名空间，其实就是通过a={}来建立一个对象
