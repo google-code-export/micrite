@@ -37,6 +37,7 @@
 <script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/DateTime.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/CheckboxField.js"></script>
+<link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/micrite-all.css">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/DateTime.css">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/CheckboxField.css">
 <style type="text/css">
