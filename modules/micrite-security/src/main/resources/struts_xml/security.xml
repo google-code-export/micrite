@@ -64,13 +64,13 @@
             </result>
         </action>
 
-        <action name="userIsUserExistent" class="userAction" method="isUserExistent">
+        <action name="userIsExistentByUsername" class="userAction" method="isExistentByUsername">
             <result name="success" type="json">
                 <param name="target">actionResult</param>
             </result>
         </action>
             
-        <action name="userModifyUsernamePassword" class="userAction" method="modifyUsernamePassword">
+        <action name="userModifyInfo" class="userAction" method="modifyInfo">
             <result name="success" type="json">
                 <param name="target">actionResult</param>
             </result>
@@ -87,7 +87,13 @@
                 <param name="target">allRoles</param>
             </result>
         </action>
-        
+
+        <action name="userGetCurrentUser" class="userAction" method="getCurrentUser">
+            <result name="success" type="json">
+                <param name="target">actionResult</param>
+            </result>
+        </action>
+         
         <!-- ~~~~~~~~~~~~~~~~~~~~ Authority ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->        
         <action name="authoritySave" class="authorityAction" method="save">
             <result name="success" type="json">

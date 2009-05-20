@@ -43,7 +43,7 @@ public interface IUserService {
      * @param userRoleIds 用户所属角色id列表
      * @return true:成功；false：失败
      */
-    public boolean add(User user,String[] userRoleIds);
+    public boolean addUser(User user,String[] userRoleIds);
     
     /**
      * 根据用户名判断用户在系统中是否存在。
@@ -51,17 +51,16 @@ public interface IUserService {
      * @param username 用户名
      * @return true:存在；false：不存在
      */
-    public boolean isUserExistent(String username);
+    public boolean isExistentByUsername(String username);
 
     /**
-     * 修改用户名密码，只有用户名不为空字符串时才修改用户名，只有密码不为空字符串时才修改密码。
+     * 修改用户信息，只有密码不为空字符串时才修改密码。
      * 
-     * @param id 用户id
-     * @param username 用户名
-     * @param plainpassword 明文密码
+     * @param user <code>User</code>对象
+     * @param currentUser 当前用户
      * @return true:成功；false：失败
      */
-    public boolean modifyUsernamePassword(Integer id, String username, String plainpassword);
+    public boolean modifyUserInfo(User user, User currentUser);
     
     /**
      * 根据用户名查询用户集合（模糊查询）。

@@ -51,7 +51,7 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     
-    public boolean add(User user, String[] userRoleIds) {
+    public boolean addUser(User user, String[] userRoleIds) {
         boolean result = false;
         try {       
             //  明文密码
@@ -76,7 +76,7 @@ public class UserServiceImpl implements IUserService {
         return result;
     }
 
-    public boolean isUserExistent(String username) {
+    public boolean isExistentByUsername(String username) {
         boolean result = false;
         try {
             List<User> users = userDao.findUsersByUsername(username);
@@ -89,27 +89,39 @@ public class UserServiceImpl implements IUserService {
         return result;
     }
     
-    public boolean modifyUsernamePassword(Integer id, String username, String plainpassword) {
+    public boolean modifyUserInfo(User user, User currentUser) {
         boolean result = false;
         try {
-            User user = userDao.get(id);
-            //  用户名为非空字符串，才修改
-            if (!username.equals("")) {
-                user.setLoginname(username);
+            //  待修改的用户
+            User targetUser = null;
+            Integer userId = user.getId();
+            Integer currentUserId = currentUser.getId();
+            //  如果待修改的用户是当前用户
+            if (userId.equals(currentUserId)) {
+                targetUser = currentUser;
+            } else {
+                targetUser = userDao.get(userId);
             }
-            //  密码为非空字符串，才修改
+            String fullname = user.getFullname();
+            String emailaddress = user.getEmailaddress();
+            String username = user.getLoginname();
+            String plainpassword = user.getPlainpassword();
+            targetUser.setFullname(fullname);
+            targetUser.setEmailaddress(emailaddress);
+            targetUser.setLoginname(username);
+            //  密码为非空字符串，才修改密码
             if (!plainpassword.equals("")) {
                 String cryptpassword = passwordEncoder.encodePassword(plainpassword, null);
-                user.setCryptpassword(cryptpassword);
+                targetUser.setCryptpassword(cryptpassword);
             }
-            userDao.update(user);
+            userDao.update(targetUser);
             result = true;
         } catch (Exception e) {
             logger.error("exception=" + e);
         }
         return result;
     }
-
+    
     public List<User> findUsersByUsername(String username) {
         List<User> users = userDao.findUsersByUsername(username);
         return users;
