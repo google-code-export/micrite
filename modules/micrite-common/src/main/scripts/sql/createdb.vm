@@ -74,7 +74,7 @@ insert  into authorities(name,type,value) values ('/CRM Modules/Customer Detail'
 -- insert  into authorities(name,type,value) values ('Customer Detail Add Method Filter','METHOD','* org.gaixie.micrite.crm.service.ICustomerService.addOrUpdateCustomer(..)');
 insert  into authorities(name,type,value) values ('/Security Modules/User List','URL','/security/userList.jsp');
 insert  into authorities(name,type,value) values ('/Security Modules/User Detail','URL','/security/userDetail.jsp');
-insert  into authorities(name,type,value) values ('/Security/Authority Detail','URL','/security/authorityDetail.jsp');
+insert  into authorities(name,type,value) values ('/Security Modules/Authority Detail','URL','/security/authorityDetail.jsp');
 
 
 CREATE TABLE role_authority_map (

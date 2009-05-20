@@ -35,13 +35,13 @@
 <link rel="stylesheet" type="text/css" href="js-lib/ext-js/resources/css/ext-all.css">
 <script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base.js"></script>
 <script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
-<script type="text/javascript" src="js-lib/ext-ux-js/datetime.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/DateTime.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/DDView.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/Multiselect.js"></script>
-<link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/datetime.css">
+<script type="text/javascript" src="js-lib/ext-ux-js/CheckboxField.js"></script>
+<link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/DateTime.css">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/Multiselect.css">
-<link rel="stylesheet" type="text/css" href="security/Ext.ux.form.LovCombo.css">
-<script type="text/javascript" src="security/Ext.ux.form.LovCombo.js"></script>
+<link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/CheckboxField.css">
 <style type="text/css">
 .main-header .x-panel-body {
     background:transparent;

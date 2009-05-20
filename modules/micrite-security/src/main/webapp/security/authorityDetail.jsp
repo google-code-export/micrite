@@ -105,7 +105,7 @@ FromPanel = function() {
                 selectOnFocus:true,
                 allowBlank:false,
                 forceSelection:true
-            }), new Ext.ux.form.LovCombo({
+            }), new Ext.ux.form.CheckboxField({
                 id:'authority_role',
                 fieldLabel: this.roleText,
                 hideOnSelect:false,

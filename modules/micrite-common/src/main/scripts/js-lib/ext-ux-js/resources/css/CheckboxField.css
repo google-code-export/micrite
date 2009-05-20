@@ -30,10 +30,10 @@
 	background-repeat:no-repeat ! important;
 }
 .ux-CheckboxField-icon-checked {
-	background: transparent url(../../resources//images/default/menu/checked.gif);
+	background: transparent url(../../../ext-js/resources/images/default/menu/checked.gif);
 }
 .ux-CheckboxField-icon-unchecked {
-	background: transparent url(../../resources//images/default/menu/unchecked.gif);
+	background: transparent url(../../../ext-js/resources/images/default/menu/unchecked.gif);
 }
  
 /* eof */
