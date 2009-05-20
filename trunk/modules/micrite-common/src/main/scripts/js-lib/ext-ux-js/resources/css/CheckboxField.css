@@ -22,18 +22,18 @@
  *
  */
 
-.ux-lovcombo-icon {
+.ux-CheckboxField-icon {
 	width:16px;
 	height:16px;
 	float:left;
 	background-position: -1px -1px ! important;
 	background-repeat:no-repeat ! important;
 }
-.ux-lovcombo-icon-checked {
-	background: transparent url(../js-lib/ext-js/resources/images/default/menu/checked.gif);
+.ux-CheckboxField-icon-checked {
+	background: transparent url(../../resources//images/default/menu/checked.gif);
 }
-.ux-lovcombo-icon-unchecked {
-	background: transparent url(../js-lib/ext-js/resources/images/default/menu/unchecked.gif);
+.ux-CheckboxField-icon-unchecked {
+	background: transparent url(../../resources//images/default/menu/unchecked.gif);
 }
  
 /* eof */
