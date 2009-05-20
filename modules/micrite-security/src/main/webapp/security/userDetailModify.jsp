@@ -63,6 +63,7 @@ FormPanel = function() {
                 id: 'modify.loginname',
                 name: 'modify.loginname',
                 fieldLabel: this.loginnameText,
+                disabled:true,
                 allowBlank:false
             },{
                 id: 'modify.plainpassword',
