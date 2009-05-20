@@ -42,10 +42,10 @@ Ext.ns('Ext.ux.form');
  
 /**
  *
- * @class Ext.ux.form.LovCombo
+ * @class Ext.ux.form.CheckboxField
  * @extends Ext.form.ComboBox
  */
-Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {
+Ext.ux.form.CheckboxField = Ext.extend(Ext.form.ComboBox, {
 
 	// {{{
     // configuration options
@@ -75,16 +75,16 @@ Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {
 				 '<tpl for=".">'
 				+'<div class="x-combo-list-item">'
 				+'<img src="' + Ext.BLANK_IMAGE_URL + '" '
-				+'class="ux-lovcombo-icon ux-lovcombo-icon-'
+				+'class="ux-CheckboxField-icon ux-CheckboxField-icon-'
 				+'{[values.' + this.checkField + '?"checked":"unchecked"' + ']}">'
-				+'<div class="ux-lovcombo-item-text">{' + (this.displayField || 'text' )+ '}</div>'
+				+'<div class="ux-CheckboxField-item-text">{' + (this.displayField || 'text' )+ '}</div>'
 				+'</div>'
 				+'</tpl>'
 			;
 		}
  
         // call parent
-        Ext.ux.form.LovCombo.superclass.initComponent.apply(this, arguments);
+        Ext.ux.form.CheckboxField.superclass.initComponent.apply(this, arguments);
 
 		// install internal event handlers
 		this.on({
@@ -110,7 +110,7 @@ Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {
 	 * @private
 	 */
 	,initEvents:function() {
-		Ext.ux.form.LovCombo.superclass.initEvents.apply(this, arguments);
+		Ext.ux.form.CheckboxField.superclass.initEvents.apply(this, arguments);
 
 		// disable default tab handling - does no good
 		this.keyNav.tab = false;
@@ -224,7 +224,7 @@ Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {
 	// }}}
 	// {{{
 	/**
-	 * Sets the value of the LovCombo
+	 * Sets the value of the CheckboxField
 	 * @param {Mixed} v value
 	 */
 	,setValue:function(v) {
@@ -289,6 +289,6 @@ Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {
 }); // eo extend
  
 // register xtype
-Ext.reg('lovcombo', Ext.ux.form.LovCombo); 
+Ext.reg('CheckboxField', Ext.ux.form.CheckboxField); 
  
 // eof
