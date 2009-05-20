@@ -1,4 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<style>
+.details .x-btn-text {
+    background-image: url(../js-lib/ext-ux-js/resources/images/search.png);
+}
+
+</style>
 <script type="text/javascript">
 /**
  * 初始化命名空间，其实就是通过a={}来建立一个对象
@@ -14,23 +20,28 @@
  *            config
  */
 micrite.crm.customerList.SearchPanel = function(config) {
+	//建立一个配置对象，将当前对象的父类的配置项复制给当前当前对象
 	var config = config || {};
 	Ext.apply(this, config);
 
-	//建立表格
+	//建立查询结果表格
 	this.grid = new micrite.crm.customerList.SearchResultGrid({
 	});
 
-	// 构建查询条件
+	/**
+	** 构建查询条件,以下是以json形式建立的数组对象，每一个字符串开始是一组查询条件
+	** 组建的排列以文本框优先，下拉列表，然后是复选框，后面是button，如果有链接，居右放置
+	** 为了提高页面的显示效率，采用xtype，只有当需要显示的时候才会建立对象
+	**/
 	this.searchComponents = {
 		'cdr' : [{
 					xtype : 'textfield',
-					name : 'search-all-field',
+					name : 'telephone',
 					width : 100
+				},{xtype:'tbspacer'
 				}, {
-					xtype : 'button',
-					id : 'gavsearch-artifact',
-					size : 100,
+				 	text: 'Search',
+			        cls: 'x-btn-text-icon details',
 					scope : this,
 					handler : this.startSearch
 				}],
@@ -40,42 +51,54 @@ micrite.crm.customerList.SearchPanel = function(config) {
 				}],
 		'wapsdr' : [{
 					xtype : 'datetimefield',
+					name  : 'startTime',
 					width : 135
 				}, {
 					xtype : 'tbspacer'
 				}, {
 					xtype : 'datetimefield',
+					name  : 'endTime',
 					width : 135
-				}, '&nbsp;&nbsp;', {
+				},{
+					xtype : 'tbspacer'
+				}, {
+					xtype : 'tbspacer'
+				},{
 					xtype : 'checkbox',
 					boxLabel : 'Gb',
-					id : 'gb',
-					width : 40
+					name  : 'gb',
+					width : 40,
+					height: 20
 				}, {
 					xtype : 'checkbox',
 					boxLabel : 'Gn',
-					id : 'gn',
+					name : 'gn',
 					checked : true,
-					width : 40
+					width : 40,
+					height: 20
 				}, {
 					xtype : 'checkbox',
 					boxLabel : 'Gi',
-					id : 'gi',
-					width : 40
+					name : 'gi',
+					width : 40,
+					height: 20
 				}, {
 					xtype : 'checkbox',
 					boxLabel : 'Gw',
-					id : 'gw',
-					width : 40
+					name : 'gw',
+					width : 40,
+					height: 20
 				}, {
 					xtype : 'tbspacer'
 				}, {
-					xtype : 'button',
-					text : 'Search',
-					border : true
+				  	text: 'Search',
+			        cls: 'x-btn-text-icon details',
+			        scope : this,
+					handler : this.startSearch
 				}, {
-					icon : '/images/icons/search.gif',
-					cls : 'x-btn-icon',
+				    text: 'Advance',
+			        cls: 'x-btn-text-icon details',
+					width: 100,
 					scope : this,
 					handler : this.startSearch
 				},'->',this.newCustomerLink]
@@ -108,6 +131,7 @@ micrite.crm.customerList.SearchPanel = function(config) {
 		}
 	};
 
+	//建立一个button
 	this.searchTypeButton = new Ext.Button(this.searchTypeButtonConfig);
 
 	var toolbaritems = [this.searchTypeButton];
@@ -123,15 +147,15 @@ micrite.crm.customerList.SearchPanel = function(config) {
 	micrite.crm.customerList.SearchPanel.superclass.constructor.call(this, {
 				layout:'fit',
 				border:false,
-				//height:'auto',
-			//	hideMode : 'offsets',
 				tbar : this.searchToolbar,
 				items : [this.grid]
 			});
 
-	this.gavFields = [];
-	this.gavParams = ['telephone'];
-
+	this.curFields = [];
+	/**
+	** 根据定义的组件数组，获取组件类型，建立相应的组件，
+	** 同时将每个菜单的对应的组件放入一个数组,为了在提交查选时，便于获得当前组件的值
+	**/
 	this.on({
 				'render' : function() {
 					var items = this.searchComponents['wapsdr'];// 默认菜单
@@ -139,13 +163,13 @@ micrite.crm.customerList.SearchPanel = function(config) {
 						var item = items[i];
 						if (item.xtype == 'textfield') {
 							item = new Ext.form.TextField(item);
-							this.gavFields[this.gavFields.length] = item;
+							this.curFields[this.curFields.length] = item;
 						} else if (item.xtype == 'checkbox') {
 							item = new Ext.form.Checkbox(item);
-							this.gavFields[this.gavFields.length] = item;
+							this.curFields[this.curFields.length] = item;
 						} else if (item.xtype == 'datetimefield') {
 							item = new Ext.boco.DateTimeField(item);
-							this.gavFields[this.gavFields.length] = item;
+							this.curFields[this.curFields.length] = item;
 						}
 						this.searchToolbar.add(item);
 					}
@@ -163,27 +187,23 @@ micrite.crm.customerList.SearchPanel = function(config) {
 Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
     searchText:'Search By Telephone',
     newCustomerLink:'<a href="crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>',	
-	fetchFirst50 : function(p) {
-		// p.artifactInformationPanel.collapse();
-		p.grid.totalRecords = 0;
-		p.grid.store.load({
-					params : {
-						from : 0,
-						count : 50
-					}
-				});
-	},
+
 
 	switchSearchType : function(button, event) {
 		this.setSearchType(this, button.value);
 	},
-
+	/**
+	** 切换菜单时，调用该方法，重置当前button的显示文本,
+	** 只有当选择菜单项与当前菜单不一致时，函数才会继续执行
+	**/
 	setSearchType : function(panel, t) {
 		if (t != panel.searchTypeButton.value) {
 			var items = panel.searchTypeButtonConfig.menu.items;
+			//设置button的值
 			panel.searchTypeButton.value = t;
 			for (var i = 0; i < items.length; i++) {
 				if (items[i].value == t) {
+					//设置button的显示文本
 					panel.searchTypeButton.setText(items[i].text);
 				}
 			}
@@ -191,7 +211,9 @@ Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
 			panel.createToolbarItems(panel, t);
 		}
 	},
-
+	/**
+	** 切换菜单时，调用该方法，首先将原有的组件删除，然后通过配置建立新的组件
+	**/
 	createToolbarItems : function(panel, searchType) {
 		while (panel.searchToolbar.items.length > 1) {
 			var item = panel.searchToolbar.items.last();
@@ -199,51 +221,56 @@ Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
 			item.destroy();
 		}
 
-		this.gavFields = [];
-
+		this.curFields = [];
+		//根据组合查询条件下拉列表获得组合条件对象
 		var items = panel.searchComponents[searchType];
+		//遍历组合条件对象，创建组件，并加入到工具栏
 		for (var i = 0; i < items.length; i++) {
 			var item = items[i];
 
 			if (item.xtype == 'textfield') {
 				item = new Ext.form.TextField(item);
-				this.gavFields[this.gavFields.length] = item;
+				this.curFields[this.curFields.length] = item;
 			} else if (item.xtype == 'checkbox') {
 				item = new Ext.form.Checkbox(item);
-				this.gavFields[this.gavFields.length] = item;
+				this.curFields[this.curFields.length] = item;
 			} else if (item.xtype == 'datetimefield') {
 				item = new Ext.boco.DateTimeField(item);
-				this.gavFields[this.gavFields.length] = item;
+				this.curFields[this.curFields.length] = item;
 			}
 			panel.searchToolbar.add(item);
 		}
 
 	},
-
+	/**
+	** 遍历当前菜单的组件，获取值，提交查询字符串并载入查询结果
+	**/
 	startSearch : function() {
 		this.grid.store.baseParams = {};
 
 		var n = 0;
-		for (var i = 0; i < this.gavFields.length; i++) {
+		console.log(this.curFields.length);
+		for (var i = 0; i < this.curFields.length; i++) {
 			var v = null;
-
-			if (this.gavFields[i].xtype == 'checkbox') {
-				v = this.gavFields[i].checked;
+			var name = null;
+			
+			if (this.curFields[i].xtype == 'checkbox') {
+				v = this.curFields[i].checked;
+			
 			} else {
-				v = this.gavFields[i].getRawValue();
+				v = this.curFields[i].getRawValue();
 			}
-			console.log(v);
-			this.grid.store.baseParams[this.gavParams[i]] = v;
+			name = this.curFields[i].getName();
+			this.grid.store.baseParams[name] = v;
 			n++;
-			//临时语句
-			if (n>0) break; 
+		
 		}
-
+		//如果有条件为真，才提交查询
 		if ( n ) {
 			this.grid.store.load();
 		}
 	},
-
+    //支持回车提交查询的函数
 	gavEnterHandler : function(f, e) {
 		if (e.getKey() == e.ENTER) {
 			this.startSearch();
@@ -270,6 +297,7 @@ micrite.crm.customerList.SearchResultGrid = function(config) {
 		    proxy: requestProxy,
 		    reader: resultReader
 		  });
+		  //设置一个分页栏，这是封装好的一个分页button，只需要坐下配置
 		    var pagingBar = new Ext.PagingToolbar({
 		        pageSize: 1,
 		        store: this.store,
@@ -287,7 +315,10 @@ micrite.crm.customerList.SearchResultGrid = function(config) {
 		                  {header: this.colModelSource, width: 100, sortable: true,  dataIndex: 'customerSource',renderer:sourceType}
 		   ];
 	
-
+          /**
+          *调用超类，同时将配置项传入。
+          *
+          **/
 		  micrite.crm.customerList.SearchResultGrid.superclass.constructor.call(this, {
 		    //region:'center',
 		      id: 'search-result-grid',
@@ -307,7 +338,9 @@ micrite.crm.customerList.SearchResultGrid = function(config) {
 		  });
 		};
 
-
+/**
+ * 这里是为了方便多语言的实现，而写的一个函数
+ */
 Ext.extend(micrite.crm.customerList.SearchResultGrid, Ext.grid.GridPanel, {
     colModelId:'ID',
     colModelName:'Name',
@@ -324,8 +357,13 @@ try{ customerListLocale();}catch(e){}
 Ext.onReady(function(){
     Ext.QuickTips.init();
     formPanel = new micrite.crm.customerList.SearchPanel();
+    /**
+    **  这里的mainPanel判断用于判断程序是在单元环境还是集成环境运行
+    **/
     if (mainPanel){
+        //将当前新的面板放入tabpanel
         mainPanel.getActiveTab().add(formPanel);
+        //重画这个面板，显示新的刚装入的组件面板
         mainPanel.getActiveTab().doLayout();
     }else{
         new Ext.Viewport({
