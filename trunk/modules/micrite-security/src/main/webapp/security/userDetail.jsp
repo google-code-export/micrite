@@ -54,20 +54,21 @@ FormPanel = function() {
                 fieldLabel: this.loginnameText
             },{
                 id: 'plainpassword',
+                inputType: 'password',
                 fieldLabel: this.passwordText
-            },{
-                xtype:'multiselect',
-                id:"userRoles",
-                fieldLabel:this.rolesText,
-                dataFields:["id", "name"], 
-                store: dataStore,
-                valueField:"id",
-                displayField:"name",
+            },new Ext.ux.form.CheckboxField({
+                id:'userRoles',
+                fieldLabel: this.rolesText,
+                hideOnSelect:false,
+                store:dataStore,
+                triggerAction:'all',
+                valueField:'id',
+                displayField:'name',
+                emptyText:this.userRolesText,
+                mode:'local',
                 width:150,
-                height:120,
-                allowBlank:true,
-                legend:"Multiselect"
-           }]
+                allowBlank:false
+                })]
        }],
         buttons: [{
             text: this.submitText,
@@ -85,7 +86,7 @@ FormPanel = function() {
                     'userRolesStr': Ext.getCmp('userRoles').getValue()
                 },
                 success: function(form, action){
-                    Ext.MessageBox.alert('Message', 'Plan saved.');
+                    Ext.MessageBox.alert('Message', 'Save successed.');
                 },
                 failure: function(form, action){
                     Ext.MessageBox.alert('Message', 'Save failed.');
@@ -106,6 +107,7 @@ micrite.security.userDetail.FormPanel=Ext.extend(FormPanel, Ext.FormPanel, {
     loginnameText: 'User Name',
     passwordText: 'Password',
     rolesText: 'Roles',
+    userRolesText: 'Select Roles',
     submitText: 'Save',
     cancelText: 'Cancel',
     waitingMsg: 'Saving Data...'

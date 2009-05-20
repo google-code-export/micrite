@@ -24,14 +24,18 @@
 
 package org.gaixie.micrite.security.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jmx.export.annotation.ManagedResource;
+import org.springframework.security.context.SecurityContext;
+
 import com.opensymphony.xwork2.ActionSupport;
 
 import org.gaixie.micrite.beans.Role;
@@ -43,7 +47,7 @@ import org.gaixie.micrite.security.service.IUserService;
  * @see com.opensymphony.xwork2.ActionSupport
  */
 @ManagedResource(objectName="micrite:type=action,name=UserAction", description="Micrite UserAction Bean")
-public class UserAction extends ActionSupport {
+public class UserAction extends ActionSupport implements SessionAware {
 
     private static final Logger logger = Logger.getLogger(UserAction.class);
 
@@ -61,9 +65,12 @@ public class UserAction extends ActionSupport {
     private List<User> users;
     //  老用户名
     private String usernameOld;
-    
+
     //  action处理结果（map对象），以供客户端读取action处理结果信息
     private Map<String,Object> actionResult = new HashMap<String,Object>();
+    
+    //  为了访问servlet中session对象
+    private Map session;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     /**
@@ -73,10 +80,8 @@ public class UserAction extends ActionSupport {
      */
     public String add() {
         boolean result = false;
-        logger.debug("user=" + user);
-        logger.debug("userRolesStr=" + userRolesStr);
         String[] userRoleIds = StringUtils.split(userRolesStr, ",");
-        result = userService.add(user,userRoleIds);
+        result = userService.addUser(user,userRoleIds);
         if (result) {
             actionResult.put("success", true);
         } else {
@@ -87,14 +92,14 @@ public class UserAction extends ActionSupport {
     }
 
     /**
-     * 判断用户在系统中是否存在。
+     * 根据用户名判断用户在系统中是否存在。
      * 
      * @return 永远返回"success"
      */
-    public String isUserExistent() {
+    public String isExistentByUsername() {
         boolean result = false;
         String usename = user.getLoginname();
-        result = userService.isUserExistent(usename);
+        result = userService.isExistentByUsername(usename);
         if (result) {
             actionResult.put("success", true);
         } else {
@@ -105,16 +110,16 @@ public class UserAction extends ActionSupport {
     }
 
     /**
-     * 修改用户名密码。
+     * 修改用户信息。
      * 
      * @return 永远返回"success"
      */
-    public String modifyUsernamePassword() {
+    public String modifyInfo() {
         boolean result = false;
-        Integer id = user.getId();
-        String username = user.getLoginname();
-        String plainpassword = user.getPlainpassword();
-        result = userService.modifyUsernamePassword(id, username, plainpassword);
+        logger.debug("user=" + user);
+        SecurityContext securityContext = (SecurityContext) session.get("SPRING_SECURITY_CONTEXT");
+        User currentUser = (User) securityContext.getAuthentication().getPrincipal();
+        result = userService.modifyUserInfo(user,currentUser);
         if (result) {
             actionResult.put("success", true);
         } else {
@@ -130,8 +135,6 @@ public class UserAction extends ActionSupport {
      * @return 永远返回"success"
      */
     public String findUsersByUsername() {
-        logger.debug("userService=" + userService);
-        logger.debug("user=" + user);
         String username = user.getLoginname();
         users = userService.findUsersByUsername(username);
         return SUCCESS;
@@ -144,11 +147,38 @@ public class UserAction extends ActionSupport {
      */
     public String getAllRoleList() {
         allRoles = userService.getAllRoles();
-        //  防止js进行json对象死循环查找
+        //  防止json对象查找死循环
         for (Role role:allRoles) {
             role.setAuthorities(null);
         }
         return SUCCESS;
+    }
+    
+    /**
+     * 得到当前用户
+     * 
+     * @return 永远返回"success"
+     */
+    public String getCurrentUser() {
+        SecurityContext securityContext = (SecurityContext) session.get("SPRING_SECURITY_CONTEXT");
+        User currentUser = (User) securityContext.getAuthentication().getPrincipal();
+        Map<String,Object> userMap = new HashMap<String,Object>();
+        userMap.put("id", currentUser.getId());
+        userMap.put("fullname", currentUser.getFullname());
+        userMap.put("emailaddress", currentUser.getEmailaddress());
+        userMap.put("loginname", currentUser.getLoginname());
+        List<Map<String,Object>> dataList = new ArrayList<Map<String,Object>>();
+        dataList.add(userMap);
+        actionResult.put("data", dataList);
+        actionResult.put("success", true);
+        return SUCCESS;
+    }
+    
+    /* 
+     * @see org.apache.struts2.interceptor.SessionAware#setSession(java.util.Map)
+     */
+    public void setSession(Map session) {
+        this.session = session;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~  Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
@@ -199,4 +229,5 @@ public class UserAction extends ActionSupport {
     public void setUserRolesStr(String userRolesStr) {
         this.userRolesStr = userRolesStr;
     }
+
 }
