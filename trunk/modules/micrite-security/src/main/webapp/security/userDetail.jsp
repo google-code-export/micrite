@@ -2,6 +2,7 @@
 <script type="text/javascript">
 Ext.ns('micrite.security.userDetail');
 FormPanel = function() {
+    Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
 
     var recordDef = Ext.data.Record.create([
@@ -12,7 +13,7 @@ FormPanel = function() {
         //设定读取的地址
         proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/userGetAllRoleList.action'}),    
         //设定读取的格式    
-        reader: new Ext.data.JsonReader({    
+        reader: new Ext.data.JsonReader({
             id:"id"
         }, recordDef),
         remoteSort: true
@@ -33,11 +34,11 @@ FormPanel = function() {
             border:false
         },{
             xtype: 'fieldset',
-            labelWidth: 90,
+            labelWidth: 120,
             title:this.userDetailText,
             layout:'form',
-            width: 300,
-            defaults: {width: 150},    
+            width: 350,
+            defaults: {width: 170},    
             defaultType: 'textfield',
             autoHeight: true,
             style: {
@@ -45,17 +46,21 @@ FormPanel = function() {
             },
             items: [{
                 id: 'fullname',
-                fieldLabel: this.fullnameText
+                fieldLabel: this.fullnameText,
+                allowBlank:false
             },{
                 id: 'emailaddress',
-                fieldLabel: this.emailaddressText
+                fieldLabel: this.emailaddressText,
+                vtype: 'email'
             },{
                 id: 'loginname',
-                fieldLabel: this.loginnameText
+                fieldLabel: this.loginnameText,
+                allowBlank:false
             },{
                 id: 'plainpassword',
                 inputType: 'password',
-                fieldLabel: this.passwordText
+                fieldLabel: this.passwordText,
+                allowBlank:false
             },new Ext.ux.form.CheckboxField({
                 id:'userRoles',
                 fieldLabel: this.rolesText,
@@ -106,7 +111,7 @@ micrite.security.userDetail.FormPanel=Ext.extend(FormPanel, Ext.FormPanel, {
     emailaddressText: 'Email Address',
     loginnameText: 'User Name',
     passwordText: 'Password',
-    rolesText: 'Roles',
+    rolesText: 'Role',
     userRolesText: 'Select Roles',
     submitText: 'Save',
     cancelText: 'Cancel',
