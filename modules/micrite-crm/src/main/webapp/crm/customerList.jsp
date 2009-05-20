@@ -22,32 +22,34 @@ micrite.crm.customerList.SearchPanel = function(config) {
 	this.grid = new micrite.crm.customerList.SearchResultGrid({
 	});
 
+	//多个查询条件分组时，可以通过调用searchButton共享
+	var searchButton = {
+		 	text: this.searchButton,
+	        cls: 'x-btn-text-icon details',
+			scope : this,
+			handler : this.startSearch
+		}
+
 	/**
 	** 构建查询条件,以下是以json形式建立的数组对象，每一个字符串开始是一组查询条件
 	** 组建的排列以文本框优先，下拉列表，然后是复选框，后面是button，如果有链接，居右放置
 	** 为了提高页面的显示效率，采用xtype，只有当需要显示的时候才会建立对象
 	**/
 	this.searchComponents = {
-		'cdr' : [{
+		'con1' : ['-',this.searchCellphone,{
 					xtype : 'textfield',
 					name : 'telephone',
 					width : 100
-				},{xtype:'tbspacer'
-				}, {
-				 	text: 'Search',
-			        cls: 'x-btn-text-icon details',
-					scope : this,
-					handler : this.startSearch
-				}],
-		'pdpsdr' : [{
+				},'-', searchButton,'->',this.newCustomerLink],
+		'con2' : ['-',this.searchStartTime,{
 					xtype : 'datetimefield',
-					width : 300
-				}],
-		'wapsdr' : [{
+					width : 135
+				},'-', searchButton,'->',this.newCustomerLink],
+		'con3' : ['-',this.searchStartTime,{
 					xtype : 'datetimefield',
 					name  : 'startTime',
 					width : 135
-				}, {
+				},this.searchEndTime, {
 					xtype : 'tbspacer'
 				}, {
 					xtype : 'datetimefield',
@@ -84,41 +86,30 @@ micrite.crm.customerList.SearchPanel = function(config) {
 					height: 20
 				}, {
 					xtype : 'tbspacer'
-				}, {
-				  	text: 'Search',
-			        cls: 'x-btn-text-icon details',
-			        scope : this,
-					handler : this.startSearch
-				}, {
-				    text: 'Advance',
-			        cls: 'x-btn-text-icon details',
-					width: 100,
-					scope : this,
-					handler : this.startSearch
-				},'->',this.newCustomerLink]
+				},'-', searchButton,'->',this.newCustomerLink]
 	};
 
 	// 构建查询组合条件菜单
 	this.searchTypeButtonConfig = {
-		text : 'WapSDR',
-		value : 'wapsdr',
+		text : this.searchCondition1,
+		value : 'con1',
 		tooltip : 'Click for more search options',
 		handler : this.switchSearchType,
 		scope : this,
 		menu : {
 			items : [{
-						text : 'CDR',
-						value : 'cdr',
+						text : this.searchCondition1,
+						value : 'con1',
 						scope : this,
 						handler : this.switchSearchType
 					}, {
-						text : 'PdpSDR',
-						value : 'pdpsdr',
+						text : this.searchCondition2,
+						value : 'con2',
 						scope : this,
 						handler : this.switchSearchType
 					}, {
-						text : 'WapSDR',
-						value : 'wapsdr',
+						text : this.searchCondition3,
+						value : 'con3',
 						scope : this,
 						handler : this.switchSearchType
 					}]
@@ -152,7 +143,7 @@ micrite.crm.customerList.SearchPanel = function(config) {
 	**/
 	this.on({
 				'render' : function() {
-					var items = this.searchComponents['wapsdr'];// 默认菜单
+					var items = this.searchComponents['con1'];// 默认菜单
 					for (var i = 0; i < items.length; i++) {
 						var item = items[i];
 						if (item.xtype == 'textfield') {
@@ -179,7 +170,13 @@ micrite.crm.customerList.SearchPanel = function(config) {
  * 定义查询面板的方法
  */
 Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
-    searchText:'Search By Telephone',
+	searchButton:'Search',	
+	searchCondition1:'Condition 1',
+	searchCondition2:'Condition 2',
+	searchCondition3:'Condition 3',
+	searchCellphone:'Cellphone',	
+	searchStartTime:'StartTime',
+	searchEndTime:'EndTime',		
     newCustomerLink:'<a href="crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>',	
 
 
@@ -338,7 +335,7 @@ micrite.crm.customerList.SearchResultGrid = function(config) {
 Ext.extend(micrite.crm.customerList.SearchResultGrid, Ext.grid.GridPanel, {
     colModelId:'ID',
     colModelName:'Name',
-    colModelMobile:'Mobile',
+    colModelMobile:'Cellphone',
     colModelSource:'Source'
 });
 

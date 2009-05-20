@@ -53,7 +53,7 @@ FromPanel = function() {
             items: [{
                 id:'cid',
                 fieldLabel: this.idText,
-                readOnly:true,
+                disabled:true,
                 name: 'id'
             },{
                 id:'cname',

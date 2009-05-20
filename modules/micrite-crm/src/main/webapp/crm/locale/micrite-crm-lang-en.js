@@ -1,7 +1,13 @@
 function customerListLocale(){
     if(micrite.crm.customerList.SearchPanel) {
         Ext.override(micrite.crm.customerList.SearchPanel, {
-            searchText:'Search By',
+        	searchButton:'Search',	        	
+        	searchCondition1:'Condition 1',
+        	searchCondition2:'Condition 2',
+        	searchCondition3:'Condition 3',
+        	searchCellphone:'Cellphone',        	
+        	searchStartTime:'StartTime',
+        	searchEndTime:'EndTime',	        	
             newCustomerLink:'<a href="crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>'
         });
     }	
@@ -9,7 +15,7 @@ function customerListLocale(){
         Ext.override(micrite.crm.customerList.SearchResultGrid, {
             colModelId:'ID',
             colModelName:'Name',
-            colModelMobile:'Mobile',
+            colModelMobile:'Cellphone',
             colModelSource:'Source'
         });
         
