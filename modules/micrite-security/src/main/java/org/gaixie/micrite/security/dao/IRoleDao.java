@@ -27,31 +27,32 @@ package org.gaixie.micrite.security.dao;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Authority;
-import org.gaixie.micrite.beans.Customer;
+import org.gaixie.micrite.beans.Role;
 
 /**
- * 提供与 <code>Authority</code> 实体有关的DAO接口。
+ * 提供与 <code>Role</code> 实体有关的DAO接口。
  * 
  */
-public interface IAuthorityDao {
+public interface IRoleDao {
     /**
-     * 根据权限类型获得权限对象集合。
+     * 根据所有角色对象集合.
      * 
-     * @param type 权限类型
-     * @return <code>Authority</code> 对象集合
+     * @return <code>Role</code> 对象集合
      */
-    public List<Authority> findByType(String type);
+    public List<Role> findAll();
     
     /**
-     * 保存Authority
-     * @param  authority authority对象
+     * 根据角色Id获得角色对象.
+     * @param id 角色ID
+     * @return <code>Role</code> 对象
      */
-    public void saveAuthority(Authority authority);
-
+    public Role getRoleById(int id);
+    
     /**
-     * 更新Authority
-     * @param  authority authority对象
+     * 保存Role
+     * @param  role role对象
      */
-    public void updateAuthority(Authority authority);
+    public void saveRole(Role role);
+
 
 }

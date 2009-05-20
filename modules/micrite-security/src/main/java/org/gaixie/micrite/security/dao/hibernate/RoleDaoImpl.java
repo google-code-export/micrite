@@ -26,34 +26,41 @@ package org.gaixie.micrite.security.dao.hibernate;
 
 import java.util.List;
 
-import org.gaixie.micrite.beans.Authority;
-import org.gaixie.micrite.security.dao.IAuthorityDao;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Expression;
-import org.hibernate.criterion.Order;
+import org.gaixie.micrite.beans.Role;
+import org.gaixie.micrite.security.dao.IRoleDao;
+import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
- * 接口<code>IAuthorityDao</code> 的Hibernate实现。
+ * 接口<code>IRoleDao</code> 的Hibernate实现。
  *
  */
-public class AuthorityDaoImpl extends HibernateDaoSupport implements IAuthorityDao {
+public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
 
-    @SuppressWarnings("unchecked")
-    public List<Authority> findByType(String type) {
-        DetachedCriteria criteria = DetachedCriteria.forClass(Authority.class);
-        criteria.add(Expression.eq("type", type));
-        criteria.addOrder(Order.desc("value"));
-        return getHibernateTemplate().findByCriteria(criteria);
-    }	
-    
-    public void saveAuthority(Authority authority){
-    	
-    	getHibernateTemplate().save(authority);
-    }
+	/**
+	 * @see org.gaixie.micrite.security.dao.IRoleDao#findAll()
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Role> findAll() {
+        return getHibernateTemplate().find("from Role e");
+	}
 
-    public void updateAuthority(Authority authority){
-    	getHibernateTemplate().update(authority);
-    }
+	/**
+	 * @see org.gaixie.micrite.security.dao.IRoleDao#getRoleById()
+	 */
+	public Role getRoleById(int id) {
+		return (Role)getHibernateTemplate().get(Role.class, id);
+	}
+	
+	/**
+	 * @see org.gaixie.micrite.security.dao.IRoleDao#saveRole()
+	 */
+	public void saveRole(Role role){
+		try {
+			getHibernateTemplate().save(role);
+		} catch (DataAccessException e) {
+			System.out.println(e);
+		}
+	}
 
 }

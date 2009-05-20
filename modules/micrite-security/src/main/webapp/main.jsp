@@ -40,6 +40,8 @@
 <script type="text/javascript" src="js-lib/ext-ux-js/Multiselect.js"></script>
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/datetime.css">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/Multiselect.css">
+<link rel="stylesheet" type="text/css" href="security/Ext.ux.form.LovCombo.css">
+<script type="text/javascript" src="security/Ext.ux.form.LovCombo.js"></script>
 <style type="text/css">
 .main-header .x-panel-body {
     background:transparent;

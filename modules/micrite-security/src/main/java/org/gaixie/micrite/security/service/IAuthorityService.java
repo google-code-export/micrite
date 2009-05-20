@@ -22,36 +22,31 @@
  *
  */
 
-package org.gaixie.micrite.security.dao;
+package org.gaixie.micrite.security.service;
 
 import java.util.List;
 
 import org.gaixie.micrite.beans.Authority;
-import org.gaixie.micrite.beans.Customer;
+import org.gaixie.micrite.beans.Role;
 
 /**
- * 提供与 <code>Authority</code> 实体有关的DAO接口。
+ * 授权资源服务接口，为系统授权及资源管理提供业务模型
  * 
  */
-public interface IAuthorityDao {
-    /**
-     * 根据权限类型获得权限对象集合。
-     * 
-     * @param type 权限类型
-     * @return <code>Authority</code> 对象集合
-     */
-    public List<Authority> findByType(String type);
-    
-    /**
-     * 保存Authority
-     * @param  authority authority对象
-     */
-    public void saveAuthority(Authority authority);
+public interface IAuthorityService {
 
     /**
-     * 更新Authority
-     * @param  authority authority对象
+     * 新增或修改一个授权资源
+     * @see org.gaixie.micrite.beans.Authority
+     * @param customer 客户实体
+     * @param customerSourceId 客户来源id
      */
-    public void updateAuthority(Authority authority);
+    public void addOrUpdateAuthority(Authority authority, String roleIdBunch);
 
+    /**
+     * 查找并返回所有角色对象
+     * @see org.gaixie.micrite.beans.Role
+     * @return 角色对象集合
+     */
+    public List<Role> findRoleAll();
 }

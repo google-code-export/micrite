@@ -109,49 +109,18 @@
     </bean>
 
     <!-- ~~~~~~~~~~~~~~~~~~~~ SECURITY URL INTERCEPTOR DEFINITIONS ~~~~~~~~~~~~~~~~~~~ -->
-    <bean id="urlSecurityInterceptor" class="org.springframework.security.intercept.web.FilterSecurityInterceptor">
+    <bean id="urlSecurityInterceptor" class="org.gaixie.micrite.security.filter.FilterSecurityInterceptor">
         <sec:custom-filter before="FILTER_SECURITY_INTERCEPTOR" />
         <property name="authenticationManager" ref="authenticationManager"/>
         <property name="accessDecisionManager" ref="accessDecisionManager"/>
-        <property name="objectDefinitionSource" ref="urlDefinitionSource" />
     </bean>
 
-    <!-- 获取访问被访问的URL所需要的权限（authority），以ConfigAttributeDefinition形式返回 -->
-    <bean id="urlDefinitionSource"
-        class="org.springframework.security.intercept.web.DefaultFilterInvocationDefinitionSource">
-        <!-- 匹配URL的matcher -->
-        <constructor-arg type="org.springframework.security.util.UrlMatcher"
-            ref="antUrlPathMatcher" />
-        <!-- URL对应authority的map -->
-        <constructor-arg type="java.util.LinkedHashMap" ref="requestMap" />
-    </bean>
-
-    <bean id="antUrlPathMatcher"
-        class="org.springframework.security.util.AntUrlPathMatcher" />
-
-    <bean id="requestMap"
-        class="org.gaixie.micrite.security.filter.RequestMapFactoryBean" init-method="init" />
-
-         
     <!-- ~~~~~~~~~~~~~~~~~~~~ SECURITY METHOD INTERCEPTOR DEFINITIONS ~~~~~~~~~~~~~~~~~~~ -->      
-    <bean id="methodSecurityInterceptor"
-        class="org.springframework.security.intercept.method.aopalliance.MethodSecurityInterceptor">
+    <bean id="methodSecurityInterceptor" class="org.gaixie.micrite.security.filter.MethodSecurityInterceptor">
         <property name="authenticationManager" ref="authenticationManager" />
         <property name="accessDecisionManager" ref="accessDecisionManager" />
-        <property name="objectDefinitionSource" ref="methodDefinitionSource" />
     </bean>
 
-    <!-- 获取访问被访问的Method所需要的权限（authority），以ConfigAttributeDefinition形式返回 -->    
-    <bean id="methodDefinitionSource"
-        class="org.gaixie.micrite.security.filter.DefaultMethodDefinitionSource">
-        <constructor-arg index="0">
-            <bean class="org.gaixie.micrite.security.filter.AspectJMethodMatcher" />
-        </constructor-arg>
-        <constructor-arg index="1">
-            <bean class="org.gaixie.micrite.security.filter.MethodMapFactoryBean" />
-        </constructor-arg>
-    </bean>
-    
     <!-- 使用Spring AOP，当访问所有service包下以Service结尾的类的任何方法时，任何方法时，
           通知accessDeniedInterceptor和methodSecurityInterceptor两个拦截器。 -->     
     <aop:config>  
