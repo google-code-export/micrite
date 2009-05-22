@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.security.service.IRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -38,18 +39,12 @@ import com.opensymphony.xwork2.ActionSupport;
 public class RoleAction extends ActionSupport{
 	private static final long serialVersionUID = 3072284877032259302L;
 
+	@Autowired
 	private IRoleService roleService;
 
     //输出到页面的数据
     private List<Role> roles;
 
-    /**
-	 * @param roleService
-	 */
-	public RoleAction(IRoleService roleService) {
-		this.roleService = roleService;
-	}
-	
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
    
     /**

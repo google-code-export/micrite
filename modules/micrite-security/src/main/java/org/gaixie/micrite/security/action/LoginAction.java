@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.SessionAware;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.service.ILoginService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.security.context.SecurityContext;
 
@@ -47,6 +48,8 @@ public class LoginAction extends ActionSupport implements SessionAware{
 	private static final long serialVersionUID = -5277215719944190914L;
 
 	private static final Logger logger = Logger.getLogger(LoginAction.class); 
+	
+	@Autowired
 	private ILoginService loginService;
 	
 	private User user;
@@ -56,15 +59,6 @@ public class LoginAction extends ActionSupport implements SessionAware{
 	private Map<String,Object> loginResult = new HashMap<String,Object>();
 	private Map<String,String> errorMsg = new HashMap<String,String>();
 	
-	/**
-	 * 带参数构造函数，实例化对象，并通过参数初始化<strong>loginService</strong>
-	 * @param loginService ILoginService接口，通过Ioc模式注入业务实例
-	 * @see org.gaixie.micrite.security.service.ILoginService
-	 */
-	public LoginAction(ILoginService loginService) {
-		this.loginService = loginService;
-	}
-
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
 	/**
 	 * 默认起始事件，获得登录用户信息

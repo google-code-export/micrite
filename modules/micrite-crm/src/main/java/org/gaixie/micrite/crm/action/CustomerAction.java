@@ -31,6 +31,7 @@ import java.util.Map;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.service.ICustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -42,6 +43,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class CustomerAction extends ActionSupport{ 
 	private static final long serialVersionUID = 3072131320220662398L;
 
+	@Autowired
 	private ICustomerService customerService;
 
     //以Map格式存放操作的结果，然后由struts2-json插件转换为json对象
@@ -58,14 +60,6 @@ public class CustomerAction extends ActionSupport{
     private String telephone;
     private Integer customerSourceId;
 
-    /**
-     * 带参数构造函数，实例化对象，并通过参数初始化<strong>customerService</strong>
-     * @param customerService ICustomerService接口，通过Ioc模式注入业务实例
-     */
-    public CustomerAction(ICustomerService customerService) {
-        this.customerService = customerService;
-    }
-    
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     /**
      * 默认起始事件，获得显示数据，包含总客户数、客户来源
