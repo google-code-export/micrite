@@ -55,7 +55,8 @@ public class MethodSecurityInterceptor extends AbstractSecurityInterceptor imple
         return objectDefinitionSource;
     }
 
-    public Class getSecureObjectClass() {
+    @SuppressWarnings("unchecked")
+	public Class getSecureObjectClass() {
         return MethodInvocation.class;
     }
 
