@@ -22,31 +22,21 @@
  *
  */
 
-package org.gaixie.micrite.security.dao.hibernate;
+package org.gaixie.micrite.security.service;
 
 import java.util.List;
 
 import org.gaixie.micrite.beans.Role;
-import org.gaixie.micrite.security.dao.IRoleDao;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
- * 接口<code>IRoleDao</code> 的Hibernate实现。
- *
+ * 授权资源服务接口，为系统授权及资源管理提供业务模型
+ * 
  */
-public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
+public interface IRoleService {
 
-	@SuppressWarnings("unchecked")
-	public List<Role> findAll() {
-        return getHibernateTemplate().find("from Role e");
-	}
-
-	public Role getRole(int id) {
-		return (Role)getHibernateTemplate().get(Role.class, id);
-	}
-	
-	public void save(Role role){
-			getHibernateTemplate().save(role);
-	}
-
+    /**
+     * 查找并返回所有角色对象
+     * @return 角色对象集合
+     */
+    public List<Role> findAll();
 }
