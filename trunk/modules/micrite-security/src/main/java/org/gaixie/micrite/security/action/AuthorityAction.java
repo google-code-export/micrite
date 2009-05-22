@@ -29,6 +29,7 @@ import java.util.Map;
 
 import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.security.service.IAuthorityService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -40,6 +41,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class AuthorityAction extends ActionSupport{ 
 	private static final long serialVersionUID = 1721180911011412346L;
 
+	@Autowired
 	private IAuthorityService authorityService;
 
     //以Map格式存放操作的结果，然后由struts2-json插件转换为json对象
@@ -49,14 +51,6 @@ public class AuthorityAction extends ActionSupport{
     private Authority authority;
     private String roleIdBunch;
 
-    /**
-     * 带参数构造函数，实例化对象，并通过参数初始化<strong>authorityService</strong>
-     * @param authorityService IAuthorityService接口，通过Ioc模式注入业务实例
-     */
-    public AuthorityAction(IAuthorityService authorityService) {
-        this.authorityService = authorityService;
-    }
-    
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     /**
      * 保存授权资源信息
