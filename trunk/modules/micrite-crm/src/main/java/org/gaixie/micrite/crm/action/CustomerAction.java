@@ -38,11 +38,11 @@ import com.opensymphony.xwork2.ActionSupport;
  * CustomerAction用来响应用户对Customer基本信息维护时的操作，并调用相关的Service。
  * <p>
  * 通过调用相关的Service类，完成对Customer基本信息的增加，删除，修改，查询。
- * @see org.gaixie.micrite.crm.service.ICustomerService
  */
 public class CustomerAction extends ActionSupport{ 
-    
-    private ICustomerService customerService;
+	private static final long serialVersionUID = 3072131320220662398L;
+
+	private ICustomerService customerService;
 
     //以Map格式存放操作的结果，然后由struts2-json插件转换为json对象
     private Map<String,String> result = new HashMap<String,String>();
@@ -61,7 +61,6 @@ public class CustomerAction extends ActionSupport{
     /**
      * 带参数构造函数，实例化对象，并通过参数初始化<strong>customerService</strong>
      * @param customerService ICustomerService接口，通过Ioc模式注入业务实例
-     * @see org.gaixie.micrite.crm.service.ICustomerService
      */
     public CustomerAction(ICustomerService customerService) {
         this.customerService = customerService;
@@ -73,7 +72,7 @@ public class CustomerAction extends ActionSupport{
      * @return "success"
      */
     public String index() {
-        customerNum = customerService.getCustomerNum();
+        customerNum = customerService.getNum();
         
         return SUCCESS;
     }
@@ -82,8 +81,7 @@ public class CustomerAction extends ActionSupport{
      * @return "success"
      */
     public String save() {
-        customer.setId(null);
-        customerService.addOrUpdateCustomer(customer, customerSourceId);
+        customerService.add(customer, customerSourceId);
         result.put("success", "true");
         return SUCCESS;
     }
@@ -100,7 +98,7 @@ public class CustomerAction extends ActionSupport{
      * @return "success"
      */
     public String edit() {
-        customerService.addOrUpdateCustomer(customer, customerSourceId);
+        customerService.update(customer, customerSourceId);
         result.put("success", "true");
         return SUCCESS;
     }
