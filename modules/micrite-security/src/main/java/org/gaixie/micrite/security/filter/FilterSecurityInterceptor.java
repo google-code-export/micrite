@@ -100,7 +100,8 @@ public class FilterSecurityInterceptor extends AbstractSecurityInterceptor imple
         return objectDefinitionSource;
     }
 
-    public Class getSecureObjectClass() {
+    @SuppressWarnings("unchecked")
+	public Class getSecureObjectClass() {
         return FilterInvocation.class;
     }
 
@@ -146,7 +147,6 @@ public class FilterSecurityInterceptor extends AbstractSecurityInterceptor imple
      * 格式保存，<code>LinkedHashMap</code> 的key是 <code>Authority</code> 的value，
      * value是访问这些method所需要的权限 <code>ConfigAttributeDefinition</code>。
      */
-    @SuppressWarnings("unchecked")
 	public ObjectDefinitionSource obtainObjectDefinitionSource() {
     	if(objectDefinitionSource == null){
 	    	UrlMatcher urlMatcher = new AntUrlPathMatcher(true);
