@@ -279,7 +279,7 @@ micrite.crm.customerList.SearchResultGrid = function(config) {
              {name: 'customerSource'}]);
 
 		  var requestProxy = new Ext.data.HttpProxy({
-		    url:  '/' + document.location.href.split("/")[3] + '/crm/customerFind.action',
+		    url:  '/' + document.location.href.split("/")[3] + '/crm/findCustomer.action',
 		    method: 'GET'
 		    //headers: {Accept: 'application/json'}
 		  });

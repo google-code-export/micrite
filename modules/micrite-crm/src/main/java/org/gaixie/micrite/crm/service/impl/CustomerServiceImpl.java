@@ -41,14 +41,16 @@ public class CustomerServiceImpl implements ICustomerService {
     @Autowired
     private ICustomerDao customerDao;
 
-    public void addOrUpdateCustomer(Customer customer, Integer customerSourceId) {
+    public void add(Customer customer, Integer customerSourceId) {
         CustomerSource cs = customerDao.getCustomerSource(customerSourceId);
         customer.setCustomerSource(cs);
-        if (customer.getId() == null) {
-            customerDao.saveCustomer(customer);
-        } else {
-            customerDao.updateCustomer(customer);
-        }
+        customerDao.save(customer);
+    }
+    
+    public void update(Customer customer, Integer customerSourceId) {
+        CustomerSource cs = customerDao.getCustomerSource(customerSourceId);
+        customer.setCustomerSource(cs);
+        customerDao.update(customer);
     }
 
     public List<CustomerSource> findALLCustomerSource() {
@@ -57,22 +59,22 @@ public class CustomerServiceImpl implements ICustomerService {
         return customerSource;
     }
 
-    public Customer findByIdExact(int id) {
+    public Customer getCustomer(int id) {
         return customerDao.getCustomer(id);
     }
 
     public List<Customer> findByTelExact(String telephone) {
-        List<Customer> list = customerDao.findCustomerExact("telephone", telephone);
+        List<Customer> list = customerDao.findByTelExact(telephone);
         return list;
     }
 
     public List<Customer> findByTelVague(String telephone) {
-        List<Customer> list = customerDao.findCustomerVague("telephone", telephone);
+        List<Customer> list = customerDao.findByTelVague(telephone);
         return list;
     }
     
-    public int getCustomerNum() {
-        int count = customerDao.getCustomerCount();
+    public int getNum() {
+        int count = customerDao.getCount();
         return  count;
     }
 

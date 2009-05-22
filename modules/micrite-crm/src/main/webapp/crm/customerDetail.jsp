@@ -8,7 +8,7 @@ FromPanel = function() {
     var store = new Ext.data.Store({    
         autoLoad:true,
         //设定读取的地址
-        proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/crm/customerGetPartner.action'}),    
+        proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/crm/GetCustomerPartner.action'}),    
         //设定读取的格式    
         reader: new Ext.data.JsonReader({    
             id:"id"
@@ -89,7 +89,7 @@ FromPanel = function() {
             text: this.submitText,
             handler: function(){
             Ext.getCmp("customerDetail-form").getForm().submit({
-                url: '/' + document.location.href.split("/")[3] + '/crm/customerSave.action',
+                url: '/' + document.location.href.split("/")[3] + '/crm/saveCustomer.action',
                 method: 'POST',
                 disabled:true,
                 waitMsg: this.waitingMsg,

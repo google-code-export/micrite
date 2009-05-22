@@ -36,19 +36,19 @@ public interface ICustomerDao {
      * 保存Customer
      * @param  customer customer对象
      */
-    public void saveCustomer(Customer customer);
+    public void save(Customer customer);
 
     /**
      * 更新Customer
      * @param  customer customer对象
      */
-    public void updateCustomer(Customer customer);
+    public void update(Customer customer);
 
     /**
      * 删除Customer
      * @param  customer customer对象
      */
-    public void deleteCustomer(Customer customer);
+    public void delete(Customer customer);
 
     /**
      * 根据ID获得Customer对象
@@ -69,28 +69,27 @@ public interface ICustomerDao {
      * 获得所有CustomerSource
      * @return CustomerSource对象集合
      */
-    public List findAllCustomerSource();
+    public List<CustomerSource> findAllCustomerSource();
 
     /**
      * 获得Customer记录数
      * @return Customer对象数目
      */
-    public int getCustomerCount();
+    public int getCount();
     
     /**
-     * 根据字段值精确查找Customer
-     * @param  column 字段名
-     * @param  value 字段值
+     * 根据电话精确查找Customer
+     * @param  telephone 字段名
      * @return Customer对象集合
      */
-    public List findCustomerExact(String column, Object value);
+    public List<Customer> findByTelExact(String telephone);
 
     /**
-     * 根据字段值模糊查找Customer
+     * 根据电话模糊查找Customer
      * @param  column 字段名
      * @param  value 字段值
      * @return Customer对象集合
      */
-    public List findCustomerVague(String column, String value);
+    public List<Customer> findByTelVague(String telephone);
 
 }
