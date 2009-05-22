@@ -22,31 +22,30 @@
  *
  */
 
-package org.gaixie.micrite.security.dao.hibernate;
+package org.gaixie.micrite.security.service.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Role;
+import org.gaixie.micrite.security.action.LoginAction;
 import org.gaixie.micrite.security.dao.IRoleDao;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.gaixie.micrite.security.service.IRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * 接口<code>IRoleDao</code> 的Hibernate实现。
+ * 
  *
  */
-public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
+public class RoleServiceImpl implements IRoleService {
 
-	@SuppressWarnings("unchecked")
+	private static final Logger logger = Logger.getLogger(LoginAction.class); 
+	@Autowired
+	private IRoleDao roleDao;
+
 	public List<Role> findAll() {
-        return getHibernateTemplate().find("from Role e");
-	}
-
-	public Role getRole(int id) {
-		return (Role)getHibernateTemplate().get(Role.class, id);
-	}
-	
-	public void save(Role role){
-			getHibernateTemplate().save(role);
+		List<Role> roles = roleDao.findAll();
+		return roles;
 	}
 
 }

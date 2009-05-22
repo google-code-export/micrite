@@ -37,10 +37,14 @@
     <bean id="authorityAction" class="org.gaixie.micrite.security.action.AuthorityAction"  scope="prototype">
         <constructor-arg ref="authorityService" />
     </bean>
+    <bean id="roleAction" class="org.gaixie.micrite.security.action.RoleAction"  scope="prototype">
+        <constructor-arg ref="roleService" />
+    </bean>
 
     <bean id="loginService" class="org.gaixie.micrite.security.service.impl.LoginServiceImpl" />
     <bean id="userService"  class="org.gaixie.micrite.security.service.impl.UserServiceImpl" />
     <bean id="authorityService"  class="org.gaixie.micrite.security.service.impl.AuthorityServiceImpl" />
+    <bean id="roleService"  class="org.gaixie.micrite.security.service.impl.RoleServiceImpl" />
 
     <bean id="userDao" class="org.gaixie.micrite.security.dao.hibernate.UserDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />

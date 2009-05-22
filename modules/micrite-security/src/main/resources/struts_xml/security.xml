@@ -95,12 +95,12 @@
         </action>
          
         <!-- ~~~~~~~~~~~~~~~~~~~~ Authority ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->        
-        <action name="authoritySave" class="authorityAction" method="save">
+        <action name="saveAuthority" class="authorityAction" method="save">
             <result name="success" type="json">
                 <param name="target">result</param>
             </result>
         </action>
-        <action name="authorityFindRole" class="authorityAction" method="findRole">
+        <action name="findRolesAll" class="roleAction" method="findAll">
             <result name="success" type="json">
                 <param name="target">roles</param>
             </result>
