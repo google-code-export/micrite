@@ -44,15 +44,16 @@ import com.opensymphony.xwork2.ActionSupport;
  */
 @ManagedResource(objectName="micrite:type=action,name=LoginAction", description="Micrite LoginAction Bean")
 public class LoginAction extends ActionSupport implements SessionAware{ 
+	private static final long serialVersionUID = -5277215719944190914L;
 
-    private static final Logger logger = Logger.getLogger(LoginAction.class); 
+	private static final Logger logger = Logger.getLogger(LoginAction.class); 
 	private ILoginService loginService;
 	
 	private User user;
     private String node;
-	private Map session;
+	private Map<String,Object> session;
 	private Set<Map<String,Object>> menu;
-	private Map loginResult = new HashMap<String,Object>();
+	private Map<String,Object> loginResult = new HashMap<String,Object>();
 	private Map<String,String> errorMsg = new HashMap<String,String>();
 	
 	/**
@@ -120,7 +121,7 @@ public class LoginAction extends ActionSupport implements SessionAware{
 	/* (non-Javadoc)
 	 * @see org.apache.struts2.interceptor.SessionAware#setSession(java.util.Map)
 	 */
-	public void setSession(Map session) {
+	public void setSession(Map<String,Object> session) {
 		this.session = session;
 	}
 
