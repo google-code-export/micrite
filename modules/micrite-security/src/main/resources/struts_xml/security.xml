@@ -58,37 +58,31 @@
         </action>
         
         <!-- ~~~~~~~~~~~~~~~~~~~~ USER ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->    
-        <action name="userAdd" class="userAction" method="add">
+        <action name="addUser" class="userAction" method="add">
             <result name="success" type="json">
                 <param name="target">actionResult</param>
             </result>
         </action>
 
-        <action name="userIsExistentByUsername" class="userAction" method="isExistentByUsername">
+        <action name="IsUserExistent" class="userAction" method="isExistentByUsername">
             <result name="success" type="json">
                 <param name="target">actionResult</param>
             </result>
         </action>
             
-        <action name="userModifyInfo" class="userAction" method="modifyInfo">
+        <action name="updateUserInfo" class="userAction" method="updateInfo">
             <result name="success" type="json">
                 <param name="target">actionResult</param>
             </result>
         </action>
 
-        <action name="userFindUsers" class="userAction" method="findUsersByUsername">
+        <action name="findUsersVague" class="userAction" method="findByUsernameVague">
             <result name="success" type="json">
                 <param name="target">users</param>
             </result>
         </action>
 
-        <action name="userGetAllRoleList" class="userAction" method="getAllRoleList">
-            <result name="success" type="json">
-                <param name="target">allRoles</param>
-            </result>
-        </action>
-
-        <action name="userGetCurrentUser" class="userAction" method="getCurrentUser">
+        <action name="loadCurrentUser" class="userAction" method="loadCurrentUser">
             <result name="success" type="json">
                 <param name="target">actionResult</param>
             </result>
