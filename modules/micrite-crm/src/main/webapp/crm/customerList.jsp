@@ -47,7 +47,7 @@ micrite.crm.customerList.SearchPanel = function(config) {
 					xtype : 'datetimefield',
 					name : 'startTime',
 					width : 135
-				}, 'joker', {
+				}, 'To', {
 					xtype : 'tbspacer'
 				}, {
 					xtype : 'datetimefield',
@@ -259,7 +259,6 @@ Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
 		this.grid.store.baseParams = {};
 
 		var n = 0;
-		console.log(this.curFields.length);
 		for (var i = 0; i < this.curFields.length; i++) {
 			var v = null;
 			var name = null;
