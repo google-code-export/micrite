@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.security.dao.IRoleDao;
+import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
@@ -36,17 +37,30 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  */
 public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
 
+	/**
+	 * @see org.gaixie.micrite.security.dao.IRoleDao#findAll()
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Role> findAll() {
         return getHibernateTemplate().find("from Role e");
 	}
 
-	public Role getRole(int id) {
+	/**
+	 * @see org.gaixie.micrite.security.dao.IRoleDao#getRoleById()
+	 */
+	public Role getRoleById(int id) {
 		return (Role)getHibernateTemplate().get(Role.class, id);
 	}
 	
-	public void save(Role role){
+	/**
+	 * @see org.gaixie.micrite.security.dao.IRoleDao#saveRole()
+	 */
+	public void saveRole(Role role){
+		try {
 			getHibernateTemplate().save(role);
+		} catch (DataAccessException e) {
+			System.out.println(e);
+		}
 	}
 
 }

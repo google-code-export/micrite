@@ -1,52 +1,69 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <script type="text/javascript">
 Ext.ns('micrite.security.userDetail');
-
-//  FormPanel构造函数
 FormPanel = function() {
-    //  role多选框数据源
-    var dataStore = new Ext.data.Store({
-        autoLoad:true,
-        proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/findRolesAll.action'}),    
-        reader: new Ext.data.JsonReader({id: "id"}, [{name: 'id'},{name: 'name'}])
-    });
+    Ext.QuickTips.init();
+    Ext.form.Field.prototype.msgTarget = 'side';
 
-    //  这里定义Panel的外观，内部控件等
+    var recordDef = Ext.data.Record.create([
+        {name: 'id'},{name: 'name'}                   
+    ]); 
+    var dataStore = new Ext.data.Store({    
+        autoLoad:true,
+        //设定读取的地址
+        proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/userGetAllRoleList.action'}),    
+        //设定读取的格式    
+        reader: new Ext.data.JsonReader({
+            id:"id"
+        }, recordDef),
+        remoteSort: true
+    });
+    
     FormPanel.superclass.constructor.call(this, {
         id: 'userDetailForm',
+        frame: false,
+        labelAlign: 'left',
+        header: false,
+        border: false,
         bodyBorder: false,
-        autoHeight: true,
-        style: {"margin-top": "10px"},    
+        autoHeight:true,
+        style: {
+            "margin-top": "10px" 
+        },    
         items: [{
+            border:false
+        },{
             xtype: 'fieldset',
             labelWidth: 120,
-            title: this.userDetailText,
-            layout: 'form',
+            title:this.userDetailText,
+            layout:'form',
             width: 350,
             defaults: {width: 170},    
             defaultType: 'textfield',
             autoHeight: true,
-            style: {"margin-left": "10px"},
+            style: {
+                "margin-left": "10px" 
+            },
             items: [{
+                id: 'fullname',
                 fieldLabel: this.fullnameText,
-                name: 'fullname',
                 allowBlank:false
             },{
+                id: 'emailaddress',
                 fieldLabel: this.emailaddressText,
-                name: 'emailaddress',
                 vtype: 'email'
             },{
+                id: 'loginname',
                 fieldLabel: this.loginnameText,
-                name: 'loginname',
                 allowBlank:false
             },{
-                fieldLabel: this.passwordText,
-                name: 'plainpassword',
+                id: 'plainpassword',
                 inputType: 'password',
+                fieldLabel: this.passwordText,
                 allowBlank:false
             },new Ext.ux.form.CheckboxField({
+                id:'userRoles',
                 fieldLabel: this.rolesText,
-                name:'userRoles',
                 hideOnSelect:false,
                 store:dataStore,
                 triggerAction:'all',
@@ -56,44 +73,39 @@ FormPanel = function() {
                 mode:'local',
                 width:150,
                 allowBlank:false
-            })]
-        }],
+                })]
+       }],
         buttons: [{
             text: this.submitText,
-            handler: function() {
-	            var form = Ext.getCmp("userDetailForm").getForm();
-	            // 构建form的提交参数
-	            var params = {
-                        'user.fullname': form.findField('fullname').getValue(),
-                        'user.emailaddress': form.findField('emailaddress').getValue(),
-                        'user.loginname': form.findField('loginname').getValue(),
-                        'user.plainpassword': form.findField('plainpassword').getValue(),
-                        'userRolesStr': form.findField('userRoles').getValue()
-	            };      
-	            // form提交
-	            form.submit({
-	                url: '/' + document.location.href.split("/")[3] + '/addUser.action',
-	                method: 'POST',
-	                disabled:true,
-	                waitMsg: this.waitingMsg,
-	                params:params,
-	                success: function(form, action) {
-	                    Ext.MessageBox.alert('Message', 'Save successed.');
-	                },
-	                failure: function(form, action) {
-	                    Ext.MessageBox.alert('Message', 'Save failed.');
-	                }
-	            });
-	        }                    
+            handler: function(){
+            Ext.getCmp("userDetailForm").getForm().submit({
+                url: '/' + document.location.href.split("/")[3] + '/userAdd.action',
+                method: 'POST',
+                disabled:true,
+                waitMsg: this.waitingMsg,
+                params:{
+                    'user.fullname': Ext.getCmp('fullname').getValue(),
+                    'user.emailaddress': Ext.getCmp('emailaddress').getValue(),
+                    'user.loginname': Ext.getCmp('loginname').getValue(),
+                    'user.plainpassword': Ext.getCmp('plainpassword').getValue(),
+                    'userRolesStr': Ext.getCmp('userRoles').getValue()
+                },
+                success: function(form, action){
+                    Ext.MessageBox.alert('Message', 'Save successed.');
+                },
+                failure: function(form, action){
+                    Ext.MessageBox.alert('Message', 'Save failed.');
+                }
+            });}                    
         },{
             text: this.cancelText
         }],
         buttonAlign:'left'
     });
-};
+    
+}
 
-//  通过扩展方式来处理页面显示字符串，国际化采用改这种方式处理
-micrite.security.userDetail.FormPanel = Ext.extend(FormPanel, Ext.FormPanel, {
+micrite.security.userDetail.FormPanel=Ext.extend(FormPanel, Ext.FormPanel, {
     userDetailText: 'User Detail',
     fullnameText: 'Full Name',
     emailaddressText: 'Email Address',
@@ -108,15 +120,17 @@ micrite.security.userDetail.FormPanel = Ext.extend(FormPanel, Ext.FormPanel, {
 
 Ext.onReady(function() {
     Ext.QuickTips.init();
-    Ext.form.Field.prototype.msgTarget = 'side';
-    
     var formPanel = new micrite.security.userDetail.FormPanel();
-    
-    if (mainPanel) {
+    if (mainPanel){
         mainPanel.getActiveTab().add(formPanel);
         mainPanel.getActiveTab().doLayout();
-    } else {
-        new Ext.Viewport({layout:'fit',items:[formPanel]});
+    }else{
+        new Ext.Viewport({
+            layout:'fit',
+            items:[
+                formPanel
+            ]
+        });
     }
 });
 </script>

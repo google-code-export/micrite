@@ -34,27 +34,22 @@ import org.gaixie.micrite.beans.CustomerSource;
  */
 public interface ICustomerService {
     /**
-     * 新增客户
+     * 新增或修改客户
+     * @see org.gaixie.micrite.beans.Customer
      * @param customer 客户实体
      * @param customerSourceId 客户来源id
      */
-    public void add(Customer customer, Integer customerSourceId);
-
-    /**
-     * 修改客户信息
-     * @param customer 客户实体
-     * @param customerSourceId 客户来源id
-     */
-    public void update(Customer customer, Integer customerSourceId);
+    public void addOrUpdateCustomer(Customer customer, Integer customerSourceId);
 
     /**
      * 获取客户数量
      * @return 客户数量
      */
-    public int getNum();
+    public int getCustomerNum();
 
     /**
      * 根据电话精确查找客户
+     * @see org.gaixie.micrite.beans.Customer
      * @param telephone 客户电话
      * @return 客户实体集合
      */
@@ -62,6 +57,7 @@ public interface ICustomerService {
 
     /**
      * 根据电话模糊查找客户
+     * @see org.gaixie.micrite.beans.Customer
      * @param telephone 客户电话
      * @return 客户实体集合
      */
@@ -69,13 +65,15 @@ public interface ICustomerService {
 
     /**
      * 根据客户ID获取客户
+     * @see org.gaixie.micrite.beans.Customer
      * @param id 客户id
      * @return 客户实体
      */
-    public Customer getCustomer(int id);
+    public Customer findByIdExact(int id);
 
     /**
      * 获取客户来源
+     * @see org.gaixie.micrite.beans.CustomerSource
      * @return 客户来源集合
      */
     public List<CustomerSource> findALLCustomerSource();

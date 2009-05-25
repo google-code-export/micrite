@@ -58,43 +58,49 @@
         </action>
         
         <!-- ~~~~~~~~~~~~~~~~~~~~ USER ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->    
-        <action name="addUser" class="userAction" method="add">
+        <action name="userAdd" class="userAction" method="add">
             <result name="success" type="json">
                 <param name="target">actionResult</param>
             </result>
         </action>
 
-        <action name="IsUserExisted" class="userAction" method="isExistedByUsername">
+        <action name="userIsExistentByUsername" class="userAction" method="isExistentByUsername">
             <result name="success" type="json">
                 <param name="target">actionResult</param>
             </result>
         </action>
             
-        <action name="updateUserInfo" class="userAction" method="updateInfo">
+        <action name="userModifyInfo" class="userAction" method="modifyInfo">
             <result name="success" type="json">
                 <param name="target">actionResult</param>
             </result>
         </action>
 
-        <action name="findUsersVague" class="userAction" method="findByUsernameVague">
+        <action name="userFindUsers" class="userAction" method="findUsersByUsername">
             <result name="success" type="json">
                 <param name="target">users</param>
             </result>
         </action>
 
-        <action name="loadCurrentUser" class="userAction" method="loadCurrentUser">
+        <action name="userGetAllRoleList" class="userAction" method="getAllRoleList">
+            <result name="success" type="json">
+                <param name="target">allRoles</param>
+            </result>
+        </action>
+
+        <action name="userGetCurrentUser" class="userAction" method="getCurrentUser">
             <result name="success" type="json">
                 <param name="target">actionResult</param>
             </result>
         </action>
          
         <!-- ~~~~~~~~~~~~~~~~~~~~ Authority ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->        
-        <action name="saveAuthority" class="authorityAction" method="save">
+        <action name="authoritySave" class="authorityAction" method="save">
             <result name="success" type="json">
                 <param name="target">result</param>
             </result>
         </action>
-        <action name="findRolesAll" class="roleAction" method="findAll">
+        <action name="authorityFindRole" class="authorityAction" method="findRole">
             <result name="success" type="json">
                 <param name="target">roles</param>
             </result>

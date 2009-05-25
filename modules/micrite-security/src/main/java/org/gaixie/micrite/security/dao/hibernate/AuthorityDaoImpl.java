@@ -47,12 +47,12 @@ public class AuthorityDaoImpl extends HibernateDaoSupport implements IAuthorityD
         return getHibernateTemplate().findByCriteria(criteria);
     }	
     
-    public void save(Authority authority){
+    public void saveAuthority(Authority authority){
     	
     	getHibernateTemplate().save(authority);
     }
 
-    public void update(Authority authority){
+    public void updateAuthority(Authority authority){
     	getHibernateTemplate().update(authority);
     }
 

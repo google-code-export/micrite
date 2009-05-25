@@ -30,22 +30,26 @@
     xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean id="loginAction" class="org.gaixie.micrite.security.action.LoginAction" />
+    <bean id="loginAction" class="org.gaixie.micrite.security.action.LoginAction">
+        <constructor-arg ref="loginService" />
+    </bean>
     <bean id="userAction" class="org.gaixie.micrite.security.action.UserAction" scope="prototype"/>
-    <bean id="authorityAction" class="org.gaixie.micrite.security.action.AuthorityAction"  scope="prototype" />
-    <bean id="roleAction" class="org.gaixie.micrite.security.action.RoleAction"  scope="prototype" />
+    <bean id="authorityAction" class="org.gaixie.micrite.security.action.AuthorityAction"  scope="prototype">
+        <constructor-arg ref="authorityService" />
+    </bean>
 
     <bean id="loginService" class="org.gaixie.micrite.security.service.impl.LoginServiceImpl" />
     <bean id="userService"  class="org.gaixie.micrite.security.service.impl.UserServiceImpl" />
     <bean id="authorityService"  class="org.gaixie.micrite.security.service.impl.AuthorityServiceImpl" />
-    <bean id="roleService"  class="org.gaixie.micrite.security.service.impl.RoleServiceImpl" />
 
     <bean id="userDao" class="org.gaixie.micrite.security.dao.hibernate.UserDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
+
     <bean id="authorityDao" class="org.gaixie.micrite.security.dao.hibernate.AuthorityDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
+
     <bean id="roleDao" class="org.gaixie.micrite.security.dao.hibernate.RoleDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>

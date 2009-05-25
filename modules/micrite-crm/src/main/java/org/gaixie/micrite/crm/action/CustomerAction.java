@@ -31,7 +31,6 @@ import java.util.Map;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.service.ICustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -39,12 +38,11 @@ import com.opensymphony.xwork2.ActionSupport;
  * CustomerAction用来响应用户对Customer基本信息维护时的操作，并调用相关的Service。
  * <p>
  * 通过调用相关的Service类，完成对Customer基本信息的增加，删除，修改，查询。
+ * @see org.gaixie.micrite.crm.service.ICustomerService
  */
 public class CustomerAction extends ActionSupport{ 
-	private static final long serialVersionUID = 3072131320220662398L;
-
-	@Autowired
-	private ICustomerService customerService;
+    
+    private ICustomerService customerService;
 
     //以Map格式存放操作的结果，然后由struts2-json插件转换为json对象
     private Map<String,String> result = new HashMap<String,String>();
@@ -60,13 +58,22 @@ public class CustomerAction extends ActionSupport{
     private String telephone;
     private Integer customerSourceId;
 
+    /**
+     * 带参数构造函数，实例化对象，并通过参数初始化<strong>customerService</strong>
+     * @param customerService ICustomerService接口，通过Ioc模式注入业务实例
+     * @see org.gaixie.micrite.crm.service.ICustomerService
+     */
+    public CustomerAction(ICustomerService customerService) {
+        this.customerService = customerService;
+    }
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     /**
      * 默认起始事件，获得显示数据，包含总客户数、客户来源
      * @return "success"
      */
     public String index() {
-        customerNum = customerService.getNum();
+        customerNum = customerService.getCustomerNum();
         
         return SUCCESS;
     }
@@ -75,7 +82,8 @@ public class CustomerAction extends ActionSupport{
      * @return "success"
      */
     public String save() {
-        customerService.add(customer, customerSourceId);
+        customer.setId(null);
+        customerService.addOrUpdateCustomer(customer, customerSourceId);
         result.put("success", "true");
         return SUCCESS;
     }
@@ -92,7 +100,7 @@ public class CustomerAction extends ActionSupport{
      * @return "success"
      */
     public String edit() {
-        customerService.update(customer, customerSourceId);
+        customerService.addOrUpdateCustomer(customer, customerSourceId);
         result.put("success", "true");
         return SUCCESS;
     }

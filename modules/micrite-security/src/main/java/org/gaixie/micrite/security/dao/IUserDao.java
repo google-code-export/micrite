@@ -26,6 +26,7 @@ package org.gaixie.micrite.security.dao;
 
 import java.util.List;
 
+import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
 
 /**
@@ -66,7 +67,7 @@ public interface IUserDao {
      * @param id 用户id
      * @return <code>User</code>对象
      */
-    public User getUser(Integer id);
+    public User get(Integer id);
     
     /**
      * 根据用户名查询用户集合（模糊查询）。
@@ -75,5 +76,9 @@ public interface IUserDao {
      * @param username 用户名
      * @return <code>User</code>对象列表
      */
-    public List<User> findByUsernameVague(String username);
+    public List<User> findUsersByUsername(String username);
+    
+    public List<Role> getAllRoles();
+    
+    public Role getRole(Integer id);
 }

@@ -26,6 +26,7 @@ package org.gaixie.micrite.security.dao;
 
 import java.util.List;
 
+import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.beans.Role;
 
 /**
@@ -45,13 +46,13 @@ public interface IRoleDao {
      * @param id 角色ID
      * @return <code>Role</code> 对象
      */
-    public Role getRole(int id);
+    public Role getRoleById(int id);
     
     /**
      * 保存Role
      * @param  role role对象
      */
-    public void save(Role role);
+    public void saveRole(Role role);
 
 
 }

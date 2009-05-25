@@ -69,7 +69,7 @@ public class CustomerServiceImplMock implements ICustomerService {
 		customers.add(customer3);
 	}
 	
-	public void add(Customer customer, Integer customerSourceId) {
+	public void addOrUpdateCustomer(Customer customer, Integer customerSourceId) {
 		//	根据Id查找customerSource
 		CustomerSource wantedCustomerSource = null;
 		for (CustomerSource customerSource:customerSources)
@@ -103,45 +103,12 @@ public class CustomerServiceImplMock implements ICustomerService {
 	     	customers.add(customer);
 		}
 	}
-	public void update(Customer customer, Integer customerSourceId) {
-		//	根据Id查找customerSource
-		CustomerSource wantedCustomerSource = null;
-		for (CustomerSource customerSource:customerSources)
-		{
-			if (customerSource.getId() == customerSourceId)
-			{
-				wantedCustomerSource = customerSource;
-			}
-		}
-		//	为customer设置customerSource
-		customer.setCustomerSource(wantedCustomerSource);
-		//	判断customer是否是已经保存过的数据决定更新还是新增
-		Integer customerId = customer.getId();
-		if (customerId != null)
-		{
-			Customer someCustomer = null;
-			for (Customer customerExist:customers)
-			{
-				if (customerExist.getId() == customerId)
-				{
-					someCustomer = customerExist;
-					break;
-				}
-			}
-			customers.remove(someCustomer);
-			customers.add(customer);
-		}
-		else
-		{
-			customer.setId(customers.size() + 1);
-	     	customers.add(customer);
-		}
-	}
+
 	public List<CustomerSource> findALLCustomerSource() {
 		return customerSources;
 	}
 
-	public Customer getCustomer(int id) {
+	public Customer findByIdExact(int id) {
 		Customer wantedCustomer = null;
 		for (Customer customer:customers)
 		{
@@ -177,7 +144,7 @@ public class CustomerServiceImplMock implements ICustomerService {
 		return wantedCustomers;
 	}
 	
-	public int getNum() {
+	public int getCustomerNum() {
 		return customers.size();
 	}
 

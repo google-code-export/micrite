@@ -25,7 +25,6 @@
 package org.gaixie.micrite.crm.dao.hibernate;
 
 import java.util.List;
-
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.dao.ICustomerDao;
@@ -37,51 +36,94 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  */
 public class CustomerDaoImpl extends HibernateDaoSupport implements ICustomerDao {
 
-    public void save(Customer customer) {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.gaixie.micrite.dao.ICustomerDao#save(org.gaixie.micrite.beans.Customer)
+     */
+    public void saveCustomer(Customer customer) {
         getHibernateTemplate().save(customer);
 
     }
 
-    public void update(Customer customer) {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.gaixie.micrite.dao.ICustomerDao#update(org.gaixie.micrite.beans.Customer)
+     */
+    public void updateCustomer(Customer customer) {
         getHibernateTemplate().update(customer);
 
     }
 
-    public void delete(Customer customer) {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.gaixie.micrite.dao.ICustomerDao#delete(org.gaixie.micrite.beans.Customer)
+     */
+    public void deleteCustomer(Customer customer) {
         getHibernateTemplate().delete(customer);
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.gaixie.micrite.dao.ICustomerDao#getCustomer(int)
+     */
     public Customer getCustomer(int id) {
         return (Customer) getHibernateTemplate().get(Customer.class, id);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.gaixie.micrite.dao.ICustomerDao#getCustomerSource(int)
+     */
     public CustomerSource getCustomerSource(int id) {
         return (CustomerSource) getHibernateTemplate().get(CustomerSource.class, id);
     }
     
-    @SuppressWarnings("unchecked")
-	public List<CustomerSource> findAllCustomerSource() {
-    	List<CustomerSource> cs = getHibernateTemplate().find("from CustomerSource e");
-    	return cs;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.gaixie.micrite.dao.ICustomerDao#findAllCustomerSource()
+     */
+    public List findAllCustomerSource() {
+        return getHibernateTemplate().find(
+                "from " + CustomerSource.class.getSimpleName() + " e");
     }
 
-    public int getCount() {
-        String sql = "select count(*) from Customer ";
-        return ((Number) getHibernateTemplate().getSessionFactory()
-        		.getCurrentSession().createQuery(sql).uniqueResult()).intValue();
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.gaixie.micrite.dao.ICustomerDao#getCustomerCount()
+     */
+    public int getCustomerCount() {
+        String sql = "select count(*) from " + Customer.class.getSimpleName();
+        return ((Number) getHibernateTemplate()
+                .getSessionFactory().getCurrentSession().createQuery(sql).uniqueResult()).intValue();
     }
     
-    @SuppressWarnings("unchecked")
-	public List<Customer> findByTelExact(String telephone) {
-    	List<Customer> list = getHibernateTemplate().find("from Customer e where telephone = ?", telephone);
-    	return list;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.gaixie.micrite.dao.ICustomerDao#findCustomerExact(java.lang.String, java.lang.Object)
+     */
+    public List findCustomerExact(String column, Object value) {
+        return getHibernateTemplate().find(
+                "from " + Customer.class.getSimpleName() + " e where " + column
+                        + " = ?", value);
     }
 
-    @SuppressWarnings("unchecked")
-	public List<Customer> findByTelVague(String telephone) {
-    	List<Customer> list = getHibernateTemplate().find("from Customer e where telephone like ?", "%" + telephone + "%");
-    	return list;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.gaixie.micrite.dao.ICustomerDao#findCustomerVague(java.lang.String, java.lang.String)
+     */
+    public List findCustomerVague(String column, String value) {
+        return getHibernateTemplate().find(
+                "from " + Customer.class.getSimpleName() + " e where " + column
+                        + " like ?", "%"+value+"%");
     }
-
 }

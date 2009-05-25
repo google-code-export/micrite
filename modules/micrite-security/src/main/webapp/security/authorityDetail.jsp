@@ -37,7 +37,7 @@ FromPanel = function() {
     var roleStore = new Ext.data.Store({
         autoLoad:true,
         //设定读取的地址
-        proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/findRolesAll.action'}),    
+        proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/authorityFindRole.action'}),    
         //设定读取的格式    
         reader: new Ext.data.JsonReader({
             id:"0"
@@ -123,7 +123,7 @@ FromPanel = function() {
             text: this.submitText,
             handler: function(){
             Ext.getCmp("authorityDetail-form").getForm().submit({
-                url: '/' + document.location.href.split("/")[3] + '/saveAuthority.action',
+                url: '/' + document.location.href.split("/")[3] + '/authoritySave.action',
                 method: 'POST',
                 disabled:true,
                 waitMsg: this.waitingMsg,

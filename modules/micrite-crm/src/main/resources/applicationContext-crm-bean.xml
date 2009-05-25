@@ -30,7 +30,10 @@
     xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean id="customerAction" class="org.gaixie.micrite.crm.action.CustomerAction" scope="prototype" />
+    <bean id="customerAction" class="org.gaixie.micrite.crm.action.CustomerAction" scope="prototype">
+        <constructor-arg ref="customerService" />
+    </bean>
+    
 	<bean id="customerService" class="org.gaixie.micrite.crm.service.impl.CustomerServiceImpl" />
 
 	<bean id="customerDao" class="org.gaixie.micrite.crm.dao.hibernate.CustomerDaoImpl">

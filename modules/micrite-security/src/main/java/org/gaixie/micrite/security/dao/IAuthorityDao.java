@@ -27,6 +27,7 @@ package org.gaixie.micrite.security.dao;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Authority;
+import org.gaixie.micrite.beans.Customer;
 
 /**
  * 提供与 <code>Authority</code> 实体有关的DAO接口。
@@ -45,12 +46,12 @@ public interface IAuthorityDao {
      * 保存Authority
      * @param  authority authority对象
      */
-    public void save(Authority authority);
+    public void saveAuthority(Authority authority);
 
     /**
      * 更新Authority
      * @param  authority authority对象
      */
-    public void update(Authority authority);
+    public void updateAuthority(Authority authority);
 
 }

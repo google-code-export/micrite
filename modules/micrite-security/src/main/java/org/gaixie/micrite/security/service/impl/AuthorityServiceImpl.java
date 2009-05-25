@@ -24,6 +24,8 @@
 
 package org.gaixie.micrite.security.service.impl;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.beans.Role;
@@ -47,19 +49,35 @@ public class AuthorityServiceImpl implements IAuthorityService {
 	@Autowired
 	private IRoleDao roleDao;
 
-	public boolean add(Authority authority, String roleIdBunch) {
-		authorityDao.save(authority);
-		String[] arrRoleId = roleIdBunch.split(",");
-		for(int i = 0; i < arrRoleId.length; i++){
-		    Role role = roleDao.getRole(Integer.parseInt(arrRoleId[i]));
-		    role.getAuthorities().add(authority);
-			roleDao.save(role);
+	/* (non-Javadoc)
+	 * @see org.gaixie.micrite.security.service.IAuthorityService#addOrUpdateAuthority(org.gaixie.micrite.beans.Authority)
+	 */
+	public void addOrUpdateAuthority(Authority authority, String roleIdBunch) {
+		if(authority.getId() == null){
+			authorityDao.saveAuthority(authority);
+			String[] arrRoleId = roleIdBunch.split(",");
+			for(int i = 0; i < arrRoleId.length; i++){
+			    Role role = roleDao.getRoleById(Integer.parseInt(arrRoleId[i]));
+			    role.getAuthorities().add(authority);
+				roleDao.saveRole(role);
+			}
+			if(authority.getType().equals("URL"))
+				FilterSecurityInterceptor.refresh();
+			else if(authority.getType().equals("METHOD"))
+				MethodSecurityInterceptor.refresh();
 		}
-		if(authority.getType().equals("URL"))
-			FilterSecurityInterceptor.refresh();
-		else if(authority.getType().equals("METHOD"))
-			MethodSecurityInterceptor.refresh();
-		return true;
+		else
+			authorityDao.updateAuthority(authority);
 	}
+
+	/* (non-Javadoc)
+	 * @see org.gaixie.micrite.security.service.IAuthorityService#findRoleAll()
+	 */
+	public List<Role> findRoleAll() {
+		List<Role> roles = roleDao.findAll();
+		return roles;
+	}
+	
+	
 
 }
