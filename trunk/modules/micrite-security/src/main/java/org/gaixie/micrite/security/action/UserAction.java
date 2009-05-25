@@ -91,10 +91,10 @@ public class UserAction extends ActionSupport {
      * 
      * @return "success"
      */
-    public String isExistentByUsername() {
+    public String isExistedByUsername() {
         boolean result = false;
         String usename = user.getLoginname();
-        result = userService.isExistentByUsername(usename);
+        result = userService.isExistedByUsername(usename);
         actionResult.put("success", result);
         return SUCCESS;
     }

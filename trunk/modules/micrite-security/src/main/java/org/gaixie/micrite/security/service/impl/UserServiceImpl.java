@@ -78,7 +78,7 @@ public class UserServiceImpl implements IUserService {
         return result;
     }
 
-    public boolean isExistentByUsername(String username) {
+    public boolean isExistedByUsername(String username) {
         boolean result = false;
         try {
             User user = userDao.findByUsername(username);
