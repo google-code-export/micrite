@@ -64,7 +64,7 @@
             </result>
         </action>
 
-        <action name="IsUserExistent" class="userAction" method="isExistentByUsername">
+        <action name="IsUserExisted" class="userAction" method="isExistedByUsername">
             <result name="success" type="json">
                 <param name="target">actionResult</param>
             </result>

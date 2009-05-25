@@ -50,7 +50,7 @@ public interface IUserService {
      * @param username 用户名
      * @return true:存在；false：不存在
      */
-    public boolean isExistentByUsername(String username);
+    public boolean isExistedByUsername(String username);
 
     /**
      * 修改用户信息。
