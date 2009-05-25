@@ -23,7 +23,7 @@
  * along with Micrite.  If not, see <http://www.gnu.org/licenses />.
  *
  */
--->
+-->  
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
@@ -32,21 +32,21 @@
     <parent>
         <groupId>org.gaixie.micrite</groupId>
         <artifactId>micrite-modules</artifactId>
-        <version>0.7-SNAPSHOT</version>
+        <version>0.1</version>
     </parent>
 
-    <groupId>org.gaixie.micrite</groupId>
+	<groupId>org.gaixie.micrite</groupId>
     <artifactId>micrite-beans</artifactId>
     <name>Micrite Modules :: Beans</name>
     <packaging>jar</packaging>
 
-    <dependencies>
+  <dependencies>
         <!-- Java Persistence API -->
-        <dependency>
+		<dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>persistence-api</artifactId>
         </dependency>
-
+		
         <!-- Hibernate EntityManager-->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -68,27 +68,27 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-        </dependency>
-        <!-- Spring Security -->
+		<dependency>
+		    <groupId>commons-lang</groupId>
+		    <artifactId>commons-lang</artifactId>
+		</dependency>
+		<!-- Spring Security -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
         </dependency>
-    </dependencies>
-
+  </dependencies>
+  
     <build>
-        <plugins>
-            <plugin>
+    	<plugins>
+    		<plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
-
-        </plugins>
-    </build>
+			                 		
+    	</plugins>
+    </build>  
 </project>

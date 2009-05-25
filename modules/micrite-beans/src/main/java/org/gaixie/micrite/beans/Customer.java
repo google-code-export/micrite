@@ -37,56 +37,56 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * Micrite应用的一个客户。
+ * @author Maven.yu
+ *
  */
 @Entity
 @Table(name = "customers")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Customer {
-
-    @Id
+	
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    
-    private String name;
-    
-    private String telephone;
-    
-    @ManyToOne(targetEntity = CustomerSource.class,  fetch = FetchType.EAGER)
+	private Integer id;
+	
+	private String name;
+	
+	private String telephone;
+	
+	@ManyToOne(targetEntity = CustomerSource.class,  fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_source_id")
-    private CustomerSource customerSource;
+	private CustomerSource customerSource;
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//     
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getTelephone() {
-        return telephone;
-    }
+	public String getTelephone() {
+		return telephone;
+	}
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
 
-    public CustomerSource getCustomerSource() {
-        return customerSource;
-    }
+	public CustomerSource getCustomerSource() {
+		return customerSource;
+	}
 
-    public void setCustomerSource(CustomerSource customerSource) {
-        this.customerSource = customerSource;
-    }
+	public void setCustomerSource(CustomerSource customerSource) {
+		this.customerSource = customerSource;
+	}
 
 }

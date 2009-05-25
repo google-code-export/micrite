@@ -25,114 +25,47 @@
  */
 -->
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:sec="http://www.springframework.org/schema/security"
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+	
+	<beans:bean id="loggerListener" class="org.springframework.security.event.authentication.LoggerListener" />
+	
+	<http access-denied-page="/403.jsp" >
+		<intercept-url pattern="/security/login.jsp" filters="none" />
+		<intercept-url pattern="/js-lib/**" filters="none" />
+	    <form-login login-page="/security/login.jsp" authentication-failure-url="/loginFailed.action" default-target-url="/loginSuccess.action" />
+	    <logout logout-success-url="/security/login.jsp"/>
+	    <http-basic />
+	    <remember-me key="e37f4b31-0c45-11dd-bd0b-0800200c9a66" />
+	</http>
+	
+	<!-- 创建DaoAuthenticationProvider实例, 设置userDetailsService的引用：securityManager.
+	(securityManager bean 须继承UserDetailsService)-->	
+	<authentication-provider user-service-ref="securityManager"> 
+		<password-encoder hash="md5"/>
+	</authentication-provider>
+	
+	<authentication-manager alias="authenticationManager"/>
 
-    <bean class="org.springframework.security.event.authentication.LoggerListener"/>   
-    <bean class="org.springframework.security.event.authorization.LoggerListener"/>   
-
-    <!-- ===================== SECURITY DEFINITIONS ======================= -->
-	<sec:http access-denied-page="/403.jsp" >
-	    <sec:intercept-url pattern="/" filters="none" />
-        <sec:intercept-url pattern="/index.jsp" filters="none" />
-        <sec:intercept-url pattern="/*/locale/**" filters="none" />
-        <sec:intercept-url pattern="/login*" filters="none" />
-        <sec:intercept-url pattern="/expire.jsp" filters="none" />
-        <sec:intercept-url pattern="/security/images/**" filters="none" />
-        <sec:intercept-url pattern="/js-lib/**" filters="none" />
-        <sec:form-login login-page="/expire.jsp" authentication-failure-url="/loginFailed.action" default-target-url="/loginSuccess.action"  />
-        <sec:logout logout-success-url="/index.jsp"/>
-        <sec:http-basic />
-    </sec:http>
-
-    <!-- ~~~~~~~~~~~~~~~~~~~~ AUTHENTICATION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->
-    <bean id="authenticationManager" class="org.springframework.security.providers.ProviderManager">  
-        <property name="providers">  
-            <list>  
-                <ref local="daoAuthenticationProvider" />  
-            </list>  
-        </property>  
-        <!-- <property name="sessionController" ref="concurrentSessionController" /> -->  
-    </bean>  
-    
-    <bean id="daoAuthenticationProvider"  
-        class="org.springframework.security.providers.dao.DaoAuthenticationProvider">  
-        <sec:custom-authentication-provider />
-        <property name="passwordEncoder" ref="passwordEncoder" /> 
-        <property name="userDetailsService" ref="userDetailsService" />
-        <property name="userCache" ref="userCache" /> 
-    </bean>  
-    
-    <bean id="passwordEncoder"  
-        class="org.springframework.security.providers.encoding.Md5PasswordEncoder" /> 
-
-    <bean id="userDetailsService"  
-        class="org.gaixie.micrite.security.service.impl.UserDetailsServiceImpl" /> 
-    
-    <!-- 使用Ehcache缓存user信息 -->        
-    <bean id="userCache"
-        class="org.springframework.security.providers.dao.cache.EhCacheBasedUserCache">
-        <property name="cache" ref="userCacheBacked" />
-    </bean>
-    
-    <bean id="userCacheBacked"
-        class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-        <property name="cacheManager" ref="cacheManager" />
-        <property name="cacheName" value="userCache" />
-    </bean>
-
-    <bean id="cacheManager"
-        class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-        <property name="configLocation" value="classpath:ehcache-security.xml" />
-    </bean>
-                
-
-    <!-- ~~~~~~~~~~~~~~~~~~~~ AUTHORIZATION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->
-    <!--
-        经过投票机制来决定是否可以访问某一资源
-        allowIfAllAbstainDecisions为false时如果有一个或以上的decisionVoters投票通过,则授权通过
-    -->
-    <bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
-        <property name="allowIfAllAbstainDecisions" value="false"/>
-        <property name="decisionVoters">
-            <list>
-                <bean class="org.springframework.security.vote.RoleVoter">
-                    <property name="rolePrefix" value="" />
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <!-- ~~~~~~~~~~~~~~~~~~~~ SECURITY URL INTERCEPTOR DEFINITIONS ~~~~~~~~~~~~~~~~~~~ -->
-    <bean id="urlSecurityInterceptor" class="org.gaixie.micrite.security.filter.FilterSecurityInterceptor">
-        <sec:custom-filter before="FILTER_SECURITY_INTERCEPTOR" />
-        <property name="authenticationManager" ref="authenticationManager"/>
-        <property name="accessDecisionManager" ref="accessDecisionManager"/>
-    </bean>
-
-    <!-- ~~~~~~~~~~~~~~~~~~~~ SECURITY METHOD INTERCEPTOR DEFINITIONS ~~~~~~~~~~~~~~~~~~~ -->      
-    <bean id="methodSecurityInterceptor" class="org.gaixie.micrite.security.filter.MethodSecurityInterceptor">
-        <property name="authenticationManager" ref="authenticationManager" />
-        <property name="accessDecisionManager" ref="accessDecisionManager" />
-    </bean>
-
-    <!-- 使用Spring AOP，当访问所有service包下以Service结尾的类的任何方法时，任何方法时，
-          通知accessDeniedInterceptor和methodSecurityInterceptor两个拦截器。 -->     
-    <aop:config>  
-        <aop:pointcut id="securityPointcut"  
-            expression="execution(* org.gaixie.micrite..service.*Service+.*(..))" />  
-        <aop:advisor advice-ref="accessDeniedInterceptor" 
-            pointcut-ref="securityPointcut" order="0" />  
-        <aop:advisor advice-ref="methodSecurityInterceptor"  
-            pointcut-ref="securityPointcut" order="1" />  
-    </aop:config>
-
-    <bean id="accessDeniedInterceptor"
-        class="org.gaixie.micrite.security.filter.AccessDeniedInterceptor" />
-            
-</beans>
+	<beans:bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
+	    <beans:property name="allowIfAllAbstainDecisions" value="false"/>
+	    <beans:property name="decisionVoters">
+	        <beans:list>
+	            <beans:bean class="org.springframework.security.vote.RoleVoter"/>
+	            <beans:bean class="org.springframework.security.vote.AuthenticatedVoter"/>
+	        </beans:list>
+	    </beans:property>
+	</beans:bean>
+	<beans:bean id="resourceSecurityInterceptor" class="org.springframework.security.intercept.web.FilterSecurityInterceptor">
+		<beans:property name="authenticationManager" ref="authenticationManager"/>
+	    <beans:property name="accessDecisionManager" ref="accessDecisionManager"/>
+	    <beans:property name="objectDefinitionSource" ref="secureResourceFilterInvocationDefinitionSource" />
+	    <beans:property name="observeOncePerRequest" value="false" />
+	    <custom-filter after="LAST" />
+	</beans:bean>
+	
+	<beans:bean id="secureResourceFilterInvocationDefinitionSource" class="org.gaixie.micrite.security.SecureResourceFIDS" />
+</beans:beans>

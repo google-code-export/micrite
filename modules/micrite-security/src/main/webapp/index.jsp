@@ -25,31 +25,6 @@
 --%>
 
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
-<title>Welcome to Micrite</title>
-<style type="text/css">
-#ct-wrap { text-align:center; }
-#ct { text-align:left; margin:auto; width:400px; }
-#center { float:left; width: 200px;}
-#east { float:right; clear:right; width: 200px;}
-body { font-size:13px; vertical-align:middle; margin-top: 20%; padding:0;}
-.font{ text-decoration:none; font-size: 42px;}
-.red{ color:red; }
-.blue{ color:blue; }
-#center a:hover{ color:white; background-color:red;}
-#east a:hover{ color:white; background-color: blue;}
-</style>
-</head>
-
-<body>
-    <div id="ct-wrap">
-        <div id="ct">
-            <div id="center"><a href="login.action?request_locale=zh_CN" class="font red">中文简体</a></div>
-            <div id="east"><a href="login.action?request_locale=en" class="font blue">English</a></div>
-        </div>
-    </div>
-</body>
-</html>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<!--<s:action name="loginFailed.action" namespace="/" executeResult="true" />-->
+<meta http-equiv="refresh" content="0;url=security/login.jsp" />

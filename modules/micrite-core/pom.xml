@@ -32,7 +32,7 @@
     <parent>
         <groupId>org.gaixie.micrite</groupId>
         <artifactId>micrite-modules</artifactId>
-        <version>0.7-SNAPSHOT</version>
+        <version>0.1</version>
     </parent>
 
 	<groupId>org.gaixie.micrite</groupId>
@@ -47,14 +47,14 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
-			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-			</plugin>            
+            
         </plugins>
     </build>
 

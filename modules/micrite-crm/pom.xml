@@ -32,7 +32,7 @@
 	<parent>
 		<groupId>org.gaixie.micrite</groupId>
 		<artifactId>micrite-modules</artifactId>
-		<version>0.7-SNAPSHOT</version>
+		<version>0.1</version>
 	</parent>
 
 	<groupId>org.gaixie.micrite</groupId>
@@ -135,8 +135,9 @@
 			<artifactId>struts2-spring-plugin</artifactId>
 		</dependency>
         <dependency>
-            <groupId>org.gaixie.micrite</groupId>
-            <artifactId>struts2-json-plugin</artifactId>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+			<classifier>jdk15</classifier>             
 		</dependency>  
 		
 		<!-- Servlet -->
@@ -193,10 +194,6 @@
 		<dependency>
 			<groupId>org.gaixie.micrite</groupId>
 			<artifactId>micrite-common</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.gaixie.micrite</groupId>
-			<artifactId>micrite-core</artifactId>
 		</dependency>
 	</dependencies>
 
