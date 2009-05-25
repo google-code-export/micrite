@@ -8,7 +8,7 @@ This guide is intended to cover how to build the latest svn/trunk,though other n
 Micrite trees that use the same basic build tooling include:
 
   * [http://code.google.com/p/micrite/source/browse/#svn/trunk svn/trunk]
-  * [http://code.google.com/p/micrite/source/browse/#svn/tags svn/tags/0.x]
+  * [http://code.google.com/p/micrite/source/browse/#svn/tags svn/tags/v0.x]
 
 = Prerequisites =
 == Java Developer Kit (JDK) ==
