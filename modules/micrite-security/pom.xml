@@ -27,277 +27,266 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.gaixie.micrite</groupId>
-        <artifactId>micrite-modules</artifactId>
-        <version>0.7-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.gaixie.micrite</groupId>
+		<artifactId>micrite-modules</artifactId>
+		<version>0.4</version>
+	</parent>
 
-    <groupId>org.gaixie.micrite</groupId>
-    <artifactId>micrite-security</artifactId>
-    <name>Micrite Modules :: Security</name>
-    <packaging>war</packaging>
+	<groupId>org.gaixie.micrite</groupId>
+	<artifactId>micrite-security</artifactId>
+	<name>Micrite Modules :: Security</name>
+	<packaging>war</packaging>
 
-    <dependencies>
-        <!-- Java Persistence API -->
-        <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
-        </dependency>
+	<dependencies>
+		<!-- Java Persistence API -->
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+		</dependency>
 
-        <!-- Java Transactions -->
-        <dependency>
-            <groupId>javax.transaction</groupId>
-            <artifactId>jta</artifactId>
-        </dependency>
+		<!-- Java Transactions -->
+		<dependency>
+			<groupId>javax.transaction</groupId>
+			<artifactId>jta</artifactId>
+		</dependency>
 
-        <!-- Hibernate EntityManager-->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.transaction</groupId>
-                    <artifactId>jta</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+		<!-- Hibernate EntityManager-->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.transaction</groupId>
+					<artifactId>jta</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
-        <!-- MySql Driver-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
+		<!-- MySql Driver-->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
 
-        <!-- Log4J -->
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-        </dependency>
+		<!-- Log4J -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
 
-        <!-- JUnit -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
+		<!-- JUnit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
 
-        <!-- Spring -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
 
-        <!-- Struts 2 -->
-        <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts2-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts2-spring-plugin</artifactId>
-        </dependency>
+		<!-- Struts 2 -->
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-spring-plugin</artifactId>
+		</dependency>
         <dependency>
             <groupId>net.sf.json-lib</groupId>
             <artifactId>json-lib</artifactId>
-            <classifier>jdk15</classifier>               
-        </dependency> 
+			<classifier>jdk15</classifier>               
+		</dependency> 
         <dependency>
             <groupId>org.gaixie.micrite</groupId>
             <artifactId>struts2-json-plugin</artifactId>
-        </dependency>                       
-        <!-- Servlet -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
+		</dependency>		               
+		<!-- Servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
-        <!-- JSP -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jsp-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derbytools</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
+		<!-- JSP -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbytools</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
 
-        <!-- Spring Security -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core-tiger</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-taglibs</artifactId>
-        </dependency>
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core-tiger</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.gaixie.micrite</groupId>
+			<artifactId>micrite-beans</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <optional>true</optional>
-        </dependency>
-                
-        <dependency>
-            <groupId>org.gaixie.micrite</groupId>
-            <artifactId>micrite-beans</artifactId>
-        </dependency>
+	</dependencies>
 
-    </dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+			</plugin>
+			<!--
+				打jar包时，不能把struts.xml打入，否则assemblies时，一个项目会有多个struts.xml Web server
+				会包错
+			-->
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>
 
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>maven-jetty-plugin</artifactId>
-            </plugin>
-            <!--
-                打jar包时，不能把struts.xml打入，否则assemblies时，一个项目会有多个struts.xml Web server
-                会包错
-            -->
-            <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-            </plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>process-security-resources</id>
+						<phase>process-resources</phase>
+						<configuration>
+							<tasks>
+								<property name="common.resources" value="../micrite-common/src/main" />
 
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>process-security-resources</id>
-                        <phase>process-resources</phase>
-                        <configuration>
-                            <tasks>
-                                <property name="common.resources" value="../micrite-common/src/main" />
-
-                                <echo message="***copy common resources from common module for mvn jetty:run***" />
-                                <copy todir="${project.build.directory}/classes">
-                                    <fileset dir="../micrite-common/target/classes" />
-                                </copy>
+								<echo message="***copy common resources from common module for mvn jetty:run***" />
+								<copy todir="${project.build.directory}/classes">
+									<fileset dir="../micrite-common/target/classes" />
+								</copy>
 
 
-                                <echo message="***Copy srcipts (included .svn directory) from common module***" />
-                                <copy todir="${project.basedir}/src/main/webapp/js-lib">
-                                    <fileset dir="../micrite-common/src/main/scripts/js-lib" defaultexcludes="no" />
-                                </copy>
+								<echo message="***Copy srcipts (included .svn directory) from common module***" />
+								<copy todir="${project.basedir}/src/main/webapp/js-lib">
+									<fileset dir="../micrite-common/src/main/scripts/js-lib" defaultexcludes="no" />
+								</copy>
 
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
 
-            </plugin>
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-            </plugin>
-            <!--
-                自模块在war package时，不要把WEB-INF/lib中依赖的大量jar包打入
-                通过manifest加入classpath可以运行就行，最后组装的assemblies会有lib
-            -->                
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <warSourceExcludes>WEB-INF/lib/*.jar</warSourceExcludes>
-                    <archive>
-                        <manifest>
-                        <addClasspath>true</addClasspath>
-                        </manifest>
-                    </archive>
-                </configuration>
-              </plugin>
-        </plugins>
-        <!--
-        jetty:run输出时，调用的资源文件需要的是在micrite-common模块中编译好的配置文件。 
-        -->
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>struts_xml/**</include>
-                    <include>*</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>target/classes</directory>
-                <includes>
-                    <include>databaseResource-hibernate.xml</include>
-                    <include>hibernate.properties</include>
-                    <include>log4j.properties</include>
-                    <include>struts.properties</include>
-                    <include>struts.xml</include>
-                </includes>
-            </resource>
-        </resources>
-    </build>
+			</plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+			</plugin>
+			<!--
+				自模块在war package时，不要把WEB-INF/lib中依赖的大量jar包打入
+				通过manifest加入classpath可以运行就行，最后组装的assemblies会有lib
+			-->				
+			<plugin>
+        		<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warSourceExcludes>WEB-INF/lib/*.jar</warSourceExcludes>
+					<archive>
+						<manifest>
+						<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+				</configuration>
+      		</plugin>
+		</plugins>
+		<!--
+		jetty:run输出时，调用的资源文件需要的是在micrite-common模块中编译好的配置文件。 
+		-->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>struts_xml/**</include>
+					<include>*</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>target/classes</directory>
+				<includes>
+					<include>databaseResource-hibernate.xml</include>
+					<include>hibernate.properties</include>
+					<include>log4j.properties</include>
+					<include>struts.properties</include>
+					<include>struts.xml</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
 </project>

@@ -10,28 +10,37 @@
  * Project Info:  http://micrite.gaixie.org/
  *
  * Micrite is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * Micrite is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * 
  */
 -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
     xsi:schemaLocation="
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-    <bean id="customerAction" class="org.gaixie.micrite.crm.action.CustomerAction" scope="prototype" />
-	<bean id="customerService" class="org.gaixie.micrite.crm.service.impl.CustomerServiceImpl" />
+    <bean id="customerAction" class="org.gaixie.micrite.crm.action.CustomerAction" scope="prototype">
+        <constructor-arg ref="customerService" />
+    </bean>
+    
+	<bean id="customerService" class="org.gaixie.micrite.crm.service.impl.CustomerServiceImpl" >
+		<property name="customerDao" ref="customerDao" />
+	</bean>
 
 	<bean id="customerDao" class="org.gaixie.micrite.crm.dao.hibernate.CustomerDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />

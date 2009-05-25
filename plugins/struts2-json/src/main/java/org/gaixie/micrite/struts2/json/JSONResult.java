@@ -81,7 +81,7 @@ public class JSONResult implements Result {
 		Object targetObject = extractTargetObject(invocation);
 		if (targetObject != null){
 		   Class type = targetObject.getClass();
-		    if (type.isArray() || type.getName().indexOf("List")!=-1||type.getName().indexOf("Set")!=-1) {
+		    if (type.isArray() || type.getName().indexOf("List")!=-1) {
 		    	JSONArray json = JSONArray.fromObject(targetObject);
 		    	out.writeResult(request, response, json.toString());
 		    }else{

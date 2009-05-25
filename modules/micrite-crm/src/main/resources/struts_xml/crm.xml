@@ -5,23 +5,22 @@
 <struts>
 	<package name="micrite-crm" extends="json-default" namespace="/crm">
 
-        <!-- ~~~~~~~~~~~~~~~~~~~~ CUSTOMER ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->
-		<action name="saveCustomer" class="customerAction" method="save">
+		<action name="saveData" class="customerAction" method="save">
             <result name="success" type="json">
                 <param name="target">result</param>
             </result>
 		</action>
-		<action name="findCustomer" class="customerAction" method="find">
+		<action name="find" class="customerAction" method="find">
             <result name="success" type="json">
                 <param name="target">customers</param>
             </result>
 		</action>
-		<action name="editCustomer" class="customerAction" method="edit">
+		<action name="edit" class="customerAction" method="edit">
             <result name="success" type="json">
                 <param name="target">result</param>
             </result>
 		</action>
-		<action name="GetCustomerPartner" class="customerAction" method="getPartner">
+		<action name="getPartner" class="customerAction" method="getPartner">
 			<result name="success" type="json">
                 <param name="target">customerSource</param>
             </result>

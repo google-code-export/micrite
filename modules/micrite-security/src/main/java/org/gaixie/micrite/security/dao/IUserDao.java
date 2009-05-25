@@ -29,51 +29,16 @@ import java.util.List;
 import org.gaixie.micrite.beans.User;
 
 /**
- * 提供与<code>User</code>对象有关的DAO接口。
- * 
+ * 用户管理持久化接口
+ *
  */
 public interface IUserDao {
-    
-    /**
-     * 根据用户名查询用户。
-     * 
-     * @see org.gaixie.micrite.beans.User
-     * @param username 用户名
-     * @return <code>User</code>对象
-     */
-    public User findByUsername(String username);
+	/**
+	 * 查询所有用户
+	 * 
+	 * @return 用户实体集合
+	 */
+	public List<User> findAll();
+	
 
-    /**
-     * 保存用户。
-     * 
-     * @see org.gaixie.micrite.beans.User
-     * @param user <code>User</code>对象
-     */
-    public void save(User user);
-    
-    /**
-     * 更新用户。
-     * 
-     * @see org.gaixie.micrite.beans.User
-     * @param user <code>User</code>对象
-     */
-    public void update(User user);
-    
-    /**
-     * 根据id得到用户。
-     * 
-     * @see org.gaixie.micrite.beans.User
-     * @param id 用户id
-     * @return <code>User</code>对象
-     */
-    public User getUser(Integer id);
-    
-    /**
-     * 根据用户名查询用户集合（模糊查询）。
-     * 
-     * @see org.gaixie.micrite.beans.User
-     * @param username 用户名
-     * @return <code>User</code>对象列表
-     */
-    public List<User> findByUsernameVague(String username);
 }

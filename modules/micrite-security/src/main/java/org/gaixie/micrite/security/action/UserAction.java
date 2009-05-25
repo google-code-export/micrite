@@ -24,140 +24,160 @@
 
 package org.gaixie.micrite.security.action;
 
+import java.io.InputStream;
+import java.io.StringBufferInputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jmx.export.annotation.ManagedResource;
-import org.springframework.security.context.SecurityContext;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.PropertyFilter;
 
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
-
+import org.apache.struts2.interceptor.SessionAware;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.service.IUserService;
+import org.springframework.jmx.export.annotation.ManagedAttribute;
+import org.springframework.jmx.export.annotation.ManagedResource;
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.context.SecurityContext;
+import org.springframework.security.ui.WebAuthenticationDetails;
+
+import com.opensymphony.xwork2.ActionSupport;
  
 /**
- * 用户管理，提供新增，修改，查询用户等功能。
+ * 登录用户管理
+ * @see com.opensymphony.xwork2.ActionSupport
+ * @see org.apache.struts2.interceptor.SessionAware
  */
 @ManagedResource(objectName="micrite:type=action,name=UserAction", description="Micrite UserAction Bean")
-public class UserAction extends ActionSupport {
+public class UserAction extends ActionSupport implements SessionAware{ 
+	
+	private User user;
+	private String role;
+    private String remoteAddress;
+    private String sessionId;
+	private Map session;
+	private IUserService userService;
+	private boolean success;
+	private Map<String,String> errorMsg = new HashMap<String,String>();
+	private InputStream inputStream;
+	public boolean isSuccess() {
+		return success;
+	}
 
-    private static final long serialVersionUID = 5843976450199930680L;
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
 
-    private static final Logger logger = Logger.getLogger(UserAction.class);
+	public Map<String, String> getErrorMsg() {
+		return errorMsg;
+	}
 
-    //  用户管理服务，本类要调用它来完成功能
-    @Autowired
-    private IUserService userService;
-    
-    //  用户
-    private User user;
-    //  用户角色拼串，型如“2,4,6”
-    private String userRolesStr;
+	public void setErrorMsg(Map<String, String> errorMsg) {
+		this.errorMsg = errorMsg;
+	}
 
-    //  查询用户的查询结果
-    private List<User> users;
-    //  action处理结果（map对象）
-    private Map<String,Object> actionResult = new HashMap<String,Object>();
-    
-    // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//
-    /* 得到当前用户 */
-    private User getCurrentUser() {
-        ActionContext ctx = ActionContext.getContext();
-        SecurityContext securityContext = (SecurityContext)ctx.getSession().get("SPRING_SECURITY_CONTEXT");
-        return (User)securityContext.getAuthentication().getPrincipal();
-    }
-    
+	/**
+	 * 默认起始事件，获得登录用户信息
+	 * @return "success"
+	 */
+	public String loginSuccess() {
+		SecurityContext securityContext = (SecurityContext) session.get("SPRING_SECURITY_CONTEXT");
+		user = (User) securityContext.getAuthentication().getPrincipal();
+		role = "";
+		for (GrantedAuthority grantedAuthority : securityContext.getAuthentication().getAuthorities()) {
+			role = (role.equals("")) ? grantedAuthority.getAuthority() : role
+					+ "," + grantedAuthority.getAuthority();
+		}
+		WebAuthenticationDetails webAuthenticationDetails = (WebAuthenticationDetails) securityContext
+				.getAuthentication().getDetails();
+		remoteAddress = webAuthenticationDetails.getRemoteAddress();
+		sessionId = webAuthenticationDetails.getSessionId();
+		
+
+		Map map = new HashMap();  
+		map.put( "success", true );  
+
+		JSONObject jsonObject = JSONObject.fromObject(map); 
+		this.inputStream = new StringBufferInputStream(jsonObject.toString());
+		return SUCCESS;
+    }    
+
+	public String loginFaile(){
+		success = false;
+		errorMsg.put("reason", "login faile");
+		Map map = new HashMap();  
+		map.put( "success", false );  
+		map.put( "errorMsg", errorMsg ); 
+		JSONObject jsonObject = JSONObject.fromObject(map); 
+		this.inputStream = new StringBufferInputStream(jsonObject.toString());
+		return SUCCESS;
+	}
+	public InputStream getInputStream() {
+		return inputStream;
+	}
+
+	public void setInputStream(InputStream inputStream) {
+		this.inputStream = inputStream;
+	}
+
+	/**
+	 * @return the role
+	 */
+	@ManagedAttribute(description="The role attribute")
+	public String getRole() {
+		return role;
+	}
+
+	/**
+	 * @return the remoteAddress
+	 */
+	@ManagedAttribute(description="The remoteAddress attribute")
+	public String getRemoteAddress() {
+		return remoteAddress;
+	}
+
+	/**
+	 * @return sessionId
+	 */
+	@ManagedAttribute(description="The sessionId attribute")
+	public String getSessionId() {
+		return sessionId;
+	}
+	/**
+	 * @return the userService
+	 */
+	public IUserService getUserService() {
+		return userService;
+	}
+
+	/**
+	 * @param userService 用户业务接口
+	 * @see org.gaixie.micrite.security.service.IUserService
+	 */
+	public void setUserService(IUserService userService) {
+		this.userService = userService;
+	}
+	
     /**
-     * 新增用户。
-     * 
-     * @return "success"
+     * @return the user
      */
-    public String add() {
-        boolean result = false;
-        String[] userRoleIds = StringUtils.split(userRolesStr, ",");
-        result = userService.add(user,userRoleIds);
-        actionResult.put("success", result);
-        logger.debug("actionResult=" + actionResult);
-        return SUCCESS;
-    }
-
-    /**
-     * 根据用户名判断用户在系统中是否存在。
-     * 
-     * @return "success"
-     */
-    public String isExistedByUsername() {
-        boolean result = false;
-        String usename = user.getLoginname();
-        result = userService.isExistedByUsername(usename);
-        actionResult.put("success", result);
-        return SUCCESS;
-    }
-
-    /**
-     * 修改用户信息。
-     * 
-     * @return "success"
-     */
-    public String updateInfo() {
-        boolean result = false;
-        User currentUser = this.getCurrentUser();
-        result = userService.updateInfo(user, currentUser);
-        actionResult.put("success", result);
-        return SUCCESS;
-    }
-
-    /**
-     * 根据用户名查询用户集合（模糊查询）。
-     * 
-     * @return "success"
-     */
-    public String findByUsernameVague() {
-        String username = user.getLoginname();
-        users = userService.findByUsernameVague(username);
-        return SUCCESS;
-    }
-    
-    /**
-     * 加载当前用户
-     * 
-     * @return "success"
-     */
-    public String loadCurrentUser() {
-        User currentUser = this.getCurrentUser();
-        Map<String,Object> userMap = new HashMap<String,Object>();
-        userMap.put("id", currentUser.getId());
-        userMap.put("fullname", currentUser.getFullname());
-        userMap.put("emailaddress", currentUser.getEmailaddress());
-        userMap.put("loginname", currentUser.getLoginname());
-        actionResult.put("data", userMap);
-        actionResult.put("success", true);
-        return SUCCESS;
-    }
-    
-    // ~~~~~~~~~~~~~~~~~~~~~~~  Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public User getUser() {
-        return user;
-    }
+		return user;
+	}
 
-    public void setUserRolesStr(String userRolesStr) {
-        this.userRolesStr = userRolesStr;
-    }
+	/**
+	 * @param user 用户实体
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+	/* (non-Javadoc)
+	 * @see org.apache.struts2.interceptor.SessionAware#setSession(java.util.Map)
+	 */
+	public void setSession(Map session) {
+		this.session = session;
+	}
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public Map<String, Object> getActionResult() {
-        return actionResult;
-    }
+	
 }

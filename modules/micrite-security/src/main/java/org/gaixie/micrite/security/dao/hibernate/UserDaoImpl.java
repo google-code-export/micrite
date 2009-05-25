@@ -25,53 +25,26 @@
 package org.gaixie.micrite.security.dao.hibernate;
 
 import java.util.List;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Expression;
-import org.springframework.jmx.export.annotation.ManagedResource;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.dao.IUserDao;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import org.springframework.jmx.export.annotation.ManagedResource;
+ 
 /**
- * 接口<code>IUserDao</code> 的Hibernate实现。
- * 
+ * 用户管理持久化实现，基于hibernate
+ *
  */
-@ManagedResource(objectName = "micrite:type=dao,name=UserDaoImpl", description = "Micrite UserDaoImpl Bean")
+@ManagedResource(objectName="micrite:type=dao,name=UserDaoImpl", description="Micrite UserDaoImpl Bean")
 public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
 
-    @SuppressWarnings("unchecked")
-    public User findByUsername(String username) {
-        DetachedCriteria criteria = DetachedCriteria.forClass(User.class);
-        criteria.add(Expression.eq("loginname", username));
-        criteria.add(Expression.eq("isenabled", true));
-
-        List<User> list = getHibernateTemplate().findByCriteria(criteria);
-        if (!list.isEmpty()) {
-            return list.get(0);
-        }
-
-        return null;
-    }
-
-    public void save(User user) {
-        getHibernateTemplate().save(user);
-    }
-    
-    public void update(User user) {
-        getHibernateTemplate().update(user);
-    }
-    
-    public User getUser(Integer id) {
-        User user = (User)getHibernateTemplate().get(User.class, id);
-        return user;
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<User> findByUsernameVague(String username) {
-        String hql = "from User u where u.loginname like ?";
-        String[] paras = {"%" + username + "%"};
-        List<User> users = getHibernateTemplate().find(hql, paras);
-        return users;
-    }
+	/* (non-Javadoc)
+	 * @see org.gaixie.micrite.security.dao.IUserDao#findAll()
+	 */
+	public List<User> findAll(){
+		String hql = "from User e";
+		List<User> list = getHibernateTemplate().find(hql);
+		return list;
+	}
 }

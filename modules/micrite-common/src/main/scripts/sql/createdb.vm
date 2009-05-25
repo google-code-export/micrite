@@ -14,120 +14,89 @@ DON'T RUN THIS, IT'S NOT A DATABASE CREATION SCRIPT!!!
 -- cryptpassword: 系统的登录密码
 -- isenabled: 用户状态 1=有效，0=无效
 CREATE TABLE userbase (
-    id                     $db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
-    loginname              varchar(255) NOT NULL,    
-    cryptpassword          varchar(255) NOT NULL,
-    fullname               varchar(255) NOT NULL,
-    emailaddress           varchar(255),
-    isenabled              $db.BOOLEAN_SQL_TYPE_TRUE NOT NULL
+	id					$db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
+	loginname 			varchar(255) NOT NULL,	
+	cryptpassword		varchar(255) NOT NULL,
+	fullname			varchar(255) NOT NULL,
+	emailaddress		varchar(255),
+	isenabled 			$db.BOOLEAN_SQL_TYPE_TRUE NOT NULL
 );
 ALTER TABLE userbase ADD CONSTRAINT userbase_loginname_uq UNIQUE ( loginname );
 
-#addAutoIncrement("userbase")
-
 insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('管理员','admin','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
-insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('bitorb','bitorb','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
 insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('一般用户','user','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
 
 -- ------------------------------------------------------
 -- description: 此角色的详细描述
 CREATE TABLE roles (
-    id                     $db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
-    name                   varchar(255) NOT NULL,
-    description            $db.TEXT_SQL_TYPE NOT NULL
+	id 					$db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
+	name 				varchar(255) NOT NULL,
+	description 		$db.TEXT_SQL_TYPE NOT NULL
 );
 ALTER TABLE roles ADD CONSTRAINT roles_name_uq UNIQUE ( name );
 
-#addAutoIncrement("roles")
-
-insert  into roles(name,description) values ('ROLE_ADMIN','系统管理员，拥有全部模块权限');
-insert  into roles(name,description) values ('ROLE_USER','基本用户，登录后没有任何权限的用户');
-insert  into roles(name,description) values ('ROLE_CRM_USER','CRM用户，登录后可以只读CRM模块');
-
+insert  into roles(name,description) values ('ROLE_USER','ROLE_USER');
+insert  into roles(name,description) values ('ROLE_ADMIN','ROLE_ADMIN');
 
 CREATE TABLE user_role_map (
-    user_id              integer NOT NULL,
-    role_id              integer NOT NULL
+	user_id 			integer NOT NULL,
+	role_id 			integer NOT NULL
 );
 ALTER TABLE user_role_map ADD CONSTRAINT user_role_map_user_id_uq UNIQUE ( user_id,role_id );
 
 insert  into user_role_map(user_id,role_id) values (1,1);
-insert  into user_role_map(user_id,role_id) values (2,2);
-insert  into user_role_map(user_id,role_id) values (3,3);
+insert  into user_role_map(user_id,role_id) values (1,2);
+insert  into user_role_map(user_id,role_id) values (2,1);
 
 -- ------------------------------------------------------
--- type: 资源类型. URL=权限的控制类型为URL，METHOD=对方法进行拦截验证，MENU=控制模块入口在菜单的显式
+-- type: 资源类型，如 URL 表示权限的控制类型为URL
 -- value: 对应于 type的具体的值，如:/** 表示可以访问所有URL
-CREATE TABLE authorities (
-    id                     $db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
-    name                   varchar(255) NOT NULL,
-    type                   varchar(64) NOT NULL,
-    value                  varchar(255) NOT NULL
+CREATE TABLE resources (
+	id 					$db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
+	type 				varchar(64) NOT NULL,
+	value 				varchar(255) NOT NULL
 );
-ALTER TABLE authorities ADD CONSTRAINT authorities_value_uq UNIQUE ( type,value );
+ALTER TABLE resources ADD CONSTRAINT resources_value_uq UNIQUE ( type,value );
 
-#addAutoIncrement("authorities")
+insert  into resources(type,value) values ('URL','/**');
 
-insert  into authorities(name,type,value) values ('All URL','URL','/**');
-insert  into authorities(name,type,value) values ('/CRM Modules/Customer List','URL','/crm/customerList.jsp');
-insert  into authorities(name,type,value) values ('/CRM Modules/Customer Detail','URL','/crm/customerDetail.jsp');
--- insert  into authorities(name,type,value) values ('Customer Detail Add Method Filter','METHOD','* org.gaixie.micrite.crm.service.ICustomerService.addOrUpdateCustomer(..)');
--- insert  into authorities(name,type,value) values ('/Security Modules/User List','URL','/security/userList.jsp');
-insert  into authorities(name,type,value) values ('/Security Modules/User Detail','URL','/security/userDetail.jsp');
-insert  into authorities(name,type,value) values ('/Security Modules/Authority Detail','URL','/security/authorityDetail.jsp');
-
-
-CREATE TABLE role_authority_map (
-    role_id                integer NOT NULL,
-    authority_id           integer NOT NULL
+CREATE TABLE role_resource_map (
+	role_id				integer NOT NULL,
+	resource_id 		integer NOT NULL
 );
-ALTER TABLE role_authority_map ADD CONSTRAINT role_authority_map_role_id_uq UNIQUE ( role_id,authority_id );
+ALTER TABLE role_resource_map ADD CONSTRAINT role_resource_map_role_id_uq UNIQUE ( role_id,resource_id );
 
-insert  into role_authority_map(role_id,authority_id) values (1,1);
-insert  into role_authority_map(role_id,authority_id) values (1,2);
-insert  into role_authority_map(role_id,authority_id) values (1,3);
-insert  into role_authority_map(role_id,authority_id) values (1,4);
-insert  into role_authority_map(role_id,authority_id) values (1,5);
+insert  into role_resource_map(role_id,resource_id) values (1,1);
+insert  into role_resource_map(role_id,resource_id) values (2,1);
 
-insert  into role_authority_map(role_id,authority_id) values (2,1);
-insert  into role_authority_map(role_id,authority_id) values (2,2);
-
-insert  into role_authority_map(role_id,authority_id) values (3,1);
-insert  into role_authority_map(role_id,authority_id) values (3,2);
-insert  into role_authority_map(role_id,authority_id) values (3,3);
 -- ------------------------------------------------------
 -- name: 客户的来源，如 陌生拜访，亲友
 CREATE TABLE customer_source (
-    id                     $db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
-    name                   varchar(255)
+	id 					$db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
+	name 				varchar(255)
 );
 ALTER TABLE customer_source ADD CONSTRAINT customer_source_name_uq UNIQUE ( name );
 
-#addAutoIncrement("customer_source")
-
-insert  into customer_source(name) values('Unfamiliar Visit');
-insert  into customer_source(name) values('Familiar'); 
+insert  into customer_source(name) values('Unfamiliar Visit'),('Familiar'); 
 
 CREATE TABLE customers (
-    id                     $db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
-    name                   varchar(255) NOT NULL,
-    telephone              varchar(20) NOT NULL,
-    customer_source_id     integer NOT NULL
+	id 					$db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
+	name 				varchar(255) NOT NULL,
+	telephone 			varchar(20) NOT NULL,
+	customer_source_id 	integer NOT NULL
 );
 
-#addAutoIncrement("customers")
-
-ALTER TABLE role_authority_map ADD CONSTRAINT rrmap_role_id_fk FOREIGN KEY (role_id)
-    REFERENCES roles (id);
-    
-ALTER TABLE role_authority_map ADD CONSTRAINT rrmap_authority_id_fk FOREIGN KEY (authority_id)
-    REFERENCES authorities (id);
+ALTER TABLE role_resource_map ADD CONSTRAINT rrmap_role_id_fk FOREIGN KEY (role_id)
+	REFERENCES roles (id);
+	
+ALTER TABLE role_resource_map ADD CONSTRAINT rrmap_resource_id_fk FOREIGN KEY (resource_id)
+	REFERENCES resources (id);
 
 ALTER TABLE user_role_map ADD CONSTRAINT urmap_role_id_fk FOREIGN KEY (role_id)
-    REFERENCES roles (id);
+	REFERENCES roles (id);
 
 ALTER TABLE user_role_map ADD CONSTRAINT urmap_user_id_fk FOREIGN KEY (user_id)
-    REFERENCES userbase (id);
+	REFERENCES userbase (id);
 
 ALTER TABLE customers ADD CONSTRAINT customers_cs_id_fk FOREIGN KEY (customer_source_id)
-    REFERENCES customer_source (id);
+	REFERENCES customer_source (id);

@@ -34,7 +34,7 @@
 	<url>http://sites-by-maven.gaixie.org/micrite/0.x</url>
 	<packaging>pom</packaging>
 
-	<version>0.7-SNAPSHOT</version>
+	<version>0.4</version>
 
 	<description>
         Gaixie Micrite, the Java web application base on struts2 and spring.
@@ -46,8 +46,8 @@
 	</organization>
 
 	<scm>
-		<connection>scm:svn:https://micrite.googlecode.com/svn/trunk</connection>
-		<developerConnection>scm:svn:https://micrite.googlecode.com/svn/trunk</developerConnection>
+		<connection>scm:svn:https://micrite.googlecode.com/svn/tags/0.4</connection>
+		<developerConnection>scm:svn:https://micrite.googlecode.com/svn/tags/0.4</developerConnection>
 	</scm>
 
 	<issueManagement>
@@ -82,7 +82,7 @@
         </snapshotRepository>	        
 		<site>
 			<id>sites-by-maven.gaixie.org</id>
-			<url>scp://sites-by-maven.gaixie.org/var/www/sites-by-maven/micrite/0.6</url>
+			<url>scp://sites-by-maven.gaixie.org/var/www/sites-by-maven/micrite/0.1</url>
 		</site>
 	</distributionManagement>
 
@@ -169,39 +169,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-            <dependency>
-                <groupId>org.apache.derby</groupId>
-                <artifactId>derby</artifactId>
-                <version>10.4.2.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.derby</groupId>
-                <artifactId>derbytools</artifactId>
-                <version>10.4.2.0</version>
-                <scope>runtime</scope>              
-            </dependency>
-            <dependency>
-                <groupId>postgresql</groupId>
-                <artifactId>postgresql</artifactId>
-                <version>8.1-408.jdbc3</version>
-                <scope>provided</scope>             
-            </dependency>
-            <!--
-             先从Oracle网站下载相应的jdbc驱动，然后装载到local repository
-             假设下载的是 支持oracle 11.1.0.7.0版本，jdk5的jar包，那么应该用下面命令： 
-            mvn install:install-file  -Dfile=ojdbc5.jar \
-                                      -DgroupId=com.oracle \
-                                      -DartifactId=ojdbc5 \
-                                      -Dversion=11.1.0.7.0 \
-                                      -DgeneratePom=true \
-                                      -Dpackaging=jar
 
-            <dependency>
-                <groupId>com.oracle</groupId>
-                <artifactId>ojdbc5</artifactId>
-                <version>11.1.0.7.0</version>
-            </dependency>
-            -->
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
@@ -295,9 +263,9 @@
 	        <dependency>
 	            <groupId>org.gaixie.micrite</groupId>
 	            <artifactId>struts2-json-plugin</artifactId>
-				<version>0.7-SNAPSHOT</version>	            
+				<version>0.4</version>	            
 			</dependency> 
-            <!-- aspectj -->		
+		
 			<dependency>
 				<groupId>org.aspectj</groupId>
 				<artifactId>aspectjweaver</artifactId>
@@ -321,6 +289,8 @@
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
 				<version>1.2.14</version>  <!-- 1.2.15 has some JMX dependencies we don't want in its POM -->
+				<optional>true</optional>
+				<scope>runtime</scope>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.ehcache</groupId>
@@ -378,6 +348,23 @@
 				<artifactId>commons-lang</artifactId>
 				<version>2.4</version>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.derby</groupId>
+				<artifactId>derby</artifactId>
+				<version>10.4.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.derby</groupId>
+				<artifactId>derbytools</artifactId>
+				<version>10.4.2.0</version>
+				<scope>runtime</scope>				
+			</dependency>
+			<dependency>
+				<groupId>postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>8.1-408.jdbc3</version>
+				<scope>provided</scope>				
+			</dependency>
 			<!-- Spring Security -->
 			<dependency>
 				<groupId>org.springframework.security</groupId>
@@ -398,19 +385,19 @@
 			<dependency>
 				<groupId>org.gaixie.micrite</groupId>
 				<artifactId>micrite-beans</artifactId>
-				<version>0.7-SNAPSHOT</version>
+				<version>0.4</version>
 			</dependency>
 			<!-- 定义了所有公用类-->
 			<dependency>
 				<groupId>org.gaixie.micrite</groupId>
 				<artifactId>micrite-common</artifactId>
-				<version>0.7-SNAPSHOT</version>
+				<version>0.4</version>
 			</dependency>
 			<!-- 定义了所有核心类-->
 			<dependency>
 				<groupId>org.gaixie.micrite</groupId>
 				<artifactId>micrite-core</artifactId>
-				<version>0.7-SNAPSHOT</version>
+				<version>0.4</version>
 			</dependency>
 
 			<dependency>
@@ -419,7 +406,7 @@
 				<version>1.6.1</version>
 				<scope>provided</scope>
 			</dependency>
-           
+
 		</dependencies>
 	</dependencyManagement>
 	<profiles>
@@ -502,7 +489,7 @@
 
 				<!--
 					打jar包时，不能把struts.xml打入，否则assemblies时，一个项目会有多个struts.xml Web server
-					会包错，为了方便修改配置，相应的配置文件也不打入
+					会包错
 				-->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -515,14 +502,12 @@
 							</goals>
 							<configuration>
 								<excludes>
-									<exclude>applicationContext*.xml</exclude>
-									<exclude>struts.xml</exclude>
-									<exclude>struts_xml/**</exclude>
-									<exclude>databaseResource-hibernate.xml</exclude>
-									<exclude>hibernate.properties</exclude>
-                                    <exclude>struts.properties</exclude>
-                                    <exclude>log4j.properties</exclude>
-                                    <exclude>ehcache*.xml</exclude>
+									<exclude>**/applicationContext*.xml</exclude>
+									<exclude>**/struts.xml</exclude>
+									<exclude>**/struts_xml/**</exclude>
+									<exclude>**/databaseResource-hibernate.xml</exclude>
+									<exclude>**/hibernate.properties</exclude>
+									<exclude>**/js-lib/**</exclude>
 								</excludes>
 							</configuration>
 						</execution>

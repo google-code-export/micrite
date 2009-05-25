@@ -30,40 +30,40 @@
     xmlns:aop="http://www.springframework.org/schema/aop"
     xmlns:tx="http://www.springframework.org/schema/tx"
     xsi:schemaLocation="
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
-    <!-- Hibernate SessionFactory definition using exposed dataSource -->
-    <!-- hibernate.properties and hibernate.cfg.xml will be loaded on startup -->
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="org/gaixie/micrite/beans" />
-    </bean>
+	<!-- Hibernate SessionFactory definition using exposed dataSource -->
+	<!-- hibernate.properties and hibernate.cfg.xml will be loaded on startup -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+	    <property name="packagesToScan" value="org/gaixie/micrite/beans" />
+	</bean>
     
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${jdbc.driver}" />
-        <property name="url" value="${jdbc.url}" />
-        <property name="username" value="${jdbc.username}" />
-        <property name="password" value="${jdbc.password}" />
-        <property name="maxActive" value="20" />
-        <property name="maxIdle" value="10" />
-        <property name="maxWait" value="1000" />
-        <property name="defaultAutoCommit" value="false" />
-        <property name="removeAbandoned" value="true" />
-        <property name="removeAbandonedTimeout" value="60" />
-        <property name="logAbandoned" value="true" />
-    </bean>
-    
-    <!-- Transaction manager for a single JDBC DataSource -->
-    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-    
-    <!--  Transaction interceptor  -->
-    <bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxActive" value="20" />
+		<property name="maxIdle" value="10" />
+		<property name="maxWait" value="1000" />
+		<property name="defaultAutoCommit" value="false" />
+		<property name="removeAbandoned" value="true" />
+		<property name="removeAbandonedTimeout" value="60" />
+		<property name="logAbandoned" value="true" />
+	</bean>
+	
+	<!-- Transaction manager for a single JDBC DataSource -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<!--  Transaction interceptor  -->
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
          <property name="transactionManager" ref="transactionManager" />
          <property name="transactionAttributes">
               <props>
@@ -72,7 +72,7 @@
          </property>
     </bean>
 
-    <!-- BeanName auto proxy to define the interceptor -->
+	<!-- BeanName auto proxy to define the interceptor -->
     <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
          <property name="beanNames">
               <list>
@@ -90,17 +90,17 @@
         <property name="assembler" ref="assembler"/>
         <property name="namingStrategy" ref="namingStrategy"/>
         <property name="autodetect" value="true"/>
-        <property name="beans">
-           <map>
-              <entry key="org.hibernate:name=Statistics"  value-ref="hibernateMBean"/>
-           </map>
-        </property>
+		<property name="beans">
+		   <map>
+		      <entry key="org.hibernate:name=Statistics"  value-ref="hibernateMBean"/>
+		   </map>
+		</property>
     </bean>
 
-    <bean id="hibernateMBean" class="org.hibernate.jmx.StatisticsService">
-       <property name="sessionFactory" ref="sessionFactory"/>
-       <property name="statisticsEnabled" value="true"/>
-    </bean>
+	<bean id="hibernateMBean" class="org.hibernate.jmx.StatisticsService">
+	   <property name="sessionFactory" ref="sessionFactory"/>
+	   <property name="statisticsEnabled" value="true"/>
+	</bean>
 
     <bean id="jmxAttributeSource"
           class="org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource"/>
@@ -116,7 +116,5 @@
           class="org.springframework.jmx.export.naming.MetadataNamingStrategy">
         <property name="attributeSource" ref="jmxAttributeSource"/>
     </bean>
-
-    <!-- BeanPostProcessor detect @Autowired flag to inject -->   
-    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>     
+     
 </beans>

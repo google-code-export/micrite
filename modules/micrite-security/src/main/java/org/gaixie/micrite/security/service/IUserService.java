@@ -24,51 +24,19 @@
 
 package org.gaixie.micrite.security.service;
 
-import java.util.List;
-
 import org.gaixie.micrite.beans.User;
 
 /**
- * 提供与用户管理有关的服务。
- * 
+ * 用户业务模型
+ *
  */
 public interface IUserService {
-    
-    /**
-     * 增加新用户。
-     * 
-     * @see org.gaixie.micrite.beans.User
-     * @param user <code>User</code>对象
-     * @param userRoleIds 用户所属角色id列表
-     * @return true:成功；false：失败
-     */
-    public boolean add(User user,String[] userRoleIds);
-    
-    /**
-     * 根据用户名判断用户在系统中是否存在。
-     * 
-     * @param username 用户名
-     * @return true:存在；false：不存在
-     */
-    public boolean isExistedByUsername(String username);
+	
+	/**
+	 * 随机查找一条记录
+	 * @return 用户实体
+	 */
+	public User findByNameRandom();
+	
 
-    /**
-     * 修改用户信息。
-     * 密码不为空字符串时才修改密码；若修改的是当前登陆用户，则也修改内存中的该对象。
-     * 
-     * @see org.gaixie.micrite.beans.User
-     * @param user <code>User</code>对象
-     * @param currentUser 当前用户
-     * @return true:成功；false：失败
-     */
-    public boolean updateInfo(User user, User currentUser);
-    
-    /**
-     * 根据用户名查询用户集合（模糊查询）。
-     * 
-     * @see org.gaixie.micrite.beans.User
-     * @param username 用户名
-     * @return <code>User</code>对象列表
-     */
-    public List<User> findByUsernameVague(String username);
 }

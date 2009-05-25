@@ -1,3 +1,4 @@
+<ehcache>
 <!--
 /* ===========================================================
  * $Id$
@@ -9,21 +10,21 @@
  * Project Info:  http://micrite.gaixie.org/
  *
  * Micrite is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * Micrite is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * 
  */
 -->
-<ehcache>
+
     <!-- Sets the path to the directory where cache .data files are created.
 
      If the path is a Java System Property it is replaced by
@@ -39,30 +40,30 @@
 
         The following attributes are required:
 
-        maxElementsInMemory               - Sets the maximum number of objects that will be created in memory
-        eternal                           - Sets whether elements are eternal. If eternal,  timeouts are 
-                                            ignored and the element is never expired.
-        overflowToDisk                    - Sets whether elements can overflow to disk when the in-memory cache
-                                            has reached the maxInMemory limit.
+        maxElementsInMemory            - Sets the maximum number of objects that will be created in memory
+        eternal                                     - Sets whether elements are eternal. If eternal,  timeouts are 
+                                                            ignored and the element is never expired.
+        overflowToDisk                      - Sets whether elements can overflow to disk when the in-memory cache
+                                                        has reached the maxInMemory limit.
 
         The following attributes are optional:
-        timeToIdleSeconds                 - Sets the time to idle for an element before it expires.
+        timeToIdleSeconds            - Sets the time to idle for an element before it expires.
                                                         i.e. The maximum amount of time between accesses before an
                                                         element expires Is only used if the element is not eternal.
                                                         Optional attribute. A value of 0 means that an Element can idle
                                                         for infinity.The default value is 0.
-        timeToLiveSeconds                 - Sets the time to live for an element before it expires.
+        timeToLiveSeconds              - Sets the time to live for an element before it expires.
                                                          i.e. The maximum time between creation time and when an element 
                                                          expires.  Is only used if the element is not eternal.
                                                          Optional attribute. A value of 0 means that and Element can live
                                                          for infinity.
                                                         The default value is 0.
-        diskPersistent                    - Whether the disk store persists between restarts of the Virtual 
+        diskPersistent                           - Whether the disk store persists between restarts of the Virtual 
                                                              Machine.
                                                          The default value is false.
         diskExpiryThreadIntervalSeconds   - The number of seconds between runs of the disk expiry thread. 
                                                          The default value  is 120 seconds.
-    -->
+        -->
 
     <defaultCache maxElementsInMemory="500" eternal="true"
     timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
@@ -70,9 +71,9 @@
     timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
     <cache name="org.gaixie.micrite.beans.User.roles" maxElementsInMemory="500" eternal="true"
     timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
-    <cache name="org.gaixie.micrite.beans.Authority" maxElementsInMemory="500" eternal="true"
+    <cache name="org.gaixie.micrite.beans.Resource" maxElementsInMemory="500" eternal="true"
     timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
-    <cache name="org.gaixie.micrite.beans.Authority.roles" maxElementsInMemory="500" eternal="true"
+    <cache name="org.gaixie.micrite.beans.Resource.roles" maxElementsInMemory="500" eternal="true"
     timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
     <cache name="org.gaixie.micrite.beans.Customer" maxElementsInMemory="500" eternal="true"
     timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
@@ -80,6 +81,6 @@
     timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
     <cache name="org.gaixie.micrite.beans.Role" maxElementsInMemory="500" eternal="true"
     timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
-    <cache name="org.gaixie.micrite.beans.Role.authorities" maxElementsInMemory="500" eternal="true"
+    <cache name="org.gaixie.micrite.beans.Role.resources" maxElementsInMemory="500" eternal="true"
     timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
 </ehcache>

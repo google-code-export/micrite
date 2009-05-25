@@ -50,10 +50,7 @@ import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UserDetails;
 
 /**
- * Micrite应用的一个用户。
- * <p>
- * 通过实现 <code>UserDetails</code> 接口，系统会在成功登录后，得到所拥有的 <code>Role</code> 列表，
- * 用于在每次Spring Security进行安全拦截验证时，与所拦截资源要求的角色进行匹配。
+ * 映射 userbase 表.
  */
 @Entity
 @Table(name = "userbase")
@@ -61,150 +58,239 @@ import org.springframework.security.userdetails.UserDetails;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User implements UserDetails {
 	
-    private static final long serialVersionUID = 8026813053768023527L;
+	private static final long serialVersionUID = 8026813053768023527L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	
     private String fullname;
-    private String loginname;
-    private String cryptpassword;
-    @Transient
-    private String plainpassword;
-    private String emailaddress;
-    private boolean isenabled = true;
     
-    @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
+	private String loginname;
+	
+	private String cryptpassword;
+	
+	private String emailaddress;
+	
+	private boolean isenabled;
+	
+	@ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role_map", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Role> roles;
-    
-    /**
-     * No-arg constructor for JavaBean tools.
-     */
-    public User() {
-        
-    }
+	private Set<Role> roles;
+	
+	@Transient
+	private Map<String, List<Resource>> roleResources;
+	
+	/**
+	 * The default constructor
+	 */
+	public User() {
+		
+	}
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~ 实现 UserDetails Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
-    /**
-     * 这里的Authorities指的是Spring Security的权限标识符，这里对应 <code>Role</code>。
-     * 
-     * @see org.springframework.security.userdetails.UserDetails#getAuthorities()
-     */
-    @Transient
-    public GrantedAuthority[] getAuthorities() {
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>(roles.size());
-        for(Role role : roles) {
-                grantedAuthorities.add(new GrantedAuthorityImpl(role.getName()));
-        }
+	/* (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetails#getAuthorities()
+	 */
+	public GrantedAuthority[] getAuthorities() {
+		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>(roles.size());
+    	for(Role role : roles) {
+    		grantedAuthorities.add(new GrantedAuthorityImpl(role.getName()));
+    	}
         return grantedAuthorities.toArray(new GrantedAuthority[roles.size()]);
-    }
-    
-    public String getPassword() {
-        return cryptpassword;
+	}
+	
+	/**
+	 * Returns the authorites string
+	 * 
+	 * eg. 
+	 *    downpour --- ROLE_ADMIN,ROLE_USER
+	 *    robbin --- ROLE_ADMIN
+	 * 
+	 * @return
+	 */
+	public String getAuthoritiesString() {
+	    List<String> authorities = new ArrayList<String>();
+	    for(GrantedAuthority authority : this.getAuthorities()) {
+	        authorities.add(authority.getAuthority());
+	    }
+	    return StringUtils.join(authorities, ",");
+	}
+
+	/* (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetails#getPassword()
+	 */
+	public String getPassword() {
+		return cryptpassword;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetails#getUsername()
+	 */
+	public String getUsername() {
+		return loginname;
+	}
+
+	public void setRoleResources(Map<String, List<Resource>> roleResources) {
+		this.roleResources = roleResources;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetails#isAccountNonExpired()
+	 */
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetails#isAccountNonLocked()
+	 */
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetails#isCredentialsNonExpired()
+	 */
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetails#isEnabled()
+	 */
+	public boolean isEnabled() {
+		return isenabled;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+
+	/**
+	 * @return the roles
+	 */
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	/**
+	 * @return the roleResources
+	 */
+	public Map<String, List<Resource>> getRoleResources() {
+		// init roleResources for the first time
+		if(this.roleResources == null) {
+			
+			this.roleResources = new HashMap<String, List<Resource>>();
+			
+			for(Role role : this.roles) {
+				String roleName = role.getName();
+				Set<Resource> resources = role.getResources();
+				for(Resource resource : resources) {
+					String key = roleName + "_" + resource.getType();
+					if(!this.roleResources.containsKey(key)) {
+						this.roleResources.put(key, new ArrayList<Resource>());
+					}
+					this.roleResources.get(key).add(resource);					
+				}
+			}
+			
+		}
+		return this.roleResources;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+	/**
+	 * @param roles the roles to set
+	 */
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(super.toString() + ": ");
+        sb.append("Id: " + this.getId() + "; ");
+        sb.append("Name: " + this.getFullname() + "; ");
+        sb.append("Username: " + this.getUsername() + "; ");
+        sb.append("Password: " + this.getPassword() + "; ");
+        sb.append("Email: " + this.getEmailaddress());
+
+        return sb.toString();
     }
 
-    public String getUsername() {
-        return loginname;
-    }
+	/**
+	 * @return the fullname
+	 */
+	public String getFullname() {
+		return fullname;
+	}
 
-    @Transient
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+	/**
+	 * @param fullname the fullname to set
+	 */
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
 
-    @Transient
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+	/**
+	 * @return the loginname
+	 */
+	public String getLoginname() {
+		return loginname;
+	}
 
-    @Transient
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+	/**
+	 * @param loginname the loginname to set
+	 */
+	public void setLoginname(String loginname) {
+		this.loginname = loginname;
+	}
 
-    @Transient
-    public boolean isEnabled() {
-        return isenabled;
-    }
+	/**
+	 * @return the cryptpassword
+	 */
+	public String getCryptpassword() {
+		return cryptpassword;
+	}
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
-    public Integer getId() {
-        return id;
-    }
+	/**
+	 * @param cryptpassword the cryptpassword to set
+	 */
+	public void setCryptpassword(String cryptpassword) {
+		this.cryptpassword = cryptpassword;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	/**
+	 * @return the emailaddress
+	 */
+	public String getEmailaddress() {
+		return emailaddress;
+	}
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
+	/**
+	 * @param emailaddress the emailaddress to set
+	 */
+	public void setEmailaddress(String emailaddress) {
+		this.emailaddress = emailaddress;
+	}
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public String getLoginname() {
-        return loginname;
-    }
-
-    public void setLoginname(String loginname) {
-        this.loginname = loginname;
-    }
-
-    public String getCryptpassword() {
-        return cryptpassword;
-    }
-
-    public void setCryptpassword(String cryptpassword) {
-        this.cryptpassword = cryptpassword;
-    }
-
-    public String getPlainpassword() {
-        return plainpassword;
-    }
-
-    public void setPlainpassword(String plainpassword) {
-        this.plainpassword = plainpassword;
-    }
-
-    public String getEmailaddress() {
-        return emailaddress;
-    }
-
-    public void setEmailaddress(String emailaddress) {
-        this.emailaddress = emailaddress;
-    }
-
-    public void setIsenabled(boolean isenabled) {
-        this.isenabled = isenabled;
-    }
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Common Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//  
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        final User user = (User) o;
-        return getLoginname().equals(user.getLoginname());
-    }
-
-    public int hashCode() {
-        return getLoginname().hashCode();
-    }
-
-    public String toString() {
-        return  "User ('" + getId() + "'), " +
-                "Username: '" + getLoginname() + "'";
-    }
+	/**
+	 * @param isenabled the isenabled to set
+	 */
+	public void setIsenabled(boolean isenabled) {
+		this.isenabled = isenabled;
+	}
+	
 }
