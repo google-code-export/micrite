@@ -21,111 +21,102 @@ micrite.crm.customerList.SearchPanel = function(config) {
 	// 建立查询结果表格
 	this.grid = new micrite.crm.customerList.SearchResultGrid({});
 
+	//多个查询条件分组时，可以通过调用searchButton共享
+	var searchButton = {
+		 	text: this.searchButton,
+	        cls: 'x-btn-text-icon details',
+			scope : this,
+			handler : this.startSearch
+		};
+    //共享action menu，集中设置
+	var actionMenu ={
+			xtype : 'actionmenu',
+			items : [{
+						text : this.newCustomer,
+						handler : this.openTab
+					}]
+		};
 	/**
 	 * 构建查询条件,以下是以JSON形式建立的数组对象，每一个字符串开始是一组查询条件
 	 * 组建的排列以文本框优先，下拉列表，然后是复选框，后面是button，如果有链接，居右放置
 	 * 为了提高页面的显示效率，采用xType，只有当需要显示的时候才会建立对象
 	 */
-	this.searchComponents = {
-		'cdr' : [{
-					xtype : 'textfield',
-					name : 'telephone',
-					width : 100
-				}, {
-					xtype : 'tbspacer'
-				}, {
-					text : 'Search',
-					cls : 'x-btn-text-icon details',
-					scope : this,
-					handler : this.startSearch
-				}],
-		'pdpsdr' : [{
-					xtype : 'datetimefield',
-					width : 300
-				}],
-		'wapsdr' : [{
-					xtype : 'datetimefield',
-					name : 'startTime',
-					width : 135
-				}, 'To', {
-					xtype : 'tbspacer'
-				}, {
-					xtype : 'datetimefield',
-					name : 'endTime',
-					width : 135
-				}, {
-					xtype : 'tbspacer'
-				}, {
-					xtype : 'tbspacer'
-				}, {
-					xtype : 'checkbox',
-					boxLabel : 'Gb',
-					name : 'gb',
-					width : 40,
-					height : 20
-				}, {
-					xtype : 'checkbox',
-					boxLabel : 'Gn',
-					name : 'gn',
-					checked : true,
-					width : 40,
-					height : 20
-				}, {
-					xtype : 'checkbox',
-					boxLabel : 'Gi',
-					name : 'gi',
-					width : 40,
-					height : 20
-				}, {
-					xtype : 'checkbox',
-					boxLabel : 'Gw',
-					name : 'gw',
-					width : 40,
-					height : 20
-				}, {
-					xtype : 'tbspacer'
-				}, {
-					text : 'Search',
-					cls : 'x-btn-text-icon details',
-					scope : this,
-					handler : this.startSearch
-				}, {
-					text : 'Advance',
-					cls : 'x-btn-text-icon details',
-					width : 100,
-					scope : this,
-					handler : this.startSearch
-				}, '->', {
-					xtype : 'actionmenu',
-					text : 'New Customer',
-					items : [{
-								text : 'New Customer',
-								handler : this.openTab
-							}]
-				}]
-	};
+	 this.searchComponents = {
+				'con1' : ['-',this.searchCellphone,{
+							xtype : 'textfield',
+							name : 'telephone',
+							width : 100
+						},'-', searchButton,'->',actionMenu	],
+				'con2' : ['-',this.searchStartTime,{
+							xtype : 'datetimefield',
+							width : 135
+						},'-', searchButton,'->',	actionMenu],
+				'con3' : ['-',this.searchStartTime,{
+							xtype : 'datetimefield',
+							name  : 'startTime',
+							width : 135
+						},this.searchEndTime, {
+							xtype : 'tbspacer'
+						}, {
+							xtype : 'datetimefield',
+							name  : 'endTime',
+							width : 135
+						},{
+							xtype : 'tbspacer'
+						}, {
+							xtype : 'tbspacer'
+						},{
+							xtype : 'checkbox',
+							boxLabel : 'Gb',
+							name  : 'gb',
+							width : 40,
+							height: 20
+						}, {
+							xtype : 'checkbox',
+							boxLabel : 'Gn',
+							name : 'gn',
+							checked : true,
+							width : 40,
+							height: 20
+						}, {
+							xtype : 'checkbox',
+							boxLabel : 'Gi',
+							name : 'gi',
+							width : 40,
+							height: 20
+						}, {
+							xtype : 'checkbox',
+							boxLabel : 'Gw',
+							name : 'gw',
+							width : 40,
+							height: 20
+						}, {
+							xtype : 'tbspacer'
+						},'-', searchButton,'->',
+						actionMenu]
+			};
 
 	// 构建查询组合条件菜单
 	this.searchTypeButtonConfig = {
 		text : 'WapSDR',
-		value : 'wapsdr',
+		value : 'con1',
 		tooltip : 'Click for more search options',
 		handler : this.switchSearchType,
 		scope : this,
 		menu : {
 			items : [{
 						text : 'CDR',
-						value : 'cdr',
+						value : 'con1',
 						scope : this,
 						handler : this.switchSearchType
 					}, {
 						text : 'PdpSDR',
-						value : 'pdpsdr',
+						value : 'con2',
 						scope : this,
 						handler : this.switchSearchType
 					}, {
 						text : 'WapSDR',
-						value : 'wapsdr',
+						value : 'con3',
 						scope : this,
 						handler : this.switchSearchType
 					}]
@@ -155,7 +146,7 @@ micrite.crm.customerList.SearchPanel = function(config) {
 	 */
 	this.on({
 				'render' : function() {
-					var items = this.searchComponents['wapsdr'];// 默认菜单
+					var items = this.searchComponents['con1'];// 默认菜单
 
 					for (var i = 0; i < items.length; i++) {
 						var item = items[i];
@@ -190,9 +181,15 @@ micrite.crm.customerList.SearchPanel = function(config) {
  * 定义查询面板的方法
  */
 Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
-	searchText : 'Search By Telephone',
-	newCustomerLink : '<a href="crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>',
-
+	searchButton:'Search',	
+	searchCondition1:'Condition 1',
+	searchCondition2:'Condition 2',
+	searchCondition3:'Condition 3',
+	searchCellphone:'Cellphone',	
+	searchStartTime:'StartTime',
+	searchEndTime:'EndTime',
+	newCustomer :'New Customer',
+	
 	switchSearchType : function(button, event) {
 		this.setSearchType(this, button.value);
 	},
