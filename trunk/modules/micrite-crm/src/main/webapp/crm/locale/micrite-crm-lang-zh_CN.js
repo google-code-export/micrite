@@ -8,7 +8,7 @@ function customerListLocale(){
         	searchCellphone:'手机号',        	
         	searchStartTime:'起始时间',
         	searchEndTime:'截至时间',	        	
-            newCustomerLink:'<a href="crm/customerDetail.jsp" id="Customer Detail" class="inner-link">增加新客户</a>'
+            newCustomer:'增加新客户'
         });
     }	
     if(micrite.crm.customerList.SearchResultGrid) {

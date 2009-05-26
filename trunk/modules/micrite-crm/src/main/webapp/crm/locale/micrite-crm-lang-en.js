@@ -8,7 +8,7 @@ function customerListLocale(){
         	searchCellphone:'Cellphone',        	
         	searchStartTime:'StartTime',
         	searchEndTime:'EndTime',	        	
-            newCustomerLink:'<a href="crm/customerDetail.jsp" id="Customer Detail" class="inner-link">New Customer</a>'
+        	newCustomer:'New Customer'
         });
     }	
     if(micrite.crm.customerList.SearchResultGrid) {
