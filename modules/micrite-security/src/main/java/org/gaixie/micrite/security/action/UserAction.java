@@ -121,7 +121,7 @@ public class UserAction extends ActionSupport {
             actionResult.put("success", false);
             logger.error(getText(e.getMessage()));          
         }
-        actionResult.put("success", result);
+        actionResult.put("result", returnMsg);
         return SUCCESS;
     }
 
