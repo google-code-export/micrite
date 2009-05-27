@@ -39,7 +39,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.service.IUserService;
- 
+import org.gaixie.micrite.security.SecurityException; 
 /**
  * 用户管理，提供新增，修改，查询用户等功能。
  */
@@ -63,6 +63,7 @@ public class UserAction extends ActionSupport {
     private List<User> users;
     //  action处理结果（map对象）
     private Map<String,Object> actionResult = new HashMap<String,Object>();
+    private Map<String,String> returnMsg = new HashMap<String,String>();
     
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//
     /* 得到当前用户 */
@@ -78,11 +79,17 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */
     public String add() {
-        boolean result = false;
         String[] userRoleIds = StringUtils.split(userRolesStr, ",");
-        result = userService.add(user,userRoleIds);
-        actionResult.put("success", result);
-        logger.debug("actionResult=" + actionResult);
+        try{
+            userService.add(user,userRoleIds);
+            returnMsg.put("message", getText("save.success"));  
+            actionResult.put("success", true);
+        }catch(SecurityException e){
+            returnMsg.put("message", getText(e.getMessage()));
+            actionResult.put("success", false);
+            logger.error(getText(e.getMessage()));
+        }
+        actionResult.put("result", returnMsg);
         return SUCCESS;
     }
 
@@ -105,9 +112,15 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */
     public String updateInfo() {
-        boolean result = false;
-        User currentUser = this.getCurrentUser();
-        result = userService.updateInfo(user, currentUser);
+        try{
+            userService.updateInfo(user);
+            returnMsg.put("message", getText("save.success"));  
+            actionResult.put("success", true);
+        }catch(SecurityException e){
+            returnMsg.put("message", getText(e.getMessage()));
+            actionResult.put("success", false);
+            logger.error(getText(e.getMessage()));          
+        }
         actionResult.put("success", result);
         return SUCCESS;
     }

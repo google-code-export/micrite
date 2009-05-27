@@ -87,10 +87,12 @@ FormPanel = function() {
 	                waitMsg: this.waitingMsg,
 	                params: params,
 	                success: function(form, action) {
-	                    Ext.MessageBox.alert('Message', 'Save successed.');
+	                    obj = Ext.util.JSON.decode(action.response.responseText);
+	                    Ext.MessageBox.alert('Message', obj.result.message);	                
 	                },
 	                failure: function(form, action) {
-	                    Ext.MessageBox.alert('Message', 'Save failed.');
+	                    obj = Ext.util.JSON.decode(action.response.responseText);
+	                    Ext.MessageBox.alert('Message', obj.result.message);
 	                }
 	            });
 	        }
