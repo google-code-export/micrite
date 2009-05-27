@@ -27,7 +27,7 @@ package org.gaixie.micrite.security.service;
 import java.util.List;
 
 import org.gaixie.micrite.beans.User;
-
+import org.gaixie.micrite.security.SecurityException;
 /**
  * 提供与用户管理有关的服务。
  * 
@@ -40,9 +40,8 @@ public interface IUserService {
      * @see org.gaixie.micrite.beans.User
      * @param user <code>User</code>对象
      * @param userRoleIds 用户所属角色id列表
-     * @return true:成功；false：失败
      */
-    public boolean add(User user,String[] userRoleIds);
+    public void add(User user,String[] userRoleIds) throws SecurityException;
     
     /**
      * 根据用户名判断用户在系统中是否存在。
@@ -59,9 +58,8 @@ public interface IUserService {
      * @see org.gaixie.micrite.beans.User
      * @param user <code>User</code>对象
      * @param currentUser 当前用户
-     * @return true:成功；false：失败
      */
-    public boolean updateInfo(User user, User currentUser);
+    public void updateInfo(User user) throws SecurityException;
     
     /**
      * 根据用户名查询用户集合（模糊查询）。

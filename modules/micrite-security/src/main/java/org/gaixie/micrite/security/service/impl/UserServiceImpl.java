@@ -31,13 +31,14 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.providers.dao.UserCache;
 
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.dao.IRoleDao;
 import org.gaixie.micrite.security.dao.IUserDao;
 import org.gaixie.micrite.security.service.IUserService;
-
+import org.gaixie.micrite.security.SecurityException;
 /**
  * 用户业务实现
  * 
@@ -54,84 +55,60 @@ public class UserServiceImpl implements IUserService {
     //  用于对明文密码加密
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserCache userCache;
     
-    public boolean add(User user, String[] userRoleIds) {
-        boolean result = false;
-        try {       
-            //  明文密码
-            String plainpassword = user.getPlainpassword();
-            //  加密后的密码
-            String cryptpassword = passwordEncoder.encodePassword(plainpassword, null);
-            user.setCryptpassword(cryptpassword);
-            //  设置用户的权限列表
-            Set<Role> roles = new HashSet<Role>();
-            for (String userRoleId : userRoleIds) {
-                Role role = roleDao.getRole(Integer.parseInt(userRoleId));
-                roles.add(role);
-            }
-            user.setRoles(roles);
-            userDao.save(user);
-            result = true;
-        } catch (Exception e) {
-            logger.error("exception=" + e);
+    public void add(User user, String[] userRoleIds) throws SecurityException {
+        if(isExistedByUsername(user.getLoginname()))
+            throw new SecurityException("error.user.add.userNameInUse");
+        //  明文密码
+        String plainpassword = user.getPlainpassword();
+        //  加密后的密码
+        String cryptpassword = passwordEncoder.encodePassword(plainpassword, null);
+        user.setCryptpassword(cryptpassword);
+        //  设置用户的权限列表
+        Set<Role> roles = new HashSet<Role>();
+        for (String userRoleId : userRoleIds) {
+            Role role = roleDao.getRole(Integer.parseInt(userRoleId));
+            roles.add(role);
         }
-        return result;
+        user.setRoles(roles);
+        userDao.save(user);
     }
 
     public boolean isExistedByUsername(String username) {
-        boolean result = false;
-        try {
-            User user = userDao.findByUsername(username);
-            if (user != null) {
-                result = true;
-            }
-        } catch (Exception e) {
-            logger.error("exception=" + e);
+        User user = userDao.findByUsername(username);
+        if (user != null) {
+            return true;
         }
-        return result;
+        return false;
+
     }
     
-    public boolean updateInfo(User user, User currentUser) {
-        boolean result = false;
-        try {
-            Integer userId = user.getId();
-            String fullname = user.getFullname();
-            String emailaddress = user.getEmailaddress();
-            String loginname = user.getLoginname();
-            String plainpassword = user.getPlainpassword();
-            
-            //  取出待修改用户
-            User targetUser = userDao.getUser(userId);
-            //  修改待修改用户
-            targetUser.setFullname(fullname);
-            targetUser.setEmailaddress(emailaddress);
-            targetUser.setLoginname(loginname);
-            //  密码为非空字符串，才修改密码
-            if (!plainpassword.equals("")) {
-                String cryptpassword = passwordEncoder.encodePassword(plainpassword, null);
-                targetUser.setCryptpassword(cryptpassword);
-            }
-            //  持久化待修改用户
-            userDao.update(targetUser);
-            
-            //  若修改的是当前登陆用户，则也修改内存中的该对象
-            if (userId.equals(currentUser.getId())) {
-                currentUser.setFullname(fullname);
-                currentUser.setEmailaddress(emailaddress);
-                currentUser.setLoginname(loginname);
-                //  密码为非空字符串，才修改密码
-                if (!plainpassword.equals("")) {
-                    String cryptpassword = passwordEncoder.encodePassword(plainpassword, null);
-                    currentUser.setCryptpassword(cryptpassword);
-                }
-            }
-            result = true;
-        } catch (Exception e) {
-            logger.error("exception=" + e);
+    public void updateInfo(User user) throws SecurityException {
+        if(isExistedByUsername(user.getLoginname()))
+            throw new SecurityException("error.user.add.userNameInUse");
+        String plainpassword = user.getPlainpassword();
+        
+        //  取出待修改用户
+        User targetUser = userDao.getUser(user.getId());
+        //  修改待修改用户
+        targetUser.setFullname(user.getFullname());
+        targetUser.setEmailaddress(user.getEmailaddress());
+        targetUser.setLoginname(user.getLoginname());
+        //  密码为非空字符串，才修改密码
+        if (!plainpassword.equals("")) {
+            String cryptpassword = passwordEncoder.encodePassword(plainpassword, null);
+            targetUser.setCryptpassword(cryptpassword);
         }
-        return result;
+        //  持久化待修改用户
+        userDao.update(targetUser);
+        
+        //  从cache中删除修改的对象
+        if (userCache != null)
+            userCache.removeUserFromCache(user.getLoginname());
     }
-    
+
     public List<User> findByUsernameVague(String username) {
         List<User> users = userDao.findByUsernameVague(username);
         return users;
