@@ -1,9 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <script type="text/javascript">
+/**
+ * micrite.security.userDetail 用户信息，增加新用户
+ * 
+ * @author xingzhaoyong
+ */
 Ext.ns('micrite.security.userDetail');
 
 //  FormPanel构造函数
-FormPanel = function() {
+micrite.security.userDetail.FormPanel = function() {
     //  role多选框数据源
     var dataStore = new Ext.data.Store({
         autoLoad:true,
@@ -12,7 +17,7 @@ FormPanel = function() {
     });
 
     //  这里定义Panel的外观，内部控件等
-    FormPanel.superclass.constructor.call(this, {
+    micrite.security.userDetail.FormPanel.superclass.constructor.call(this, {
         id: 'userDetailForm',
         bodyBorder: false,
         autoHeight: true,
@@ -29,19 +34,19 @@ FormPanel = function() {
             style: {"margin-left": "10px"},
             items: [{
                 fieldLabel: this.fullnameText,
-                name: 'fullname',
+                name: 'user.fullname',
                 allowBlank:false
             },{
                 fieldLabel: this.emailaddressText,
-                name: 'emailaddress',
+                name: 'user.emailaddress',
                 vtype: 'email'
             },{
                 fieldLabel: this.loginnameText,
-                name: 'loginname',
+                name: 'user.loginname',
                 allowBlank:false
             },{
                 fieldLabel: this.passwordText,
-                name: 'plainpassword',
+                name: 'user.plainpassword',
                 inputType: 'password',
                 allowBlank:false
             },new Ext.ux.form.CheckboxField({
@@ -64,10 +69,6 @@ FormPanel = function() {
 	            var form = Ext.getCmp("userDetailForm").getForm();
 	            // 构建form的提交参数
 	            var params = {
-                        'user.fullname': form.findField('fullname').getValue(),
-                        'user.emailaddress': form.findField('emailaddress').getValue(),
-                        'user.loginname': form.findField('loginname').getValue(),
-                        'user.plainpassword': form.findField('plainpassword').getValue(),
                         'userRolesStr': form.findField('userRoles').getValue()
 	            };      
 	            // form提交
@@ -92,10 +93,10 @@ FormPanel = function() {
         }],
         buttonAlign:'left'
     });
-};
+};// FormPanel构造函数结束
 
-//  通过扩展方式来处理页面显示字符串，国际化采用改这种方式处理
-micrite.security.userDetail.FormPanel = Ext.extend(FormPanel, Ext.FormPanel, {
+//  页面上的字符串在这里定义
+micrite.security.userDetail.FormPanel = Ext.extend(micrite.security.userDetail.FormPanel, Ext.FormPanel, {
     userDetailText: 'User Detail',
     fullnameText: 'Full Name',
     emailaddressText: 'Email Address',

@@ -1,9 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <script type="text/javascript">
+/**
+ * micrite.security.userDetailModify 修改用户信息
+ * 
+ * @author xingzhaoyong
+ */
 Ext.ns('micrite.security.userDetailModify');
 
 //  FormPanel构造函数
-FormPanel = function() {
+micrite.security.userDetailModify.FormPanel = function() {
     //  “再次录入密码”校验器
     Ext.apply(Ext.form.VTypes, {
         passwordAgain: function(val, field) {
@@ -16,13 +21,13 @@ FormPanel = function() {
             }
         },
     });
-    //  处理“再次录入密码”校验器国际化
+    //  处理“再次录入密码”校验未通过时显示的提示信息
     Ext.apply(Ext.form.VTypes, {
         passwordAgainText: '请确保两次输入的密码相同'
     });    
 
     //  这里定义Panel的外观，内部控件等
-    FormPanel.superclass.constructor.call(this, {
+    micrite.security.userDetailModify.FormPanel.superclass.constructor.call(this, {
         id: 'userDetailModifyForm',
         bodyBorder: false,
         autoHeight:true,
@@ -39,9 +44,6 @@ FormPanel = function() {
             style: {"margin-left": "10px"},
             items: [{
                 name: 'id',
-                xtype:'hidden'
-            },{
-                name: 'usernameOld',
                 xtype:'hidden'
             },{
                 fieldLabel: this.fullnameText,
@@ -101,20 +103,22 @@ FormPanel = function() {
         }],
         buttonAlign:'left'
     });
-}
+};// FormPanel构造函数结束
 
-//  通过扩展方式来处理页面显示字符串，国际化采用改这种方式处理
-micrite.security.userDetailModify.FormPanel = Ext.extend(FormPanel, Ext.FormPanel, {
-    userDetailModifyText: 'User Detail Modify',
-    fullnameText: 'Full Name',
-    emailaddressText: 'Email Address',
-    loginnameText: 'User Name',
-    passwordText: 'Password',
-    passwordAgainText: 'Password Again',
-    submitText: 'Save',
-    cancelText: 'Cancel',
-    waitingMsg: 'Saving Data...'
-});
+//  页面上的字符串在这里定义
+micrite.security.userDetailModify.FormPanel = Ext.extend(micrite.security.userDetailModify.FormPanel, 
+                                                         Ext.FormPanel, 
+                                                         {
+														    userDetailModifyText: 'User Detail Modify',
+														    fullnameText: 'Full Name',
+														    emailaddressText: 'Email Address',
+														    loginnameText: 'User Name',
+														    passwordText: 'Password',
+														    passwordAgainText: 'Password Again',
+														    submitText: 'Save',
+														    cancelText: 'Cancel',
+														    waitingMsg: 'Saving Data...'
+														});
 
 Ext.onReady(function() {
     Ext.QuickTips.init();
@@ -122,7 +126,7 @@ Ext.onReady(function() {
     
     var formPanel = new micrite.security.userDetailModify.FormPanel();
 
-    //  首先将表单上元素的数据加载进来
+    //  首先将表单上元素的默认值加载进来
     formPanel.form.load({url: '/' + document.location.href.split("/")[3] + '/loadCurrentUser.action'});
     
     if (mainPanel) {
