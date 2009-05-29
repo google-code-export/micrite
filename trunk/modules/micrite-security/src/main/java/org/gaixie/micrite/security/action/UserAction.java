@@ -27,16 +27,17 @@ package org.gaixie.micrite.security.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jmx.export.annotation.ManagedResource;
-import org.springframework.security.context.SecurityContext;
+import org.springframework.security.context.SecurityContextHolder;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.service.IUserService;
 import org.gaixie.micrite.security.SecurityException; 
@@ -66,13 +67,6 @@ public class UserAction extends ActionSupport {
     private Map<String,String> returnMsg = new HashMap<String,String>();
     
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//
-    /* 得到当前用户 */
-    private User getCurrentUser() {
-        ActionContext ctx = ActionContext.getContext();
-        SecurityContext securityContext = (SecurityContext)ctx.getSession().get("SPRING_SECURITY_CONTEXT");
-        return (User)securityContext.getAuthentication().getPrincipal();
-    }
-    
     /**
      * 新增用户。
      * 
@@ -80,11 +74,13 @@ public class UserAction extends ActionSupport {
      */
     public String add() {
         String[] userRoleIds = StringUtils.split(userRolesStr, ",");
-        try{
-            userService.add(user,userRoleIds);
-            returnMsg.put("message", getText("save.success"));  
+        Set<Role> userRoles = userService.getRolesByIds(userRoleIds);
+        user.setRoles(userRoles);
+        try {
+            userService.add(user);
+            returnMsg.put("message", getText("save.success"));
             actionResult.put("success", true);
-        }catch(SecurityException e){
+        } catch(SecurityException e) {
             returnMsg.put("message", getText(e.getMessage()));
             actionResult.put("success", false);
             logger.error(getText(e.getMessage()));
@@ -94,15 +90,13 @@ public class UserAction extends ActionSupport {
     }
 
     /**
-     * 根据用户名判断用户在系统中是否存在。
+     * 根据用户名判断用户是否已存在。
      * 
      * @return "success"
      */
     public String isExistedByUsername() {
-        boolean result = false;
-        String usename = user.getLoginname();
-        result = userService.isExistedByUsername(usename);
-        actionResult.put("success", result);
+        boolean isExisted = userService.isExistedByUsername(user.getUsername());
+        actionResult.put("success", isExisted);
         return SUCCESS;
     }
 
@@ -112,16 +106,30 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */
     public String updateInfo() {
-        try{
-            userService.updateInfo(user);
-            returnMsg.put("message", getText("save.success"));  
-            actionResult.put("success", true);
-        }catch(SecurityException e){
-            returnMsg.put("message", getText(e.getMessage()));
-            actionResult.put("success", false);
-            logger.error(getText(e.getMessage()));          
-        }
+        userService.updateInfo(user.getId(), 
+                               user.getFullname(), 
+                               user.getEmailaddress(), 
+                               user.getPlainpassword());
+        returnMsg.put("message", getText("save.success"));
+        actionResult.put("success", true);
         actionResult.put("result", returnMsg);
+        return SUCCESS;
+    }
+
+    /**
+     * 加载当前用户
+     * 
+     * @return "success"
+     */
+    public String loadCurrentUser() {
+        User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Map<String,Object> userMap = new HashMap<String,Object>();
+        userMap.put("id", currentUser.getId());
+        userMap.put("fullname", currentUser.getFullname());
+        userMap.put("emailaddress", currentUser.getEmailaddress());
+        userMap.put("loginname", currentUser.getUsername());
+        actionResult.put("data", userMap);
+        actionResult.put("success", true);
         return SUCCESS;
     }
 
@@ -131,25 +139,7 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */
     public String findByUsernameVague() {
-        String username = user.getLoginname();
-        users = userService.findByUsernameVague(username);
-        return SUCCESS;
-    }
-    
-    /**
-     * 加载当前用户
-     * 
-     * @return "success"
-     */
-    public String loadCurrentUser() {
-        User currentUser = this.getCurrentUser();
-        Map<String,Object> userMap = new HashMap<String,Object>();
-        userMap.put("id", currentUser.getId());
-        userMap.put("fullname", currentUser.getFullname());
-        userMap.put("emailaddress", currentUser.getEmailaddress());
-        userMap.put("loginname", currentUser.getLoginname());
-        actionResult.put("data", userMap);
-        actionResult.put("success", true);
+        users = userService.findByUsernameVague(user.getUsername());
         return SUCCESS;
     }
     
