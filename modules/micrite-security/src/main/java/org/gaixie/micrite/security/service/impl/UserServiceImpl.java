@@ -29,9 +29,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.providers.dao.UserCache;
+import org.springframework.security.userdetails.UserDetails;
 
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
@@ -39,6 +43,7 @@ import org.gaixie.micrite.security.dao.IRoleDao;
 import org.gaixie.micrite.security.dao.IUserDao;
 import org.gaixie.micrite.security.service.IUserService;
 import org.gaixie.micrite.security.SecurityException;
+
 /**
  * 用户业务实现
  * 
@@ -58,21 +63,25 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserCache userCache;
     
-    public void add(User user, String[] userRoleIds) throws SecurityException {
-        if(isExistedByUsername(user.getLoginname()))
+    public Set<Role> getRolesByIds(String[] roleIds) {
+        Set<Role> roles = new HashSet<Role>();
+        for (String roleId : roleIds) {
+            Role role = roleDao.getRole(Integer.parseInt(roleId));
+            roles.add(role);
+        }
+        return roles;
+    }
+    
+    public void add(User user) throws SecurityException {
+        if(isExistedByUsername(user.getUsername())) {
             throw new SecurityException("error.user.add.userNameInUse");
+        }
+        
         //  明文密码
         String plainpassword = user.getPlainpassword();
         //  加密后的密码
         String cryptpassword = passwordEncoder.encodePassword(plainpassword, null);
         user.setCryptpassword(cryptpassword);
-        //  设置用户的权限列表
-        Set<Role> roles = new HashSet<Role>();
-        for (String userRoleId : userRoleIds) {
-            Role role = roleDao.getRole(Integer.parseInt(userRoleId));
-            roles.add(role);
-        }
-        user.setRoles(roles);
         userDao.save(user);
     }
 
@@ -82,35 +91,50 @@ public class UserServiceImpl implements IUserService {
             return true;
         }
         return false;
-
     }
     
-    public void updateInfo(User user) throws SecurityException {
-        if(isExistedByUsername(user.getLoginname()))
-            throw new SecurityException("error.user.add.userNameInUse");
-        String plainpassword = user.getPlainpassword();
-        
-        //  取出待修改用户
-        User targetUser = userDao.getUser(user.getId());
-        //  修改待修改用户
-        targetUser.setFullname(user.getFullname());
-        targetUser.setEmailaddress(user.getEmailaddress());
-        targetUser.setLoginname(user.getLoginname());
+    public void updateInfo(Integer id,
+                           String newFullname,
+                           String newEmailaddress,
+                           String newPlainpassword) {
+        //  取出用户
+        User user = userDao.getUser(id);
+        //  修改用户
+        user.setFullname(newFullname);
+        user.setEmailaddress(newEmailaddress);
         //  密码为非空字符串，才修改密码
-        if (!plainpassword.equals("")) {
-            String cryptpassword = passwordEncoder.encodePassword(plainpassword, null);
-            targetUser.setCryptpassword(cryptpassword);
+        if (!newPlainpassword.equals("")) {
+            String cryptpassword = passwordEncoder.encodePassword(newPlainpassword, null);
+            user.setCryptpassword(cryptpassword);
         }
-        //  持久化待修改用户
-        userDao.update(targetUser);
+        //  持久化修改
+        userDao.update(user);
+        
+        String username = user.getUsername();
         
         //  从cache中删除修改的对象
-        if (userCache != null)
-            userCache.removeUserFromCache(user.getLoginname());
+        if (userCache != null) {
+            userCache.removeUserFromCache(username);
+        }
+        
+        Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        //  如果修改的是当前登陆用户，则要重新设置SecurityContext中认证用户
+        if (username.equals(currentAuthentication.getName())) {
+            SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(currentAuthentication));
+        }
+    }
+    
+    private Authentication createNewAuthentication(Authentication currentAuth) {
+        UserDetails user = userDao.findByUsername(currentAuth.getName());
+
+        UsernamePasswordAuthenticationToken newAuthentication =
+                new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
+        newAuthentication.setDetails(currentAuth.getDetails());
+
+        return newAuthentication;
     }
 
     public List<User> findByUsernameVague(String username) {
-        List<User> users = userDao.findByUsernameVague(username);
-        return users;
+        return userDao.findByUsernameVague(username);
     }
 }

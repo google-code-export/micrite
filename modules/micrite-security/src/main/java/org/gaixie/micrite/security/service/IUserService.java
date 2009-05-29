@@ -25,9 +25,12 @@
 package org.gaixie.micrite.security.service;
 
 import java.util.List;
+import java.util.Set;
 
+import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.SecurityException;
+
 /**
  * 提供与用户管理有关的服务。
  * 
@@ -35,16 +38,22 @@ import org.gaixie.micrite.security.SecurityException;
 public interface IUserService {
     
     /**
+     * 根据roleId数组返回role列表。
+     * 
+     * @param roleIds roleId数组
+     */
+    public Set<Role> getRolesByIds(String[] roleIds);
+
+    /**
      * 增加新用户。
      * 
-     * @see org.gaixie.micrite.beans.User
-     * @param user <code>User</code>对象
-     * @param userRoleIds 用户所属角色id列表
+     * @param user 用户
+     * @throws SecurityException 用户名已存在时抛出
      */
-    public void add(User user,String[] userRoleIds) throws SecurityException;
+    public void add(User user) throws SecurityException;
     
     /**
-     * 根据用户名判断用户在系统中是否存在。
+     * 根据用户名判断用户是否已存在。
      * 
      * @param username 用户名
      * @return true:存在；false：不存在
@@ -53,20 +62,22 @@ public interface IUserService {
 
     /**
      * 修改用户信息。
-     * 密码不为空字符串时才修改密码；若修改的是当前登陆用户，则也修改内存中的该对象。
+     * 密码不为空字串时才修改密码。
      * 
-     * @see org.gaixie.micrite.beans.User
-     * @param user <code>User</code>对象
-     * @param currentUser 当前用户
+     * @param id 用户id
+     * @param newFullname 新名称
+     * @param newEmailaddress 新email地址
+     * @param newPlainpassword 新密码（明文）
      */
-    public void updateInfo(User user) throws SecurityException;
-    
+    public void updateInfo(Integer id,
+                           String newFullname,
+                           String newEmailaddress,
+                           String newPlainpassword);
+
     /**
      * 根据用户名查询用户集合（模糊查询）。
      * 
-     * @see org.gaixie.micrite.beans.User
      * @param username 用户名
-     * @return <code>User</code>对象列表
      */
     public List<User> findByUsernameVague(String username);
 }
