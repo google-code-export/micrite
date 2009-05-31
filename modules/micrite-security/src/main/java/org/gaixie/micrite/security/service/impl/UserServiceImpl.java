@@ -24,9 +24,7 @@
 
 package org.gaixie.micrite.security.service.impl;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.security.Authentication;
@@ -34,12 +32,13 @@ import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.providers.dao.UserCache;
 import org.springframework.security.userdetails.UserDetails;
+import org.springframework.security.userdetails.UserDetailsService;
+import org.springframework.security.userdetails.UsernameNotFoundException;
 
-import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
-import org.gaixie.micrite.security.dao.IRoleDao;
 import org.gaixie.micrite.security.dao.IUserDao;
 import org.gaixie.micrite.security.service.IUserService;
 import org.gaixie.micrite.security.SecurityException;
@@ -49,27 +48,28 @@ import org.gaixie.micrite.security.SecurityException;
  * 
  * @see org.gaixie.micrite.security.service.IUserService
  */
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements IUserService, UserDetailsService {
     
     private final static Logger logger = Logger.getLogger(UserServiceImpl.class);
 
     @Autowired
     private IUserDao userDao;
-    @Autowired
-    private IRoleDao roleDao;
+
     //  用于对明文密码加密
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UserCache userCache;
     
-    public Set<Role> getRolesByIds(String[] roleIds) {
-        Set<Role> roles = new HashSet<Role>();
-        for (String roleId : roleIds) {
-            Role role = roleDao.getRole(Integer.parseInt(roleId));
-            roles.add(role);
+    public UserDetails loadUserByUsername(String username)
+            throws UsernameNotFoundException, DataAccessException {
+        User user = userDao.findByUsername(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User " + username
+            + " has no GrantedAuthority");
         }
-        return roles;
+        return user;
     }
     
     public void add(User user) throws SecurityException {
@@ -125,7 +125,7 @@ public class UserServiceImpl implements IUserService {
     }
     
     private Authentication createNewAuthentication(Authentication currentAuth) {
-        UserDetails user = userDao.findByUsername(currentAuth.getName());
+        UserDetails user = loadUserByUsername(currentAuth.getName());
 
         UsernamePasswordAuthenticationToken newAuthentication =
                 new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
