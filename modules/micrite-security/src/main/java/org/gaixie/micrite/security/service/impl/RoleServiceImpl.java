@@ -24,9 +24,7 @@
 
 package org.gaixie.micrite.security.service.impl;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Role;
@@ -44,15 +42,6 @@ public class RoleServiceImpl implements IRoleService {
     private static final Logger logger = Logger.getLogger(LoginAction.class); 
     @Autowired
     private IRoleDao roleDao;
-    
-    public Set<Role> getRolesByIds(String[] roleIds) {
-        Set<Role> roles = new HashSet<Role>();
-        for (String roleId : roleIds) {
-            Role role = roleDao.getRole(Integer.parseInt(roleId));
-            roles.add(role);
-        }
-        return roles;
-    }    
 
     public List<Role> findAll() {
         List<Role> roles = roleDao.findAll();
