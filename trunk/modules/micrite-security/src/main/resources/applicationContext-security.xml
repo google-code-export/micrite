@@ -64,16 +64,13 @@
         class="org.springframework.security.providers.dao.DaoAuthenticationProvider">  
         <sec:custom-authentication-provider />
         <property name="passwordEncoder" ref="passwordEncoder" /> 
-        <property name="userDetailsService" ref="userDetailsService" />
+        <property name="userDetailsService" ref="userService" />
         <property name="userCache" ref="userCache" /> 
     </bean>  
     
     <bean id="passwordEncoder"  
         class="org.springframework.security.providers.encoding.Md5PasswordEncoder" /> 
 
-    <bean id="userDetailsService"  
-        class="org.gaixie.micrite.security.service.impl.UserDetailsServiceImpl" /> 
-    
     <!-- 使用Ehcache缓存user信息 -->        
     <bean id="userCache"
         class="org.springframework.security.providers.dao.cache.EhCacheBasedUserCache">
