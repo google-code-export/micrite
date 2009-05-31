@@ -24,7 +24,9 @@
 
 package org.gaixie.micrite.security.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.security.Authentication;
@@ -38,7 +40,9 @@ import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
 
+import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
+import org.gaixie.micrite.security.dao.IRoleDao;
 import org.gaixie.micrite.security.dao.IUserDao;
 import org.gaixie.micrite.security.service.IUserService;
 import org.gaixie.micrite.security.SecurityException;
@@ -54,6 +58,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
     @Autowired
     private IUserDao userDao;
+    @Autowired
+    private IRoleDao roleDao;
 
     //  用于对明文密码加密
     @Autowired
@@ -61,6 +67,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Autowired
     private UserCache userCache;
     
+    // ~~~~~~~~~~~~~~~~~~~~~~~  UserDetailsService Implement ~~~~~~~~~~~~~~~~~~~~~~~~~~//
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException, DataAccessException {
         User user = userDao.findByUsername(username);
@@ -72,10 +79,19 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         return user;
     }
     
-    public void add(User user) throws SecurityException {
+    // ~~~~~~~~~~~~~~~~~~~~~~~  IUserService Implement ~~~~~~~~~~~~~~~~~~~~~~~~~~//
+    public void add(User user, String[] roleIds) throws SecurityException {
         if(isExistedByUsername(user.getUsername())) {
             throw new SecurityException("error.user.add.userNameInUse");
+        }        
+
+        //  设置用户所属角色
+        Set<Role> roles = new HashSet<Role>();
+        for (String roleId : roleIds) {
+            Role role = roleDao.getRole(Integer.parseInt(roleId));
+            roles.add(role);
         }
+        user.setRoles(roles);
         
         //  明文密码
         String plainpassword = user.getPlainpassword();

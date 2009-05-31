@@ -27,7 +27,6 @@ package org.gaixie.micrite.security.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -37,9 +36,7 @@ import org.springframework.security.context.SecurityContextHolder;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
-import org.gaixie.micrite.security.service.IRoleService;
 import org.gaixie.micrite.security.service.IUserService;
 import org.gaixie.micrite.security.SecurityException; 
 /**
@@ -55,8 +52,6 @@ public class UserAction extends ActionSupport {
     //  用户管理服务，本类要调用它来完成功能
     @Autowired
     private IUserService userService;
-    @Autowired
-    private IRoleService roleService;
     
     //  用户
     private User user;
@@ -77,10 +72,8 @@ public class UserAction extends ActionSupport {
      */
     public String add() {
         String[] userRoleIds = StringUtils.split(userRolesStr, ",");
-        Set<Role> userRoles = roleService.getRolesByIds(userRoleIds);
-        user.setRoles(userRoles);
         try {
-            userService.add(user);
+            userService.add(user, userRoleIds);
             returnMsg.put("message", getText("save.success"));
             actionResult.put("success", true);
         } catch(SecurityException e) {

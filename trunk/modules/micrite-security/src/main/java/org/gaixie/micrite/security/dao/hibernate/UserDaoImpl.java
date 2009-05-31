@@ -60,7 +60,6 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
     
     public void update(User user) {
         getHibernateTemplate().update(user);
-        getHibernateTemplate().flush();
     }
     
     public User getUser(Integer id) {
