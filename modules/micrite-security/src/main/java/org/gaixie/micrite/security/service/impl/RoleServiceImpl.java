@@ -41,10 +41,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class RoleServiceImpl implements IRoleService {
 
-	private static final Logger logger = Logger.getLogger(LoginAction.class); 
-	@Autowired
-	private IRoleDao roleDao;
-	
+    private static final Logger logger = Logger.getLogger(LoginAction.class); 
+    @Autowired
+    private IRoleDao roleDao;
+    
     public Set<Role> getRolesByIds(String[] roleIds) {
         Set<Role> roles = new HashSet<Role>();
         for (String roleId : roleIds) {
@@ -54,9 +54,9 @@ public class RoleServiceImpl implements IRoleService {
         return roles;
     }    
 
-	public List<Role> findAll() {
-		List<Role> roles = roleDao.findAll();
-		return roles;
-	}
+    public List<Role> findAll() {
+        List<Role> roles = roleDao.findAll();
+        return roles;
+    }
 
 }
