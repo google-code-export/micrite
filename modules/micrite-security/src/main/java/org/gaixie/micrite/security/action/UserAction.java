@@ -39,6 +39,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
+import org.gaixie.micrite.security.service.IRoleService;
 import org.gaixie.micrite.security.service.IUserService;
 import org.gaixie.micrite.security.SecurityException; 
 /**
@@ -54,6 +55,8 @@ public class UserAction extends ActionSupport {
     //  用户管理服务，本类要调用它来完成功能
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IRoleService roleService;
     
     //  用户
     private User user;
@@ -74,7 +77,7 @@ public class UserAction extends ActionSupport {
      */
     public String add() {
         String[] userRoleIds = StringUtils.split(userRolesStr, ",");
-        Set<Role> userRoles = userService.getRolesByIds(userRoleIds);
+        Set<Role> userRoles = roleService.getRolesByIds(userRoleIds);
         user.setRoles(userRoles);
         try {
             userService.add(user);

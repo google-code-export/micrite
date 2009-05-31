@@ -25,9 +25,7 @@
 package org.gaixie.micrite.security.service;
 
 import java.util.List;
-import java.util.Set;
 
-import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.SecurityException;
 
@@ -37,13 +35,6 @@ import org.gaixie.micrite.security.SecurityException;
  */
 public interface IUserService {
     
-    /**
-     * 根据roleId数组返回role列表。
-     * 
-     * @param roleIds roleId数组
-     */
-    public Set<Role> getRolesByIds(String[] roleIds);
-
     /**
      * 增加新用户。
      * 
