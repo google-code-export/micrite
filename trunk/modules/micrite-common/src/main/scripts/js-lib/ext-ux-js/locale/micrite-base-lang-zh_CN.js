@@ -174,7 +174,8 @@ function baseLocale(){
             submitButton:'提交',
             closeButton:'关闭',
             cancelButton:'取消',
-            waitingMsg:'提交数据...'
+            waitingMsg:'数据提交中...',
+            loadingMsg:'数据加载中...'
         });
     }
 }
