@@ -146,7 +146,12 @@ MenuTreePanel = function() {
        // region:'north',
         layout:'fit',
         border:false,
+        floatable: false,
         title:'Menu',
+        split:true,
+        width: 225,
+        minSize: 175,
+        maxSize: 400,
         collapsible: true,
         minHeight:240,
         rootVisible:false,
@@ -281,9 +286,9 @@ micrite.security.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
 });
 
 function showMsg(msgType,msg) {
-    var detailEl = Ext.DomHelper.insertFirst(Ext.getCmp('msg-panel').body, {id:'msg-div',cls : msgType==1?'errorMsg':'infoMsg'}, true);
-      if (msgType==1)
-         Ext.Msg.show({title:'Error',msg:msg});
+    var detailEl = Ext.DomHelper.insertFirst(Ext.getCmp('msg-panel').body, {id:'msg-div',cls : msgType=='failure'?'errorMsg':'infoMsg'}, true);
+      if (msgType=='failure')
+         Ext.Msg.show({title:'failure',msg:msg});
       var dt = new Date();
       dt = '<em>&nbsp;' + dt.format('g:i a') + '</em>';  
 	detailEl.hide().update(msg+dt).slideIn('t');
@@ -296,7 +301,7 @@ Ext.onReady(function(){
     var navPanel = new micrite.security.framework.NavPanel();
     mainPanel = new micrite.security.framework.MainPanel();
 
-    navPanel.on('click', function(node, e){
+    Ext.getCmp('module-tree').on('click', function(node, e){
         if(node.isLeaf()){
            e.stopEvent();
            mainPanel.loadModule(node.attributes.url, node.attributes.text);
