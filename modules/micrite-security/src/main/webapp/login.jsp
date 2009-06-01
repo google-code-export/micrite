@@ -56,9 +56,9 @@ LoginWindow = function(config) {
     LoginWindow.superclass.constructor.call(this);
 };
 
-Ext.namespace('micrite.security.framework');
+Ext.namespace('micrite.base.framework');
 
-micrite.security.framework.LoginWindow = Ext.extend(LoginWindow, Ext.Window, {
+micrite.base.framework.LoginWindow = Ext.extend(LoginWindow, Ext.Window, {
     // 类成员变量
     titleText:'Micrite Login',
     submitText:'Submit',
@@ -139,16 +139,16 @@ micrite.security.framework.LoginWindow = Ext.extend(LoginWindow, Ext.Window, {
             height :100
         }, this.loginPanel ];
         
-        micrite.security.framework.LoginWindow.superclass.initComponent.call(this);
+        micrite.base.framework.LoginWindow.superclass.initComponent.call(this);
     }
 });
 
 Ext.onReady( function() {
-    var loginWindow = new micrite.security.framework.LoginWindow();
+    var loginWindow = new micrite.base.framework.LoginWindow();
     loginWindow.show();
 });
 </script>
-<script type="text/javascript" src="security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/locale/micrite-base-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 </head>
 <body>
 </body>
