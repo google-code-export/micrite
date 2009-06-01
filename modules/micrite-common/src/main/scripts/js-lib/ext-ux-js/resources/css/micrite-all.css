@@ -1,3 +1,19 @@
 .details .x-btn-text {
     background-image: url(../images/search.png);
 }
+
+.errorMsg {
+	font-size:12px;
+	color:red;
+	text-indent:5px;
+}
+.infoMsg {
+	font-size:12px;
+	color:green;
+	text-indent:5px;
+}
+
+em {
+	font-style: italic;
+	color: gray;
+}
