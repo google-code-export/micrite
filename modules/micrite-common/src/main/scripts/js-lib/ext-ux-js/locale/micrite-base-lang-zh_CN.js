@@ -168,13 +168,13 @@ if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
 }
 
 function baseLocale(){
-	if(micrite.base.locale) {
-	    Ext.override(micrite.base.locale, {
-       	searchButton:'查询',	
-    	submitButton:'提交',
-    	closeButton:'关闭',
-	    cancelButton:'取消',
-	    waitingMsg:'提交数据...'
-	    });
-	}
+    if(micrite.base.locale) {
+        Ext.override(micrite.base.locale, {
+            searchButton:'查询',    
+            submitButton:'提交',
+            closeButton:'关闭',
+            cancelButton:'取消',
+            waitingMsg:'提交数据...'
+        });
+    }
 }

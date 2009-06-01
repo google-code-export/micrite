@@ -309,15 +309,14 @@ if(Ext.form.RadioGroup){
 }
 
 //------------------------------------
-
 function baseLocale(){
-	if(micrite.base.locale) {
-	    Ext.override(micrite.base.locale, {
-        	searchButton:'Search',		    	
-	    	submitButton:'Save',
-	    	closeButton:'Close',
-		    cancelButton:'Cancel',
-		    waitingMsg:'Saving Data...'
-	    });
-	}
+    if(micrite.base.locale) {
+        Ext.override(micrite.base.locale, {
+            searchButton:'Search',                
+            submitButton:'Save',
+            closeButton:'Close',
+            cancelButton:'Cancel',
+            waitingMsg:'Saving Data...'
+        });
+    }
 }
