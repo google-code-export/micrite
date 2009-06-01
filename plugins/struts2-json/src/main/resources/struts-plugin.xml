@@ -10,6 +10,51 @@
                 <param name="prettyPrint">true</param>
             </result-type>
         </result-types>
+        <!-- ~~~~~~~~~~~~~~~~~~~~ 重新定义interceptor-stack，使Exception被log ~~~~~~~~~~~~~~~~~~ -->
+        <interceptors>
+            <interceptor-stack name="exceptionmapping-stack">
+                <interceptor-ref name="exception">
+                  <param name="logEnabled">true</param>
+                  <param name="logCategory">org.gaixie.micrite.UnhandledException</param>
+                  <param name="logLevel">ERROR</param>                               
+                </interceptor-ref>  
+                <interceptor-ref name="alias"/>
+                <interceptor-ref name="servletConfig"/>
+                <interceptor-ref name="i18n"/>
+                <interceptor-ref name="prepare"/>
+                <interceptor-ref name="chain"/>
+                <interceptor-ref name="debugging"/>
+                <interceptor-ref name="profiling"/>
+                <interceptor-ref name="scopedModelDriven"/>
+                <interceptor-ref name="modelDriven"/>
+                <interceptor-ref name="fileUpload"/>
+                <interceptor-ref name="checkbox"/>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="actionMappingParams"/>
+                <interceptor-ref name="params">
+                  <param name="excludeParams">dojo\..*,^struts\..*</param>
+                </interceptor-ref>
+                <interceptor-ref name="conversionError"/>
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+          
+        <default-interceptor-ref name="exceptionmapping-stack"/>
+        
+        <!-- ~~~~~~~~~~~~~~~~~~~~ 如果有未处理的exception，转发到exception.jsp ~~~~~~~~~~~~~~~~~~ -->
+        <global-results>
+         <result name="unhandledException">/403.jsp</result>
+        </global-results>
+        
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="unhandledException"/>
+        </global-exception-mappings>
+            
     </package>
 
 </struts>
