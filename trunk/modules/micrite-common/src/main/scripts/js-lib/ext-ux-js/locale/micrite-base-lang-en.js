@@ -309,42 +309,15 @@ if(Ext.form.RadioGroup){
 }
 
 //------------------------------------
-if(micrite.base.framework.LoginWindow) {
-    Ext.override(micrite.base.framework.LoginWindow, {
-        titleText:'Micrite Login',
-        submitText:'Submit',
-        cancelText:'Cancel',    
-        usernameText:'Username:',
-        passwordText:'Password:'
-    });
-}
 
-if(micrite.base.framework.HeaderPanel) {
-    Ext.override(micrite.base.framework.HeaderPanel, {
-        homeText:'Home',
-        userText:'User',
-        exitText:'Exit'
-    });
-}
-
-
-if(micrite.base.framework.MenuTreePanel) {
-    Ext.override(micrite.base.framework.MenuTreePanel, {
-    	navPanelText:'Navigator',  	
-        expandText:'Expand All',
-        collapseText:'Collapse All',    
-        allModulesText:'All Modules'
-    });
-}
-
-if(micrite.base.framework.msgPanel) {
-    Ext.override(micrite.base.framework.msgPanel, {
-    	messageText:'Message'
-    });
-}
-
-if(micrite.base.framework.MainPanel) {
-    Ext.override(micrite.base.framework.MainPanel, {
-        centerPanelText:'Center Panel'
-    });
+function baseLocale(){
+	if(micrite.base.locale) {
+	    Ext.override(micrite.base.locale, {
+        	searchButton:'Search',		    	
+	    	submitButton:'Save',
+	    	closeButton:'Close',
+		    cancelButton:'Cancel',
+		    waitingMsg:'Saving Data...'
+	    });
+	}
 }

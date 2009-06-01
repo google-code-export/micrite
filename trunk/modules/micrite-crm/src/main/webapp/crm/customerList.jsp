@@ -4,7 +4,7 @@
  * 初始化命名空间，其实就是通过a={}来建立一个对象
  */
 (function() {
-	Ext.namespace('micrite.crm.customerList', 'micrite');
+	Ext.namespace('micrite.crm.customerList');
 })();
 
 /**
@@ -23,7 +23,7 @@ micrite.crm.customerList.SearchPanel = function(config) {
 
 	//多个查询条件分组时，可以通过调用searchButton共享
 	var searchButton = {
-		 	text: this.searchButton,
+		 	text: mbLocale.searchButton,
 	        cls: 'x-btn-text-icon details',
 			scope : this,
 			handler : this.startSearch
@@ -137,7 +137,7 @@ micrite.crm.customerList.SearchPanel = function(config) {
 				layout : 'border',
 				border : false,
 				tbar : this.searchToolbar,
-				items : [this.grid, new micrite.actionButton()]
+				items : [this.grid, new micrite.crm.customerList.actionButton()]
 			});
 
 	this.curFields = [];
@@ -160,7 +160,7 @@ micrite.crm.customerList.SearchPanel = function(config) {
 							item = new Ext.boco.DateTimeField(item);
 							this.curFields[this.curFields.length] = item;
 						} else if (item.xtype == 'actionmenu') {
-							item = new micrite.actionMenu(item);
+							item = new micrite.crm.customerList.actionMenu(item);
 							var tmp = {
 								text : 'Action',
 								menu : item
@@ -181,7 +181,6 @@ micrite.crm.customerList.SearchPanel = function(config) {
  * 定义查询面板的方法
  */
 Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
-	searchButton:'Search',	
 	searchCondition1:'Condition 1',
 	searchCondition2:'Condition 2',
 	searchCondition3:'Condition 3',
@@ -397,27 +396,27 @@ function sourceType(val) {
 /**
  * 用于调用模块相关页面
  */
-micrite.actionMenu = function(a) {
-	micrite.actionMenu.superclass.constructor.call(this, a);
+micrite.crm.customerList.actionMenu = function(a) {
+	micrite.crm.customerList.actionMenu.superclass.constructor.call(this, a);
 };
-Ext.extend(micrite.actionMenu, Ext.menu.Menu, {
+Ext.extend(micrite.crm.customerList.actionMenu, Ext.menu.Menu, {
 
 });
-Ext.reg("actionmenu", micrite.actionMenu);
+Ext.reg("actionmenu", micrite.crm.customerList.actionMenu);
 
 /**
  * 这个类用于建立当界面需要更新数据库时使用
  */
-micrite.actionButton = function(config) {
+ micrite.crm.customerList.actionButton = function(config) {
 	Ext.apply(this, config);
-	micrite.actionButton.superclass.constructor.call(this, {
+	micrite.crm.customerList.actionButton.superclass.constructor.call(this, {
 				region : 'south',
 				border : false,
 				buttons : [{
-							text : 'Submit',
+							text : mbLocale.submitButton,
 							disabled : true
 						}, {
-							text : 'Close',
+							text : mbLocale.closeButton,
 							handler : function() {
 								win.hide();
 							}
@@ -430,15 +429,14 @@ micrite.actionButton = function(config) {
 /**
  * actionButton类的多语言实现
  */
-Ext.extend(micrite.actionButton, Ext.Panel, {
-
+Ext.extend(micrite.crm.customerList.actionButton, Ext.Panel, {
 });
 
 // 载入多语言
-try {
-	customerListLocale();
-} catch (e) {
-}
+// 因为采用autoload模式，不能用默认的国际化模式，只能显式的通过方法调用去加载国际化
+// 采用此方式，如果没有相应的locale文件，会报错，catch它，用重载前的类变量也可以正常运行
+try {customerListLocale();} catch (e) {}
+try {baseLocale();} catch (e) {}
 
 Ext.onReady(function() {
 			Ext.QuickTips.init();

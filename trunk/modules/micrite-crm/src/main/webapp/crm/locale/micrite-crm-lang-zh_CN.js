@@ -1,7 +1,6 @@
 function customerListLocale(){
     if(micrite.crm.customerList.SearchPanel) {
         Ext.override(micrite.crm.customerList.SearchPanel, {
-        	searchButton:'查询',	        	
         	searchCondition1:'条件分组 1',
         	searchCondition2:'条件分组 2',
         	searchCondition3:'条件分组 3',  
@@ -28,10 +27,7 @@ function customerDetailLocale(){
             nameText:'姓名',
             mobileText:'手机号',
             sourceText:'来源',
-            submitText:'提交',
-            cancelText:'取消',
-            comboEmptyText:'选择客户来源...',
-            waitingMsg:'提交数据...'
+            comboEmptyText:'选择客户来源...'
         });
     }    
 }
