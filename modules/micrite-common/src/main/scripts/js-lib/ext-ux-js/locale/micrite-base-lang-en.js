@@ -316,7 +316,8 @@ function baseLocale(){
             submitButton:'Save',
             closeButton:'Close',
             cancelButton:'Cancel',
-            waitingMsg:'Saving Data...'
+            waitingMsg:'Saving Data...',
+            loadingMsg:'Loading Data...'
         });
     }
 }

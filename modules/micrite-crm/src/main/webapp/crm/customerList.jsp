@@ -360,7 +360,7 @@ micrite.crm.customerList.SearchResultGrid = function(config) {
 				// height:'auto',
 				border : false,
 				loadMask : {
-					msg : 'Loading Results...'
+					msg : mbLocale.loadingMsg
 				},
 				stripeRows : true,
 				sm : new Ext.grid.RowSelectionModel({
