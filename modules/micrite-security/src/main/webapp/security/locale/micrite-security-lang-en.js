@@ -327,12 +327,19 @@ if(micrite.security.framework.HeaderPanel) {
     });
 }
 
-if(micrite.security.framework.NavPanel) {
-    Ext.override(micrite.security.framework.NavPanel, {
-        navPanelText:'Navigator',
+
+if(micrite.security.framework.MenuTreePanel) {
+    Ext.override(micrite.security.framework.MenuTreePanel, {
+    	navPanelText:'Navigator',  	
         expandText:'Expand All',
         collapseText:'Collapse All',    
         allModulesText:'All Modules'
+    });
+}
+
+if(micrite.security.framework.msgPanel) {
+    Ext.override(micrite.security.framework.msgPanel, {
+    	messageText:'Message'
     });
 }
 

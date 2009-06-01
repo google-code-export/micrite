@@ -126,7 +126,7 @@ msgPanel = function(){
    //  region:'center',
      layout:'fit',
      border:false,
-     title:'Message',
+     title:this.messageText,
      split:true,
 	 bodyStyle:'padding:4px',
      collapsible: false,
@@ -134,8 +134,8 @@ msgPanel = function(){
      autoScroll:true
  })
 }
-msgPanel = Ext.extend(msgPanel, Ext.Panel, {
-	
+micrite.security.framework.msgPanel = Ext.extend(msgPanel, Ext.Panel, {
+	messageText:'Message'
 });
 
 MenuTreePanel = function() {
@@ -147,9 +147,8 @@ MenuTreePanel = function() {
         layout:'fit',
         border:false,
         floatable: false,
-        title:'Menu',
+        title:this.navPanelText,
         split:true,
-        width: 225,
         minSize: 175,
         maxSize: 400,
         collapsible: true,
@@ -196,9 +195,8 @@ MenuTreePanel = function() {
 
 }
 //指明NavPanel的父类
-MenuTreePanel=Ext.extend(MenuTreePanel, Ext.tree.TreePanel, {
-
-    navPanelText:'Navigator',
+micrite.security.framework.MenuTreePanel=Ext.extend(MenuTreePanel, Ext.tree.TreePanel, {
+	navPanelText:'Navigator',
     expandText:'Expand All',
     collapseText:'Collapse All',    
     allModulesText:'All Modules'
@@ -213,7 +211,6 @@ NavPanel = function() {
         id:'nav-panel',
         region:'west',
         layout:'anchor',
-        title:this.navPanelText,
         margins:'0 0 5 5',
         cmargins:'0 5 5 5',
         split:true,
@@ -222,6 +219,7 @@ NavPanel = function() {
         maxSize: 400,
         minHeight:600,
         collapsible: true,
+        collapseMode:'mini',
         items:[new MenuTreePanel(),new msgPanel()]
     })
 }

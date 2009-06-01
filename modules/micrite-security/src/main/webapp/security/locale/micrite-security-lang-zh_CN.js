@@ -185,14 +185,21 @@ if(micrite.security.framework.HeaderPanel) {
     });
 }
 
-if(micrite.security.framework.NavPanel) {
-    Ext.override(micrite.security.framework.NavPanel, {
-    	navPanelText:'导航',
+if(micrite.security.framework.MenuTreePanel) {
+    Ext.override(micrite.security.framework.MenuTreePanel, {
+    	navPanelText:'导航',  
     	expandText:'展开',
     	collapseText:'收缩',	
     	allModulesText:'所有模块'
     });
 }
+
+if(micrite.security.framework.msgPanel) {
+    Ext.override(micrite.security.framework.msgPanel, {
+    	messageText:'提示信息'
+    });
+}
+
 
 if(micrite.security.framework.MainPanel) {
     Ext.override(micrite.security.framework.MainPanel, {
