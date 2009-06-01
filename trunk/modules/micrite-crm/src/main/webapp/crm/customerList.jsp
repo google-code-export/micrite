@@ -320,9 +320,7 @@ micrite.crm.customerList.SearchResultGrid = function(config) {
 	var pagingBar = new Ext.PagingToolbar({
 				pageSize : 1,
 				store : this.store,
-				displayInfo : true,
-				displayMsg : 'Displaying topics {0} - {1} of {2}',
-				emptyMsg : "No topics to display"
+				displayInfo : true
 			});
 
 	// this.store.setDefaultSort('id', "ASC");
