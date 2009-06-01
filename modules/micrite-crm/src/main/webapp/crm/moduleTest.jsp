@@ -36,6 +36,7 @@
 <link rel="stylesheet" type="text/css" href="../js-lib/ext-ux-js/resources/css/micrite-all.css">
 <link rel="stylesheet" type="text/css" href="../js-lib/ext-ux-js/resources/css/DateTime.css">
 <script type="text/javascript" src="../js-lib/ext-ux-js/DateTime.js"></script>
+<script type="text/javascript" src="../js-lib/ext-ux-js/BaseLocale.js"></script>
 <script type="text/javascript" src="../js-lib/ext-ux-js/locale/micrite-base-lang-<%=request.getParameter("request_locale")%>.js"></script>
 <script type="text/javascript" src="locale/micrite-crm-lang-<%=request.getParameter("request_locale")%>.js"></script>
    

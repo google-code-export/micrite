@@ -86,13 +86,13 @@ FromPanel = function() {
                
         }],
         buttons: [{
-            text: this.submitText,
+            text: mbLocale.submitButton,
             handler: function(){
             Ext.getCmp("customerDetail-form").getForm().submit({
                 url: '/' + document.location.href.split("/")[3] + '/crm/saveCustomer.action',
                 method: 'POST',
                 disabled:true,
-                waitMsg: this.waitingMsg,
+                waitMsg: mbLocale.waitingMsg,
                 params:{
                     customerSourceId: Ext.getCmp('sourceSelect').getValue(),
                     'customer.id': Ext.getCmp('cid').getValue(),
@@ -107,7 +107,7 @@ FromPanel = function() {
                 }
             });}                    
         },{
-            text: this.cancelText
+            text: mbLocale.cancelButton
         }],
         buttonAlign:'left'
     });
@@ -120,14 +120,11 @@ micrite.crm.customerDetail.FormPanel=Ext.extend(FromPanel, Ext.FormPanel, {
     nameText:'Name',
     mobileText:'Mobile',
     sourceText:'Source',
-    submitText:'Save',
-    cancelText:'Cancel',
-    comboEmptyText:'Select a source...',
-    waitingMsg:'Saving Data...'
+    comboEmptyText:'Select a source...'
     
 });
-try{ customerDetailLocale(); }
-catch(e){}
+try{ customerDetailLocale(); } catch(e){}
+try {baseLocale();} catch (e) {}
 
 Ext.onReady(function(){
 

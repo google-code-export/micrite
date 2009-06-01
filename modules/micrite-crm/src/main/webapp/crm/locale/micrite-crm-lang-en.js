@@ -1,7 +1,6 @@
 function customerListLocale(){
     if(micrite.crm.customerList.SearchPanel) {
         Ext.override(micrite.crm.customerList.SearchPanel, {
-        	searchButton:'Search',	        	
         	searchCondition1:'Condition 1',
         	searchCondition2:'Condition 2',
         	searchCondition3:'Condition 3',
@@ -29,10 +28,7 @@ function customerDetailLocale(){
             nameText:'Name',
             mobileText:'Mobile',
             sourceText:'Source',
-            submitText:'Save',
-            cancelText:'Cancel',
-            comboEmptyText:'Select a source...',
-            waitingMsg:'Saving Data...'
+            comboEmptyText:'Select a source...'
         });
     }    
 }

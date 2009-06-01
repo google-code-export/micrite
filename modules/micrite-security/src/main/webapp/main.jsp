@@ -37,6 +37,7 @@
 <script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/DateTime.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/CheckboxField.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/BaseLocale.js"></script>
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/micrite-all.css">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/DateTime.css">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/CheckboxField.css">
@@ -71,8 +72,8 @@
 <script type="text/javascript">
 Ext.BLANK_IMAGE_URL = "js-lib/ext-js/resources/images/default/s.gif";
 
-Ext.ns('micrite.base.framework');
-micrite.base.framework.HeaderPanel = Ext.extend(Ext.Panel, {
+Ext.ns('micrite.security.framework');
+micrite.security.framework.HeaderPanel = Ext.extend(Ext.Panel, {
 
     homeText:'Home',
     userText:'User',
@@ -115,7 +116,7 @@ micrite.base.framework.HeaderPanel = Ext.extend(Ext.Panel, {
             })
             ]
         }); // eo apply
-        micrite.base.framework.HeaderPanel.superclass.initComponent.apply(this, arguments);
+        micrite.security.framework.HeaderPanel.superclass.initComponent.apply(this, arguments);
     } // eo function initComponent
 }); // eo Tutorial.LocalizationWin
 
@@ -134,7 +135,7 @@ msgPanel = function(){
      autoScroll:true
  })
 }
-micrite.base.framework.msgPanel = Ext.extend(msgPanel, Ext.Panel, {
+micrite.security.framework.msgPanel = Ext.extend(msgPanel, Ext.Panel, {
 	messageText:'Message'
 });
 
@@ -195,7 +196,7 @@ MenuTreePanel = function() {
 
 }
 //指明NavPanel的父类
-micrite.base.framework.MenuTreePanel=Ext.extend(MenuTreePanel, Ext.tree.TreePanel, {
+micrite.security.framework.MenuTreePanel=Ext.extend(MenuTreePanel, Ext.tree.TreePanel, {
 	navPanelText:'Navigator',
     expandText:'Expand All',
     collapseText:'Collapse All',    
@@ -223,7 +224,7 @@ NavPanel = function() {
         items:[new MenuTreePanel(),new msgPanel()]
     })
 }
-micrite.base.framework.NavPanel = Ext.extend(NavPanel, Ext.Panel, {
+micrite.security.framework.NavPanel = Ext.extend(NavPanel, Ext.Panel, {
 	
 });
 
@@ -246,7 +247,7 @@ MainPanel = function() {
 
 }
 
-micrite.base.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
+micrite.security.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
     centerPanelText:'Center Panel',
     initEvents : function(){
         MainPanel.superclass.initEvents.call(this);
@@ -295,9 +296,9 @@ function showMsg(msgType,msg) {
 Ext.onReady(function(){
     Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 
-    var headerPanel = new micrite.base.framework.HeaderPanel();
-    var navPanel = new micrite.base.framework.NavPanel();
-    mainPanel = new micrite.base.framework.MainPanel();
+    var headerPanel = new micrite.security.framework.HeaderPanel();
+    var navPanel = new micrite.security.framework.NavPanel();
+    mainPanel = new micrite.security.framework.MainPanel();
 
     Ext.getCmp('module-tree').on('click', function(node, e){
         if(node.isLeaf()){
