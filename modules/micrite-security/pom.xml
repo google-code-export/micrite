@@ -301,6 +301,7 @@
                     <include>log4j.properties</include>
                     <include>struts.properties</include>
                     <include>struts.xml</include>
+                    <include>globalmessages*</include>
                 </includes>
             </resource>
         </resources>

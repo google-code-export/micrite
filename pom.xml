@@ -523,6 +523,7 @@
                                     <exclude>struts.properties</exclude>
                                     <exclude>log4j.properties</exclude>
                                     <exclude>ehcache*.xml</exclude>
+                                    <exclude>globalmessages*</exclude>
 								</excludes>
 							</configuration>
 						</execution>
