@@ -289,8 +289,7 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
-                    <include>struts_xml/**</include>
-                    <include>*</include>
+                    <include>**</include>
                 </includes>
             </resource>
             <resource>
