@@ -48,7 +48,7 @@
         
         <!-- ~~~~~~~~~~~~~~~~~~~~ 如果有未处理的exception，转发到exception.jsp ~~~~~~~~~~~~~~~~~~ -->
         <global-results>
-         <result name="unhandledException">/403.jsp</result>
+         <result name="unhandledException">/exception.jsp</result>
         </global-results>
         
         <global-exception-mappings>
