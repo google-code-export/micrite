@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <script type="text/javascript">
 Ext.ns('micrite.crm.customerDetail');
-FromPanel = function() {
+micrite.crm.customerDetail.FormPanel = function() {
     var RecordDef = Ext.data.Record.create([    
             {name: 'id'},{name: 'name'}                   
     ]); 
@@ -19,12 +19,7 @@ FromPanel = function() {
     // turn on validation errors beside the field globally
     Ext.form.Field.prototype.msgTarget = 'side';
     
-    var myData = [
-        [1,'Joker','1390203023023','中国移动'],
-        [2,'terry','1340444023023','中国联通']
-    ];
-    
-    FromPanel.superclass.constructor.call(this, {
+    micrite.crm.customerDetail.FormPanel.superclass.constructor.call(this, {
         id: 'customerDetail-form',
         frame: false,
         labelAlign: 'left',
@@ -114,7 +109,7 @@ FromPanel = function() {
     
 }
 
-micrite.crm.customerDetail.FormPanel=Ext.extend(FromPanel, Ext.FormPanel, {
+Ext.extend(micrite.crm.customerDetail.FormPanel, Ext.FormPanel, {
     customerDetailText:'Customer Detail',
     idText:'ID',
     nameText:'Name',
