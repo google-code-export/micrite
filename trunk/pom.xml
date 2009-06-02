@@ -524,6 +524,7 @@
                                     <exclude>log4j.properties</exclude>
                                     <exclude>ehcache*.xml</exclude>
                                     <exclude>globalmessages*</exclude>
+                                    <exclude>**/package*.properties</exclude>
 								</excludes>
 							</configuration>
 						</execution>
