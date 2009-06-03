@@ -71,7 +71,7 @@ public class LoginAction extends ActionSupport implements SessionAware{
     }    
 
 	public String loginFailed(){
-		errorMsg.put("reason", "login failed");
+		errorMsg.put("reason", getText("error.login.authenticationFailed"));
 		loginResult.put( "success", false );  
 		loginResult.put( "errorMsg", errorMsg ); 
 		return SUCCESS;
