@@ -292,11 +292,6 @@
 				<classifier>jdk15</classifier>                  
             </dependency>
 
-	        <dependency>
-	            <groupId>org.gaixie.micrite</groupId>
-	            <artifactId>struts2-json-plugin</artifactId>
-				<version>0.7-SNAPSHOT</version>	            
-			</dependency> 
             <!-- aspectj -->		
 			<dependency>
 				<groupId>org.aspectj</groupId>
@@ -394,6 +389,16 @@
 				<artifactId>spring-security-taglibs</artifactId>
 				<version>2.0.4</version>
 			</dependency>
+            <dependency>
+                <groupId>jfree</groupId>
+                <artifactId>jfreechart</artifactId>
+                <version>1.0.9</version>
+            </dependency>  
+            <dependency>
+                <groupId>org.apache.struts</groupId>
+                <artifactId>struts2-jfreechart-plugin</artifactId>
+                <version>2.1.6</version>
+            </dependency>                         
 			<!-- 定义了所有Entity bean -->
 			<dependency>
 				<groupId>org.gaixie.micrite</groupId>
@@ -412,7 +417,18 @@
 				<artifactId>micrite-core</artifactId>
 				<version>0.7-SNAPSHOT</version>
 			</dependency>
-
+            <!-- 定义了所有插件类-->
+            <dependency>
+                <groupId>org.gaixie.micrite</groupId>
+                <artifactId>struts2-json-plugin</artifactId>
+                <version>0.7-SNAPSHOT</version>             
+            </dependency>             
+            <dependency>
+                <groupId>org.gaixie.micrite</groupId>
+                <artifactId>jfreechart-plugin</artifactId>
+                <version>0.7-SNAPSHOT</version>
+            </dependency>
+            
 			<dependency>
 				<groupId>org.apache.velocity</groupId>
 				<artifactId>velocity</artifactId>
