@@ -44,7 +44,7 @@ Ext.BLANK_IMAGE_URL = "js-lib/ext-js/resources/images/default/s.gif";
 
 LoginWindow = function(config) {
     this.width = 400;
-    this.height = 260;
+    this.height = 276;
     this.closable = false;
     this.title = this.titleText;
     this.bbar = [
@@ -73,7 +73,7 @@ micrite.security.framework.LoginWindow = Ext.extend(LoginWindow, Ext.Window, {
     
     onActionFailed : function(f, a) {
         obj = Ext.util.JSON.decode(a.response.responseText);
-        Ext.Msg.alert('登录失败!', obj.errorMsg.reason);
+        Ext.get('msg-bar').update(obj.errorMsg.reason);
     },
     
     initComponent : function() {
@@ -109,7 +109,13 @@ micrite.security.framework.LoginWindow = Ext.extend(LoginWindow, Ext.Window, {
                     inputType :'password',
                     name :'j_password',
                     anchor :'80%'
-                } ]
+                }, {
+                    id: 'msg-bar',
+                    xtype :'panel',
+                    height: 20,
+                    style: 'color:red;text-align:center',
+                    anchor :'100%'
+                    } ]
             },
             listeners : {
                 'actioncomplete' : {
