@@ -35,6 +35,7 @@ import org.gaixie.micrite.security.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.security.context.SecurityContext;
+import org.springframework.security.context.SecurityContextHolder;
 
 import com.opensymphony.xwork2.ActionSupport;
  
@@ -65,22 +66,20 @@ public class LoginAction extends ActionSupport implements SessionAware{
 	 * @return "success"
 	 */
 	public String loginSuccess() {
-		SecurityContext securityContext = (SecurityContext) session.get("SPRING_SECURITY_CONTEXT");
-		user = (User) securityContext.getAuthentication().getPrincipal();
-		logger.debug(user.toString());
 		loginResult.put("success", true);
 		return SUCCESS;
     }    
 
-	public String loginFaile(){
-		errorMsg.put("reason", "login faile");
+	public String loginFailed(){
+		errorMsg.put("reason", "login failed");
 		loginResult.put( "success", false );  
 		loginResult.put( "errorMsg", errorMsg ); 
 		return SUCCESS;
 	}
 
 	public String loadMenu(){
-		menu = loginService.loadChildNodes(user,node);
+        User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		menu = loginService.loadChildNodes(currentUser,node);
 		return SUCCESS;
 	}
 	
