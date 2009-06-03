@@ -39,7 +39,7 @@
             </result>
 
         </action>
-        <action name="loginFailed" class="loginAction" method="loginFaile">
+        <action name="loginFailed" class="loginAction" method="loginFailed">
             <result name="success" type="json">
                 <param name="target">loginResult</param>
             </result>
