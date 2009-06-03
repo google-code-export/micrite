@@ -42,5 +42,6 @@
 
 	<modules>
 		<module>struts2-json</module>
+        <module>jfreechart</module>        
 	</modules>
 </project>

@@ -37,14 +37,13 @@
 
 	<groupId>org.gaixie.micrite</groupId>
     <artifactId>jfreechart-plugin</artifactId>
-    <name>Micrite Plugins :: jfreechart plugin</name>
+    <name>Micrite Plugins :: Jfreechart plugin</name>
     <packaging>jar</packaging>
 	<dependencies>    
 		<!-- JFreeChart -->
 		<dependency>
 			<groupId>jfree</groupId>
 			<artifactId>jfreechart</artifactId>
-			<version>1.0.9</version>
 		</dependency>  			 
 	</dependencies>		 
 	<build>
