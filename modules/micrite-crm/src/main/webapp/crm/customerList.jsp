@@ -98,7 +98,7 @@ micrite.crm.customerList.SearchPanel = function(config) {
     // 构建查询组合条件菜单
     this.searchTypeButtonConfig = {
         // 默认的查询条件组合
-        text : 'WapSDR',
+        text : 'CDR',
         value : 'con1',
         tooltip : 'Click for more search options',
         handler : this.switchSearchType,
