@@ -139,10 +139,6 @@
             <artifactId>json-lib</artifactId>
             <classifier>jdk15</classifier>               
         </dependency> 
-        <dependency>
-            <groupId>org.gaixie.micrite</groupId>
-            <artifactId>struts2-json-plugin</artifactId>
-        </dependency>                       
         <!-- Servlet -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -210,7 +206,20 @@
             <groupId>org.gaixie.micrite</groupId>
             <artifactId>micrite-core</artifactId>
         </dependency>
-        
+
+        <dependency>
+            <groupId>org.gaixie.micrite</groupId>
+            <artifactId>struts2-json-plugin</artifactId>
+        </dependency>  
+        <dependency>
+            <groupId>org.gaixie.micrite</groupId>
+            <artifactId>jfreechart-plugin</artifactId>
+        </dependency>        
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-jfreechart-plugin</artifactId>
+        </dependency> 
+                
     </dependencies>
 
     <build>
