@@ -1,3 +1,26 @@
+/* ===========================================================
+ * $Id$
+ * This file is part of Micrite
+ * ===========================================================
+ *
+ * (C) Copyright 2009, by Gaixie.org and Contributors.
+ * 
+ * Project Info:  http://micrite.gaixie.org/
+ *
+ * Micrite is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Micrite is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package org.gaixie.micrite.jfreechart.template;
 
 import java.awt.Color;
@@ -15,15 +38,18 @@ import org.jfree.chart.title.CompositeTitle;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.general.PieDataset;
 import org.jfree.ui.RectangleEdge;
-
+/**
+ * 饼图模版
+ */
 public class Pietemplate {
     /**
-     * 饼图模版1
-     * @param jfreechart
-     * @param pd
-     * @param co
+     * 饼图模版1<p>
+     * 设置图片底色，画板色，每个饼片的色彩，饼片数据显示的字体等图形渲染
+     * @param jfreechart JFreeChart
+     * @param pd PieDataset（JFreeChart饼图的结果集对象）
+     * @param pc PieChart饼图的实体bean
      */
-    public void pie1Template(JFreeChart jfreechart,PieDataset pd,PieChart co){
+    public void pie1Template(JFreeChart jfreechart,PieDataset pd,PieChart pc){
         PiePlot pieplot = (PiePlot)jfreechart.getPlot();
         //图片底色
         jfreechart.setBackgroundPaint(new GradientPaint(0F, 0.0F, Color.decode("#CAD0C6"), 500, 400F, Color.white, false));
