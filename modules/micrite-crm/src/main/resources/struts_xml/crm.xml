@@ -3,7 +3,7 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-	<package name="micrite-crm" extends="json-default" namespace="/crm">
+	<package name="micrite-crm" extends="micrite-default" namespace="/crm">
 
         <!-- ~~~~~~~~~~~~~~~~~~~~ CUSTOMER ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->
 		<action name="saveCustomer" class="customerAction" method="save">

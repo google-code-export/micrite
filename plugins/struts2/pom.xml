@@ -36,8 +36,8 @@
     </parent>
 
 	<groupId>org.gaixie.micrite</groupId>
-    <artifactId>struts2-json-plugin</artifactId>
-    <name>Micrite Plugins :: Struts2 JSON plugin</name>
+    <artifactId>micrite-struts2-plugin</artifactId>
+    <name>Micrite Plugins :: Micrite Struts2 Plugin</name>
     <packaging>jar</packaging>
 	<dependencies>    
 		<dependency>
@@ -54,7 +54,11 @@
             <groupId>net.sf.json-lib</groupId>
             <artifactId>json-lib</artifactId>
 			<classifier>jdk15</classifier>             
-		</dependency>  			 
+		</dependency>
+        <dependency>
+            <groupId>jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+        </dependency>           			 
 	</dependencies>		 
 	<build>
 		<plugins>

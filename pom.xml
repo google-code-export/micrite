@@ -394,11 +394,6 @@
                 <artifactId>jfreechart</artifactId>
                 <version>1.0.9</version>
             </dependency>  
-            <dependency>
-                <groupId>org.apache.struts</groupId>
-                <artifactId>struts2-jfreechart-plugin</artifactId>
-                <version>2.1.6</version>
-            </dependency>                         
 			<!-- 定义了所有Entity bean -->
 			<dependency>
 				<groupId>org.gaixie.micrite</groupId>
@@ -420,12 +415,12 @@
             <!-- 定义了所有插件类-->
             <dependency>
                 <groupId>org.gaixie.micrite</groupId>
-                <artifactId>struts2-json-plugin</artifactId>
+                <artifactId>micrite-struts2-plugin</artifactId>
                 <version>0.7-SNAPSHOT</version>             
             </dependency>             
             <dependency>
                 <groupId>org.gaixie.micrite</groupId>
-                <artifactId>jfreechart-plugin</artifactId>
+                <artifactId>micrite-jfreechart-plugin</artifactId>
                 <version>0.7-SNAPSHOT</version>
             </dependency>
             

@@ -196,16 +196,12 @@
 		</dependency>
         <dependency>
             <groupId>org.gaixie.micrite</groupId>
-            <artifactId>struts2-json-plugin</artifactId>
+            <artifactId>micrite-struts2-plugin</artifactId>
         </dependency>          
         <dependency>
             <groupId>org.gaixie.micrite</groupId>
-            <artifactId>jfreechart-plugin</artifactId>
+            <artifactId>micrite-jfreechart-plugin</artifactId>
         </dependency>        
-        <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts2-jfreechart-plugin</artifactId>
-        </dependency>         
 	</dependencies>
 
 	<build>

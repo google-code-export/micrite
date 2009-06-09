@@ -41,7 +41,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>struts2-json</module>
+		<module>struts2</module>
         <module>jfreechart</module>        
 	</modules>
 </project>
