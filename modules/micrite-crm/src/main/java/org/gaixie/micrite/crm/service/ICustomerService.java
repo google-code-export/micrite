@@ -80,15 +80,17 @@ public interface ICustomerService {
      * @return 客户来源集合
      */
     public List<CustomerSource> findALLCustomerSource();
+    
     /**
-     * 用户来源（饼图）
+     * 获取用户来源的饼图对象
      * @return
      */
-    public JFreeChart pieCustomerSource();
+    public JFreeChart getCustomerSourcePieChart();
+    
     /**
-     * 用户来源（2D柱图）
+     * 获取用户来源的2D柱图对象
      * @return
      */
-    public JFreeChart barCustomerSource();
+    public JFreeChart getCustomerSourceBarChart();
 
 }

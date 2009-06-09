@@ -38,7 +38,7 @@ public class DefindDefaultCategoryDataset {
      * @param rowKey
      * @param columnKey
      */
-    private DefindDefaultCategoryDataset(String value ,String rowKey,String columnKey){
+    public DefindDefaultCategoryDataset(String value ,String rowKey,String columnKey){
         this.value = value;
         this.rowKey = rowKey;
         this.columnKey = columnKey;

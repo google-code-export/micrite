@@ -30,6 +30,7 @@ import java.util.List;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.service.ICustomerService;
+import org.jfree.chart.JFreeChart;
 
 public class CustomerServiceImplMock implements ICustomerService {
    
@@ -196,4 +197,12 @@ public class CustomerServiceImplMock implements ICustomerService {
 	public void setCustomerSources(List<CustomerSource> customerSources) {
 		this.customerSources = customerSources;
 	}
+	
+    public JFreeChart getCustomerSourcePieChart(){
+        return null;
+    }
+    
+    public JFreeChart getCustomerSourceBarChart(){
+        return null;        
+    }
 }

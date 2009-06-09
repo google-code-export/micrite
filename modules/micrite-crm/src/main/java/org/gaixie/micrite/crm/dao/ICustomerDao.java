@@ -91,10 +91,11 @@ public interface ICustomerDao {
      * @return Customer对象集合
      */
     public List<Customer> findByTelVague(String telephone);
+    
     /**
      * 按用户来源进行分组
      * @return
      */
-    public List groupByCustomerSource();
+    public List findCustomerSourceForChart();
 
 }

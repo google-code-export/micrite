@@ -21,10 +21,22 @@
                 <param name="target">result</param>
             </result>
 		</action>
-		<action name="GetCustomerPartner" class="customerAction" method="getPartner">
+		<action name="getCustomerPartner" class="customerAction" method="getPartner">
 			<result name="success" type="json">
                 <param name="target">customerSource</param>
             </result>
 		</action>
+        <action name="getCustomerSourceBarChart" class="customerChartAction" method="getBarChart" >
+            <result type="chart">
+                <param name="width">600</param>
+                <param name="height">450</param>
+            </result>
+        </action>
+        <action name="getCustomerSourcePieChart" class="customerChartAction" method="getPieChart" >
+            <result type="chart">
+                <param name="width">600</param>
+                <param name="height">450</param>
+            </result>
+        </action>        
 	</package>
 </struts>
