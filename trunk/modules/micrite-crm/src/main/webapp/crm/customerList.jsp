@@ -31,6 +31,9 @@ micrite.crm.customerList.SearchPanel = function(config) {
             items : [{
                         text : this.newCustomer,
                         handler : this.openTab
+                    },{
+                        text : this.chart,
+                        handler : this.openWindow
                     }]
         };
     /**
@@ -191,6 +194,7 @@ Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
     searchStartTime:'StartTime',
     searchEndTime:'EndTime',
     newCustomer :'New Customer',
+    chart :'chart',
     
     switchSearchType : function(button, event) {
         this.setSearchType(this, button.value);
@@ -290,8 +294,35 @@ Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
 
     openTab : function() {
         mainPanel.loadModule('crm/customerDetail.jsp', 'Customer Detail');
+    },
+    openWindow : function() {
+    	var tabs = new Ext.TabPanel({
+            region    : 'center',
+            margins   : '3 3 3 0', 
+            activeTab : 0,
+            defaults  : {
+				autoScroll : true
+			},
+            items     : [{
+                title    : 'Bar Chart',
+                html     : '<img src = "barCustomerSourceChart.action">'
+             },{
+                title    : 'Pie Chart',
+                html     : '<img src = "pieCustomerSourceChart.action">'
+             }]
+        });
+    	var win = new Ext.Window({
+            title    : 'chart display',
+            closable : true,
+            width    : 630,
+            height   : 520,
+            //border : false,
+            plain    : true,
+            layout   : 'border',
+            items    : [tabs]
+        });
+        win.show();
     }
-
 });
 
 /***********************************************************************

@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
+import org.jfree.chart.JFreeChart;
 
 /**
  * 客户管理服务接口，封装客户服务业务模型
@@ -79,5 +80,15 @@ public interface ICustomerService {
      * @return 客户来源集合
      */
     public List<CustomerSource> findALLCustomerSource();
+    /**
+     * 用户来源（饼图）
+     * @return
+     */
+    public JFreeChart pieCustomerSource();
+    /**
+     * 用户来源（2D柱图）
+     * @return
+     */
+    public JFreeChart barCustomerSource();
 
 }

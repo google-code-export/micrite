@@ -24,13 +24,19 @@
 
 package org.gaixie.micrite.crm.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.dao.ICustomerDao;
 import org.gaixie.micrite.crm.service.ICustomerService;
-
+import org.gaixie.micrite.jfreechart.DefindChartFactory;
+import org.gaixie.micrite.jfreechart.chart.BarChart;
+import org.gaixie.micrite.jfreechart.chart.PieChart;
+import org.gaixie.micrite.jfreechart.data.DefindDefaultCategoryDataset;
+import org.gaixie.micrite.jfreechart.data.DefindPieDataset;
+import org.jfree.chart.JFreeChart;
 import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 客户管理功能实现
@@ -76,6 +82,43 @@ public class CustomerServiceImpl implements ICustomerService {
     public int getNum() {
         int count = customerDao.getCount();
         return  count;
+    }
+    public JFreeChart barCustomerSource() {
+        DefindChartFactory mcf = new DefindChartFactory();
+        BarChart bco = new BarChart();
+        bco.setTitle("用户来源分析");
+        bco.setCategoryAxisLabel("来源");
+        bco.setValueAxisLabel("数量");
+        bco.setList(createDateset());
+        return mcf.getBar2DChart(bco);
+    }
+    
+    public List<DefindDefaultCategoryDataset> createDateset(){
+        List<DefindDefaultCategoryDataset> barList = new ArrayList<DefindDefaultCategoryDataset>();
+        List list = customerDao.groupByCustomerSource();
+        for(int i =0 ;i<list.size();i++){
+            Object[] obj = (Object[]) list.get(i);
+            barList.add(new DefindDefaultCategoryDataset(obj[0].toString(),"",obj[1].toString()));
+        }
+        return barList;
+    }
+
+    public JFreeChart pieCustomerSource() {
+        DefindChartFactory mcf = new DefindChartFactory();
+        PieChart pc = new PieChart();
+        pc.setTitle("用户来源分析");
+        pc.setDataset(pieDataset());
+        return mcf.getPieChart(pc);
+       }
+    
+    public List<DefindPieDataset> pieDataset(){
+        List<DefindPieDataset> pieList = new ArrayList<DefindPieDataset>();
+        List list = customerDao.groupByCustomerSource();
+        for(int i =0 ;i<list.size();i++){
+            Object[] obj = (Object[]) list.get(i);
+            pieList.add(new DefindPieDataset(obj[1].toString(),obj[0].toString()));
+        }
+        return pieList;
     }
 
 }
