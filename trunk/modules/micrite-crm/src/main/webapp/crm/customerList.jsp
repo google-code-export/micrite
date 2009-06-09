@@ -305,10 +305,10 @@ Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
 			},
             items     : [{
                 title    : 'Bar Chart',
-                html     : '<img src = "barCustomerSourceChart.action">'
+                html     : '<img src = "getCustomerSourceBarChart.action">'
              },{
                 title    : 'Pie Chart',
-                html     : '<img src = "pieCustomerSourceChart.action">'
+                html     : '<img src = "getCustomerSourcePieChart.action">'
              }]
         });
     	var win = new Ext.Window({

@@ -8,7 +8,7 @@ micrite.crm.customerDetail.FormPanel = function() {
     var store = new Ext.data.Store({    
         autoLoad:true,
         //设定读取的地址
-        proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/crm/GetCustomerPartner.action'}),    
+        proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/crm/getCustomerPartner.action'}),    
         //设定读取的格式    
         reader: new Ext.data.JsonReader({    
             id:"id"

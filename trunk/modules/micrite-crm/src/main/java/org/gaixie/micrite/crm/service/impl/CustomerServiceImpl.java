@@ -83,7 +83,8 @@ public class CustomerServiceImpl implements ICustomerService {
         int count = customerDao.getCount();
         return  count;
     }
-    public JFreeChart barCustomerSource() {
+    
+    public JFreeChart getCustomerSourceBarChart() {
         DefindChartFactory mcf = new DefindChartFactory();
         BarChart bco = new BarChart();
         bco.setTitle("用户来源分析");
@@ -95,7 +96,7 @@ public class CustomerServiceImpl implements ICustomerService {
     
     public List<DefindDefaultCategoryDataset> createDateset(){
         List<DefindDefaultCategoryDataset> barList = new ArrayList<DefindDefaultCategoryDataset>();
-        List list = customerDao.groupByCustomerSource();
+        List list = customerDao.findCustomerSourceForChart();
         for(int i =0 ;i<list.size();i++){
             Object[] obj = (Object[]) list.get(i);
             barList.add(new DefindDefaultCategoryDataset(obj[0].toString(),"",obj[1].toString()));
@@ -103,7 +104,7 @@ public class CustomerServiceImpl implements ICustomerService {
         return barList;
     }
 
-    public JFreeChart pieCustomerSource() {
+    public JFreeChart getCustomerSourcePieChart() {
         DefindChartFactory mcf = new DefindChartFactory();
         PieChart pc = new PieChart();
         pc.setTitle("用户来源分析");
@@ -113,7 +114,7 @@ public class CustomerServiceImpl implements ICustomerService {
     
     public List<DefindPieDataset> pieDataset(){
         List<DefindPieDataset> pieList = new ArrayList<DefindPieDataset>();
-        List list = customerDao.groupByCustomerSource();
+        List list = customerDao.findCustomerSourceForChart();
         for(int i =0 ;i<list.size();i++){
             Object[] obj = (Object[]) list.get(i);
             pieList.add(new DefindPieDataset(obj[1].toString(),obj[0].toString()));

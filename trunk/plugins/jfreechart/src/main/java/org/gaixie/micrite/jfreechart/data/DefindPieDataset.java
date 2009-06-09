@@ -33,7 +33,7 @@ public class DefindPieDataset {
      * @param key
      * @param value
      */
-    private DefindPieDataset(String key ,String value){
+    public DefindPieDataset(String key ,String value){
         this.key = key;
         this.value = value;
     }
