@@ -4,11 +4,15 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
     
 <struts>
-    <package name="json-default" extends="struts-default">
+    <package name="micrite-default" extends="struts-default">
         <result-types>
             <result-type name="json" class="org.gaixie.micrite.struts2.json.JSONResult">
                 <param name="prettyPrint">true</param>
             </result-type>
+            <result-type name="chart" class="org.gaixie.micrite.struts2.jfreechart.ChartResult">
+                <param name="height">150</param>
+                <param name="width">200</param>
+            </result-type>            
         </result-types>
         <!-- ~~~~~~~~~~~~~~~~~~~~ 重新定义interceptor-stack，使Exception被log ~~~~~~~~~~~~~~~~~~ -->
         <interceptors>

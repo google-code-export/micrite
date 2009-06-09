@@ -36,8 +36,8 @@
     </parent>
 
 	<groupId>org.gaixie.micrite</groupId>
-    <artifactId>jfreechart-plugin</artifactId>
-    <name>Micrite Plugins :: Jfreechart plugin</name>
+    <artifactId>micrite-jfreechart-plugin</artifactId>
+    <name>Micrite Plugins :: Micrite Jfreechart Plugin</name>
     <packaging>jar</packaging>
 	<dependencies>    
 		<!-- JFreeChart -->
