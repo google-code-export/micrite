@@ -85,7 +85,7 @@ public class CustomerDaoImpl extends HibernateDaoSupport implements ICustomerDao
     }
     
     @SuppressWarnings("unchecked")
-    public List findCustomerSourceForChart(){
+    public List findCustomerSourceGroup(){
         String sql =
             "select count(cs.name),cs.name from Customer  c join c.customerSource cs group by cs.name";
         return  getHibernateTemplate().find(sql);

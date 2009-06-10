@@ -96,6 +96,6 @@ public interface ICustomerDao {
      * 按用户来源进行分组
      * @return
      */
-    public List findCustomerSourceForChart();
+    public List findCustomerSourceGroup();
 
 }
