@@ -31,12 +31,11 @@ import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.dao.ICustomerDao;
 import org.gaixie.micrite.crm.service.ICustomerService;
-import org.gaixie.micrite.jfreechart.DefindChartFactory;
-import org.gaixie.micrite.jfreechart.chart.BarChart;
-import org.gaixie.micrite.jfreechart.chart.PieChart;
-import org.gaixie.micrite.jfreechart.data.DefindDefaultCategoryDataset;
-import org.gaixie.micrite.jfreechart.data.DefindPieDataset;
 import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 客户管理功能实现
@@ -84,42 +83,33 @@ public class CustomerServiceImpl implements ICustomerService {
         return  count;
     }
     
-    public JFreeChart getCustomerSourceBarChart() {
-        DefindChartFactory mcf = new DefindChartFactory();
-        BarChart bco = new BarChart();
-        bco.setTitle("用户来源分析");
-        bco.setCategoryAxisLabel("来源");
-        bco.setValueAxisLabel("数量");
-        bco.setList(createDateset());
-        return mcf.getBar2DChart(bco);
+    public CategoryDataset getCustomerSourceBarDataset() {
+        List list = customerDao.findCustomerSourceGroup();
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        if (list != null && list.size() != 0) {
+            for (int i = 0; i < list.size(); i++) {
+                Object[] obj = (Object[]) list.get(i);
+                dataset.setValue(Integer.parseInt(obj[0].toString()),"",obj[1].toString());
+            }
+        } else {
+            return null;
+        }
+        return dataset;
     }
     
-    public List<DefindDefaultCategoryDataset> createDateset(){
-        List<DefindDefaultCategoryDataset> barList = new ArrayList<DefindDefaultCategoryDataset>();
-        List list = customerDao.findCustomerSourceForChart();
-        for(int i =0 ;i<list.size();i++){
-            Object[] obj = (Object[]) list.get(i);
-            barList.add(new DefindDefaultCategoryDataset(obj[0].toString(),"",obj[1].toString()));
+    public PieDataset getCustomerSourcePieDataset() {
+        List list = customerDao.findCustomerSourceGroup();
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        if (list != null && list.size() != 0) {
+            for (int i = 0; i < list.size(); i++) {
+                Object[] obj = (Object[]) list.get(i);
+                dataset.setValue( obj[1].toString(),Integer.parseInt(obj[0].toString()));
+            }
+        } else {
+            return null;
         }
-        return barList;
-    }
-
-    public JFreeChart getCustomerSourcePieChart() {
-        DefindChartFactory mcf = new DefindChartFactory();
-        PieChart pc = new PieChart();
-        pc.setTitle("用户来源分析");
-        pc.setDataset(pieDataset());
-        return mcf.getPieChart(pc);
-       }
-    
-    public List<DefindPieDataset> pieDataset(){
-        List<DefindPieDataset> pieList = new ArrayList<DefindPieDataset>();
-        List list = customerDao.findCustomerSourceForChart();
-        for(int i =0 ;i<list.size();i++){
-            Object[] obj = (Object[]) list.get(i);
-            pieList.add(new DefindPieDataset(obj[1].toString(),obj[0].toString()));
-        }
-        return pieList;
+        return dataset;
+        
     }
 
 }

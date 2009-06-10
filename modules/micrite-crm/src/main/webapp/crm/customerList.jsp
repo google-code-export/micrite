@@ -296,29 +296,31 @@ Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
         mainPanel.loadModule('crm/customerDetail.jsp', 'Customer Detail');
     },
     openWindow : function() {
-    	var tabs = new Ext.TabPanel({
-            region    : 'center',
-            margins   : '3 3 3 0', 
+        var tabs = new Ext.TabPanel({
+            margins   : '0', 
             activeTab : 0,
             defaults  : {
-				autoScroll : true
-			},
+                bodyStyle: 'background-color: #EEE;',            
+                autoScroll : true
+            },
             items     : [{
                 title    : 'Bar Chart',
-                html     : '<img src = "getCustomerSourceBarChart.action">'
+                html     : '<img src = "'+'/' + document.location.href.split("/")[3]
+                                                                                  + '/crm/getCustomerSourceBarChart.action'+'">'
              },{
                 title    : 'Pie Chart',
-                html     : '<img src = "getCustomerSourcePieChart.action">'
+                html     : '<img src = "'+'/' + document.location.href.split("/")[3]
+                                                                                  + '/crm/getCustomerSourcePieChart.action'+'">'
              }]
         });
-    	var win = new Ext.Window({
+        var win = new Ext.Window({
             title    : 'chart display',
             closable : true,
             width    : 630,
             height   : 520,
             //border : false,
             plain    : true,
-            layout   : 'border',
+            layout   : 'fit',
             items    : [tabs]
         });
         win.show();

@@ -25,7 +25,11 @@
 package org.gaixie.micrite.crm.action;
 
 import org.gaixie.micrite.crm.service.ICustomerService;
+import org.gaixie.micrite.jfreechart.style.BarStyle;
+import org.gaixie.micrite.jfreechart.style.PieStyle;
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -43,7 +47,13 @@ public class CustomerChartAction extends ActionSupport {
      * @return
      */
     public String getBarChart(){
-        chart =  customerService.getCustomerSourceBarChart();
+        chart = ChartFactory.createBarChart("用户来源分析", 
+                                            "来源", 
+                                            "数量",
+                                            customerService.getCustomerSourceBarDataset(), 
+                                            PlotOrientation.VERTICAL,
+                                            false, false, false);
+        BarStyle.styleDefault(chart);
         return SUCCESS ;
     }
     
@@ -52,9 +62,13 @@ public class CustomerChartAction extends ActionSupport {
      * @return
      */
     public String getPieChart(){
-        chart =  customerService.getCustomerSourcePieChart();
+        chart = ChartFactory.createPieChart("用户来源分析", 
+                                            customerService.getCustomerSourcePieDataset(), 
+                                            false, false, false);  
+        PieStyle.styleDefault(chart);
         return SUCCESS;
     }
+    
     public JFreeChart getChart() {
         return chart;
     }

@@ -28,7 +28,8 @@ import java.util.List;
 
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
-import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.general.PieDataset;
 
 /**
  * 客户管理服务接口，封装客户服务业务模型
@@ -85,12 +86,12 @@ public interface ICustomerService {
      * 获取用户来源的饼图对象
      * @return
      */
-    public JFreeChart getCustomerSourcePieChart();
+    public PieDataset getCustomerSourcePieDataset();
     
     /**
      * 获取用户来源的2D柱图对象
      * @return
      */
-    public JFreeChart getCustomerSourceBarChart();
+    public CategoryDataset getCustomerSourceBarDataset();
 
 }
