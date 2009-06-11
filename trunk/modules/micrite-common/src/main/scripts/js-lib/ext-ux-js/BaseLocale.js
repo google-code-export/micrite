@@ -37,6 +37,7 @@ Ext.extend(micrite.base.locale, {
     closeButton:'Close',
     cancelButton:'Cancel',
     waitingMsg:'Saving Data...',
-    loadingMsg:'Loading Data...'    
+    loadingMsg:'Loading Data...',    
+    indexColumnHeader:'Index'    
 });
 mbLocale = new micrite.base.locale();
