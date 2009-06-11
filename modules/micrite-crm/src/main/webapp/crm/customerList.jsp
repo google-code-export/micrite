@@ -320,6 +320,8 @@ Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
             height   : 520,
             //border : false,
             plain    : true,
+            maximizable: true,
+            renderTo : mainPanel.getActiveTab().items.itemAt(0).getId(),
             layout   : 'fit',
             items    : [tabs]
         });
