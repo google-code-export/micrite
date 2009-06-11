@@ -38,6 +38,7 @@
 <script type="text/javascript" src="js-lib/ext-ux-js/DateTime.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/CheckboxField.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/BaseLocale.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/SearchPanel.js"></script>
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/micrite-all.css">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/DateTime.css">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/CheckboxField.css">
