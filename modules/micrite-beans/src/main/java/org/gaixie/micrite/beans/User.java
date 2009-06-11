@@ -95,11 +95,15 @@ public class User implements UserDetails {
      */
     @Transient
     public GrantedAuthority[] getAuthorities() {
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>(roles.size());
-        for(Role role : roles) {
+        if (roles != null && roles.size() > 0) {
+            List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>(roles.size());
+            for(Role role : roles) {
                 grantedAuthorities.add(new GrantedAuthorityImpl(role.getName()));
+            }
+            return grantedAuthorities.toArray(new GrantedAuthority[roles.size()]);
+        } else {
+            return null;
         }
-        return grantedAuthorities.toArray(new GrantedAuthority[roles.size()]);
     }
     
     public String getPassword() {
