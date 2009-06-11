@@ -24,10 +24,16 @@
 
 package org.gaixie.micrite.security.dao.hibernate;
 
+import java.sql.SQLException;
 import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 import org.springframework.jmx.export.annotation.ManagedResource;
+import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import org.gaixie.micrite.beans.User;
@@ -39,7 +45,7 @@ import org.gaixie.micrite.security.dao.IUserDao;
  */
 @ManagedResource(objectName = "micrite:type=dao,name=UserDaoImpl", description = "Micrite UserDaoImpl Bean")
 public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
-
+    
     @SuppressWarnings("unchecked")
     public User findByUsername(String username) {
         DetachedCriteria criteria = DetachedCriteria.forClass(User.class);
@@ -73,5 +79,22 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
         String[] paras = {"%" + username + "%"};
         List<User> users = getHibernateTemplate().find(hql, paras);
         return users;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<User> findByUsernameVagueOnPage(String username, int start, int limit) {
+        final String paras1 = username;
+        final int firstResult = start;
+        final int maxResults = limit;
+        return getHibernateTemplate().executeFind(new HibernateCallback() {
+            public Object doInHibernate(Session session) throws HibernateException, SQLException {
+                String hql = "from User u where u.loginname like '%" + paras1 + "%'";
+                Query query = session.createQuery(hql);
+                query.setFirstResult(firstResult);
+                query.setMaxResults(maxResults);
+                List list = query.list();
+                return list;
+            }
+        });
     }
 }

@@ -153,4 +153,9 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     public List<User> findByUsernameVague(String username) {
         return userDao.findByUsernameVague(username);
     }
+
+    public List<User> findByUsernameVagueOnPage(String username, int start, int limit) {
+        return userDao.findByUsernameVagueOnPage(username, start, limit);
+    }
+
 }
