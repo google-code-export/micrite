@@ -60,6 +60,12 @@ public class UserAction extends ActionSupport {
 
     //  查询用户的查询结果
     private List<User> users;
+    //  以下两个分页用
+    //  起始索引
+    private int start;
+    //  限制数
+    private int limit;
+
     //  action处理结果（map对象）
     private Map<String,Object> actionResult = new HashMap<String,Object>();
     private Map<String,String> returnMsg = new HashMap<String,String>();
@@ -135,7 +141,19 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */
     public String findByUsernameVague() {
-        users = userService.findByUsernameVague(user.getUsername());
+        logger.debug("start=" + start);
+        logger.debug("limit=" + limit);
+        //  为了得到查询结果总数
+        List<User> searchTotalUsers = userService.findByUsernameVague(user.getUsername());
+        //  得到分页查询结果
+        List<User> searchUsers = userService.findByUsernameVagueOnPage(user.getUsername(), start, limit);
+        //  防止json死循环查找
+        for (User user : searchUsers) {
+            user.setRoles(null);
+        }
+        actionResult.put("totalCounts", searchTotalUsers.size());
+        actionResult.put("success", true);
+        actionResult.put("results", searchUsers);
         return SUCCESS;
     }
     
@@ -146,6 +164,14 @@ public class UserAction extends ActionSupport {
 
     public User getUser() {
         return user;
+    }
+
+    public void setStart(int start) {
+        this.start = start;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 
     public void setUserRolesStr(String userRolesStr) {

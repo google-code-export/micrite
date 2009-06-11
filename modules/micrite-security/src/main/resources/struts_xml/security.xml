@@ -78,7 +78,7 @@
 
         <action name="findUsersVague" class="userAction" method="findByUsernameVague">
             <result name="success" type="json">
-                <param name="target">users</param>
+                <param name="target">actionResult</param>
             </result>
         </action>
 

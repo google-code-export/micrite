@@ -72,4 +72,13 @@ public interface IUserService {
      * @param username 用户名
      */
     public List<User> findByUsernameVague(String username);
+
+    /**
+     * 根据用户名查询用户集合（模糊查询，分页）。
+     * 
+     * @param username 用户名
+     * @param start 起始索引
+     * @param limit 限制数
+     */
+    public List<User> findByUsernameVagueOnPage(String username, int start, int limit);
 }

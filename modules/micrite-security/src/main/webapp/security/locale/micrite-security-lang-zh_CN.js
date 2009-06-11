@@ -31,9 +31,21 @@ if(micrite.security.framework.msgPanel) {
    });
 }
 
-
 if(micrite.security.framework.MainPanel) {
    Ext.override(micrite.security.framework.MainPanel, {
    	centerPanelText:'欢迎'
    });
+}
+
+function userListLocale() {
+    if(micrite.security.userList.SearchPanel) {
+        Ext.override(micrite.security.userList.SearchPanel, {
+            byUsername:'按用户名',
+            username:'用户名',
+            addUser:'增加用户',
+            fullname:'名称',
+            emailaddress:'电子邮件',
+            isenabled:'是否可用'
+        });
+    }
 }
