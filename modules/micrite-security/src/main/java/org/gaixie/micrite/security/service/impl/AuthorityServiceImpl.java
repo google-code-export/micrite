@@ -24,6 +24,11 @@
 
 package org.gaixie.micrite.security.service.impl;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.beans.Role;
@@ -34,6 +39,9 @@ import org.gaixie.micrite.security.filter.FilterSecurityInterceptor;
 import org.gaixie.micrite.security.filter.MethodSecurityInterceptor;
 import org.gaixie.micrite.security.service.IAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.ConfigAttributeDefinition;
+import org.springframework.security.ConfigAttributeEditor;
+import org.springframework.security.intercept.web.RequestKey;
 
 /**
  * 
@@ -41,25 +49,68 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class AuthorityServiceImpl implements IAuthorityService {
 
-	private static final Logger logger = Logger.getLogger(LoginAction.class); 
-	@Autowired
-	private IAuthorityDao authorityDao;
-	@Autowired
-	private IRoleDao roleDao;
+    private static final Logger logger = Logger.getLogger(LoginAction.class);
+    @Autowired
+    private IAuthorityDao authorityDao;
+    @Autowired
+    private IRoleDao roleDao;
 
-	public boolean add(Authority authority, String roleIdBunch) {
-		authorityDao.save(authority);
-		String[] arrRoleId = roleIdBunch.split(",");
-		for(int i = 0; i < arrRoleId.length; i++){
-		    Role role = roleDao.getRole(Integer.parseInt(arrRoleId[i]));
-		    role.getAuthorities().add(authority);
-			roleDao.save(role);
-		}
-		if(authority.getType().equals("URL"))
-			FilterSecurityInterceptor.refresh();
-		else if(authority.getType().equals("METHOD"))
-			MethodSecurityInterceptor.refresh();
-		return true;
-	}
+    public boolean add(Authority authority, String roleIdBunch) {
+        authorityDao.save(authority);
+        String[] arrRoleId = roleIdBunch.split(",");
+        for (int i = 0; i < arrRoleId.length; i++) {
+            Role role = roleDao.getRole(Integer.parseInt(arrRoleId[i]));
+            role.getAuthorities().add(authority);
+            roleDao.save(role);
+        }
+        if (authority.getType().equals("URL"))
+            FilterSecurityInterceptor.refresh();
+        else if (authority.getType().equals("METHOD"))
+            MethodSecurityInterceptor.refresh();
+        return true;
+    }
 
+    public LinkedHashMap<RequestKey, ConfigAttributeDefinition> initRequestMap() {
+        LinkedHashMap<RequestKey, ConfigAttributeDefinition> requestMap = new LinkedHashMap<RequestKey, ConfigAttributeDefinition>();
+
+        List<Authority> authorities = authorityDao.findByType("URL");
+        for (Authority authority : authorities) {
+            RequestKey key = new RequestKey(authority.getValue());
+            List<String> rolesList = new ArrayList<String>();
+            for (Role role : authority.getRoles()) {
+                rolesList.add(role.getName());
+            }
+            String grantedAuthorities = StringUtils.join(rolesList, ",");
+            if (grantedAuthorities != null) {
+                ConfigAttributeEditor configAttrEditor = new ConfigAttributeEditor();
+                configAttrEditor.setAsText(grantedAuthorities);
+                ConfigAttributeDefinition definition = (ConfigAttributeDefinition) configAttrEditor
+                        .getValue();
+                requestMap.put(key, definition);
+            }
+        }
+        return requestMap;
+    }
+
+    public LinkedHashMap<String, ConfigAttributeDefinition> initMethodMap() {
+        LinkedHashMap<String, ConfigAttributeDefinition> methodMap = new LinkedHashMap<String, ConfigAttributeDefinition>();
+
+        List<Authority> authorities = authorityDao.findByType("METHOD");
+        methodMap = new LinkedHashMap<String, ConfigAttributeDefinition>();
+        for (Authority authority : authorities) {
+            List<String> rolesList = new ArrayList<String>();
+            for (Role role : authority.getRoles()) {
+                rolesList.add(role.getName());
+            }
+            String grantedAuthorities = StringUtils.join(rolesList, ",");
+            if (grantedAuthorities != null) {
+                ConfigAttributeEditor configAttrEditor = new ConfigAttributeEditor();
+                configAttrEditor.setAsText(grantedAuthorities);
+                ConfigAttributeDefinition definition = (ConfigAttributeDefinition) configAttrEditor
+                        .getValue();
+                methodMap.put(authority.getValue(), definition);
+            }
+        }
+        return methodMap;
+    }
 }

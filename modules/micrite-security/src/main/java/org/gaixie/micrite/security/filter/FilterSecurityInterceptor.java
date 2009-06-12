@@ -16,8 +16,6 @@
 package org.gaixie.micrite.security.filter;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -26,22 +24,17 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.gaixie.micrite.beans.Authority;
-import org.gaixie.micrite.security.dao.IAuthorityDao;
+import org.gaixie.micrite.security.service.IAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
-import org.springframework.security.ConfigAttributeDefinition;
-import org.springframework.security.ConfigAttributeEditor;
 import org.springframework.security.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.intercept.InterceptorStatusToken;
 import org.springframework.security.intercept.ObjectDefinitionSource;
 import org.springframework.security.intercept.web.DefaultFilterInvocationDefinitionSource;
 import org.springframework.security.intercept.web.FilterInvocation;
 import org.springframework.security.intercept.web.FilterInvocationDefinitionSource;
-import org.springframework.security.intercept.web.RequestKey;
 import org.springframework.security.ui.FilterChainOrder;
 import org.springframework.security.util.AntUrlPathMatcher;
-import org.springframework.security.util.UrlMatcher;
 
 
 /**
@@ -61,7 +54,7 @@ public class FilterSecurityInterceptor extends AbstractSecurityInterceptor imple
 
     private boolean observeOncePerRequest = true;
     @Autowired
-    private IAuthorityDao authorityDao;
+    private IAuthorityService authorityService;
 
     //~ Methods ========================================================================================================
 
@@ -147,28 +140,14 @@ public class FilterSecurityInterceptor extends AbstractSecurityInterceptor imple
      * 格式保存，<code>LinkedHashMap</code> 的key是 <code>Authority</code> 的value，
      * value是访问这些method所需要的权限 <code>ConfigAttributeDefinition</code>。
      */
-	public ObjectDefinitionSource obtainObjectDefinitionSource() {
-    	if(objectDefinitionSource == null){
-	    	UrlMatcher urlMatcher = new AntUrlPathMatcher(true);
-	    	LinkedHashMap<RequestKey, ConfigAttributeDefinition> requestMap = 
-	    		    new LinkedHashMap<RequestKey, ConfigAttributeDefinition>();
-	    	
-	        List<Authority> authorities = authorityDao.findByType(AUTHORITY_TYPE);
-	        for (Authority authority : authorities) {
-	            RequestKey key = new RequestKey(authority.getValue());
-	            String grantedAuthorities = authority.getRolesString();
-	            if (grantedAuthorities != null) {
-	                ConfigAttributeEditor configAttrEditor = new ConfigAttributeEditor();
-	                configAttrEditor.setAsText(grantedAuthorities);
-	                ConfigAttributeDefinition definition = (ConfigAttributeDefinition) configAttrEditor
-	                        .getValue();
-	                requestMap.put(key, definition);
-	            }
-	        }
 
-			objectDefinitionSource = new DefaultFilterInvocationDefinitionSource(urlMatcher,requestMap);
-    	}
-    	return objectDefinitionSource;
+    public ObjectDefinitionSource obtainObjectDefinitionSource() {
+        if (objectDefinitionSource == null) {
+            objectDefinitionSource = new DefaultFilterInvocationDefinitionSource(
+                    new AntUrlPathMatcher(true), authorityService
+                            .initRequestMap());
+        }
+        return objectDefinitionSource;
     }
     /**
      * 刷新<code>objectDefinitionSource</code>对象

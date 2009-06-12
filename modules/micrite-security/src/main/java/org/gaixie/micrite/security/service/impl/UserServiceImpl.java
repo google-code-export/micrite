@@ -76,6 +76,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             throw new UsernameNotFoundException("User " + username
             + " has no GrantedAuthority");
         }
+        user.getAuthorities();
         return user;
     }
     
