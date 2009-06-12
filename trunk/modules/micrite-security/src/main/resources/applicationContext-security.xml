@@ -106,14 +106,14 @@
     </bean>
 
     <!-- ~~~~~~~~~~~~~~~~~~~~ SECURITY URL INTERCEPTOR DEFINITIONS ~~~~~~~~~~~~~~~~~~~ -->
-    <bean id="urlSecurityInterceptor" class="org.gaixie.micrite.security.filter.FilterSecurityInterceptor">
+    <bean id="urlSecurityService" class="org.gaixie.micrite.security.filter.FilterSecurityInterceptor">
         <sec:custom-filter before="FILTER_SECURITY_INTERCEPTOR" />
         <property name="authenticationManager" ref="authenticationManager"/>
         <property name="accessDecisionManager" ref="accessDecisionManager"/>
     </bean>
 
     <!-- ~~~~~~~~~~~~~~~~~~~~ SECURITY METHOD INTERCEPTOR DEFINITIONS ~~~~~~~~~~~~~~~~~~~ -->      
-    <bean id="methodSecurityInterceptor" class="org.gaixie.micrite.security.filter.MethodSecurityInterceptor">
+    <bean id="methodSecurityService" class="org.gaixie.micrite.security.filter.MethodSecurityInterceptor">
         <property name="authenticationManager" ref="authenticationManager" />
         <property name="accessDecisionManager" ref="accessDecisionManager" />
     </bean>
@@ -125,7 +125,7 @@
             expression="execution(* org.gaixie.micrite..service.*Service+.*(..))" />  
         <aop:advisor advice-ref="accessDeniedInterceptor" 
             pointcut-ref="securityPointcut" order="0" />  
-        <aop:advisor advice-ref="methodSecurityInterceptor"  
+        <aop:advisor advice-ref="methodSecurityService"  
             pointcut-ref="securityPointcut" order="1" />  
     </aop:config>
 

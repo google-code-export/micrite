@@ -42,7 +42,7 @@ import org.gaixie.micrite.security.SecurityException;
 /**
  * 用户管理，提供新增，修改，查询用户等功能。
  */
-@ManagedResource(objectName="micrite:type=action,name=UserAction", description="Micrite UserAction Bean")
+//@ManagedResource(objectName="micrite:type=action,name=UserAction", description="Micrite UserAction Bean")
 public class UserAction extends ActionSupport {
 
     private static final long serialVersionUID = 5843976450199930680L;

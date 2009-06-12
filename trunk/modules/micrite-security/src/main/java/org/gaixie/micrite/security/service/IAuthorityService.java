@@ -24,8 +24,11 @@
 
 package org.gaixie.micrite.security.service;
 
-import org.gaixie.micrite.beans.Authority;
+import java.util.LinkedHashMap;
 
+import org.gaixie.micrite.beans.Authority;
+import org.springframework.security.ConfigAttributeDefinition;
+import org.springframework.security.intercept.web.RequestKey;
 /**
  * 授权资源服务接口，为系统授权及资源管理提供业务模型
  * 
@@ -39,5 +42,9 @@ public interface IAuthorityService {
      * @return 成功：true；失败：false
      */
     public boolean add(Authority authority, String roleIdBunch);
+    
+    public LinkedHashMap<RequestKey, ConfigAttributeDefinition> initRequestMap();  
+    
+    public LinkedHashMap<String, ConfigAttributeDefinition> initMethodMap();    
 
 }

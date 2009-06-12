@@ -33,7 +33,6 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.security.context.SecurityContext;
 import org.springframework.security.context.SecurityContextHolder;
 
@@ -44,7 +43,6 @@ import com.opensymphony.xwork2.ActionSupport;
  * @see com.opensymphony.xwork2.ActionSupport
  * @see org.apache.struts2.interceptor.SessionAware
  */
-@ManagedResource(objectName="micrite:type=action,name=LoginAction", description="Micrite LoginAction Bean")
 public class LoginAction extends ActionSupport implements SessionAware{ 
 	private static final long serialVersionUID = -5277215719944190914L;
 

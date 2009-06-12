@@ -15,16 +15,10 @@
 
 package org.gaixie.micrite.security.filter;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.gaixie.micrite.beans.Authority;
-import org.gaixie.micrite.security.dao.IAuthorityDao;
+import org.gaixie.micrite.security.service.IAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.ConfigAttributeDefinition;
-import org.springframework.security.ConfigAttributeEditor;
 import org.springframework.security.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.intercept.InterceptorStatusToken;
 import org.springframework.security.intercept.ObjectDefinitionSource;
@@ -47,7 +41,7 @@ public class MethodSecurityInterceptor extends AbstractSecurityInterceptor imple
     private static MethodDefinitionSource objectDefinitionSource;
     private static final String AUTHORITY_TYPE = "METHOD";
     @Autowired
-    private IAuthorityDao authorityDao;
+    private IAuthorityService authorityService;
 
     //~ Methods ========================================================================================================
 
@@ -87,25 +81,11 @@ public class MethodSecurityInterceptor extends AbstractSecurityInterceptor imple
      * 
      */
     public ObjectDefinitionSource obtainObjectDefinitionSource() {
-    	if(objectDefinitionSource == null){
-    		AspectJMethodMatcher methodMatcher = new AspectJMethodMatcher();
-    		LinkedHashMap<String, ConfigAttributeDefinition> methodMap
-    		        = new LinkedHashMap<String, ConfigAttributeDefinition>();
-    		
-            List<Authority> authorities = authorityDao.findByType(AUTHORITY_TYPE);
-            methodMap = new LinkedHashMap<String, ConfigAttributeDefinition>();
-            for (Authority authority : authorities) {
-                String grantedAuthorities = authority.getRolesString();
-                if (grantedAuthorities != null) {
-                    ConfigAttributeEditor configAttrEditor = new ConfigAttributeEditor();
-                    configAttrEditor.setAsText(grantedAuthorities);
-                    ConfigAttributeDefinition definition = (ConfigAttributeDefinition) configAttrEditor
-                            .getValue();
-                    methodMap.put(authority.getValue(), definition);
-                }
-            }
-            objectDefinitionSource = new DefaultMethodDefinitionSource(methodMatcher, methodMap);
-    	}
+        if (objectDefinitionSource == null) {
+            objectDefinitionSource = new DefaultMethodDefinitionSource(
+                    new AspectJMethodMatcher(), authorityService
+                            .initMethodMap());
+        }
         return objectDefinitionSource;
     }
     /**
