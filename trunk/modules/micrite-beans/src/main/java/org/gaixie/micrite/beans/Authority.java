@@ -59,7 +59,7 @@ public class Authority {
 
     private String value;
 
-    @ManyToMany(mappedBy = "authorities", targetEntity = Role.class, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "authorities", targetEntity = Role.class)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Role> roles;
 

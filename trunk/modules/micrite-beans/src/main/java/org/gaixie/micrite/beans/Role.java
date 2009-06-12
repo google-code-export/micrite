@@ -55,7 +55,7 @@ public class Role {
     
     private String description;
     
-    @ManyToMany(targetEntity = Authority.class, fetch = FetchType.EAGER)  
+    @ManyToMany(targetEntity = Authority.class)  
     @JoinTable(name = "role_authority_map", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))  
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)  
     private Set<Authority> authorities;  

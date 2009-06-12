@@ -57,7 +57,6 @@ import org.springframework.security.userdetails.UserDetails;
  */
 @Entity
 @Table(name = "userbase")
-@Proxy(lazy = false)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User implements UserDetails {
 	
@@ -73,9 +72,9 @@ public class User implements UserDetails {
     @Transient
     private String plainpassword;
     private String emailaddress;
-    private boolean isenabled = true;
+    private boolean isenabled;
     
-    @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = Role.class)
     @JoinTable(name = "user_role_map", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Role> roles;
@@ -95,15 +94,11 @@ public class User implements UserDetails {
      */
     @Transient
     public GrantedAuthority[] getAuthorities() {
-        if (roles != null && roles.size() > 0) {
-            List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>(roles.size());
-            for(Role role : roles) {
-                grantedAuthorities.add(new GrantedAuthorityImpl(role.getName()));
-            }
-            return grantedAuthorities.toArray(new GrantedAuthority[roles.size()]);
-        } else {
-            return null;
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>(roles.size());
+        for(Role role : roles) {
+            grantedAuthorities.add(new GrantedAuthorityImpl(role.getName()));
         }
+        return grantedAuthorities.toArray(new GrantedAuthority[roles.size()]);
     }
     
     public String getPassword() {
