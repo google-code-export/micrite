@@ -24,6 +24,7 @@
 
 package org.gaixie.micrite.security.service;
 
+import java.util.List;
 
 import org.gaixie.micrite.beans.Authority;
 
@@ -31,15 +32,8 @@ import org.gaixie.micrite.beans.Authority;
  * 授权资源服务接口，为系统授权及资源管理提供业务模型
  * 
  */
-public interface IAuthorityService {
+public interface ISecurityInterceptor {
 
-    /**
-     * 新增一个授权资源
-     * @param customer 客户实体
-     * @param customerSourceId 客户来源id
-     * @return 成功：true；失败：false
-     */
-    public boolean add(Authority authority, String roleIdBunch);
+    public List<Authority> loadAuthorities(String type);  
     
-
 }
