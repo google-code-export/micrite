@@ -40,6 +40,7 @@ import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
 
+import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.dao.IRoleDao;
@@ -76,7 +77,13 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             throw new UsernameNotFoundException("User " + username
             + " has no GrantedAuthority");
         }
-        user.getAuthorities();
+        Set<Role> roles = user.getRoles();
+        for (Role role : roles) {
+            Set<Authority> auths = role.getAuthorities();
+            for (Authority auth : auths) {
+                auth.getName();
+            }
+        }
         return user;
     }
     

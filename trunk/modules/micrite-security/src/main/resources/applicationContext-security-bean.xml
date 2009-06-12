@@ -39,7 +39,8 @@
     <bean id="userService"  class="org.gaixie.micrite.security.service.impl.UserServiceImpl" />
     <bean id="authorityService"  class="org.gaixie.micrite.security.service.impl.AuthorityServiceImpl" />
     <bean id="roleService"  class="org.gaixie.micrite.security.service.impl.RoleServiceImpl" />
-
+    <bean id="securityInterceptorService"  class="org.gaixie.micrite.security.service.impl.SecurityInterceptorImpl" />
+    
     <bean id="userDao" class="org.gaixie.micrite.security.dao.hibernate.UserDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
