@@ -47,5 +47,12 @@ public class RoleServiceImpl implements IRoleService {
         List<Role> roles = roleDao.findAll();
         return roles;
     }
-
+    
+    public List<Role> findByNameVaguePerPage(String name, int start, int limit) {
+        return roleDao.findByNameVaguePerPage(name, start, limit);
+    }
+    
+    public int findByNameVagueTotal(String name) {
+        return roleDao.findByNameVagueTotal(name);
+    }    
 }

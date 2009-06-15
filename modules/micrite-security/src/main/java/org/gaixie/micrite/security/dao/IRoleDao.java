@@ -53,5 +53,18 @@ public interface IRoleDao {
      */
     public void save(Role role);
 
+    /**
+     * 根据角色名查询角色集合（模糊查询，分页）。
+     * 
+     * @see org.gaixie.micrite.beans.Role
+     * @param name 角色名
+     * @param start 起始索引
+     * @param limit 限制数
+     * @return <code>Role</code>对象列表
+     */
+    public List<Role> findByNameVaguePerPage(String name, int start, int limit);
+    
+
+    public Integer findByNameVagueTotal(String name);
 
 }

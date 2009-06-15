@@ -28,6 +28,9 @@ import java.util.List;
 
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.security.dao.IRoleDao;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Projections;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
@@ -49,4 +52,18 @@ public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
 			getHibernateTemplate().save(role);
 	}
 
+    @SuppressWarnings("unchecked")
+    public List<Role> findByNameVaguePerPage(String name, int start, int limit) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(Role.class);
+        criteria.add(Expression.like("name", "%"+name+"%"));
+        return getHibernateTemplate().findByCriteria(criteria,start,limit);            
+    }	
+    
+    @SuppressWarnings("unchecked")
+    public Integer findByNameVagueTotal(String name) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(Role.class);
+        criteria.add(Expression.like("name", "%"+name+"%"));
+        criteria.setProjection(Projections.rowCount());
+        return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
+    }       
 }
