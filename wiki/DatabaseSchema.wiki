@@ -10,6 +10,6 @@ The purpose of this document is to act as a reference for developers of Micrite.
 
 = Details =
 || *Version* || *Meta data* || *ER Diagram* || *Schema* || *Date* ||
-|| [http://code.google.com/p/micrite/source/browse/tags/0.6 0.6] || [http://code.google.com/p/micrite/source/browse/tags/0.6/src/uml/MicriteERDiagram.erd view] || [http://sites-by-maven.gaixie.org/micrite/0.6/trunk/images/MicriteERDiagram.erd.jpg view] || [http://sites-by-maven.gaixie.org/micrite/0.6/trunk/schema/ view] || 2009-05-20 ||
-|| [http://code.google.com/p/micrite/source/browse/tags/0.4 0.4] || -- || -- || -- || -- ||
-|| [http://code.google.com/p/micrite/source/browse/tags/0.1 0.1] || -- || -- || -- || -- ||
+|| [http://code.google.com/p/micrite/source/browse/tags/v0.6 v0.6] || [http://code.google.com/p/micrite/source/browse/tags/v0.6/src/uml/MicriteERDiagram.erd view] || [http://sites-by-maven.gaixie.org/micrite/v0.6/trunk/images/MicriteERDiagram.erd.jpg view] || [http://sites-by-maven.gaixie.org/micrite/0.6/trunk/schema/ view] || 2009-05-20 ||
+|| [http://code.google.com/p/micrite/source/browse/tags/v0.4 v0.4] || -- || -- || -- || -- ||
+|| [http://code.google.com/p/micrite/source/browse/tags/v0.1 v0.1] || -- || -- || -- || -- ||
