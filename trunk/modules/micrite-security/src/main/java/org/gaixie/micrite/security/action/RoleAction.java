@@ -24,8 +24,11 @@
 
 package org.gaixie.micrite.security.action;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.security.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +42,25 @@ import com.opensymphony.xwork2.ActionSupport;
 public class RoleAction extends ActionSupport{
 	private static final long serialVersionUID = 3072284877032259302L;
 
+	private static final Logger logger = Logger.getLogger(RoleAction.class);
+	
 	@Autowired
 	private IRoleService roleService;
 
     //输出到页面的数据
     private List<Role> roles;
+
+    //  用户
+    private Role role;
+    
+    //  以下两个分页用
+    //  起始索引
+    private int start;
+    //  限制数
+    private int limit;
+    //  action处理结果（map对象）
+    private Map<String,Object> actionResult = new HashMap<String,Object>();
+    private Map<String,String> returnMsg = new HashMap<String,String>();    
 
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
    
@@ -62,6 +79,27 @@ public class RoleAction extends ActionSupport{
     	return SUCCESS;
     }
 
+    /**
+     * 根据角色名查询角色集合（模糊查询）。
+     * 
+     * @return "success"
+     */
+    public String findByNameVague() {
+        logger.debug("start=" + start);
+        logger.debug("limit=" + limit);
+        //  为了得到查询结果总数
+        int count = roleService.findByNameVagueTotal(role.getName());
+        //  得到分页查询结果
+        List<Role> searchRoles = roleService.findByNameVaguePerPage(role.getName(), start, limit);
+        for(Role role : searchRoles){
+            role.setAuthorities(null);
+        }
+        actionResult.put("totalCounts", count);
+        actionResult.put("success", true);
+        actionResult.put("results", searchRoles);
+        return SUCCESS;
+    }
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~  Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
 
 	/**
@@ -78,5 +116,23 @@ public class RoleAction extends ActionSupport{
 		this.roles = roles;
 	}
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
+    public Role getRole() {
+        return role;
+    }
+    
+    public void setStart(int start) {
+        this.start = start;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+    
+    public Map<String, Object> getActionResult() {
+        return actionResult;
+    }    
 }

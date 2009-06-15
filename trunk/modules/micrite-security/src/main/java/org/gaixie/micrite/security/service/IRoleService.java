@@ -39,4 +39,16 @@ public interface IRoleService {
      * @return 角色对象集合
      */
     public List<Role> findAll();
+    
+    /**
+     * 根据角色名查询用户集合（模糊查询，分页）。
+     * 
+     * @param name 角色名
+     * @param start 起始索引
+     * @param limit 限制数
+     */
+    public List<Role> findByNameVaguePerPage(String name, int start, int limit);
+    
+    public int findByNameVagueTotal(String name);
+    
 }

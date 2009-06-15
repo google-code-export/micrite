@@ -99,7 +99,14 @@
                 <param name="target">roles</param>
             </result>
         </action>
-        
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~ Role ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->   
+        <action name="findRolesVague" class="roleAction" method="findByNameVague">
+            <result name="success" type="json">
+                <param name="target">actionResult</param>
+            </result>
+        </action>
+                        
     </package>
 
 </struts>
