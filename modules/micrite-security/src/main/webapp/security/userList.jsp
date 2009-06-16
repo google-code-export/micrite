@@ -21,7 +21,7 @@ micrite.security.userList.SearchPanel = function() {
     //  查询结果格式读取器
     this.resultReader = new Ext.data.JsonReader(
 	                                               {
-	                                                totalProperty:'totalCounts',
+	                                                totalProperty:'totalCount',
 	                                                root:'results'
 	                                               }, 
 	                                               [

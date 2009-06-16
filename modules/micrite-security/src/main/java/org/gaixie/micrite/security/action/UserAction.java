@@ -58,13 +58,13 @@ public class UserAction extends ActionSupport {
     //  用户角色拼串，型如“2,4,6”
     private String userRolesStr;
 
-    //  查询用户的查询结果
-    private List<User> users;
     //  以下两个分页用
     //  起始索引
     private int start;
     //  限制数
     private int limit;
+    //  记录总数（分页中改变页码时，会传递该参数过来）
+    private int totalCount;
 
     //  action处理结果（map对象）
     private Map<String,Object> actionResult = new HashMap<String,Object>();
@@ -141,19 +141,23 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */
     public String findByUsernameVague() {
-        logger.debug("start=" + start);
-        logger.debug("limit=" + limit);
-        //  为了得到查询结果总数
-        List<User> searchTotalUsers = userService.findByUsernameVague(user.getUsername());
+        String username = user.getUsername();
+        if (totalCount == 0) {
+            //  初次查询时，要从数据库中读取总记录数
+            Integer usersTotalCount = userService.findByUsernameVagueCount(username);
+            actionResult.put("totalCount", usersTotalCount);
+        } else {
+            //  改变页码时，不再从数据库中读取总记录数，而是从前端传递过来的总记录数代替
+            actionResult.put("totalCount", totalCount);
+        }
         //  得到分页查询结果
-        List<User> searchUsers = userService.findByUsernameVagueOnPage(user.getUsername(), start, limit);
+        List<User> users = userService.findByUsernameVaguePerPage(username, start, limit);
         //  防止json死循环查找
-        for (User user : searchUsers) {
+        for (User user : users) {
             user.setRoles(null);
         }
-        actionResult.put("totalCounts", searchTotalUsers.size());
         actionResult.put("success", true);
-        actionResult.put("results", searchUsers);
+        actionResult.put("results", users);
         return SUCCESS;
     }
     
@@ -174,12 +178,12 @@ public class UserAction extends ActionSupport {
         this.limit = limit;
     }
 
-    public void setUserRolesStr(String userRolesStr) {
-        this.userRolesStr = userRolesStr;
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public void setUserRolesStr(String userRolesStr) {
+        this.userRolesStr = userRolesStr;
     }
 
     public Map<String, Object> getActionResult() {
