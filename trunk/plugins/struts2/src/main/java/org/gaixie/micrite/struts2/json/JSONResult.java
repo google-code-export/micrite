@@ -29,6 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.PropertyFilter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,6 +42,24 @@ import com.opensymphony.xwork2.Result;
 import com.opensymphony.xwork2.util.ValueStack;
 
 
+class JPropertyFilter implements PropertyFilter {
+
+	private String[] filterVarName;
+	
+	public JPropertyFilter(String s){
+		this.filterVarName = s.split(",");
+	}
+	public boolean apply(Object source, String name, Object value) {
+		for (int i=0;i<this.filterVarName.length;i++){
+			if (name.equals(this.filterVarName[i])){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+}
+
 public class JSONResult implements Result {
 
 	/**
@@ -47,27 +67,24 @@ public class JSONResult implements Result {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String target;
-	private boolean prettyPrint;
+	private String excludeProperties;
+//	private boolean prettyPrint;
 
 	private static final Log log = LogFactory.getLog(JSONResult.class);
+
 	private ResponseWrapper out = new ResponseWrapper();
 
-	public void setPrettyPrint(boolean prettyPrint) {
-		this.prettyPrint = prettyPrint;
-	}
-
-	public void setTarget(String target) {
-		this.target = target;
-	}
-
-	public ResponseWrapper getOut() {
-		return out;
-	}
-
-	public void setOut(ResponseWrapper out) {
-		this.out = out;
-	}
-
+	//测试代码
+//	public static void main(String[] args){
+//		JsonConfig jsonConfig = new JsonConfig(); 
+//		Map a = new HashMap();
+//		a.put("a1", "12");
+//		a.put("a2", "12");
+//			 jsonConfig.setJsonPropertyFilter(new JPropertyFilter("a2,a1"));  
+//			 JSONArray json = JSONArray.fromObject(a,jsonConfig);
+//		System.out.println(json.toString());
+//	}
+	@SuppressWarnings("unchecked")
 	public void execute(ActionInvocation invocation) throws Exception {
 
 		ActionContext actionContext = invocation.getInvocationContext();
@@ -75,22 +92,23 @@ public class JSONResult implements Result {
 				.get(StrutsStatics.HTTP_RESPONSE);
 		HttpServletRequest request = (HttpServletRequest) actionContext
 				.get(StrutsStatics.HTTP_REQUEST);
-		if (this.prettyPrint){
-			
+		JsonConfig jsonConfig = new JsonConfig(); 
+		if (this.excludeProperties != null){
+			 jsonConfig.setJsonPropertyFilter(new JPropertyFilter(this.excludeProperties));  
 		}
+		
 		Object targetObject = extractTargetObject(invocation);
 		if (targetObject != null){
 		   Class type = targetObject.getClass();
 		    if (type.isArray() || type.getName().indexOf("List")!=-1||type.getName().indexOf("Set")!=-1) {
-		    	JSONArray json = JSONArray.fromObject(targetObject);
+		    	JSONArray json = JSONArray.fromObject(targetObject,jsonConfig);
 		    	out.writeResult(request, response, json.toString());
 		    }else{
-		    	JSONObject json = JSONObject.fromObject(targetObject);
+		    	JSONObject json = JSONObject.fromObject(targetObject,jsonConfig);
 		    	out.writeResult(request, response, json.toString());
 		    }
 		}
 	}
-
 	/**
 	 * find the target object according the target property(parameter) if not
 	 * set, the action will be used.
@@ -114,5 +132,25 @@ public class JSONResult implements Result {
 			}
 		}
 		return targetObject;
+	}
+
+	public String getExcludeProperties() {
+		return excludeProperties;
+	}
+
+	public ResponseWrapper getOut() {
+		return out;
+	}
+
+	public void setExcludeProperties(String excludeProperties) {
+		this.excludeProperties = excludeProperties;
+	}
+
+	public void setOut(ResponseWrapper out) {
+		this.out = out;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
 	}
 }
