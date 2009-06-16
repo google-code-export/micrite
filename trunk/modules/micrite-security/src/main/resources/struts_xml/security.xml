@@ -79,12 +79,16 @@
         <action name="findUsersVague" class="userAction" method="findByUsernameVague">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
+                <param name="excludes">roles,authorities,accountNonExpired,accountNonLocked,
+                credentialsNonExpired,cryptpassword,password,plainpassword</param>
             </result>
         </action>
 
         <action name="loadCurrentUser" class="userAction" method="loadCurrentUser">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
+                <param name="excludes">roles,authorities,accountNonExpired,accountNonLocked,
+                credentialsNonExpired,cryptpassword,password,plainpassword</param>
             </result>
         </action>
          

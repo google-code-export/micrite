@@ -94,14 +94,11 @@ public class User implements UserDetails {
      */
     @Transient
     public GrantedAuthority[] getAuthorities() {
-        if(roles != null && roles.size() > 0){
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>(roles.size());
         for(Role role : roles) {
             grantedAuthorities.add(new GrantedAuthorityImpl(role.getName()));
         }
         return grantedAuthorities.toArray(new GrantedAuthority[roles.size()]);
-        }else
-            return null;
     }
     
     public String getPassword() {
