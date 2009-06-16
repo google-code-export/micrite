@@ -220,7 +220,7 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
             displayInfo:true,
             doLoad : function(start) {
                 record_start = start;
-                var o = {}, 
+                var o = {totalCount:this.store.getTotalCount()};
                 pn = this.paramNames;
                 o[pn.start] = start;
                 o[pn.limit] = this.pageSize;
