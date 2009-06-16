@@ -1,8 +1,8 @@
-/*
-* Simplified Chinese translation
-* By DavidHu
-* 09 April 2007
-*/
+/**
+ * Simplified Chinese translation
+ * By DavidHu
+ * 09 April 2007
+ */
 
 Ext.UpdateManager.defaults.indicatorText = '<div class="loading-indicator">加载中...</div>';
 
@@ -175,8 +175,7 @@ function baseLocale(){
             closeButton:'关闭',
             cancelButton:'取消',
             waitingMsg:'数据提交中...',
-            loadingMsg:'数据加载中...',
-            indexColumnHeader:'序号'    
+            loadingMsg:'数据加载中...'  
         });
     }
 }

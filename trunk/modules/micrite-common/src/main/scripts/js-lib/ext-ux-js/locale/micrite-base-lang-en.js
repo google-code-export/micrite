@@ -317,8 +317,7 @@ function baseLocale(){
             closeButton:'Close',
             cancelButton:'Cancel',
             waitingMsg:'Saving Data...',
-            loadingMsg:'Loading Data...',
-            indexColumnHeader:'Index'    
+            loadingMsg:'Loading Data...' 
         });
     }
 }
