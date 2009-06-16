@@ -204,8 +204,6 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
         
         //  序号列
         var rowNumbererColumn = new Ext.grid.RowNumberer({
-            header : mbLocale.indexColumnHeader,
-            width : 40,
             renderer:function(value, metadata, record, rowIndex) {
                 return record_start + 1 + rowIndex;
             }
