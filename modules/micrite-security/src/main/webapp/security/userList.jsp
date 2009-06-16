@@ -22,7 +22,7 @@ micrite.security.userList.SearchPanel = function() {
     this.resultReader = new Ext.data.JsonReader(
 	                                               {
 	                                                totalProperty:'totalCount',
-	                                                root:'results'
+	                                                root:'data'
 	                                               }, 
 	                                               [
 	                                                {name: 'id', type: 'int'},

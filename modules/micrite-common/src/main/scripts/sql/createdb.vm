@@ -12,22 +12,22 @@ DON'T RUN THIS, IT'S NOT A DATABASE CREATION SCRIPT!!!
 -- ------------------------------------------------------
 -- loginname: 系统的登录用户名
 -- cryptpassword: 系统的登录密码
--- isenabled: 用户状态 1=有效，0=无效
+-- enabled: 用户状态 1=有效，0=无效
 CREATE TABLE userbase (
     id                     $db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
     loginname              varchar(255) NOT NULL,    
     cryptpassword          varchar(255) NOT NULL,
     fullname               varchar(255) NOT NULL,
     emailaddress           varchar(255),
-    isenabled              $db.BOOLEAN_SQL_TYPE_TRUE NOT NULL
+    enabled              $db.BOOLEAN_SQL_TYPE_TRUE NOT NULL
 );
 ALTER TABLE userbase ADD CONSTRAINT userbase_loginname_uq UNIQUE ( loginname );
 
 #addAutoIncrement("userbase")
 
-insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('管理员','admin','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
-insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('bitorb','bitorb','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
-insert  into userbase(fullname,loginname,cryptpassword,isenabled) values ('一般用户','user','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
+insert  into userbase(fullname,loginname,cryptpassword,enabled) values ('管理员','admin','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
+insert  into userbase(fullname,loginname,cryptpassword,enabled) values ('bitorb','bitorb','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
+insert  into userbase(fullname,loginname,cryptpassword,enabled) values ('一般用户','user','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
 
 -- ------------------------------------------------------
 -- description: 此角色的详细描述

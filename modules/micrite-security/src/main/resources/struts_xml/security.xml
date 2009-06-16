@@ -60,31 +60,31 @@
         <!-- ~~~~~~~~~~~~~~~~~~~~ USER ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->    
         <action name="addUser" class="userAction" method="add">
             <result name="success" type="json">
-                <param name="target">actionResult</param>
+                <param name="target">resultMap</param>
             </result>
         </action>
 
         <action name="IsUserExisted" class="userAction" method="isExistedByUsername">
             <result name="success" type="json">
-                <param name="target">actionResult</param>
+                <param name="target">resultMap</param>
             </result>
         </action>
             
         <action name="updateUserInfo" class="userAction" method="updateInfo">
             <result name="success" type="json">
-                <param name="target">actionResult</param>
+                <param name="target">resultMap</param>
             </result>
         </action>
 
         <action name="findUsersVague" class="userAction" method="findByUsernameVague">
             <result name="success" type="json">
-                <param name="target">actionResult</param>
+                <param name="target">resultMap</param>
             </result>
         </action>
 
         <action name="loadCurrentUser" class="userAction" method="loadCurrentUser">
             <result name="success" type="json">
-                <param name="target">actionResult</param>
+                <param name="target">resultMap</param>
             </result>
         </action>
          

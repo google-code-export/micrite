@@ -72,7 +72,7 @@ public class User implements UserDetails {
     @Transient
     private String plainpassword;
     private String emailaddress;
-    private boolean isenabled;
+    private boolean enabled;
     
     @ManyToMany(targetEntity = Role.class)
     @JoinTable(name = "user_role_map", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -94,11 +94,14 @@ public class User implements UserDetails {
      */
     @Transient
     public GrantedAuthority[] getAuthorities() {
+        if(roles != null && roles.size() > 0){
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>(roles.size());
         for(Role role : roles) {
             grantedAuthorities.add(new GrantedAuthorityImpl(role.getName()));
         }
         return grantedAuthorities.toArray(new GrantedAuthority[roles.size()]);
+        }else
+            return null;
     }
     
     public String getPassword() {
@@ -126,7 +129,7 @@ public class User implements UserDetails {
 
     @Transient
     public boolean isEnabled() {
-        return isenabled;
+        return enabled;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
@@ -186,10 +189,10 @@ public class User implements UserDetails {
         this.emailaddress = emailaddress;
     }
 
-    public void setIsenabled(boolean isenabled) {
-        this.isenabled = isenabled;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
-
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Common Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//  
     public boolean equals(Object o) {
         if (this == o) return true;

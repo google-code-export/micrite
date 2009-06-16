@@ -46,7 +46,6 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
     public User findByUsername(String username) {
         DetachedCriteria criteria = DetachedCriteria.forClass(User.class);
         criteria.add(Expression.eq("loginname", username));
-        criteria.add(Expression.eq("isenabled", true));
 
         List<User> list = getHibernateTemplate().findByCriteria(criteria);
         if (!list.isEmpty()) {
