@@ -106,6 +106,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         //  加密后的密码
         String cryptpassword = passwordEncoder.encodePassword(plainpassword, null);
         user.setCryptpassword(cryptpassword);
+        user.setEnabled(true);
         userDao.save(user);
     }
 

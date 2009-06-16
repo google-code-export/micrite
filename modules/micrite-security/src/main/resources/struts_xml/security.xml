@@ -94,13 +94,14 @@
                 <param name="target">result</param>
             </result>
         </action>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~ Role ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->   
         <action name="findRolesAll" class="roleAction" method="findAll">
             <result name="success" type="json">
                 <param name="target">roles</param>
             </result>
         </action>
-
-        <!-- ~~~~~~~~~~~~~~~~~~~~ Role ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->   
+        
         <action name="findRolesVague" class="roleAction" method="findByNameVague">
             <result name="success" type="json">
                 <param name="target">actionResult</param>

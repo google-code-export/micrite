@@ -46,7 +46,7 @@ function userListLocale() {
             addUser:'Add User',
             fullname:'Full Name',
             emailaddress:'Email Address',
-            isenabled:'Enabled'
+            enabled:'Enabled'
         });
     }
 }

@@ -29,7 +29,7 @@ micrite.security.userList.SearchPanel = function() {
 	                                                {name: 'fullname'},
 	                                                {name: 'emailaddress'},
 	                                                {name: 'loginname'},
-	                                                {name: 'isenabled', type: 'boolean'}
+	                                                {name: 'enabled', type: 'boolean'}
 	                                               ]
 	);
     //  查询结果列
@@ -38,7 +38,7 @@ micrite.security.userList.SearchPanel = function() {
 	                         {header: this.fullname, width: 100, sortable: true, dataIndex: 'fullname'},
 	                         {header: this.emailaddress, width: 180, sortable: true, dataIndex: 'emailaddress'},
 	                         {header: this.username, width: 90, sortable: true, dataIndex: 'loginname'},
-	                         {header: this.isenabled, width: 70, sortable: true, dataIndex: 'isenabled'}
+	                         {header: this.enabled, width: 70, sortable: true, dataIndex: 'enabled'}
                          ];
 
     //  动作按钮数组
@@ -56,7 +56,7 @@ Ext.extend(micrite.security.userList.SearchPanel, micrite.panel.SearchPanel, {
     addUser:'Add User',
     fullname:'Full Name',
     emailaddress:'Email Address',
-    isenabled:'Enabled'
+    enabled:'Enabled'
 });
 
 //  处理多语言

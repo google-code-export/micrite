@@ -45,7 +45,7 @@ function userListLocale() {
             addUser:'增加用户',
             fullname:'名称',
             emailaddress:'电子邮件',
-            isenabled:'是否可用'
+            enabled:'是否可用'
         });
     }
 }

@@ -37,14 +37,13 @@ import org.springframework.security.context.SecurityContextHolder;
 import com.opensymphony.xwork2.ActionSupport;
 
 import org.gaixie.micrite.beans.User;
-import org.gaixie.micrite.common.action.MicriteAction;
 import org.gaixie.micrite.security.service.IUserService;
 import org.gaixie.micrite.security.SecurityException; 
 /**
  * 用户管理，提供新增，修改，查询用户等功能。
  */
 //@ManagedResource(objectName="micrite:type=action,name=UserAction", description="Micrite UserAction Bean")
-public class UserAction extends MicriteAction {
+public class UserAction extends ActionSupport {
 
     private static final long serialVersionUID = 5843976450199930680L;
 
@@ -58,6 +57,17 @@ public class UserAction extends MicriteAction {
     private User user;
     //  用户角色拼串，型如“2,4,6”
     private String userRolesStr;
+
+    //  以下两个分页用
+    //  起始索引
+    private int start;
+    //  限制数
+    private int limit;
+    //  记录总数（分页中改变页码时，会传递该参数过来）
+    private int totalCount;
+
+    //  action处理结果（map对象）
+    private Map<String,Object> resultMap = new HashMap<String,Object>();
     
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//
     /**
@@ -69,12 +79,13 @@ public class UserAction extends MicriteAction {
         String[] userRoleIds = StringUtils.split(userRolesStr, ",");
         try {
             userService.add(user, userRoleIds);
-            setMsg(true, getText("save.success"));
+            resultMap.put("message", getText("save.success"));
+            resultMap.put("success", true);
         } catch(SecurityException e) {
-            setMsg(false, getText(e.getMessage()));
+            resultMap.put("message", getText(e.getMessage()));
+            resultMap.put("success", false);
             logger.error(getText(e.getMessage()));
         }
-        genResultForUpdate();
         return SUCCESS;
     }
 
@@ -85,8 +96,7 @@ public class UserAction extends MicriteAction {
      */
     public String isExistedByUsername() {
         boolean isExisted = userService.isExistedByUsername(user.getUsername());
-        setMsg(isExisted, null);
-        genResultForUpdate();
+        resultMap.put("success", isExisted);
         return SUCCESS;
     }
 
@@ -100,8 +110,8 @@ public class UserAction extends MicriteAction {
                                user.getFullname(), 
                                user.getEmailaddress(), 
                                user.getPlainpassword());
-        setMsg(true, getText("save.success"));
-        genResultForUpdate();
+        resultMap.put("message", getText("save.success"));
+        resultMap.put("success", true);
         return SUCCESS;
     }
 
@@ -117,8 +127,8 @@ public class UserAction extends MicriteAction {
         userMap.put("fullname", currentUser.getFullname());
         userMap.put("emailaddress", currentUser.getEmailaddress());
         userMap.put("loginname", currentUser.getUsername());
-        setMsg(true, null);
-        genResultForLoad(userMap);
+        resultMap.put("data", userMap);
+        resultMap.put("success", true);
         return SUCCESS;
     }
 
@@ -129,20 +139,20 @@ public class UserAction extends MicriteAction {
      */
     public String findByUsernameVague() {
         String username = user.getUsername();
-        if (getTotalCount() == 0) {
-            logger.debug("---->"+getTotalCount());
+        if (totalCount == 0) {
             //  初次查询时，要从数据库中读取总记录数
-            int totalCount = userService.findByUsernameVagueCount(username);
-            setTotalCount(totalCount);
+            Integer count = userService.findByUsernameVagueCount(username);
+            setTotalCount(count);
         } 
         //  得到分页查询结果
-        List<User> users = userService.findByUsernameVaguePerPage(username, getStart(), getLimit());
+        List<User> users = userService.findByUsernameVaguePerPage(username, start, limit);
         //  防止json死循环查找
         for (User user : users) {
             user.setRoles(null);
         }
-        setMsg(true, null);
-        genResultForFind(users);
+        resultMap.put("totalCount", totalCount);
+        resultMap.put("success", true);
+        resultMap.put("data", users);
         return SUCCESS;
     }
     
@@ -155,7 +165,23 @@ public class UserAction extends MicriteAction {
         return user;
     }
 
+    public void setStart(int start) {
+        this.start = start;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
     public void setUserRolesStr(String userRolesStr) {
         this.userRolesStr = userRolesStr;
+    }
+
+    public Map<String, Object> getResultMap() {
+        return resultMap;
     }
 }
