@@ -37,13 +37,14 @@ import org.springframework.security.context.SecurityContextHolder;
 import com.opensymphony.xwork2.ActionSupport;
 
 import org.gaixie.micrite.beans.User;
+import org.gaixie.micrite.common.action.MicriteAction;
 import org.gaixie.micrite.security.service.IUserService;
 import org.gaixie.micrite.security.SecurityException; 
 /**
  * 用户管理，提供新增，修改，查询用户等功能。
  */
 //@ManagedResource(objectName="micrite:type=action,name=UserAction", description="Micrite UserAction Bean")
-public class UserAction extends ActionSupport {
+public class UserAction extends MicriteAction {
 
     private static final long serialVersionUID = 5843976450199930680L;
 
@@ -57,18 +58,6 @@ public class UserAction extends ActionSupport {
     private User user;
     //  用户角色拼串，型如“2,4,6”
     private String userRolesStr;
-
-    //  以下两个分页用
-    //  起始索引
-    private int start;
-    //  限制数
-    private int limit;
-    //  记录总数（分页中改变页码时，会传递该参数过来）
-    private int totalCount;
-
-    //  action处理结果（map对象）
-    private Map<String,Object> actionResult = new HashMap<String,Object>();
-    private Map<String,String> returnMsg = new HashMap<String,String>();
     
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//
     /**
@@ -80,14 +69,12 @@ public class UserAction extends ActionSupport {
         String[] userRoleIds = StringUtils.split(userRolesStr, ",");
         try {
             userService.add(user, userRoleIds);
-            returnMsg.put("message", getText("save.success"));
-            actionResult.put("success", true);
+            setMsg(true, getText("save.success"));
         } catch(SecurityException e) {
-            returnMsg.put("message", getText(e.getMessage()));
-            actionResult.put("success", false);
+            setMsg(false, getText(e.getMessage()));
             logger.error(getText(e.getMessage()));
         }
-        actionResult.put("result", returnMsg);
+        genResultForUpdate();
         return SUCCESS;
     }
 
@@ -98,7 +85,8 @@ public class UserAction extends ActionSupport {
      */
     public String isExistedByUsername() {
         boolean isExisted = userService.isExistedByUsername(user.getUsername());
-        actionResult.put("success", isExisted);
+        setMsg(isExisted, null);
+        genResultForUpdate();
         return SUCCESS;
     }
 
@@ -112,9 +100,8 @@ public class UserAction extends ActionSupport {
                                user.getFullname(), 
                                user.getEmailaddress(), 
                                user.getPlainpassword());
-        returnMsg.put("message", getText("save.success"));
-        actionResult.put("success", true);
-        actionResult.put("result", returnMsg);
+        setMsg(true, getText("save.success"));
+        genResultForUpdate();
         return SUCCESS;
     }
 
@@ -130,8 +117,8 @@ public class UserAction extends ActionSupport {
         userMap.put("fullname", currentUser.getFullname());
         userMap.put("emailaddress", currentUser.getEmailaddress());
         userMap.put("loginname", currentUser.getUsername());
-        actionResult.put("data", userMap);
-        actionResult.put("success", true);
+        setMsg(true, null);
+        genResultForLoad(userMap);
         return SUCCESS;
     }
 
@@ -142,22 +129,20 @@ public class UserAction extends ActionSupport {
      */
     public String findByUsernameVague() {
         String username = user.getUsername();
-        if (totalCount == 0) {
+        if (getTotalCount() == 0) {
+            logger.debug("---->"+getTotalCount());
             //  初次查询时，要从数据库中读取总记录数
-            Integer usersTotalCount = userService.findByUsernameVagueCount(username);
-            actionResult.put("totalCount", usersTotalCount);
-        } else {
-            //  改变页码时，不再从数据库中读取总记录数，而是从前端传递过来的总记录数代替
-            actionResult.put("totalCount", totalCount);
-        }
+            int totalCount = userService.findByUsernameVagueCount(username);
+            setTotalCount(totalCount);
+        } 
         //  得到分页查询结果
-        List<User> users = userService.findByUsernameVaguePerPage(username, start, limit);
+        List<User> users = userService.findByUsernameVaguePerPage(username, getStart(), getLimit());
         //  防止json死循环查找
         for (User user : users) {
             user.setRoles(null);
         }
-        actionResult.put("success", true);
-        actionResult.put("results", users);
+        setMsg(true, null);
+        genResultForFind(users);
         return SUCCESS;
     }
     
@@ -170,23 +155,7 @@ public class UserAction extends ActionSupport {
         return user;
     }
 
-    public void setStart(int start) {
-        this.start = start;
-    }
-
-    public void setLimit(int limit) {
-        this.limit = limit;
-    }
-
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
-
     public void setUserRolesStr(String userRolesStr) {
         this.userRolesStr = userRolesStr;
-    }
-
-    public Map<String, Object> getActionResult() {
-        return actionResult;
     }
 }

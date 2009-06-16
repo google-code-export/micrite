@@ -90,11 +90,11 @@ micrite.security.userDetailModify.FormPanel = function() {
 	                params: params,
 	                success: function(form, action) {
 	                    obj = Ext.util.JSON.decode(action.response.responseText);
-	                    Ext.MessageBox.alert('Message', obj.result.message);	                
+	                    showMsg('success', obj.message);	 
 	                },
 	                failure: function(form, action) {
 	                    obj = Ext.util.JSON.decode(action.response.responseText);
-	                    Ext.MessageBox.alert('Message', obj.result.message);
+	                    showMsg('failure', obj.message);
 	                }
 	            });
 	        }
