@@ -69,13 +69,12 @@ public interface IUserDao {
     public User getUser(Integer id);
     
     /**
-     * 根据用户名查询用户集合（模糊查询）。
+     * 根据用户名查询用户的总数（模糊查询）。
      * 
      * @see org.gaixie.micrite.beans.User
      * @param username 用户名
-     * @return <code>User</code>对象列表
      */
-    public List<User> findByUsernameVague(String username);
+    public Integer findByNameVagueCount(String username);
 
     /**
      * 根据用户名查询用户集合（模糊查询，分页）。
@@ -86,5 +85,5 @@ public interface IUserDao {
      * @param limit 限制数
      * @return <code>User</code>对象列表
      */
-    public List<User> findByUsernameVagueOnPage(String username, int start, int limit);
+    public List<User> findByUsernameVaguePerPage(String username, int start, int limit);
 }

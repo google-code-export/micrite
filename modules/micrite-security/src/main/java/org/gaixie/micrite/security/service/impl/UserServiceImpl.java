@@ -158,12 +158,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         return newAuthentication;
     }
 
-    public List<User> findByUsernameVague(String username) {
-        return userDao.findByUsernameVague(username);
+    public Integer findByUsernameVagueCount(String username) {
+        return userDao.findByNameVagueCount(username);
     }
 
-    public List<User> findByUsernameVagueOnPage(String username, int start, int limit) {
-        return userDao.findByUsernameVagueOnPage(username, start, limit);
+    public List<User> findByUsernameVaguePerPage(String username, int start, int limit) {
+        return userDao.findByUsernameVaguePerPage(username, start, limit);
     }
 
 }
