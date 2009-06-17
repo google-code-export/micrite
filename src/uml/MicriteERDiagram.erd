@@ -617,10 +617,15 @@
                                                     <defaultValue></defaultValue>
                                                   </net.java.amateras.db.visual.model.ColumnModel>
                                                   <net.java.amateras.db.visual.model.ColumnModel>
-                                                    <columnName>SORTINDEXT</columnName>
-                                                    <logicalName>SORTINDEXT</logicalName>
-                                                    <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../../../../../../../../../../columns/net.java.amateras.db.visual.model.ColumnModel[6]/columnType"/>
-                                                    <size>5</size>
+                                                    <columnName>SORTINDEX</columnName>
+                                                    <logicalName>SORTINDEX</logicalName>
+                                                    <columnType class="net.java.amateras.db.dialect.ColumnType">
+                                                      <name>INTEGER</name>
+                                                      <logicalName>Integer</logicalName>
+                                                      <supportSize>true</supportSize>
+                                                      <type>4</type>
+                                                    </columnType>
+                                                    <size>10</size>
                                                     <notNull>true</notNull>
                                                     <primaryKey>false</primaryKey>
                                                     <description>用于对配置可选值在显示的时候进行排序。</description>

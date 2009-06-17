@@ -19,7 +19,7 @@ CREATE TABLE userbase (
     cryptpassword          varchar(255) NOT NULL,
     fullname               varchar(255) NOT NULL,
     emailaddress           varchar(255),
-    enabled              $db.BOOLEAN_SQL_TYPE_TRUE NOT NULL
+    enabled                $db.BOOLEAN_SQL_TYPE_TRUE NOT NULL
 );
 ALTER TABLE userbase ADD CONSTRAINT userbase_loginname_uq UNIQUE ( loginname );
 
@@ -102,6 +102,38 @@ insert  into role_authority_map(role_id,authority_id) values (3,3);
 insert  into role_authority_map(role_id,authority_id) values (3,4);
 insert  into role_authority_map(role_id,authority_id) values (3,5);
 insert  into role_authority_map(role_id,authority_id) values (3,6);
+
+-- ------------------------------------------------------
+-- enabled: 1 用户可以修改， 0 用户不能修改。
+CREATE TABLE setting(
+  name                     varchar(32) NOT NULL PRIMARY KEY,
+  default_value            varchar(32) NOT NULL,
+  enabled                  $db.BOOLEAN_SQL_TYPE_TRUE NOT NULL
+);
+
+insert  into setting(name,default_value) values ('RowsPerPage','20');
+
+-- ------------------------------------------------------
+-- sortindex: 用于对配置可选值在显示的时候进行排序。
+CREATE TABLE setting_value(
+  name                     varchar(32) NOT NULL,
+  value                    varchar(32) NOT NULL,
+  sortindex                integer NOT NULL DEFAULT 0
+);
+ALTER TABLE setting_value ADD CONSTRAINT sv_name_sortindex_uq UNIQUE ( name,sortindex );
+ALTER TABLE setting_value ADD CONSTRAINT sv_name_value_uq UNIQUE ( name,value );
+
+insert  into setting_value(name,value,sortindex) values ('RowsPerPage','50',0);
+insert  into setting_value(name,value,sortindex) values ('RowsPerPage','100',1);
+
+-- ------------------------------------------------------
+CREATE TABLE user_setting(
+  setting_name             varchar(32) NOT NULL,
+  setting_value            varchar(32) NOT NULL,
+  user_id                  integer NOT NULL
+);
+ALTER TABLE user_setting ADD CONSTRAINT us_setting_name_user_id_uq UNIQUE ( setting_name,user_id );
+
 -- ------------------------------------------------------
 -- name: 客户的来源，如 陌生拜访，亲友
 CREATE TABLE customer_source (
@@ -136,5 +168,17 @@ ALTER TABLE user_role_map ADD CONSTRAINT urmap_role_id_fk FOREIGN KEY (role_id)
 ALTER TABLE user_role_map ADD CONSTRAINT urmap_user_id_fk FOREIGN KEY (user_id)
     REFERENCES userbase (id);
 
+ALTER TABLE user_setting ADD CONSTRAINT us_setting_name_fk FOREIGN KEY (setting_name)
+    REFERENCES setting (name);
+
+ALTER TABLE user_setting ADD CONSTRAINT us_sn_sv_fk FOREIGN KEY (setting_name,setting_value)
+    REFERENCES setting_value (name,value);
+
+ALTER TABLE user_setting ADD CONSTRAINT us_user_id_fk FOREIGN KEY (user_id)
+    REFERENCES userbase (id);
+        
+ALTER TABLE setting_value ADD CONSTRAINT sv_setting_name_fk FOREIGN KEY (name)
+    REFERENCES setting (name);
+            
 ALTER TABLE customers ADD CONSTRAINT customers_cs_id_fk FOREIGN KEY (customer_source_id)
     REFERENCES customer_source (id);
