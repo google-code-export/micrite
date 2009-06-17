@@ -16,7 +16,8 @@ DON'T RUN THIS, IT'S NOT A DATABASE DROP SCRIPT!!!
 DROP TABLE role_authority_map;
 DROP TABLE user_role_map;
 DROP TABLE customers;
-
+DROP TABLE user_setting;
+DROP TABLE setting_value;
 
 -- drop non-associated tables
 DROP TABLE customer_source;
@@ -25,3 +26,4 @@ DROP TABLE customer_source;
 DROP TABLE roles;
 DROP TABLE userbase;
 DROP TABLE authorities;
+DROP TABLE setting;
