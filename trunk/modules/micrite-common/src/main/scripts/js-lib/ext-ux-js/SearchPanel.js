@@ -195,10 +195,16 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
             ctCls:'search-all-tbar',
             items:[this.conditionGroupSwitchButton]
         });
-
+        
+        var httpProxy = new Ext.data.HttpProxy({url:this.requestURL});
+        httpProxy.on('loadexception', function(proxy, options, response, error) {
+                                          obj = Ext.util.JSON.decode(response.responseText);
+                                          showMsg('failure', obj.message);
+                                      }
+        );
         //  创建store
         var resultStore = new Ext.data.Store({
-            proxy:new Ext.data.HttpProxy({url:this.requestURL}),
+            proxy:httpProxy,
             reader:this.resultReader
         });
         
