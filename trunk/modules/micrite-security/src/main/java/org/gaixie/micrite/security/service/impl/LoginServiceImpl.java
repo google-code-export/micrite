@@ -26,7 +26,6 @@ package org.gaixie.micrite.security.service.impl;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,11 +33,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.beans.Role;
-import org.gaixie.micrite.beans.Setting;
 import org.gaixie.micrite.beans.User;
-import org.gaixie.micrite.security.dao.IUserDao;
 import org.gaixie.micrite.security.service.ILoginService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 接口 <code>ILoginService</code> 的实现类。
@@ -48,9 +44,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class LoginServiceImpl implements ILoginService {
 	
 	private final static Logger logger = Logger.getLogger(LoginServiceImpl.class);
-
-    @Autowired
-    private IUserDao userDao;
 
     public Set<Map<String, Object>> loadChildNodes(User user, String node) {
         Set<Map<String, Object>> menu = new HashSet<Map<String, Object>>();
@@ -95,11 +88,6 @@ public class LoginServiceImpl implements ILoginService {
             }
         }
         
-        List<Setting> settings = user.getSetting();
-        for (Setting setting : settings) {
-        	logger.debug(setting.getName());
-        	logger.debug(setting.getValue());
-        }
         return menu;
     }
 

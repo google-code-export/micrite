@@ -36,8 +36,8 @@ import org.gaixie.micrite.beans.Setting;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.SecurityException;
 import org.gaixie.micrite.security.dao.IRoleDao;
-import org.gaixie.micrite.security.dao.IUserDao;
 import org.gaixie.micrite.security.dao.ISettingDao;
+import org.gaixie.micrite.security.dao.IUserDao;
 import org.gaixie.micrite.security.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -89,7 +89,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             }
         }
         
-        user.setSetting(findSettingById(user.getId()));
+        user.setSettings(findSettingById(user.getId()));
         return user;
     }
     
@@ -125,6 +125,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     }
     
     public void updateInfo(User u) {
+    	logger.info("updateInfo");
         //  取出用户
         User user = userDao.getUser(u.getId());
 
@@ -140,12 +141,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         List<Setting> list = new ArrayList<Setting>();
 
         //判断是否需要更新setting,如果选项和缺省值一致,则不更新
-        for (Setting s:u.getSetting()){
+        for (Setting s:u.getSettings()){
         	Setting setting = settingDao.getSetting(s.getId());
 //        	if (setting.getSortindex() != 0)
         		list.add(setting);
         }
-        user.setSetting(list);
+        user.setSettings(list);
         
         //  持久化修改
         userDao.update(user);
@@ -161,6 +162,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         if (username.equals(currentAuthentication.getName())) {
             SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(currentAuthentication));
         }
+        
     }
     
     private Authentication createNewAuthentication(Authentication currentAuth) {
@@ -184,7 +186,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     private List<Setting> findSettingById(int userId){
     	User user = userDao.getUser(userId);
     	List<Setting> allSetting = settingDao.findAllDefault();
-    	List<Setting> userSetting = user.getSetting();
+    	List<Setting> userSetting = user.getSettings();
     	if (userSetting.size()>0){	
     		return userSetting;
     	}

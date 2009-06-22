@@ -25,10 +25,8 @@
 package org.gaixie.micrite.security.action;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -110,7 +108,7 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */
     public String updateInfo() {
-    	user.setSetting(setting);
+    	user.setSettings(setting);
         userService.updateInfo(user);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
@@ -131,7 +129,7 @@ public class UserAction extends ActionSupport {
         userMap.put("user.loginname", currentUser.getLoginname());
         //userMap.put( userService.findUserSettingById(currentUser.getId()).get(0).getId());
         resultMap.put("data", userMap);
-        resultMap.put("settings", currentUser.getSetting());
+        resultMap.put("settings", currentUser.getSettings());
         resultMap.put("success", true);
         return SUCCESS;
     }
