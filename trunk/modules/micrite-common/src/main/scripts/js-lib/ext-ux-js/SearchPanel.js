@@ -219,7 +219,7 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
         
         //  创建分页工具栏
         var pagingToolbar = new Ext.PagingToolbar({
-            pageSize:Ext.get('pageSize').dom.value,
+            pageSize:parseInt(Ext.get('pageSize').dom.value),
             store:resultStore,
             displayInfo:true,
             doLoad : function(start) {
