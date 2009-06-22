@@ -127,9 +127,8 @@ public class UserAction extends ActionSupport {
         userMap.put("user.fullname", currentUser.getFullname());
         userMap.put("user.emailaddress", currentUser.getEmailaddress());
         userMap.put("user.loginname", currentUser.getLoginname());
-        //userMap.put( userService.findUserSettingById(currentUser.getId()).get(0).getId());
         resultMap.put("data", userMap);
-        resultMap.put("settings", currentUser.getSettings());
+        resultMap.put("settings", userService.getSettings(currentUser.getId()));
         resultMap.put("success", true);
         return SUCCESS;
     }
@@ -148,10 +147,6 @@ public class UserAction extends ActionSupport {
         } 
         //  得到分页查询结果
         List<User> users = userService.findByUsernameVaguePerPage(username, start, limit);
-        //  防止json死循环查找
-//        for (User user : users) {
-//            user.setRoles(null);
-//        }
         resultMap.put("totalCount", totalCount);
         resultMap.put("success", true);
         resultMap.put("data", users);

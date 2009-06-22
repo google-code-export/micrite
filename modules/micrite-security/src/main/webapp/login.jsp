@@ -68,7 +68,7 @@ micrite.security.framework.LoginWindow = Ext.extend(LoginWindow, Ext.Window, {
     
     // 类成员函数    
     onActionComplete : function(f, a) {
-        window.location = 'main.jsp';
+        window.location = 'main.action';
     },
     
     onActionFailed : function(f, a) {

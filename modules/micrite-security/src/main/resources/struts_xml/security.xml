@@ -57,6 +57,12 @@
             </result>
         </action>
         
+        <action name="main" class="loginAction" method="loadPageSize">
+            <result name="success">
+                <param name="location">/main.jsp</param>
+            </result>
+        </action>
+                
         <!-- ~~~~~~~~~~~~~~~~~~~~ USER ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->    
         <action name="addUser" class="userAction" method="add">
             <result name="success" type="json">
