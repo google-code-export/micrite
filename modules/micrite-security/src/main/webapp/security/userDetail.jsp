@@ -20,15 +20,16 @@ micrite.security.userDetail.FormPanel = function() {
     micrite.security.userDetail.FormPanel.superclass.constructor.call(this, {
         id: 'userDetailForm',
         bodyBorder: false,
-        autoHeight: true,
-        style: {"margin-top": "10px"},    
+       // autoHeight: true,
+        frame: true,
+        //style: {"margin-top": "10px"},    
         items: [{
             xtype: 'fieldset',
             labelWidth: 120,
             title: this.userDetailText,
             layout: 'form',
-            width: 350,
-            defaults: {width: 170},    
+           // width: 350,
+         //   defaults: {width: 170},    
             defaultType: 'textfield',
             autoHeight: true,
             style: {"margin-left": "10px"},
@@ -91,7 +92,7 @@ micrite.security.userDetail.FormPanel = function() {
         },{
             text: this.cancelText
         }],
-        buttonAlign:'left'
+        buttonAlign:'center'
     });
 };// FormPanel构造函数结束
 
