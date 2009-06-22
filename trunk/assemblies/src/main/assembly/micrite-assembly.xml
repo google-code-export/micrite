@@ -43,6 +43,15 @@
 				<include>LICENSE*</include>
 			</includes>
 		</fileSet>	
+        <fileSet>
+            <directory>../modules/micrite-beans/target/classes
+            </directory>
+            <outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+                
 		<fileSet>
 			<directory>../modules/micrite-common/target/classes
 			</directory>
