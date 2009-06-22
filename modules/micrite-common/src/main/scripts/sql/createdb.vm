@@ -75,7 +75,7 @@ insert  into authorities(name,type,value) values ('/Security Modules/User List',
 insert  into authorities(name,type,value) values ('/Security Modules/User Detail','URL','/security/userDetail.jsp');
 insert  into authorities(name,type,value) values ('/Security Modules/Authority Detail','URL','/security/authorityDetail.jsp');
 insert  into authorities(name,type,value) values ('/Security Modules/Role List','URL','/security/roleList.jsp');
-insert  into authorities(name,type,value) values ('Security Detail Add Method Filter','METHOD','* org.gaixie.micrite.crm.service.ICustomerService.add(..)');
+-- insert  into authorities(name,type,value) values ('Security Detail Add Method Filter','METHOD','* org.gaixie.micrite.crm.service.ICustomerService.add(..)');
 
 
 CREATE TABLE role_authority_map (
@@ -91,7 +91,7 @@ insert  into role_authority_map(role_id,authority_id) values (1,4);
 insert  into role_authority_map(role_id,authority_id) values (1,5);
 insert  into role_authority_map(role_id,authority_id) values (1,6);
 insert  into role_authority_map(role_id,authority_id) values (1,7);
-insert  into role_authority_map(role_id,authority_id) values (1,8);
+-- insert  into role_authority_map(role_id,authority_id) values (1,8);
 
 insert  into role_authority_map(role_id,authority_id) values (2,1);
 insert  into role_authority_map(role_id,authority_id) values (2,2);
@@ -120,6 +120,7 @@ ALTER TABLE setting ADD CONSTRAINT setting_name_value_uq UNIQUE ( name,value );
 
 insert  into setting(name,value,sortindex) values ('RowsPerPage','50',0);
 insert  into setting(name,value,sortindex) values ('RowsPerPage','100',1);
+insert  into setting(name,value,sortindex) values ('Theme','Blue',0);
 
 -- ------------------------------------------------------
 CREATE TABLE user_setting_map(

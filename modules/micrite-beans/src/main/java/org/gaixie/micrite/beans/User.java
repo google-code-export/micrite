@@ -25,13 +25,10 @@
 package org.gaixie.micrite.beans;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,10 +38,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Proxy;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UserDetails;
@@ -78,7 +73,11 @@ public class User implements UserDetails {
     @JoinTable(name = "user_role_map", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Role> roles;
-    
+
+    @ManyToMany(targetEntity = Setting.class)
+    @JoinTable(name = "user_setting_map", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "setting_id"))
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private List<Setting> settings;
     /**
      * No-arg constructor for JavaBean tools.
      */
@@ -190,7 +189,17 @@ public class User implements UserDetails {
         this.enabled = enabled;
     }
     
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Common Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//  
+
+
+	public List<Setting> getSettings() {
+		return settings;
+	}
+
+	public void setSettings(List<Setting> settings) {
+		this.settings = settings;
+	}
+
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Common Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//  
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User)) return false;

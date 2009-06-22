@@ -25,20 +25,21 @@
 package org.gaixie.micrite.security.action;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.gaixie.micrite.beans.Setting;
+import org.gaixie.micrite.beans.User;
+import org.gaixie.micrite.security.SecurityException;
+import org.gaixie.micrite.security.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.security.context.SecurityContextHolder;
 
 import com.opensymphony.xwork2.ActionSupport;
-
-import org.gaixie.micrite.beans.User;
-import org.gaixie.micrite.security.service.IUserService;
-import org.gaixie.micrite.security.SecurityException; 
 /**
  * 用户管理，提供新增，修改，查询用户等功能。
  */
@@ -68,6 +69,9 @@ public class UserAction extends ActionSupport {
 
     //  action处理结果（map对象）
     private Map<String,Object> resultMap = new HashMap<String,Object>();
+    
+    // user setting
+    private List<Setting> setting;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//
     /**
@@ -106,10 +110,8 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */
     public String updateInfo() {
-        userService.updateInfo(user.getId(), 
-                               user.getFullname(), 
-                               user.getEmailaddress(), 
-                               user.getPlainpassword());
+    	user.setSetting(setting);
+        userService.updateInfo(user);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -123,11 +125,13 @@ public class UserAction extends ActionSupport {
     public String loadCurrentUser() {
         User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Map<String,Object> userMap = new HashMap<String,Object>();
-        userMap.put("id", currentUser.getId());
-        userMap.put("fullname", currentUser.getFullname());
-        userMap.put("emailaddress", currentUser.getEmailaddress());
-        userMap.put("loginname", currentUser.getUsername());
-        resultMap.put("data", currentUser);
+        userMap.put("user.id", currentUser.getId());
+        userMap.put("user.fullname", currentUser.getFullname());
+        userMap.put("user.emailaddress", currentUser.getEmailaddress());
+        userMap.put("user.loginname", currentUser.getLoginname());
+        //userMap.put( userService.findUserSettingById(currentUser.getId()).get(0).getId());
+        resultMap.put("data", userMap);
+        resultMap.put("settings", currentUser.getSetting());
         resultMap.put("success", true);
         return SUCCESS;
     }
@@ -154,6 +158,11 @@ public class UserAction extends ActionSupport {
         resultMap.put("success", true);
         resultMap.put("data", users);
         return SUCCESS;
+    }
+    
+    public String findSettingByName(){
+    	setSetting(userService.findSettingByName(setting.get(0).getName()));
+    	return SUCCESS;
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~  Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
@@ -184,4 +193,13 @@ public class UserAction extends ActionSupport {
     public Map<String, Object> getResultMap() {
         return resultMap;
     }
+
+	public void setSetting(List<Setting> setting) {
+		this.setting = setting;
+	}
+
+	public List<Setting> getSetting() {
+		return setting;
+	}
+
 }
