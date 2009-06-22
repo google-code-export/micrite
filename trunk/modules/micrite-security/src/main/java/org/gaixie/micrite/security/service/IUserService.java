@@ -26,6 +26,7 @@ package org.gaixie.micrite.security.service;
 
 import java.util.List;
 
+import org.gaixie.micrite.beans.Setting;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.SecurityException;
 
@@ -56,15 +57,11 @@ public interface IUserService {
      * 修改用户信息。
      * 密码不为空字串时才修改密码。
      * 
-     * @param id 用户id
-     * @param newFullname 新名称
-     * @param newEmailaddress 新email地址
-     * @param newPlainpassword 新密码（明文）
+     * @param user对象,可更新属性包括, 用户id,newFullname 新名称,
+     * newEmailaddress 新email地址,newPlainpassword 新密码（明文）
+     * user对象包括一个setting对象
      */
-    public void updateInfo(Integer id,
-                           String newFullname,
-                           String newEmailaddress,
-                           String newPlainpassword);
+    public void updateInfo(User user);
 
     /**
      * 根据用户名查询用户的总数（模糊查询）。
@@ -81,4 +78,13 @@ public interface IUserService {
      * @param limit 限制数
      */
     public List<User> findByUsernameVaguePerPage(String username, int start, int limit);
+    
+    
+    /**
+     * 根据配置项名称查询可用配置项属性
+     * @param name
+     * @return
+     */
+    public List<Setting> findSettingByName(String name);
+
 }

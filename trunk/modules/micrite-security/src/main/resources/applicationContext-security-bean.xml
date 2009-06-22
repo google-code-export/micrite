@@ -50,5 +50,8 @@
     <bean id="roleDao" class="org.gaixie.micrite.security.dao.hibernate.RoleDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-
+    <bean id="settingDao" class="org.gaixie.micrite.security.dao.hibernate.SettingDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
 </beans>

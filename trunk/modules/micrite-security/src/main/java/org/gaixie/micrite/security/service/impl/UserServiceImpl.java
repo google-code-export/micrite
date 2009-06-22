@@ -24,29 +24,31 @@
 
 package org.gaixie.micrite.security.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.gaixie.micrite.beans.Authority;
+import org.gaixie.micrite.beans.Role;
+import org.gaixie.micrite.beans.Setting;
+import org.gaixie.micrite.beans.User;
+import org.gaixie.micrite.security.SecurityException;
+import org.gaixie.micrite.security.dao.IRoleDao;
+import org.gaixie.micrite.security.dao.IUserDao;
+import org.gaixie.micrite.security.dao.ISettingDao;
+import org.gaixie.micrite.security.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
-import org.springframework.security.providers.encoding.PasswordEncoder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.security.providers.dao.UserCache;
+import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
-
-import org.gaixie.micrite.beans.Authority;
-import org.gaixie.micrite.beans.Role;
-import org.gaixie.micrite.beans.User;
-import org.gaixie.micrite.security.dao.IRoleDao;
-import org.gaixie.micrite.security.dao.IUserDao;
-import org.gaixie.micrite.security.service.IUserService;
-import org.gaixie.micrite.security.SecurityException;
 
 /**
  * 用户业务实现
@@ -61,6 +63,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     private IUserDao userDao;
     @Autowired
     private IRoleDao roleDao;
+    @Autowired
+    private ISettingDao settingDao;    
 
     //  用于对明文密码加密
     @Autowired
@@ -84,6 +88,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
                 auth.getName();
             }
         }
+        
+        user.setSetting(findSettingById(user.getId()));
         return user;
     }
     
@@ -118,25 +124,33 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         return false;
     }
     
-    public void updateInfo(Integer id,
-                           String newFullname,
-                           String newEmailaddress,
-                           String newPlainpassword) {
+    public void updateInfo(User u) {
         //  取出用户
-        User user = userDao.getUser(id);
-        //  修改用户
-        user.setFullname(newFullname);
-        user.setEmailaddress(newEmailaddress);
+        User user = userDao.getUser(u.getId());
+
+        // 修改用户
+        user.setFullname(u.getFullname());
+        user.setEmailaddress(u.getEmailaddress());
         //  密码为非空字符串，才修改密码
-        if (!newPlainpassword.equals("")) {
-            String cryptpassword = passwordEncoder.encodePassword(newPlainpassword, null);
+        if (!"".equals(user.getPlainpassword())&&user.getPlainpassword()!=null) {
+            String cryptpassword = passwordEncoder.encodePassword(user.getPlainpassword(), null);
             user.setCryptpassword(cryptpassword);
         }
+        
+        List<Setting> list = new ArrayList<Setting>();
+
+        //判断是否需要更新setting,如果选项和缺省值一致,则不更新
+        for (Setting s:u.getSetting()){
+        	Setting setting = settingDao.getSetting(s.getId());
+//        	if (setting.getSortindex() != 0)
+        		list.add(setting);
+        }
+        user.setSetting(list);
+        
         //  持久化修改
         userDao.update(user);
         
-        String username = user.getUsername();
-        
+        String username = user.getLoginname();
         //  从cache中删除修改的对象
         if (userCache != null) {
             userCache.removeUserFromCache(username);
@@ -166,5 +180,19 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     public List<User> findByUsernameVaguePerPage(String username, int start, int limit) {
         return userDao.findByUsernameVaguePerPage(username, start, limit);
     }
+    
+    private List<Setting> findSettingById(int userId){
+    	User user = userDao.getUser(userId);
+    	List<Setting> allSetting = settingDao.findAllDefault();
+    	List<Setting> userSetting = user.getSetting();
+    	if (userSetting.size()>0){	
+    		return userSetting;
+    	}
+    	return allSetting;
+    }
+
+	public List<Setting> findSettingByName(String name) {
+		return settingDao.findSettingByName(name);
+	}
 
 }
