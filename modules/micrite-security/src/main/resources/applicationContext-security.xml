@@ -32,10 +32,10 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
                         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
-
+<!--
     <bean class="org.springframework.security.event.authentication.LoggerListener"/>   
     <bean class="org.springframework.security.event.authorization.LoggerListener"/>   
-
+-->
     <!-- ===================== SECURITY DEFINITIONS ======================= -->
 	<sec:http access-denied-page="/403.jsp" >
 	    <sec:intercept-url pattern="/" filters="none" />

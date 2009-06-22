@@ -70,6 +70,8 @@
     timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
     <cache name="org.gaixie.micrite.beans.User.roles" maxElementsInMemory="500" eternal="true"
     timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
+    <cache name="org.gaixie.micrite.beans.User.settings" maxElementsInMemory="500" eternal="true"
+    timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>    
     <cache name="org.gaixie.micrite.beans.Authority" maxElementsInMemory="500" eternal="true"
     timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
     <cache name="org.gaixie.micrite.beans.Authority.roles" maxElementsInMemory="500" eternal="true"
