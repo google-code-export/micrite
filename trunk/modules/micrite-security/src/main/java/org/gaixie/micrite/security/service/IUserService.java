@@ -86,5 +86,9 @@ public interface IUserService {
      * @return
      */
     public List<Setting> findSettingByName(String name);
+    
+    public List<Setting> getSettings(int userId);
+    
+    public Setting getSettingByName(int userId,String name);
 
 }

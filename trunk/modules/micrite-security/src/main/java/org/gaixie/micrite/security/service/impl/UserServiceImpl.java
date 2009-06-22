@@ -89,7 +89,6 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             }
         }
         
-        user.setSettings(findSettingById(user.getId()));
         return user;
     }
     
@@ -183,18 +182,29 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         return userDao.findByUsernameVaguePerPage(username, start, limit);
     }
     
-    private List<Setting> findSettingById(int userId){
+    public List<Setting> getSettings(int userId){
     	User user = userDao.getUser(userId);
-    	List<Setting> allSetting = settingDao.findAllDefault();
-    	List<Setting> userSetting = user.getSettings();
-    	if (userSetting.size()>0){	
-    		return userSetting;
+    	List<Setting> ds = settingDao.findAllDefault();
+    	List<Setting> us = user.getSettings();
+    	if (us.size()>0){	
+    		return us;
     	}
-    	return allSetting;
+    	return ds;
     }
 
 	public List<Setting> findSettingByName(String name) {
 		return settingDao.findSettingByName(name);
 	}
+
+    public Setting getSettingByName(int userId, String name) {
+        List<Setting> settings = getSettings(userId);
+        
+        for(Setting setting:settings){
+            if(name.equals(setting.getName())){
+                return setting;
+            }
+        }
+        return null;
+    }
 
 }

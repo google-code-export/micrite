@@ -25,15 +25,16 @@
 package org.gaixie.micrite.security.action;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.struts2.interceptor.SessionAware;
+import org.gaixie.micrite.beans.Setting;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.service.ILoginService;
+import org.gaixie.micrite.security.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.context.SecurityContext;
 import org.springframework.security.context.SecurityContextHolder;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -41,20 +42,21 @@ import com.opensymphony.xwork2.ActionSupport;
 /**
  * 登录用户管理
  * @see com.opensymphony.xwork2.ActionSupport
- * @see org.apache.struts2.interceptor.SessionAware
  */
-public class LoginAction extends ActionSupport implements SessionAware{ 
+public class LoginAction extends ActionSupport{ 
 	private static final long serialVersionUID = -5277215719944190914L;
 
 	private static final Logger logger = Logger.getLogger(LoginAction.class); 
 	
 	@Autowired
 	private ILoginService loginService;
-	
+    @Autowired
+    private IUserService userService;
+    
 	private User user;
     private String node;
-	private Map<String,Object> session;
 	private Set<Map<String,Object>> menu;
+	private String pageSize;
 	private Map<String,Object> loginResult = new HashMap<String,Object>();
 	private Map<String,String> errorMsg = new HashMap<String,String>();
 	
@@ -80,7 +82,15 @@ public class LoginAction extends ActionSupport implements SessionAware{
 		menu = loginService.loadChildNodes(currentUser,node);
 		return SUCCESS;
 	}
-	
+
+    public String loadPageSize(){
+        User cUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Setting setting = userService.getSettingByName(cUser.getId(),"RowsPerPage");
+        pageSize = setting.getValue();
+        logger.debug("rowsPerPage111"+pageSize);
+        return SUCCESS;
+    }
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~  Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
 	/**
 	 * @return node
@@ -109,12 +119,6 @@ public class LoginAction extends ActionSupport implements SessionAware{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	/* (non-Javadoc)
-	 * @see org.apache.struts2.interceptor.SessionAware#setSession(java.util.Map)
-	 */
-	public void setSession(Map<String,Object> session) {
-		this.session = session;
-	}
 
     public Set<Map<String,Object>> getMenu() {
         return menu;
@@ -138,5 +142,20 @@ public class LoginAction extends ActionSupport implements SessionAware{
 
     public void setErrorMsg(Map<String, String> errorMsg) {
         this.errorMsg = errorMsg;
-    }    
+    }
+
+    /**
+     * @param pageSize the pageSize to set
+     */
+    public void setPageSize(String pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    /**
+     * @return the pageSize
+     */
+    public String getPageSize() {
+        return pageSize;
+    }
+
 }

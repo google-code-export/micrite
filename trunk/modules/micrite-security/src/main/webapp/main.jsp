@@ -326,7 +326,7 @@ Ext.onReady(function(){
 </head>
 
 <body>
-<input id="pageSize" type="hidden" name="pageSize" value="10">
+<s:hidden id="pageSize" name="pageSize"></s:hidden>
 <script type="text/javascript" src="js-lib/ext-ux-js/SearchPanel.js"></script>
 <div id="header"></div>
 </body>
