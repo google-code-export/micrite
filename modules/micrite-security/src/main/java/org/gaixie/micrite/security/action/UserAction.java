@@ -69,7 +69,7 @@ public class UserAction extends ActionSupport {
     private Map<String,Object> resultMap = new HashMap<String,Object>();
     
     // user setting
-    private List<Setting> setting;
+    private List<Setting> settings;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//
     /**
@@ -108,7 +108,7 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */
     public String updateInfo() {
-    	user.setSettings(setting);
+    	user.setSettings(settings);
         userService.updateInfo(user);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
@@ -159,7 +159,7 @@ public class UserAction extends ActionSupport {
     }
     
     public String findSettingByName(){
-    	setSetting(userService.findSettingByName(setting.get(0).getName()));
+    	setSettings(userService.findSettingByName(settings.get(0).getName()));
     	return SUCCESS;
     }
     
@@ -192,12 +192,12 @@ public class UserAction extends ActionSupport {
         return resultMap;
     }
 
-	public void setSetting(List<Setting> setting) {
-		this.setting = setting;
+	public void setSettings(List<Setting> settings) {
+		this.settings = settings;
 	}
 
-	public List<Setting> getSetting() {
-		return setting;
+	public List<Setting> getSettings() {
+		return settings;
 	}
 
 }

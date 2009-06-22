@@ -18,6 +18,7 @@ micrite.security.userSetting =  Ext.extend(Ext.form.FormPanel, {
 	userInformation:'User Information',
 	settings: 'settings',
 	theme : 'Theme',
+	layout:'fit',
 	rowsPerPage : 'Rows Per Page',
 	initComponent:function() {
 	    var config = {
@@ -75,14 +76,14 @@ micrite.security.userSetting =  Ext.extend(Ext.form.FormPanel, {
 			            	 ],
 			            	 url:'/' + document.location.href.split("/")[3] + '/loadSetting.action',
 			            	 baseParams:{
-			        		 	'setting.name' :'RowsPerPage'
+			        		 	'settings.name' :'RowsPerPage'
 			            	 }
 			            	 }),
 			            displayField:'value',
 			           	valueField:'id',
 			           	id:'RowsPerPage',
 			            hiddenId :'h_RowsPerPage',
-			           	hiddenName:'setting.id',
+			           	hiddenName:'settings.id',
 			            triggerAction:'all',
 			            fieldLabel: this.rowsPerPage,
 			            selectOnFocus:true
@@ -95,14 +96,14 @@ micrite.security.userSetting =  Ext.extend(Ext.form.FormPanel, {
 			            	 ],
 			            	 url:'/' + document.location.href.split("/")[3] + '/loadSetting.action',
 			            	 baseParams:{
-			        		 	'setting.name' :'Theme'
+			        		 	'settings.name' :'Theme'
 			            	 }
 			            	 }),
 			            displayField:'value',
 			           	valueField:'id',
 			           	id:'Theme',
 			           	hiddenId :'h_Theme',
-			           	hiddenName:'setting.id',
+			           	hiddenName:'settings.id',
 			            triggerAction:'all',
 			            fieldLabel:this.theme,
 			            selectOnFocus:true
@@ -155,6 +156,7 @@ micrite.security.userSetting =  Ext.extend(Ext.form.FormPanel, {
 			    passwordAgainText: '请确保两次输入的密码相同'
 			});
 		}// eo funtion initComponent
+
 });
 
 
@@ -163,18 +165,15 @@ Ext.onReady(function() {
     Ext.form.Field.prototype.msgTarget = 'side';
     
     var formPanel = new micrite.security.userSetting();
-
-    //  首先将表单上元素的默认值加载进来
     formPanel.form.load({
-        	url: '/' + document.location.href.split("/")[3] + '/loadCurrentUser.action',
-        	success:function(f,a){
-				Ext.each(a.result.settings,function(o,i){
-					Ext.getCmp(o.name).setRawValue(o.value);
-					Ext.fly('h_'+Ext.getCmp(o.name).getId()).dom.value=o.id;
-				});
-			}
-        });
-    
+    	url: '/' + document.location.href.split("/")[3] + '/loadCurrentUser.action',
+    	success:function(f,a){
+			Ext.each(a.result.settings,function(o,i){
+				Ext.getCmp(o.name).setRawValue(o.value);
+				Ext.fly('h_'+Ext.getCmp(o.name).getId()).dom.value=o.id;
+			});
+		}
+    });
     if (mainPanel) {
         mainPanel.getActiveTab().add(formPanel);
         mainPanel.getActiveTab().doLayout();

@@ -80,7 +80,7 @@
             <result name="success" type="json">
                 <param name="target">resultMap</param>
                 <param name="excludes">roles,authorities,accountNonExpired,accountNonLocked,
-                credentialsNonExpired,cryptpassword,password,plainpassword</param>
+                credentialsNonExpired,cryptpassword,password,plainpassword,settings</param>
             </result>
         </action>
 
@@ -88,15 +88,13 @@
             <result name="success" type="json">
                 <param name="target">resultMap</param>
                 <param name="excludes">roles,authorities,accountNonExpired,accountNonLocked,
-                credentialsNonExpired,cryptpassword,password,plainpassword,setting</param>
+                credentialsNonExpired,cryptpassword,password,plainpassword</param>
             </result>
         </action>
 
         <action name="loadSetting" class="userAction" method="findSettingByName">
             <result name="success" type="json">
-                <param name="target">setting</param>
-                 <param name="excludes">roles,authorities,accountNonExpired,accountNonLocked,
-                credentialsNonExpired,cryptpassword,password,plainpassword</param>
+                <param name="target">settings</param>
             </result>
         </action>
                  
