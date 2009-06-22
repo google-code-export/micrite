@@ -102,7 +102,7 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
                 n++;
             }
             if (n) {
-                this.resultGrid.store.load({params:{start:0, limit:5}});
+                this.resultGrid.store.load({params:{start:0, limit:Ext.get('pageSize').dom.value}});
             }
         };         
         //  查询按钮
@@ -219,7 +219,7 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
         
         //  创建分页工具栏
         var pagingToolbar = new Ext.PagingToolbar({
-            pageSize:5,
+            pageSize:Ext.get('pageSize').dom.value,
             store:resultStore,
             displayInfo:true,
             doLoad : function(start) {
