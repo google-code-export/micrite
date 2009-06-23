@@ -194,6 +194,27 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
 	public List<Setting> findSettingByName(String name) {
 		return settingDao.findSettingByName(name);
-	}
-
+	}	
+    
+    public Set<Role> findUserRoles(Integer userId) {
+        Set<Role> userRoles = userDao.getUser(userId).getRoles();
+        for (Role role : userRoles) {
+            role.getId();
+        }
+        return userRoles;
+    }
+    
+    public void deleteUsers(String[] userIds) {
+        for (int i = 0; i < userIds.length; i++) {
+            userDao.delete(Integer.parseInt(userIds[i]));
+        }
+    }
+    
+    public void enableOrDisableUsers(String[] userIds) {
+        for (int i = 0; i < userIds.length; i++) {
+            User user = userDao.getUser(Integer.parseInt(userIds[i]));
+            user.setEnabled(!user.isEnabled());
+        }
+    }
+    
 }

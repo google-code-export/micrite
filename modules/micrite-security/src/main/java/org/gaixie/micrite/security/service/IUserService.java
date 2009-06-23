@@ -25,7 +25,9 @@
 package org.gaixie.micrite.security.service;
 
 import java.util.List;
+import java.util.Set;
 
+import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.Setting;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.SecurityException;
@@ -93,5 +95,26 @@ public interface IUserService {
      * @return
      */    
     public List<Setting> getSettings(int userId);
+    
+    /**
+     * 根据用户id查询用户角色列表
+     * 
+     * @param userId 用户id
+     */
+    public Set<Role> findUserRoles(Integer userId);
+    
+    /**
+     * 删除若干用户。
+     * 
+     * @param userIds 用户id数组
+     */
+    public void deleteUsers(String[] userIds);
+    
+    /**
+     * 设置用户状态可用/不可用：将原可用的设置为不可用，原不可用的设置为可用。
+     * 
+     * @param userIds 用户id数组
+     */
+    public void enableOrDisableUsers(String[] userIds);
     
 }
