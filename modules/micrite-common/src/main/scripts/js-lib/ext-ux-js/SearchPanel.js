@@ -266,19 +266,26 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
         });
         
         if (this.resultProcessButtons.length > 0) {
-            this.buttons = this.resultProcessButtons;
-        }
+            //  查询结果处理按钮面板
+            var resultProcessButtonsPanel = new Ext.Panel({
+                region:'south',
+                border:false,
+                buttons:this.resultProcessButtons,
+                viewConfig:{
+                    forceFit:true
+                }
+            });
+            this.items = [this.resultGrid, resultProcessButtonsPanel];
+        } else {
+            this.items = [this.resultGrid];
+        }        
         
-        this.items = [this.resultGrid];
         micrite.panel.SearchPanel.superclass.initComponent.apply(this, arguments);
     },
     
     listeners:{
         //  面板渲染时，初始化默认的查询条件组
         render:function() {
-            if (this.footer) {
-                this.footer.setStyle('background-color','#dfe8f6');
-            }
             var items = this.conCmpGroups[0];
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
