@@ -21,7 +21,6 @@ micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
 	    	labelWidth: 150,
 	    	frame : true,
 	    	monitorValid:true,
-	    	width: 350,
 	    	items: [{
 	        	xtype:'fieldset',
 	        	title: this.userInformation,
@@ -111,7 +110,6 @@ micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
 	    		        text: mbLocale.submitButton,
 	    		        scope:this,
 	    		        formBind:true,
-	    		        style: 'text-align:center',
 	    		        handler:function() {
 	    			    	this.getForm().submit({
 	    			            url: '/' + document.location.href.split("/")[3] + '/updateUserInfo.action',
