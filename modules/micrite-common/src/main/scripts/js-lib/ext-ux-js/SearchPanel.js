@@ -13,13 +13,13 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
 
     // 配置项开始
     /**
-     * @cfg {Array} conditionGroupNames 查询条件组名称数组，形式如下：
+     * @cfg {Array} conNames 查询条件名称数组，形式如下：
      * ['条件1','条件2',...]
      */
-    conditionGroupNames:[],
+    conNames:[],
 
     /**
-     * @cfg {Array} conditionGroupComponentGroups 查询条件组组件组数组，形式如下：
+     * @cfg {Array} conCmpGroups 查询条件组件组数组，形式如下：
      * [
      *     [
      *         '用户名',
@@ -39,10 +39,10 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
      *     ...
      * ]
      */
-    conditionGroupComponentGroups:[],
+    conCmpGroups:[],
 
     /**
-     * @cfg {Array} linkerMenuItems 超链菜单项数组，形式如下：
+     * @cfg {Array} actionButtonMenuItems 动作按钮上的菜单项，形式如下：
      * [
      *     {
      *         text:'增加新用户',
@@ -51,31 +51,42 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
      *     ...
      * ]
      */
-    linkerMenuItems:[],
+    actionButtonMenuItems:[],
     
     /**
-     * @cfg {String} requestURL 查询请求的url
+     * @cfg {String} searchRequestURL 查询请求的URL
      */
-    requestURL:'',
+    searchRequestURL:'',
     
     /**
-     * @cfg {Reader} resultReader 查询结果格式读取器
+     * @cfg {Array} resultDataFields 查询结果数据按此格式读取
      */
-    resultReader:null,
+    resultDataFields:[],
 
     /**
-     * @cfg {Array} resultColumns 查询结果列
+     * @cfg {Ext.grid.RowSelectionModel} resultRowSelectionModel 查询结果行选择模型
+     */
+    resultRowSelectionModel:new Ext.grid.RowSelectionModel(),
+
+    /**
+     * @cfg {Array} resultColumns 查询结果列数组
      */
     resultColumns:[],
 
     /**
-     * @cfg {Array} actionButtons 动作按钮数组
+     * @cfg {Array} resultProcessButtons 查询结果处理按钮数组
      */
-    actionButtons:[],
+    resultProcessButtons:[],
     // 配置项结束
+    
 
-    //  当前Field数组
-    curFields:[],
+    //  自定义变量
+    //  当前查询条件Field数组
+    curConFields:[],
+    //  查询结果grid
+    resultGrid:null,
+    //  查询函数
+    searchFun:null,
 
     layout:'border',
     border:false,
@@ -83,21 +94,22 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
     initComponent:function() {
     
         //  分页显示行号用
-        var record_start = 0;
+        var recordStart = 0;
+        
         //  查询函数（点击查询按钮执行）
-        var startSearch = function() {
-            record_start = 0;
+        this.searchFun = function() {
+            recordStart = 0;
             this.resultGrid.store.baseParams = {};
             var n = 0;
-            for (var i = 0; i < this.curFields.length; i++) {
+            for (var i = 0; i < this.curConFields.length; i++) {
                 var v = null;
                 var name = null;   
-                if (this.curFields[i].xtype == 'checkbox') {
-                    v = this.curFields[i].checked;   
+                if (this.curConFields[i].xtype == 'checkbox') {
+                    v = this.curConFields[i].checked;   
                 } else {
-                    v = this.curFields[i].getRawValue();
+                    v = this.curConFields[i].getRawValue();
                 }
-                name = this.curFields[i].getName();
+                name = this.curConFields[i].getName();
                 this.resultGrid.store.baseParams[name] = v;
                 n++;
             }
@@ -110,120 +122,114 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
             text:mbLocale.searchButton,
             cls:'x-btn-text-icon details',
             scope:this,
-            handler:startSearch
+            handler:this.searchFun
         };
         
-        //  超链菜单（位于工具栏右面）
-        var linkerMenu = {
+        //  动作按钮（位于工具栏右面）
+        var actionButton = {
             text:'Action',
-            menu:{xtype:'menu', items:this.linkerMenuItems}
+            menu:{xtype:'menu', items:this.actionButtonMenuItems}
         };
         
-        //  向查询条件组组件组中加入共享组件，主要有“查询按钮”和“超链菜单”两个组件
-        for (var i = 0; i < this.conditionGroupComponentGroups.length; i++) {
-            var temp = ['-'].concat(this.conditionGroupComponentGroups[i]);
-            this.conditionGroupComponentGroups[i] = temp.concat(['-', searchButton, '->', linkerMenu]);
+        //  向每个查询条件组件组中加入两个共享组件：“查询按钮”和“动作按钮”
+        for (var i = 0; i < this.conCmpGroups.length; i++) {
+            var temp = ['-'].concat(this.conCmpGroups[i]);
+            this.conCmpGroups[i] = temp.concat(['-', searchButton, '->', actionButton]);
         }
 
-        //  切换查询条件组调用函数
-        var switchConditionGroup = function(menuItem) {
-            //  修改切换按钮属性
-            var modifySwitchButton = function(panel, menuItemSelectedValue) {
-                var menuItems = panel.conditionGroupSwitchButton.menu.items;
-                panel.conditionGroupSwitchButton.value = menuItemSelectedValue;
-                panel.conditionGroupSwitchButton.setText(panel.conditionGroupNames[menuItemSelectedValue]); 
-            };
-            //  删除ToolbarItems
-            var removeToolbarItems = function(panel) {
-                var toolbarItems = panel.getTopToolbar().items;
-                while (toolbarItems.length > 1) {
-                    var item = toolbarItems.last();
-                    toolbarItems.remove(item);
-                    item.destroy();
+        //  修改查询条件按钮的属性
+        var modifyConButtonFun = function(panel, menuItemSelectedValue) {
+            var conButton = panel.getTopToolbar().items.first();
+            conButton.value = menuItemSelectedValue;
+            conButton.setText(panel.conNames[menuItemSelectedValue]); 
+        };
+        //  重建ToolbarItems
+        var reCreateToolbarItemsFun = function(panel, menuItemSelectedValue) {
+            var items = panel.conCmpGroups[menuItemSelectedValue];
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                if (item.xtype == 'textfield') {
+                    item = new Ext.form.TextField(item);
+                    panel.curConFields[panel.curConFields.length] = item;
+                } else if (item.xtype == 'checkbox') {
+                    item = new Ext.form.Checkbox(item);
+                    panel.curConFields[panel.curConFields.length] = item;
+                } else if (item.xtype == 'datetimefield') {
+                    item = new Ext.boco.DateTimeField(item);
+                    panel.curConFields[panel.curConFields.length] = item;
                 }
-            };
-            //  重建ToolbarItems
-            var reCreateToolbarItems = function(panel, menuItemSelectedValue) {
-                var items = panel.conditionGroupComponentGroups[menuItemSelectedValue];
-                for (var i = 0; i < items.length; i++) {
-                    var item = items[i];
-                    if (item.xtype == 'textfield') {
-                        item = new Ext.form.TextField(item);
-                        panel.curFields[panel.curFields.length] = item;
-                    } else if (item.xtype == 'checkbox') {
-                        item = new Ext.form.Checkbox(item);
-                        panel.curFields[panel.curFields.length] = item;
-                    } else if (item.xtype == 'datetimefield') {
-                        item = new Ext.boco.DateTimeField(item);
-                        panel.curFields[panel.curFields.length] = item;
-                    }
-                    panel.getTopToolbar().add(item);
-                }
-            };            
-            var menuItemSelectedValue = menuItem.value;
-            //  若改变了菜单项
-            if (menuItemSelectedValue != this.conditionGroupSwitchButton.value) {
-                //  修改切换按钮属性
-                modifySwitchButton(this, menuItemSelectedValue);
-                //  删除ToolbarItems
-                removeToolbarItems(this);
-                //  重建ToolbarItems
-                reCreateToolbarItems(this, menuItemSelectedValue);
+                panel.getTopToolbar().add(item);
+            }
+        };            
+        //  删除ToolbarItems
+        var removeToolbarItemsFun = function(panel) {
+            var toolbarItems = panel.getTopToolbar().items;
+            while (toolbarItems.length > 1) {
+                var item = toolbarItems.last();
+                toolbarItems.remove(item);
+                item.destroy();
             }
         };
-        //  创建查询条件组切换按钮上的菜单
-        var conditionGroupSwitchMenu = new Ext.menu.Menu();
-        for (var i = 0; i < this.conditionGroupNames.length; i++) {
-            conditionGroupSwitchMenu.add({
-                text:this.conditionGroupNames[i],
+        //  切换查询条件
+        var switchConFun = function(menuItem) {
+            var menuItemSelectedValue = menuItem.value;
+            var conButton = this.getTopToolbar().items.first();
+            //  若改变了菜单项
+            if (menuItemSelectedValue != conButton.value) {
+                //  修改查询条件按钮的属性
+                modifyConButtonFun(this, menuItemSelectedValue);
+                //  删除ToolbarItems
+                removeToolbarItemsFun(this);
+                //  重建ToolbarItems
+                reCreateToolbarItemsFun(this, menuItemSelectedValue);
+            }
+        };
+        //  创建查询条件按钮上的菜单
+        var conButtonMenu = new Ext.menu.Menu();
+        for (var i = 0; i < this.conNames.length; i++) {
+            conButtonMenu.add({
+                text:this.conNames[i],
                 value:i,
                 scope:this,
-                handler:switchConditionGroup
+                handler:switchConFun
             });
         }
         
-        //  创建查询条件组切换按钮
-        this.conditionGroupSwitchButton = new Ext.Button({
-            text:this.conditionGroupNames[0],
+        //  创建查询条件按钮
+        var conButton = new Ext.Button({
+            text:this.conNames[0],
             value:0,
             tooltip:'Click for more search options',
-            menu:conditionGroupSwitchMenu
+            menu:conButtonMenu
         });            
 
         //  创建tbar
         this.tbar = new Ext.Toolbar({
             ctCls:'search-all-tbar',
-            items:[this.conditionGroupSwitchButton]
+            items:[conButton]
         });
         
-        var httpProxy = new Ext.data.HttpProxy({url:this.requestURL});
-        httpProxy.on('loadexception', function(proxy, options, response, error) {
-                                          obj = Ext.util.JSON.decode(response.responseText);
-                                          showMsg('failure', obj.message);
-                                      }
-        );
+        var reader = new Ext.data.JsonReader({totalProperty:'totalCount', root:'data', id:'id'},
+                                             this.resultDataFields);
         //  创建store
-        var resultStore = new Ext.data.Store({
-            proxy:httpProxy,
-            reader:this.resultReader
+        var store = new Ext.data.Store({
+            proxy:new Ext.data.HttpProxy({url:this.searchRequestURL,
+                                          listeners:{
+                                              loadexception:function(proxy, options, response, error) {
+                                                  obj = Ext.util.JSON.decode(response.responseText);
+                                                  showMsg('failure', obj.message);
+                                              }
+                                          }}),
+            reader:reader
         });
-        
-        //  序号列
-        var rowNumbererColumn = new Ext.grid.RowNumberer({
-            renderer:function(value, metadata, record, rowIndex) {
-                return record_start + 1 + rowIndex;
-            }
-        });
-        //  创建查询结果列模型
-        var resultColumnModel = new Ext.grid.ColumnModel([rowNumbererColumn].concat(this.resultColumns));
         
         //  创建分页工具栏
         var pagingToolbar = new Ext.PagingToolbar({
             pageSize:parseInt(Ext.get('pageSize').dom.value),
-            store:resultStore,
+            store:store,
             displayInfo:true,
             doLoad : function(start) {
-                record_start = start;
+                recordStart = start;
                 var o = {totalCount:this.store.getTotalCount()};
                 pn = this.paramNames;
                 o[pn.start] = start;
@@ -231,6 +237,16 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
                 this.store.load({params:o});
             }
         });
+        
+        //  序号列
+        var rowNumbererColumn = new Ext.grid.RowNumberer({
+            renderer:function(value, metadata, record, rowIndex) {
+                return recordStart + 1 + rowIndex;
+            }
+        });
+        //  创建查询结果列模型
+        var columnModel = new Ext.grid.ColumnModel([rowNumbererColumn].concat(this.resultColumns));
+
         //  创建查询结果grid
         this.resultGrid = new Ext.grid.GridPanel({
             region:'center',
@@ -239,47 +255,42 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
                 msg:mbLocale.loadingMsg
             },
             stripeRows:true,
-            sm:new Ext.grid.RowSelectionModel({
-                    singleSelect:true
-                }),
+            selModel:this.resultRowSelectionModel,
             bbar:pagingToolbar,
             viewConfig:{
                 forceFit:true,
                 enableRowBody:true
             },
-            ds:resultStore,
-            cm:resultColumnModel
+            store:store,
+            colModel:columnModel
         });
         
-        //  创建动作按钮Panel
-        var actionButtonsPanel = new Ext.Panel({
-            region:'south',
-            border:false,
-            buttons:this.actionButtons,
-            viewConfig:{
-                forceFit:true
-            }
-        });
+        if (this.resultProcessButtons.length > 0) {
+            this.buttons = this.resultProcessButtons;
+        }
         
-        this.items = [this.resultGrid, actionButtonsPanel];
+        this.items = [this.resultGrid];
         micrite.panel.SearchPanel.superclass.initComponent.apply(this, arguments);
     },
     
     listeners:{
         //  面板渲染时，初始化默认的查询条件组
         render:function() {
-            var items = this.conditionGroupComponentGroups[0];
+            if (this.footer) {
+                this.footer.setStyle('background-color','#dfe8f6');
+            }
+            var items = this.conCmpGroups[0];
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
                 if (item.xtype == 'textfield') {
                     item = new Ext.form.TextField(item);
-                    this.curFields[this.curFields.length] = item;
+                    this.curConFields[this.curConFields.length] = item;
                 } else if (item.xtype == 'checkbox') {
                     item = new Ext.form.Checkbox(item);
-                    this.curFields[this.curFields.length] = item;
+                    this.curConFields[this.curConFields.length] = item;
                 } else if (item.xtype == 'datetimefield') {
                     item = new Ext.boco.DateTimeField(item);
-                    this.curFields[this.curFields.length] = item;
+                    this.curConFields[this.curConFields.length] = item;
                 }
                 this.getTopToolbar().add(item);
             }
