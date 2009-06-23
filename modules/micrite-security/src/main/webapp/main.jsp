@@ -58,7 +58,7 @@
     border-top:1px solid #ddd;
     border-bottom:1px solid #ccc;
     padding-top:2px;
-    padding-bottom:1px;
+    padding-bottom:3px;
 }
 .home {
 	background-image: url(security/images/framework/home.gif) !important;
@@ -322,7 +322,7 @@ Ext.onReady(function(){
 <script type="text/javascript" src="js-lib/ext-ux-js/locale/micrite-base-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 <script type="text/javascript" src="security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 <script type="text/javascript" src="crm/locale/micrite-crm-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
-<s:if test="%{pageSize==50}" >
+<s:if test="%{skin=='Gray'}" >
 <link rel="stylesheet" type="text/css" href="js-lib/ext-js/resources/css/xtheme-gray.css">
 </s:if>
 </head>

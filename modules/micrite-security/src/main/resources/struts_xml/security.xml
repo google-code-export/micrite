@@ -57,7 +57,7 @@
             </result>
         </action>
         
-        <action name="main" class="loginAction" method="loadPageSize">
+        <action name="main" class="loginAction" method="loadSetting">
             <result name="success">
                 <param name="location">/main.jsp</param>
             </result>

@@ -196,15 +196,4 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 		return settingDao.findSettingByName(name);
 	}
 
-    public Setting getSettingByName(int userId, String name) {
-        List<Setting> settings = getSettings(userId);
-        
-        for(Setting setting:settings){
-            if(name.equals(setting.getName())){
-                return setting;
-            }
-        }
-        return null;
-    }
-
 }

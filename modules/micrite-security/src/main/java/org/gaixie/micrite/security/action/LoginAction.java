@@ -57,6 +57,7 @@ public class LoginAction extends ActionSupport{
     private String node;
 	private Set<Map<String,Object>> menu;
 	private String pageSize;
+	private String skin;
 	private Map<String,Object> loginResult = new HashMap<String,Object>();
 	private Map<String,String> errorMsg = new HashMap<String,String>();
 	
@@ -83,11 +84,19 @@ public class LoginAction extends ActionSupport{
 		return SUCCESS;
 	}
 
-    public String loadPageSize(){
+    public String loadSetting(){
         User cUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Setting setting = userService.getSettingByName(cUser.getId(),"RowsPerPage");
-        pageSize = setting.getValue();
-        logger.debug("rowsPerPage111"+pageSize);
+        List<Setting> settings = userService.getSettings(cUser.getId());
+        for(Setting setting:settings){
+            if("RowsPerPage".equals(setting.getName())){
+                pageSize = setting.getValue();
+            }
+            if("Skin".equals(setting.getName())){
+                skin = setting.getValue();
+            }
+        }
+        logger.debug("RowsPerPage:"+pageSize);
+        logger.debug("Skin:"+skin);
         return SUCCESS;
     }
     
@@ -158,4 +167,12 @@ public class LoginAction extends ActionSupport{
         return pageSize;
     }
 
+    public void setSkin(String skin) {
+        this.skin = skin;
+    }
+
+
+    public String getSkin() {
+        return skin;
+    }    
 }

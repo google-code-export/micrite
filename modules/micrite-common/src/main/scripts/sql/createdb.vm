@@ -118,9 +118,10 @@ ALTER TABLE setting ADD CONSTRAINT setting_name_value_uq UNIQUE ( name,value );
 
 #addAutoIncrement("setting")
 
-insert  into setting(name,value,sortindex) values ('RowsPerPage','50',0);
+insert  into setting(name,value,sortindex) values ('RowsPerPage','2',0);
 insert  into setting(name,value,sortindex) values ('RowsPerPage','100',1);
-insert  into setting(name,value,sortindex) values ('Theme','Blue',0);
+insert  into setting(name,value,sortindex) values ('Skin','Blue',0);
+insert  into setting(name,value,sortindex) values ('Skin','Gray',1);
 
 -- ------------------------------------------------------
 CREATE TABLE user_setting_map(
