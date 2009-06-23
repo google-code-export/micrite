@@ -25,11 +25,11 @@ micrite.security.userDetail.FormPanel = function() {
         //style: {"margin-top": "10px"},    
         items: [{
             xtype: 'fieldset',
-            labelWidth: 120,
+            labelWidth: 150,
             title: this.userDetailText,
             layout: 'form',
            // width: 350,
-         //   defaults: {width: 170},    
+            defaults: {width: 210},    
             defaultType: 'textfield',
             autoHeight: true,
             style: {"margin-left": "10px"},
@@ -60,39 +60,39 @@ micrite.security.userDetail.FormPanel = function() {
                 displayField:'name',
                 emptyText:this.userRolesText,
                 mode:'local',
-                width:150,
                 allowBlank:false
-            })]
-        }],
-        buttons: [{
-            text: this.submitText,
-            handler: function() {
-	            var form = Ext.getCmp("userDetailForm").getForm();
-	            // 构建form的提交参数
-	            var params = {
-                        'userRoleIdsStr': form.findField('userRoles').getValue()
-	            };      
-	            // form提交
-	            form.submit({
-	                url: '/' + document.location.href.split("/")[3] + '/addUser.action',
-	                method: 'POST',
-	                disabled:true,
-	                waitMsg: this.waitingMsg,
-	                params:params,
-	                success: function(form, action) {
-	                    obj = Ext.util.JSON.decode(action.response.responseText);
-	                    showMsg('success', obj.message);	                
-	                },
-	                failure: function(form, action) {
-	                    obj = Ext.util.JSON.decode(action.response.responseText);
-	                    showMsg('failure', obj.message);
-	                }
-	            });
-	        }                    
+            })
+            ]
         },{
-            text: this.cancelText
-        }],
-        buttonAlign:'center'
+        	buttonAlign:'center',
+            buttons: [{
+                text: mbLocale.submitButton,
+		        scope:this,
+		        formBind:true,
+                handler: function() {
+    	            // 构建form的提交参数
+    	            var params = { 'userRoleIdsStr': this.getForm().findField('userRoles').getValue() };      
+    	            // form提交
+    	            this.getForm().submit({
+    	                url: '/' + document.location.href.split("/")[3] + '/addUser.action',
+    	                method: 'POST',
+    	                disabled:true,
+    	                waitMsg: mbLocale.waitingMsg,
+    	                params:params,
+    	                success: function(form, action) {
+    	                    obj = Ext.util.JSON.decode(action.response.responseText);
+    	                    showMsg('success', obj.message);	                
+    	                },
+    	                failure: function(form, action) {
+    	                    obj = Ext.util.JSON.decode(action.response.responseText);
+    	                    showMsg('failure', obj.message);
+    	                }
+    	            });
+    	        }                    
+            },{
+                text: mbLocale.closeButton
+            }]
+        }]
     });
 };// FormPanel构造函数结束
 
@@ -104,11 +104,11 @@ micrite.security.userDetail.FormPanel = Ext.extend(micrite.security.userDetail.F
     loginnameText: 'User Name',
     passwordText: 'Password',
     rolesText: 'Role',
-    userRolesText: 'Select Roles',
-    submitText: 'Save',
-    cancelText: 'Cancel',
-    waitingMsg: 'Saving Data...'
+    userRolesText: 'Select Roles'
 });
+
+try{ userDetailLocale(); } catch(e){}
+try {baseLocale();} catch (e) {}
 
 Ext.onReady(function() {
     Ext.QuickTips.init();
