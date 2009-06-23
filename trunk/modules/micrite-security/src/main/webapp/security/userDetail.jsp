@@ -70,7 +70,7 @@ micrite.security.userDetail.FormPanel = function() {
 	            var form = Ext.getCmp("userDetailForm").getForm();
 	            // 构建form的提交参数
 	            var params = {
-                        'userRolesStr': form.findField('userRoles').getValue()
+                        'userRoleIdsStr': form.findField('userRoles').getValue()
 	            };      
 	            // form提交
 	            form.submit({
