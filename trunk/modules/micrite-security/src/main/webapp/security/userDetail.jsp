@@ -20,19 +20,17 @@ micrite.security.userDetail.FormPanel = function() {
     micrite.security.userDetail.FormPanel.superclass.constructor.call(this, {
         id: 'userDetailForm',
         bodyBorder: false,
-       // autoHeight: true,
         frame: true,
-        //style: {"margin-top": "10px"},    
+        style:'padding:1px',
         items: [{
             xtype: 'fieldset',
             labelWidth: 150,
             title: this.userDetailText,
             layout: 'form',
-           // width: 350,
+            collapsible: true,
             defaults: {width: 210},    
             defaultType: 'textfield',
             autoHeight: true,
-            style: {"margin-left": "10px"},
             items: [{
                 fieldLabel: this.fullnameText,
                 name: 'user.fullname',

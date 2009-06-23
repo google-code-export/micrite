@@ -21,6 +21,7 @@ micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
 	    	labelWidth: 150,
 	    	frame : true,
 	    	monitorValid:true,
+	    	style:'padding:1px',
 	    	items: [{
 	        	xtype:'fieldset',
 	        	title: this.userInformation,
