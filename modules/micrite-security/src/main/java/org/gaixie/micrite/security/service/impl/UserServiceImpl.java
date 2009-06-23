@@ -183,13 +183,16 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     }
     
     public List<Setting> getSettings(int userId){
-    	User user = userDao.getUser(userId);
-    	List<Setting> ds = settingDao.findAllDefault();
-    	List<Setting> us = user.getSettings();
-    	if (us.size()>0){	
-    		return us;
-    	}
-    	return ds;
+        User user = userDao.getUser(userId);
+        List<Setting> settings = user.getSettings();
+        if (settings.size()>0){   
+            // org.hibernate.LazyInitializationException
+            for (Setting setting:settings){
+                setting.getName();
+            }
+            return settings;
+        }
+        return settingDao.findAllDefault();
     }
 
 	public List<Setting> findSettingByName(String name) {
