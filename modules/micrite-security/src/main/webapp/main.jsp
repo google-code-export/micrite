@@ -97,18 +97,18 @@ micrite.security.framework.HeaderPanel = Ext.extend(Ext.Panel, {
                 border:true,
                 items : [{
                     text:this.homeText,
-                    tooltip: 'home',  // <-- i
+                    tooltip: 'Home',  // <-- i
                     iconCls :'home'
                 },'->',{
                     text:this.userText,
-                    tooltip: 'user infomation',
+                    tooltip: 'User Setting',
                     iconCls :'user',
                     handler : function() {
-                        mainPanel.loadModule('security/userDetailModify.jsp', 'User Detail Modify');
+                        mainPanel.loadModule('security/userSetting.jsp', 'User Setting');
                     }
                 },'-',{
                     text:this.exitText,
-                    tooltip: 'exit',
+                    tooltip: 'Exit',
                     iconCls :'exit',
                     handler : function() {
                         window.location = 'j_spring_security_logout';

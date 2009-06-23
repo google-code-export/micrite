@@ -1,25 +1,21 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <script type="text/javascript">
-/**
- * micrite.security.userDetailModify 修改用户信息
- * 
- * @author xingzhaoyong
- */
-Ext.ns('micrite.security');
+
+Ext.ns('micrite.security.userSetting');
 
 
-micrite.security.userSetting =  Ext.extend(Ext.form.FormPanel, {
-	id:'micrite.security.userform',
+micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
+	id:'micrite.security.userSetting.FormPanel',
 	fullName : 'Full Name',
     email : 'E-mail',
     userName: 'User Name',
     password: 'Password',
     passwordRepeat: 'Password Repeat',
 	userInformation:'User Information',
-	settings: 'settings',
+	settings: 'Settings',
 	skin : 'Skin',
-	layout:'fit',
 	rowsPerPage : 'Rows Per Page',
+	confirmPassword: 'Passwords do not match',
 	initComponent:function() {
 	    var config = {
 	    	labelWidth: 150,
@@ -112,7 +108,7 @@ micrite.security.userSetting =  Ext.extend(Ext.form.FormPanel, {
 	    		},{
 	    			buttonAlign:'center',
 	    			buttons: [{
-	    		        text: 'Save',
+	    		        text: mbLocale.submitButton,
 	    		        scope:this,
 	    		        formBind:true,
 	    		        style: 'text-align:center',
@@ -120,7 +116,7 @@ micrite.security.userSetting =  Ext.extend(Ext.form.FormPanel, {
 	    			    	this.getForm().submit({
 	    			            url: '/' + document.location.href.split("/")[3] + '/updateUserInfo.action',
 	    			            method: 'POST',
-	    			            waitMsg: 'wating...',
+	    			            waitMsg: mbLocale.waitingMsg,
 	    			            success: function(form, action) {
 	    			                obj = Ext.util.JSON.decode(action.response.responseText);
 	    			                showMsg('success', obj.message);	 
@@ -137,12 +133,12 @@ micrite.security.userSetting =  Ext.extend(Ext.form.FormPanel, {
 		    // apply config
 		    Ext.apply(this, Ext.apply(this.initialConfig, config));
 		    // call parent
-		    micrite.security.userSetting.superclass.initComponent.apply(this, arguments);
+		    micrite.security.userSetting.FormPanel.superclass.initComponent.apply(this, arguments);
 	
 			//  “再次录入密码”校验器
 			Ext.apply(Ext.form.VTypes, {
 			    passwordAgain: function(val, field) {
-			        var form = Ext.getCmp("micrite.security.userform").getForm();
+			        var form = Ext.getCmp("micrite.security.userSetting.FormPanel").getForm();
 			        var plainpassword = form.findField('user.plainpassword').getValue();
 			        if (val != plainpassword) {
 			            return false;
@@ -153,27 +149,32 @@ micrite.security.userSetting =  Ext.extend(Ext.form.FormPanel, {
 			});
 			//  处理“再次录入密码”校验未通过时显示的提示信息
 			Ext.apply(Ext.form.VTypes, {
-			    passwordAgainText: '请确保两次输入的密码相同'
+			    passwordAgainText: this.confirmPassword
 			});
-		}// eo funtion initComponent
+		},// eo funtion initComponent
+		onRender:function(){
+	    micrite.security.userSetting.FormPanel.superclass.onRender.apply(this, arguments);
+		this.form.load({
+		        url: '/' + document.location.href.split("/")[3] + '/loadCurrentUser.action',
+		        success:function(f,a){
+		            Ext.each(a.result.settings,function(o,i){
+		                Ext.getCmp(o.name).setRawValue(o.value);
+		                Ext.fly('h_'+Ext.getCmp(o.name).getId()).dom.value=o.id;
+		            });
+		        }
+		    });
+		}
 
 });
 
+try{ userSettingLocale(); } catch(e){}
+try {baseLocale();} catch (e) {}
 
 Ext.onReady(function() {
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
     
-    var formPanel = new micrite.security.userSetting();
-    formPanel.form.load({
-    	url: '/' + document.location.href.split("/")[3] + '/loadCurrentUser.action',
-    	success:function(f,a){
-			Ext.each(a.result.settings,function(o,i){
-				Ext.getCmp(o.name).setRawValue(o.value);
-				Ext.fly('h_'+Ext.getCmp(o.name).getId()).dom.value=o.id;
-			});
-		}
-    });
+    var formPanel = new micrite.security.userSetting.FormPanel();
     if (mainPanel) {
         mainPanel.getActiveTab().add(formPanel);
         mainPanel.getActiveTab().doLayout();

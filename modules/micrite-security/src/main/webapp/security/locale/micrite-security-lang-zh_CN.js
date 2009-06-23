@@ -49,3 +49,20 @@ function userListLocale() {
         });
     }
 }
+
+function userSettingLocale(){
+    if(micrite.security.userSetting.FormPanel) {
+        Ext.override(micrite.security.userSetting.FormPanel, {
+        	fullName : '真实姓名',
+            email : '电子邮件',
+            userName: '用户名',
+            password: '密码',
+            passwordRepeat: '再次输入密码',
+        	userInformation:'用户个人信息',
+        	settings: '个性化设置',
+        	skin : '界面样式',
+        	rowsPerPage : '每页行数',
+        	confirmPassword: '两次输入的密码不匹配'
+        });
+    }    
+}
