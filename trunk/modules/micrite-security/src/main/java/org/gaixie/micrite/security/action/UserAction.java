@@ -24,12 +24,15 @@
 
 package org.gaixie.micrite.security.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.Setting;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.SecurityException;
@@ -54,8 +57,10 @@ public class UserAction extends ActionSupport {
     
     //  用户
     private User user;
-    //  用户角色拼串，型如“2,4,6”
-    private String userRolesStr;
+    //  用户角色id拼串，形如“2,4,6”
+    private String userRoleIdsStr;
+    //  用户id拼串，形如“1,2,4”
+    private String userIdsStr;
 
     //  以下两个分页用
     //  起始索引
@@ -67,6 +72,8 @@ public class UserAction extends ActionSupport {
 
     //  action处理结果（map对象）
     private Map<String,Object> resultMap = new HashMap<String,Object>();
+    //  用户的角色列表
+    private List<Role> userRoles = new ArrayList<Role>();    
     
     // user setting
     private List<Setting> settings;
@@ -78,7 +85,7 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */
     public String add() {
-        String[] userRoleIds = StringUtils.split(userRolesStr, ",");
+        String[] userRoleIds = StringUtils.split(userRoleIdsStr, ",");
         try {
             userService.add(user, userRoleIds);
             resultMap.put("message", getText("save.success"));
@@ -158,6 +165,51 @@ public class UserAction extends ActionSupport {
     	return SUCCESS;
     }
     
+    /**
+     * 根据用户id查询用户角色列表。
+     * 
+     * @return "success"
+     */
+    public String findUserRoles() {
+        logger.debug("userId=" + user.getId());
+        Set<Role> userRoles1 = userService.findUserRoles(user.getId());
+        for (Role role : userRoles1) {
+            userRoles.add(role);
+        }
+        logger.debug("userRoles.size()=" + userRoles.size());
+        return SUCCESS;
+    }
+
+    /**
+     * 删除若干用户。
+     * 
+     * @return "success"
+     */
+    public String deleteUsers() {
+        logger.debug("userIdsStr=" + userIdsStr);
+        String[] userIds = StringUtils.split(userIdsStr, ",");
+        for (int i = 0; i < userIds.length; i++) {
+            logger.debug("userIds[i]=" + userIds[i]);
+        }
+        userService.deleteUsers(userIds);
+        resultMap.put("message", getText("save.success"));
+        resultMap.put("success", true);
+        return SUCCESS;
+    }
+
+    /**
+     * 设置用户状态可用/不可用。
+     * 
+     * @return "success"
+     */
+    public String enableOrDisableUsers() {
+        String[] userIds = StringUtils.split(userIdsStr, ",");
+        userService.enableOrDisableUsers(userIds);
+        resultMap.put("message", getText("save.success"));
+        resultMap.put("success", true);
+        return SUCCESS;
+    }
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~  Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     public void setUser(User user) {
         this.user = user;
@@ -179,8 +231,16 @@ public class UserAction extends ActionSupport {
         this.totalCount = totalCount;
     }
 
-    public void setUserRolesStr(String userRolesStr) {
-        this.userRolesStr = userRolesStr;
+    public List<Role> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoleIdsStr(String userRoleIdsStr) {
+        this.userRoleIdsStr = userRoleIdsStr;
+    }
+
+    public void setUserIdsStr(String userIdsStr) {
+        this.userIdsStr = userIdsStr;
     }
 
     public Map<String, Object> getResultMap() {

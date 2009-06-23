@@ -86,4 +86,11 @@ public interface IUserDao {
      * @return <code>User</code>对象列表
      */
     public List<User> findByUsernameVaguePerPage(String username, int start, int limit);
+    
+    /**
+     * 删除用户。
+     * 
+     * @param id 用户id
+     */
+    public void delete(Integer id);
 }

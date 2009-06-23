@@ -60,7 +60,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
     }
     
     public void update(User user) {
-        getHibernateTemplate().merge(user);
+        getHibernateTemplate().update(user);
     }
     
     public User getUser(Integer id) {
@@ -80,5 +80,11 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
         DetachedCriteria criteria = DetachedCriteria.forClass(User.class);
         criteria.add(Expression.like("loginname", "%" + username + "%"));
         return getHibernateTemplate().findByCriteria(criteria, start, limit);
+    }    
+    
+    public void delete(Integer id) {
+        User user = (User)getHibernateTemplate().get(User.class, id);
+        getHibernateTemplate().delete(user);
     }
+
 }
