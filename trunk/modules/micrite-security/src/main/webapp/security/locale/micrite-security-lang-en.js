@@ -50,3 +50,20 @@ function userListLocale() {
         });
     }
 }
+
+function userSettingLocale(){
+    if(micrite.security.userSetting.FormPanel) {
+        Ext.override(micrite.security.userSetting.FormPanel, {
+        	fullName : 'Full Name',
+            email : 'E-mail',
+            userName: 'User Name',
+            password: 'Password',
+            passwordRepeat: 'Re-enter password',
+        	userInformation:'User Information',
+        	settings: 'Personal Settings',
+        	skin : 'Skin',
+        	rowsPerPage : 'Rows Per Page',
+        	confirmPassword: 'Passwords do not match'
+        });
+    }    
+}
