@@ -81,14 +81,17 @@ public interface IUserService {
     
     
     /**
-     * 根据配置项名称查询可用配置项属性
+     * 根据配置项名称查询可用配置
      * @param name
      * @return
      */
     public List<Setting> findSettingByName(String name);
-    
+
+    /**
+     * 根据用户查询所拥有的个性化配置
+     * @param userId
+     * @return
+     */    
     public List<Setting> getSettings(int userId);
     
-    public Setting getSettingByName(int userId,String name);
-
 }

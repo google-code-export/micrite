@@ -17,7 +17,7 @@ micrite.security.userSetting =  Ext.extend(Ext.form.FormPanel, {
     passwordRepeat: 'Password Repeat',
 	userInformation:'User Information',
 	settings: 'settings',
-	theme : 'Theme',
+	skin : 'Skin',
 	layout:'fit',
 	rowsPerPage : 'Rows Per Page',
 	initComponent:function() {
@@ -96,16 +96,16 @@ micrite.security.userSetting =  Ext.extend(Ext.form.FormPanel, {
 			            	 ],
 			            	 url:'/' + document.location.href.split("/")[3] + '/loadSetting.action',
 			            	 baseParams:{
-			        		 	'settings.name' :'Theme'
+			        		 	'settings.name' :'Skin'
 			            	 }
 			            	 }),
 			            displayField:'value',
 			           	valueField:'id',
-			           	id:'Theme',
-			           	hiddenId :'h_Theme',
+			           	id:'Skin',
+			           	hiddenId :'h_Skin',
 			           	hiddenName:'settings.id',
 			            triggerAction:'all',
-			            fieldLabel:this.theme,
+			            fieldLabel:this.skin,
 			            selectOnFocus:true
 			        	})
 			        ]
