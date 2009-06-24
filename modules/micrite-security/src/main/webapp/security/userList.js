@@ -17,37 +17,24 @@ micrite.security.userList.SearchPanel = function() {
         }
     }];    
     //  查询请求的url
-    this.searchRequestURL = ['/' + document.location.href.split("/")[3] + '/security/findUsersVague.action'];
+    this.searchRequestURL = '/' + document.location.href.split("/")[3] + '/security/findUsersVague.action';
     //  查询结果数据按此格式读取
-    this.resultDataFields = [[
+    this.resultDataFields = [
                                 {name: 'fullname'},
                                 {name: 'emailaddress'},
                                 {name: 'loginname'},
                                 {name: 'enabled', type: 'boolean'}
-                            ]];
+                            ];
     //  查询结果行选择模型
     this.resultRowSelectionModel = new Ext.grid.CheckboxSelectionModel();
     //  查询结果列数组
     this.resultColumns = [
-                          [
                              {header: this.fullname, width: 100, sortable: true, dataIndex: 'fullname'},
                              {header: this.emailaddress, width: 180, sortable: true, dataIndex: 'emailaddress'},
                              {header: this.username, width: 90, sortable: true, dataIndex: 'loginname'},
                              {header: this.enabled, width: 70, sortable: true, dataIndex: 'enabled'},
                              this.resultRowSelectionModel
-                         ],[
-                         
-                          {header: 'kkakak', width: 100, sortable: true, dataIndex: 'fullname'},
-                          {header: 'fffd', width: 180, sortable: true, dataIndex: 'emailaddress'},
-                          {header: this.username, width: 90, sortable: true, dataIndex: 'loginname'},
-                          {header: this.enabled, width: 70, sortable: true, dataIndex: 'enabled'},
-                          this.resultRowSelectionModel
-                          
-                         ]];
-    this.comboGrid = [
-                      {url:0,reader:0,column:0},
-                      {url:0,reader:0,column:1}
-                     ];
+                         ];
     //  查询结果处理按钮数组
     this.resultProcessButtons = [
         {
