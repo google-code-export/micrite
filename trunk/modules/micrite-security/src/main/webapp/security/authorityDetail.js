@@ -3,66 +3,58 @@ Ext.ns('micrite.security.authorityDetail');
 FromPanel = function() {
     
     var RecordRole = Ext.data.Record.create([    
-        {name: 'id'},{name: 'name'}
+        
     ]); 
     var roleStore = new Ext.data.Store({
         autoLoad:true,
-        //设定读取的地址
         proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/findRolesAll.action'}),    
-        //设定读取的格式    
-        reader: new Ext.data.JsonReader({
-            id:"0"
-        }, RecordRole),
-        remoteSort: true   
+        reader: new Ext.data.JsonReader({id: "id"}, [{name: 'id'},{name: 'name'}])
     });
                                     
 
 	// turn on validation errors beside the field globally
     Ext.form.Field.prototype.msgTarget = 'side';
     
-    FromPanel.superclass.constructor.call(this, {
-        id: 'authorityDetail-form',
-        frame: false,
-        labelAlign: 'left',
-        header: false,
-        border: false,
+  //先用Ext.apply方法添加自定义的password验证函数（也可以取其他的名字）
+    Ext.apply(Ext.form.VTypes,{
+    	authorityFormat:function(v){//val指这里的文本框值，field指这个文本框组件，大家要明白这个意思
+            var alpha = /^[a-zA-Z_]+$/;
+            return alpha.test(v);
+        }
+    });
+
+	FromPanel.superclass.constructor.call(this, {
+        id: 'authorityDetailForm',
         bodyBorder: false,
-        style: {
-            "margin-top": "10px" // when you add custom margin in IE 6...
-        },        
-    
+        frame: true,
+        style:'padding:1px',
         items: [{
-            border:false
-        },{
             xtype: 'fieldset',
-            labelWidth: 40,
-            title:this.authorityDetailText,
-            layout:'form',
-            width: 300,
-            defaults: {width: 200},    // Default config options for child items
+            labelWidth: 150,
+            title: this.authorityDetailText,
+            layout: 'form',
+            collapsible: true,
+            defaults: {width: 210},    
             defaultType: 'textfield',
             autoHeight: true,
-            style: {
-                "margin-left": "10px" // when you add custom margin in IE 6...
-            },
             items: [{
-                id:'authority_cid',
+                name:'authority.id',
                 fieldLabel: this.idText,
-                disabled:true,
-                name: 'id'
+                disabled:true
             },{
-                id:'authority_cname',
+                name:'authority.name',
                 fieldLabel: this.nameText,
-                name: 'name',
                 allowBlank:false
             },{
-                id:'authority_cvalue',
+            	name:'authority.value',
                 fieldLabel: this.valueText,
-                name: 'value',
+                //vtype:"authorityFormat",//自定义的验证类型
+                //vtypeText:"请输入合法的格式！",
+                //confirmTo:"authority.type",//要比较的另外一个的组件的id
                 allowBlank:false
-            }, new Ext.form.ComboBox({
-                id:'authority_stype',
-                name:'type',
+            },  new Ext.form.ComboBox({
+                id:'authority.type',
+            	name:'authority.type',
                 store: new Ext.data.SimpleStore({
                     fields: ['key', 'value'],
                     data : [['URL', 'URL'], ['METHOD', 'METHOD']]
@@ -75,6 +67,7 @@ FromPanel = function() {
                 emptyText:this.comboEmptyText,
                 selectOnFocus:true,
                 allowBlank:false,
+                //blankText:'此项为必选项',
                 forceSelection:true
             }), new Ext.ux.form.CheckboxField({
                 id:'authority_role',
@@ -87,38 +80,42 @@ FromPanel = function() {
                 displayField:'name',
                 mode:'local',
                 allowBlank:false
-                })]
+                })
+            ]
                
-        }],
-        buttons: [{
-            text: this.submitText,
-            handler: function(){
-            Ext.getCmp("authorityDetail-form").getForm().submit({
-                url: '/' + document.location.href.split("/")[3] + '/saveAuthority.action',
-                method: 'POST',
-                disabled:true,
-                waitMsg: this.waitingMsg,
-                params:{
-                    'authority.id': Ext.getCmp('authority_cid').getValue(),
-                    'authority.name': Ext.getCmp('authority_cname').getValue(),
-                    'authority.value' : Ext.getCmp('authority_cvalue').getValue(),
-                    'authority.type' : Ext.getCmp('authority_stype').getValue(),
-                    'roleIdBunch' : Ext.getCmp('authority_role').getValue()
-                },
-                success: function(form, action){
-                    Ext.MessageBox.alert('Message', 'Plan saved.');
-                },
-                failure: function(form, action){
-                    Ext.MessageBox.alert('Message', 'Save failed');
-                }
-            });}                    
         },{
-            text: this.cancelText
+            buttonAlign:'center',
+            buttons: [{
+	            text: mbLocale.submitButton,
+	            scope:this,
+	            formBind:true,
+	            handler: function(){
+	                // 构建form的提交参数
+	                var params = { 'roleIdBunch': this.getForm().findField('authority_role').getValue() };      
+	                // form提交
+	                this.getForm().submit({
+	                    url: '/' + document.location.href.split("/")[3] + '/saveAuthority.action',
+	                    method: 'POST',
+	                    disabled:true,
+	                    waitMsg: mbLocale.waitingMsg,
+	                    params:params,
+	                    success: function(form, action) {
+	                        obj = Ext.util.JSON.decode(action.response.responseText);
+	                        showMsg('success', obj.message);                    
+	                    },
+	                    failure: function(form, action) {
+	                        try{
+	                            obj = Ext.util.JSON.decode(action.response.responseText);
+	                            showMsg('failure', obj.message);
+	                        }catch(ex){return;}
+	                    }
+	                });
+	            }                    
+	        },{
+	            text: mbLocale.closeButton
+            }],
         }],
-        buttonAlign:'left',
-        renderTo: 'authorityDetail'
     });
-    
 }
 
 micrite.security.authorityDetail.FormPanel=Ext.extend(FromPanel, Ext.FormPanel, {
@@ -128,20 +125,25 @@ micrite.security.authorityDetail.FormPanel=Ext.extend(FromPanel, Ext.FormPanel, 
     valueText:'Value',
     typeText:'Type',
     roleText:'Role',
-    submitText:'Save',
-    cancelText:'Cancel',
     comboEmptyText:'Select a type...',
-    lovComboEmptyText:'Select Roles...',
-    waitingMsg:'Saving Data...'
+    lovComboEmptyText:'Select Roles...'
     
 });
-try{ customerDetailLocale(); }
-catch(e){}
 
-Ext.onReady(function(){
+try{ authorityDetailLocale(); } catch(e){}
+try {baseLocale();} catch (e) {}
 
+Ext.onReady(function() {
     Ext.QuickTips.init();
+    Ext.form.Field.prototype.msgTarget = 'side';
+    
     var formPanel = new micrite.security.authorityDetail.FormPanel();
-    formPanel.render('authorityDetail');    
+    
+    if (mainPanel) {
+        mainPanel.getActiveTab().add(formPanel);
+        mainPanel.getActiveTab().doLayout();
+    } else {
+        new Ext.Viewport({layout:'fit',items:[formPanel]});
+    }
 });
 </script>
