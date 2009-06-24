@@ -1,4 +1,3 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <script type="text/javascript">
 Ext.namespace('micrite.security.roleList');
 
@@ -13,7 +12,7 @@ micrite.security.roleList.SearchPanel = function() {
     this.linkerMenuItems =  [{
         text:this.addRole,
         handler:function() {
-            mainPanel.loadModule('security/roleDetail.jsp', 'Role Detail');
+            mainPanel.loadModule('security/roleDetail.js', 'Role Detail');
         }
     }];    
     //  查询请求的url

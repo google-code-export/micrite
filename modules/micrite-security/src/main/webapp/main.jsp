@@ -104,7 +104,7 @@ micrite.security.framework.HeaderPanel = Ext.extend(Ext.Panel, {
                     tooltip: 'User Setting',
                     iconCls :'user',
                     handler : function() {
-                        mainPanel.loadModule('security/userSetting.jsp', 'User Setting');
+                        mainPanel.loadModule('security/userSetting.js', 'User Setting');
                     }
                 },'-',{
                     text:this.exitText,

@@ -1,4 +1,3 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <script type="text/javascript">
 /**
  * 初始化命名空间，其实就是通过a={}来建立一个对象
@@ -293,7 +292,7 @@ Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
     },
 
     openTab : function() {
-        mainPanel.loadModule('crm/customerDetail.jsp', 'Customer Detail');
+        mainPanel.loadModule('crm/customerDetail.js', 'Customer Detail');
     },
     openWindow : function() {
         var tabs = new Ext.TabPanel({
