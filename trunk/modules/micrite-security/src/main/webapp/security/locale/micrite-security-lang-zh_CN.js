@@ -66,3 +66,31 @@ function userSettingLocale(){
         });
     }    
 }
+function authorityListLocale() {
+    if(micrite.security.authorityList.SearchPanel) {
+        Ext.override(micrite.security.authorityList.SearchPanel, {
+            byName:'按名称',
+            name:'名称',
+            addAuthority:'增加授权',
+            value:'值',
+            roles:'所属角色',
+            type:'类型',
+            deleteButton:'删除',
+            closeButton:'关闭'
+        });
+    }
+}
+function authorityDetailLocale(){
+    if(micrite.security.authorityDetail.FormPanel) {
+        Ext.override(micrite.security.authorityDetail.FormPanel, {
+            authorityDetailText:'增加资源',
+            idText:'ID',
+            nameText:'名称',
+            valueText:'值',
+            typeText:'类型',
+            roleText:'角色',
+            comboEmptyText:'选择一个类型...',
+            lovComboEmptyText:'选择角色...'
+        });
+    }    
+}
