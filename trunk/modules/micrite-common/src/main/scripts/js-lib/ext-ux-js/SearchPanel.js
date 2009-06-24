@@ -77,6 +77,16 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
      * @cfg {Array} resultProcessButtons 查询结果处理按钮数组
      */
     resultProcessButtons:[],
+    
+    /**
+    * @cfg {Array} comboGrid 切换查询条件时，grid重构条件,每个配置想默认为0，
+    * 根据需要指定，可以不配置，如果配置，必须跟查询菜单的长度一直,整数值代表各配置项数组的索引
+    * [
+    * 	[{ur:0,reader:0,column:0}],
+    * 	[{ur:0,reader:0,column:0}]
+    * ]
+    */
+    comboGrid:[],
     // 配置项结束
     
 
@@ -160,7 +170,15 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
                 }
                 panel.getTopToolbar().add(item);
             }
-        };            
+        };   
+        //  重建Grid
+        var reCreateGrid = function(panel, menuItemSelectedValue){
+            var bstore = store(panel,menuItemSelectedValue);
+        	panel.resultGrid.reconfigure(bstore
+        			,columnModel(panel,menuItemSelectedValue));
+        	Ext.getCmp('ptbar').bind(bstore);
+       
+        }
         //  删除ToolbarItems
         var removeToolbarItemsFun = function(panel) {
             var toolbarItems = panel.getTopToolbar().items;
@@ -182,6 +200,8 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
                 removeToolbarItemsFun(this);
                 //  重建ToolbarItems
                 reCreateToolbarItemsFun(this, menuItemSelectedValue);
+                //  重建Grid
+                reCreateGrid(this, menuItemSelectedValue);
             }
         };
         //  创建查询条件按钮上的菜单
@@ -209,24 +229,42 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
             items:[conButton]
         });
         
-        var reader = new Ext.data.JsonReader({totalProperty:'totalCount', root:'data', id:'id'},
-                                             this.resultDataFields);
+
+        var reader = function (ithis,imenu){
+          
+        	if (arguments.length < 2 
+        			|| imenu > ithis.comboGrid.length
+        			|| !ithis.comboGrid[imenu].reader)
+        		imenu = 0;
+        	else
+        		imenu = ithis.comboGrid[imenu].reader;
+        	return new Ext.data.JsonReader({totalProperty:'totalCount', root:'data', id:'id'},
+                                             ithis.resultDataFields[imenu]);
+        };
         //  创建store
-        var store = new Ext.data.Store({
-            proxy:new Ext.data.HttpProxy({url:this.searchRequestURL,
+        var store = function (ithis,imenu){
+        	if (arguments.length < 2 
+        			|| imenu > ithis.comboGrid.length
+        			|| !ithis.comboGrid[imenu].url)
+        		imenu = 0;
+        	else
+        		imenu = ithis.comboGrid[imenu].url;
+        	return new Ext.data.Store({
+            proxy:new Ext.data.HttpProxy({url:ithis.searchRequestURL[imenu],
                                           listeners:{
                                               loadexception:function(proxy, options, response, error) {
                                                   obj = Ext.util.JSON.decode(response.responseText);
                                                   showMsg('failure', obj.message);
                                               }
                                           }}),
-            reader:reader
+            reader:reader(ithis,imenu)
         });
-        
+        };
         //  创建分页工具栏
         var pagingToolbar = new Ext.PagingToolbar({
+        	id:'ptbar',
             pageSize:parseInt(Ext.get('pageSize').dom.value),
-            store:store,
+            store:store(this),
             displayInfo:true,
             doLoad : function(start) {
                 recordStart = start;
@@ -245,7 +283,18 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
             }
         });
         //  创建查询结果列模型
-        var columnModel = new Ext.grid.ColumnModel([rowNumbererColumn].concat(this.resultColumns));
+        var columnModel = function (ithis,imenu){
+        	
+        	
+        	if (arguments.length < 2 
+        			|| imenu > ithis.comboGrid.length
+        			|| !ithis.comboGrid[imenu].column){
+        		imenu = 0;
+        	}else{
+        		imenu = ithis.comboGrid[imenu].column;
+        	}
+        	return new Ext.grid.ColumnModel([rowNumbererColumn].concat(ithis.resultColumns[imenu]));
+        }
 
         //  创建查询结果grid
         this.resultGrid = new Ext.grid.GridPanel({
@@ -255,37 +304,31 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
                 msg:mbLocale.loadingMsg
             },
             stripeRows:true,
+
             selModel:this.resultRowSelectionModel,
             bbar:pagingToolbar,
             viewConfig:{
                 forceFit:true,
                 enableRowBody:true
             },
-            store:store,
-            colModel:columnModel
+            store:store(this),
+            colModel:columnModel(this)
         });
         
         if (this.resultProcessButtons.length > 0) {
-            //  查询结果处理按钮面板
-            var resultProcessButtonsPanel = new Ext.Panel({
-                region:'south',
-                border:false,
-                buttons:this.resultProcessButtons,
-                viewConfig:{
-                    forceFit:true
-                }
-            });
-            this.items = [this.resultGrid, resultProcessButtonsPanel];
-        } else {
-            this.items = [this.resultGrid];
-        }        
+            this.buttons = this.resultProcessButtons;
+        }
         
+        this.items = [this.resultGrid];
         micrite.panel.SearchPanel.superclass.initComponent.apply(this, arguments);
     },
     
     listeners:{
         //  面板渲染时，初始化默认的查询条件组
         render:function() {
+            if (this.footer) {
+                this.footer.setStyle('background-color','#dfe8f6');
+            }
             var items = this.conCmpGroups[0];
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
@@ -301,6 +344,8 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
                 }
                 this.getTopToolbar().add(item);
             }
+
+        	Ext.getCmp('ptbar').bind(this.resultGrid.store);
         }
     }
 });
