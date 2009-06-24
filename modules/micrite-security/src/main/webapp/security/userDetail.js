@@ -87,7 +87,8 @@ micrite.security.userDetail.FormPanel = function() {
     	            });
     	        }                    
             },{
-                text: mbLocale.closeButton
+                text: mbLocale.closeButton,
+                handler: function() {Ext.getCmp('addUserWindow').close()}
             }]
         }]
     });
@@ -111,13 +112,7 @@ Ext.onReady(function() {
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
     
-    var formPanel = new micrite.security.userDetail.FormPanel();
-    
-    if (mainPanel) {
-        mainPanel.getActiveTab().add(formPanel);
-        mainPanel.getActiveTab().doLayout();
-    } else {
-        new Ext.Viewport({layout:'fit',items:[formPanel]});
-    }
+    Ext.getCmp('addUserWindow').add(new micrite.security.userDetail.FormPanel());
+    Ext.getCmp('addUserWindow').doLayout();
 });
 </script>

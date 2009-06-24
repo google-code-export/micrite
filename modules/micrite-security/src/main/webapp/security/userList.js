@@ -12,9 +12,24 @@ micrite.security.userList.SearchPanel = function() {
     //  动作按钮上的菜单项
     this.actionButtonMenuItems =  [{
         text:this.addUser,
+        scope:this,
         handler:function() {
-            mainPanel.loadModule('security/userDetail.js', 'User Detail');
-        }
+	    	var win;
+	    	if(!(win = Ext.getCmp('addUserWindow'))){
+		        win = new Ext.Window({
+		        	id: 'addUserWindow',
+		            title    : this.addUser,
+		            closable : true,
+		            autoLoad : {url: 'security/userDetail.js?'+(new Date).getTime(),scripts:true},
+		            width    : 500,
+		            height   : 360,
+		            maximizable : true,
+		            layout:'fit'
+		        });
+	    	}
+	        win.show();
+	        win.center();
+    	}
     }];    
     //  查询请求的url
     this.searchRequestURL = '/' + document.location.href.split("/")[3] + '/security/findUsersVague.action';
