@@ -123,17 +123,9 @@ try {baseLocale();} catch (e) {}
 Ext.onReady(function(){
 
     Ext.QuickTips.init();
-    var formPanel = new micrite.crm.customerDetail.FormPanel();
-    if (mainPanel){
-        mainPanel.getActiveTab().add(formPanel);
-        mainPanel.getActiveTab().doLayout();
-    }else{
-        new Ext.Viewport({
-        	layout:'fit',
-	        items:[
-	        	formPanel
-	        ]
-        });
-    }
+//    var formPanel = new micrite.crm.customerDetail.FormPanel();
+    Ext.getCmp('addCusetomerWindow').add(new micrite.crm.customerDetail.FormPanel());
+    Ext.getCmp('addCusetomerWindow').doLayout();
+
 });
 </script>

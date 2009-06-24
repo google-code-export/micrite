@@ -28,15 +28,30 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Welcome to Micrite CRM!</title>
+<title>Micrite CRM ModuleTest Page!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="js-lib/ext-js/resources/css/ext-all.css">
+<script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
+<link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/micrite-all.css">
+<link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/DateTime.css">
+<script type="text/javascript" src="js-lib/ext-ux-js/DateTime.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/BaseLocale.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/locale/micrite-base-lang-<%=request.getParameter("request_locale")%>.js"></script>
+<script type="text/javascript" src="crm/locale/micrite-crm-lang-<%=request.getParameter("request_locale")%>.js"></script>
+   
+<script>
+	var mainPanel = false;
+</script>
 </head>
 <body>
 Customer List -- 
-<a href="crm/moduleTest.jsp?moduleName=customerList&request_locale=zh_CN" >中文</a> |
-<a href="crm/moduleTest.jsp?moduleName=customerList&request_locale=en" >English</a>
+<a href="index.jsp?moduleName=customerList&request_locale=zh_CN" >中文</a> |
+<a href="index.jsp?moduleName=customerList&request_locale=en" >English</a>
 <br>
-Customer Detail --
-<a href="crm/moduleTest.jsp?moduleName=customerDetail&request_locale=zh_CN" >中文</a> |
-<a href="crm/moduleTest.jsp?moduleName=customerDetail&request_locale=en" >English</a>
+
+<%if(("customerList").equals(request.getParameter("moduleName"))){%>
+<%@ include file="crm/customerList.js"%>
+<%}%>
 </body>
 </html>
