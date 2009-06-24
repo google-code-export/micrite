@@ -67,3 +67,31 @@ function userSettingLocale(){
         });
     }    
 }
+function authorityListLocale() {
+    if(micrite.security.authorityList.SearchPanel) {
+        Ext.override(micrite.security.authorityList.SearchPanel, {
+            byName:'By Name',
+            name:'Name',
+            addAuthority:'Add Authority',
+            value:'Value',
+            roles:'RolesString',
+            type:'Type',
+            deleteButton:'Delete',
+            closeButton:'Close'
+        });
+    }
+}
+function authorityDetailLocale(){
+    if(micrite.security.authorityDetail.FormPanel) {
+        Ext.override(micrite.security.authorityDetail.FormPanel, {
+            authorityDetailText:'Authority Detail',
+            idText:'ID',
+            nameText:'Name',
+            valueText:'Value',
+            typeText:'Type',
+            roleText:'Role',
+            comboEmptyText:'Select a type...',
+            lovComboEmptyText:'Select Roles...'
+        });
+    }    
+}
