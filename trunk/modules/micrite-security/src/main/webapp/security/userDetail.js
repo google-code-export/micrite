@@ -1,4 +1,3 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <script type="text/javascript">
 /**
  * micrite.security.userDetail 用户信息，增加新用户

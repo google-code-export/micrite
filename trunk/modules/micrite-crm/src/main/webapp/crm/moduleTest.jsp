@@ -46,10 +46,10 @@
 </head>
 <body>
 <%if(("customerList").equals(request.getParameter("moduleName"))){%>
-<%@ include file="customerList.jsp"%>
+<%@ include file="customerList.js"%>
 <%}%>
 <%if(("customerDetail").equals(request.getParameter("moduleName"))){%>
-<%@ include file="customerDetail.jsp"%>
+<%@ include file="customerDetail.js"%>
 <%}%>
 
 </body>

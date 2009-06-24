@@ -1,4 +1,3 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <script type="text/javascript">
 Ext.namespace('micrite.security.userList');
 
@@ -14,7 +13,7 @@ micrite.security.userList.SearchPanel = function() {
     this.actionButtonMenuItems =  [{
         text:this.addUser,
         handler:function() {
-            mainPanel.loadModule('security/userDetail.jsp', 'User Detail');
+            mainPanel.loadModule('security/userDetail.js', 'User Detail');
         }
     }];    
     //  查询请求的url

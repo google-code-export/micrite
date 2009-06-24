@@ -69,12 +69,12 @@ ALTER TABLE authorities ADD CONSTRAINT authorities_value_uq UNIQUE ( type,value 
 #addAutoIncrement("authorities")
 
 insert  into authorities(name,type,value) values ('All URL','URL','/**');
-insert  into authorities(name,type,value) values ('/CRM Modules/Customer List','URL','/crm/customerList.jsp');
-insert  into authorities(name,type,value) values ('/CRM Modules/Customer Detail','URL','/crm/customerDetail.jsp');
-insert  into authorities(name,type,value) values ('/Security Modules/User List','URL','/security/userList.jsp');
-insert  into authorities(name,type,value) values ('/Security Modules/User Detail','URL','/security/userDetail.jsp');
-insert  into authorities(name,type,value) values ('/Security Modules/Authority Detail','URL','/security/authorityDetail.jsp');
-insert  into authorities(name,type,value) values ('/Security Modules/Role List','URL','/security/roleList.jsp');
+insert  into authorities(name,type,value) values ('/CRM Modules/Customer List','URL','/crm/customerList.js');
+insert  into authorities(name,type,value) values ('/CRM Modules/Customer Detail','URL','/crm/customerDetail.js');
+insert  into authorities(name,type,value) values ('/Security Modules/User List','URL','/security/userList.js');
+insert  into authorities(name,type,value) values ('/Security Modules/User Detail','URL','/security/userDetail.js');
+insert  into authorities(name,type,value) values ('/Security Modules/Authority Detail','URL','/security/authorityDetail.js');
+insert  into authorities(name,type,value) values ('/Security Modules/Role List','URL','/security/roleList.js');
 -- insert  into authorities(name,type,value) values ('Security Detail Add Method Filter','METHOD','* org.gaixie.micrite.crm.service.ICustomerService.add(..)');
 
 

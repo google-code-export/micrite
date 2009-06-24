@@ -1,4 +1,3 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <script type="text/javascript">
 Ext.ns('micrite.crm.customerDetail');
 micrite.crm.customerDetail.FormPanel = function() {
