@@ -292,7 +292,22 @@ Ext.extend(micrite.crm.customerList.SearchPanel, Ext.Panel, {
     },
 
     openTab : function() {
-        mainPanel.loadModule('crm/customerDetail.js', 'Customer Detail');
+        var win;
+        if(!(win = Ext.getCmp('addCusetomerWindow'))){
+            win = new Ext.Window({
+                id: 'addCusetomerWindow',
+                title    : this.addUser,
+                closable : true,
+                autoLoad : {url: 'crm/customerDetail.js?'+(new Date).getTime(),scripts:true},
+                width    : 500,
+                height   : 360,
+                maximizable : true,
+                layout:'fit'
+            });
+        }
+        win.show();
+        win.center();        
+//        mainPanel.loadModule('crm/customerDetail.js', 'Customer Detail');
     },
     openWindow : function() {
         var tabs = new Ext.TabPanel({
