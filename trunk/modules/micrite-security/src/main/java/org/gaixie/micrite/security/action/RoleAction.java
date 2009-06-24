@@ -58,6 +58,10 @@ public class RoleAction extends ActionSupport{
     private int start;
     //  限制数
     private int limit;
+    
+    //  记录总数（分页中改变页码时，会传递该参数过来）
+    private int totalCount;
+    
     //  action处理结果（map对象）
     private Map<String,Object> actionResult = new HashMap<String,Object>();
     private Map<String,String> returnMsg = new HashMap<String,String>();    
@@ -87,16 +91,19 @@ public class RoleAction extends ActionSupport{
     public String findByNameVague() {
         logger.debug("start=" + start);
         logger.debug("limit=" + limit);
-        //  为了得到查询结果总数
-        int count = roleService.findByNameVagueTotal(role.getName());
+        if (totalCount == 0) {
+            //  初次查询时，要从数据库中读取总记录数
+            Integer count = roleService.findByNameVagueTotal(role.getName());
+            setTotalCount(count);
+        }         
         //  得到分页查询结果
         List<Role> searchRoles = roleService.findByNameVaguePerPage(role.getName(), start, limit);
         for(Role role : searchRoles){
             role.setAuthorities(null);
         }
-        actionResult.put("totalCounts", count);
+        actionResult.put("totalCount", totalCount);
         actionResult.put("success", true);
-        actionResult.put("results", searchRoles);
+        actionResult.put("data", searchRoles);
         return SUCCESS;
     }
     
@@ -130,6 +137,10 @@ public class RoleAction extends ActionSupport{
 
     public void setLimit(int limit) {
         this.limit = limit;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
     }
     
     public Map<String, Object> getActionResult() {
