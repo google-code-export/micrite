@@ -330,6 +330,7 @@ Ext.onReady(function(){
 <body>
 <s:hidden id="pageSize" name="pageSize"></s:hidden>
 <script type="text/javascript" src="js-lib/ext-ux-js/SearchPanel.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/ComplexSearchPanel.js"></script>
 <div id="header"></div>
 </body>
 </html>
