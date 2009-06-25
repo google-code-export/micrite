@@ -62,6 +62,12 @@ public class UserAction extends ActionSupport {
     //  用户id拼串，形如“1,2,4”
     private String userIdsStr;
 
+    //  用户id拼串，形如“1,2,4”
+    private String userIds;
+    
+    //  用户id拼串，形如“1,2,4”
+    private boolean matched;
+    
     //  以下两个分页用
     //  起始索引
     private int start;
@@ -187,11 +193,11 @@ public class UserAction extends ActionSupport {
      */
     public String deleteUsers() {
         logger.debug("userIdsStr=" + userIdsStr);
-        String[] userIds = StringUtils.split(userIdsStr, ",");
-        for (int i = 0; i < userIds.length; i++) {
-            logger.debug("userIds[i]=" + userIds[i]);
+        String[] ids = StringUtils.split(userIdsStr, ",");
+        for (int i = 0; i < ids.length; i++) {
+            logger.debug("ids[i]=" + ids[i]);
         }
-        userService.deleteUsers(userIds);
+        userService.deleteUsers(ids);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -203,8 +209,32 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */
     public String enableOrDisableUsers() {
-        String[] userIds = StringUtils.split(userIdsStr, ",");
-        userService.enableOrDisableUsers(userIds);
+        String[] ids = StringUtils.split(userIdsStr, ",");
+        userService.enableOrDisableUsers(ids);
+        resultMap.put("message", getText("save.success"));
+        resultMap.put("success", true);
+        return SUCCESS;
+    }
+   
+    public String findMatchedUsers() {
+        
+        String[] roleIds = StringUtils.split(userRoleIdsStr, ",");
+        Set<User> users;
+        if(matched)
+            users = userService.findUsersByRoleId(Integer.parseInt(roleIds[0]));
+        else{
+            return findByUsernameVague();
+        }
+            
+        resultMap.put("success", true);
+        resultMap.put("data", users);
+        return SUCCESS;
+    }
+
+    public String addUsersMatched() {
+        String[] uIds = StringUtils.split(userIds, ",");
+        String[] rIds = StringUtils.split(userRoleIdsStr, ",");
+        userService.addUsersMatched(uIds,Integer.parseInt(rIds[0]));
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -243,6 +273,10 @@ public class UserAction extends ActionSupport {
         this.userIdsStr = userIdsStr;
     }
 
+    public void setUserIds(String userIds) {
+        this.userIds = userIds;
+    }
+    
     public Map<String, Object> getResultMap() {
         return resultMap;
     }
@@ -254,5 +288,13 @@ public class UserAction extends ActionSupport {
 	public List<Setting> getSettings() {
 		return settings;
 	}
+	
+    public void setMatched(boolean matched) {
+        this.matched = matched;
+    }
+    
+    public boolean isMatched() {
+        return matched;
+    }    
 
 }

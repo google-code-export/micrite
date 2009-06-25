@@ -106,7 +106,9 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
                 var name = null;   
                 if (this.curConFields[i].xtype == 'checkbox') {
                     v = this.curConFields[i].checked;   
-                } else {
+                } else if (this.curConFields[i].xtype == 'combo') {
+                    v = this.curConFields[i].getValue();
+                }else{
                     v = this.curConFields[i].getRawValue();
                 }
                 name = this.curConFields[i].getName();
@@ -153,6 +155,9 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
                     panel.curConFields[panel.curConFields.length] = item;
                 } else if (item.xtype == 'checkbox') {
                     item = new Ext.form.Checkbox(item);
+                    panel.curConFields[panel.curConFields.length] = item;
+                } else if (item.xtype == 'combo') {
+                    item = new Ext.form.ComboBox(item);
                     panel.curConFields[panel.curConFields.length] = item;
                 } else if (item.xtype == 'datetimefield') {
                     item = new Ext.boco.DateTimeField(item);
@@ -295,6 +300,9 @@ Ext.extend(micrite.panel.SearchPanel, Ext.Panel, {
                 } else if (item.xtype == 'checkbox') {
                     item = new Ext.form.Checkbox(item);
                     this.curConFields[this.curConFields.length] = item;
+                } else if (item.xtype == 'combo') {
+                    item = new Ext.form.ComboBox(item);
+                    this.curConFields[this.curConFields.length] = item;                    
                 } else if (item.xtype == 'datetimefield') {
                     item = new Ext.boco.DateTimeField(item);
                     this.curConFields[this.curConFields.length] = item;

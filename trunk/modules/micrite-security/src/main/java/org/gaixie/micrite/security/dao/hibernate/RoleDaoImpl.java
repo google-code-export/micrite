@@ -65,5 +65,7 @@ public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
         criteria.add(Expression.like("name", "%"+name+"%"));
         criteria.setProjection(Projections.rowCount());
         return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
-    }       
+    }   
+    
+    
 }

@@ -217,7 +217,34 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         for (int i = 0; i < userIds.length; i++) {
             User user = userDao.getUser(Integer.parseInt(userIds[i]));
             user.setEnabled(!user.isEnabled());
+            //  从cache中删除修改的对象
+            if (userCache != null) {
+                userCache.removeUserFromCache(user.getLoginname());
+            }
         }
     }
     
+    public Set<User> findUsersByRoleId(int roleId) {
+            Role role = roleDao.getRole(roleId);
+            Set<User> users = role.getUsers();
+            for (User user : users) {
+                user.getLoginname();
+            }
+            return users;
+    }    
+    
+    public void addUsersMatched(String[] userIds, int roleId) {
+        Role role = roleDao.getRole(roleId);
+        for (int i = 0; i < userIds.length; i++) {
+            User user = userDao.getUser(Integer.parseInt(userIds[i]));
+            Set<Role> roles =  user.getRoles();
+            logger.debug("updateInfo");
+            roles.add(role);
+            user.setRoles(roles);
+            //  从cache中删除修改的对象
+            if (userCache != null) {
+                userCache.removeUserFromCache(user.getLoginname());
+            }
+        }
+    }    
 }

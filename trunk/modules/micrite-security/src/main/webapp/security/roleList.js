@@ -20,21 +20,53 @@ micrite.security.roleList.SearchPanel = function() {
     
     //  查询结果数据按此格式读取
     this.resultDataFields = [
-                             {name: 'name'},
-                             {name: 'description'}
-                            ];
+        {name: 'name'},
+        {name: 'description'}
+    ];
+    
+    //  查询结果行选择模型
+    this.resultRowSelectionModel = new Ext.grid.CheckboxSelectionModel();
     
     //  查询结果列
     this.resultColumns = [
-	                         {header: this.name, width: 100, sortable: true, dataIndex: 'name'},
-	                         {header: this.description, width: 180, sortable: true, dataIndex: 'description'}
-                         ];
+        {header: this.name, width: 100, sortable: true, dataIndex: 'name'},
+        {header: this.description, width: 180, sortable: true, dataIndex: 'description'},
+        this.resultRowSelectionModel
+    ];
 
     //  动作按钮数组
-    this.resultProcessButtons = [
-	                         {text:mbLocale.submitButton, disabled:true}, 
-	                         {text:mbLocale.closeButton, handler:function() {}}
-                         ];
+    this.resultProcessButtons = [{
+        text:mbLocale.submitButton, 
+        scope:this, 
+        handler:function() {
+            //  选择的数据记录主键，形如“2, 4, 6, 10”
+            var roleIds = this.resultGrid.selModel.selections.keys;
+            console.log(roleIds);
+            if(roleIds.length!=1){
+                Ext.MessageBox.alert('提示','请选择一条记录');
+                return;
+            }
+            var win;
+            if(!(win = Ext.getCmp('userSelectWindow'))){
+                win = new Ext.Window({
+                    id: 'userSelectWindow',
+                    title    : this.addUser,
+                    closable : true,
+                    autoLoad : {url: 'security/userSelect.jsp?roleIds='+roleIds+'&'+(new Date).getTime(),scripts:true},
+                    width    : 500,
+                    height   : 360,
+                    maximizable : true,
+                    layout:'fit'
+                });
+            }
+            win.show();
+            win.center();            
+            console.log(roleIds.length);
+        }
+    },{
+        text:mbLocale.closeButton, 
+        handler:function() {}
+    }];
     
     micrite.security.roleList.SearchPanel.superclass.constructor.call(this);
 };
