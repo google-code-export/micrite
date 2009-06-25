@@ -59,6 +59,9 @@ public class Role {
     @JoinTable(name = "role_authority_map", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))  
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)  
     private Set<Authority> authorities;  
+
+    @ManyToMany(mappedBy = "roles", targetEntity = User.class)
+    private Set<User> users;
     
     /**
      * No-arg constructor for JavaBean tools.
@@ -100,4 +103,11 @@ public class Role {
         this.authorities = authorities;
     }
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }    
 }

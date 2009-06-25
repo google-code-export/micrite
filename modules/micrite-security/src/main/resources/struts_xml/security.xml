@@ -122,8 +122,21 @@
                 <param name="target">resultMap</param>
             </result>
         </action>        
-        
-                 
+
+        <action name="findMatchedUsers" class="userAction" method="findMatchedUsers">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+                <param name="excludes">roles,authorities,accountNonExpired,accountNonLocked,
+                credentialsNonExpired,cryptpassword,password,plainpassword,settings</param>
+            </result>
+        </action>        
+
+        <action name="addUsersMatched" class="userAction" method="addUsersMatched">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action> 
+                         
         <!-- ~~~~~~~~~~~~~~~~~~~~ Authority ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->        
         <action name="saveAuthority" class="authorityAction" method="save">
             <result name="success" type="json">
@@ -141,6 +154,7 @@
         <action name="findRolesVague" class="roleAction" method="findByNameVague">
             <result name="success" type="json">
                 <param name="target">actionResult</param>
+                <param name="excludes">authorities,users</param>
             </result>
         </action>
                         

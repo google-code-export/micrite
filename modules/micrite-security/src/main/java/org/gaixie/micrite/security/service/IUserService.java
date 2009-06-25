@@ -117,4 +117,8 @@ public interface IUserService {
      */
     public void enableOrDisableUsers(String[] userIds);
     
+    public Set<User> findUsersByRoleId(int roleId);
+    
+    public void addUsersMatched(String[] userIds, int roleId);    
+    
 }
