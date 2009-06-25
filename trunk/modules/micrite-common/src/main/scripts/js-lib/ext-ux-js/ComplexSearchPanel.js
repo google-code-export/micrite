@@ -82,8 +82,8 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
     * @cfg {Array} comboGrid 切换查询条件时，grid重构条件,每个配置想默认为0，
     * 根据需要指定，可以不配置，如果配置，必须跟查询菜单的长度一直,整数值代表各配置项数组的索引
     * [
-    * 	[{ur:0,reader:0,column:0}],
-    * 	[{ur:0,reader:0,column:0}]
+    * 	[{ur:0,reader:0,column:0,button:0}],
+    * 	[{ur:0,reader:0,column:0,button:0}]
     * ]
     */
     comboGrid:[],
