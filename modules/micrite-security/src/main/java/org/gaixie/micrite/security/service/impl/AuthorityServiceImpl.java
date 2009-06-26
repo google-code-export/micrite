@@ -67,4 +67,41 @@ public class AuthorityServiceImpl implements IAuthorityService {
             MethodSecurityInterceptor.refresh();
         return true;
     }
+    
+    public Integer findByNameVagueCount(String name) {
+        return authorityDao.findByNameVagueCount(name);
+    }
+
+    public List<Authority> findByNameVaguePerPage(String name, int start, int limit) {
+        return authorityDao.findByNameVaguePerPage(name, start, limit);
+    }  
+    
+    public List<Authority> findAuthsByRoleId(int roleId, int start, int limit) {
+        List<Authority> auths = authorityDao.findByRoleId(roleId,start,limit);
+        return auths;
+    }    
+
+    public Integer findAuthsByRoleIdCount(int roleId) {
+        return authorityDao.findByRoleIdCount(roleId);
+    }  
+    
+    public void bindAuths(String[] authIds, int roleId) {
+        Role role = roleDao.getRole(roleId);
+        for (int i = 0; i < authIds.length; i++) {
+            Authority auth = authorityDao.getAuthority(Integer.parseInt(authIds[i]));
+            Set<Role> roles =  auth.getRoles();
+            roles.add(role);
+            auth.setRoles(roles);
+        }
+    }    
+    
+    public void unBindAuths(String[] authIds, int roleId) {
+        Role role = roleDao.getRole(roleId);
+        for (int i = 0; i < authIds.length; i++) {
+            Authority auth = authorityDao.getAuthority(Integer.parseInt(authIds[i]));
+            Set<Role> roles =  auth.getRoles();
+            roles.remove(role);
+            auth.setRoles(roles);
+        }
+    }       
 }

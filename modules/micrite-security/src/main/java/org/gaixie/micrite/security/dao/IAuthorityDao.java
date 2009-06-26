@@ -53,6 +53,14 @@ public interface IAuthorityDao {
      */
     public void update(Authority authority);
     
-    public List<Authority> findByRoleId(int roleId, int start, int limit);    
+    public Authority getAuthority(Integer id);
+    
+    public Integer findByNameVagueCount(String name);
+    
+    public List<Authority> findByNameVaguePerPage(String name, int start, int limit);
+    
+    public List<Authority> findByRoleId(int roleId, int start, int limit);   
+    
+    public Integer findByRoleIdCount(int roleId);
 
 }

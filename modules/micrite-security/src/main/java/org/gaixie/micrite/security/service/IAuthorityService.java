@@ -24,6 +24,7 @@
 
 package org.gaixie.micrite.security.service;
 
+import java.util.List;
 
 import org.gaixie.micrite.beans.Authority;
 
@@ -41,5 +42,15 @@ public interface IAuthorityService {
      */
     public boolean add(Authority authority, String roleIdBunch);
     
-
+    public Integer findByNameVagueCount(String name);
+    
+    public List<Authority> findByNameVaguePerPage(String name, int start, int limit);
+    
+    public List<Authority> findAuthsByRoleId(int roleId, int start, int limit);
+    
+    public Integer findAuthsByRoleIdCount(int roleId);
+    
+    public void bindAuths(String[] authIds, int roleId);
+    
+    public void unBindAuths(String[] authIds, int roleId);
 }

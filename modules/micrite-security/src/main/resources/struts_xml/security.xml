@@ -123,7 +123,7 @@
             </result>
         </action>        
 
-        <action name="findMatchedUsers" class="userAction" method="findMatchedUsers">
+        <action name="findBindedUsers" class="userAction" method="findBindedUsers">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
                 <param name="excludes">roles,authorities,accountNonExpired,accountNonLocked,
@@ -131,13 +131,13 @@
             </result>
         </action>        
 
-        <action name="addUsersMatched" class="userAction" method="addUsersMatched">
+        <action name="bindUsers" class="userAction" method="bindUsers">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
             </result>
         </action> 
 
-        <action name="delUsersMatched" class="userAction" method="delUsersMatched">
+        <action name="unBindUsers" class="userAction" method="unBindUsers">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
             </result>
@@ -146,10 +146,29 @@
         <!-- ~~~~~~~~~~~~~~~~~~~~ Authority ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->        
         <action name="saveAuthority" class="authorityAction" method="save">
             <result name="success" type="json">
-                <param name="target">result</param>
+                <param name="target">resultMap</param>
             </result>
         </action>
 
+        <action name="findBindedAuths" class="authorityAction" method="findBindedAuths">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+                <param name="excludes">roles,rolesString</param>
+            </result>
+        </action>        
+
+        <action name="bindAuths" class="authorityAction" method="bindAuths">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action> 
+
+        <action name="unBindAuths" class="authorityAction" method="unBindAuths">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action> 
+        
         <!-- ~~~~~~~~~~~~~~~~~~~~ Role ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->   
         <action name="findRolesAll" class="roleAction" method="findAll">
             <result name="success" type="json">

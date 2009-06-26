@@ -2,31 +2,32 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <script type="text/javascript">
-Ext.namespace('micrite.security.userSelect');
+Ext.namespace('micrite.security.authoritySelect');
 
-micrite.security.userSelect.SearchPanel = function() {
+micrite.security.authoritySelect.SearchPanel = function() {
     //  查询条件分组名称数组
     this.conNames = [this.byName];
     //  查询条件分组组件组数组
     this.conCmpGroups = [
-        [this.username, {xtype:'textfield', name:'user.loginname', width:120},
+        [this.name, {xtype:'textfield', name:'authority.name', width:120},
          '',{xtype:'checkbox',boxLabel:'Only Binded', name:'binded'}
         ]
     ];
     //  超链菜单项数组
     this.actionButtonMenuItems =  [{
-        text:this.addRole,
+        text:this.addAuth,
         handler:function() {
-            mainPanel.loadModule('security/roleDetail.js', 'Role Detail');
+            mainPanel.loadModule('security/authorityDetail.js', 'Authority Detail');
         }
     }];    
     //  查询请求的url
-    this.searchRequestURL = ['/' + document.location.href.split("/")[3] + '/security/findBindedUsers.action?roleIds='+<%=request.getParameter("roleIds")%>];
+    this.searchRequestURL = ['/' + document.location.href.split("/")[3] + '/security/findBindedAuths.action?roleIds='+<%=request.getParameter("roleIds")%>];
     
     //  查询结果数据按此格式读取
     this.resultDataFields = [[
-        {name: 'fullname'},
-        {name: 'emailaddress'}
+        {name: 'name'},
+        {name: 'type'},        
+        {name: 'value'}
     ]];
     
     //  查询结果行选择模型
@@ -34,8 +35,9 @@ micrite.security.userSelect.SearchPanel = function() {
     
     //  查询结果列
     this.resultColumns = [[
-        {header: this.name, width: 100, sortable: true, dataIndex: 'fullname'},
-        {header: this.description, width: 180, sortable: true, dataIndex: 'emailaddress'},
+        {header: this.name, width: 100, sortable: true, dataIndex: 'name'},
+        {header: this.type, width: 100, sortable: true, dataIndex: 'type'},        
+        {header: this.value, width: 180, sortable: true, dataIndex: 'value'},
         this.resultRowSelectionModel
     ]];
 
@@ -53,11 +55,11 @@ micrite.security.userSelect.SearchPanel = function() {
                 return;
             }
        
-            var bindUsers = function(buttonId, text, opt) {
+            var bindAuths = function(buttonId, text, opt) {
                 if (buttonId == 'yes') {
                     Ext.Ajax.request({
-                        url:'/' + document.location.href.split("/")[3] + '/bindUsers.action?roleIds='+<%=request.getParameter("roleIds")%>,
-                        params:{'userIds':ids},
+                        url:'/' + document.location.href.split("/")[3] + '/bindAuths.action?roleIds='+<%=request.getParameter("roleIds")%>,
+                        params:{'authIds':ids},
                         scope:this,
                         success:function(response, options) {
                             obj = Ext.util.JSON.decode(response.responseText);
@@ -75,7 +77,7 @@ micrite.security.userSelect.SearchPanel = function() {
                 msg: '确定要删除吗？',
                 buttons: Ext.Msg.YESNO,
                 scope: this,
-                fn: bindUsers,
+                fn: bindAuths,
                 icon: Ext.MessageBox.QUESTION
             });
         }
@@ -91,11 +93,11 @@ micrite.security.userSelect.SearchPanel = function() {
             return;
         }
    
-        var unBindUsers = function(buttonId, text, opt) {
+        var unBindAuths = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 Ext.Ajax.request({
-                    url:'/' + document.location.href.split("/")[3] + '/unBindUsers.action?roleIds='+<%=request.getParameter("roleIds")%>,
-                    params:{'userIds':ids},
+                    url:'/' + document.location.href.split("/")[3] + '/unBindAuths.action?roleIds='+<%=request.getParameter("roleIds")%>,
+                    params:{'authIds':ids},
                     scope:this,
                     success:function(response, options) {
                         obj = Ext.util.JSON.decode(response.responseText);
@@ -113,21 +115,21 @@ micrite.security.userSelect.SearchPanel = function() {
             msg: '确定要删除吗？',
             buttons: Ext.Msg.YESNO,
             scope: this,
-            fn: unBindUsers,
+            fn: unBindAuths,
             icon: Ext.MessageBox.QUESTION
         });
         }
     }]];
     
-    micrite.security.userSelect.SearchPanel.superclass.constructor.call(this);
+    micrite.security.authoritySelect.SearchPanel.superclass.constructor.call(this);
 };
 
-Ext.extend(micrite.security.userSelect.SearchPanel, micrite.panel.ComplexSearchPanel, {
-    byName:'By Role Name',
-    username:'User Name',
-    addRole:'Add Role',
+Ext.extend(micrite.security.authoritySelect.SearchPanel, micrite.panel.ComplexSearchPanel, {
+    byName:'By Authority Name',
+    addAuth:'Add Authority',
     name:'Name',
-    description:'Description'
+    type:'Type',
+    value:'Value'
 });
 
 //  处理多语言
@@ -138,7 +140,7 @@ Ext.onReady(function() {
     Ext.QuickTips.init();
 //    var formPanel = new micrite.security.roleListSub.SearchPanel();
     
-    Ext.getCmp('userSelectWindow').add(new micrite.security.userSelect.SearchPanel());
-    Ext.getCmp('userSelectWindow').doLayout();
+    Ext.getCmp('authoritySelectWindow').add(new micrite.security.authoritySelect.SearchPanel());
+    Ext.getCmp('authoritySelectWindow').doLayout();
 });
 </script>
