@@ -25,8 +25,11 @@
 package org.gaixie.micrite.security.action;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.security.service.IAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,15 +44,29 @@ import com.opensymphony.xwork2.ActionSupport;
 public class AuthorityAction extends ActionSupport{ 
 	private static final long serialVersionUID = 1721180911011412346L;
 
+	private static final Logger logger = Logger.getLogger(AuthorityAction.class);
+	
 	@Autowired
 	private IAuthorityService authorityService;
 
     //以Map格式存放操作的结果，然后由struts2-json插件转换为json对象
-    private Map<String,Object> result = new HashMap<String,Object>();
+    private Map<String,Object> resultMap = new HashMap<String,Object>();
     
     //获取的页面参数
     private Authority authority;
     private String roleIdBunch;
+
+    //  以下两个分页用
+    //  起始索引
+    private int start;
+    //  限制数
+    private int limit;
+    //  记录总数（分页中改变页码时，会传递该参数过来）
+    private int totalCount;
+    
+    private String roleIds;
+    private String[] authIds;
+    private boolean binded;
 
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     /**
@@ -57,7 +74,60 @@ public class AuthorityAction extends ActionSupport{
      * @return "success"
      */
     public String save() {
-        result.put("success", authorityService.add(authority, roleIdBunch));
+        resultMap.put("success", authorityService.add(authority, roleIdBunch));
+        return SUCCESS;
+    }
+
+    public String findByNameVague() {
+        String name = authority.getName();
+        if (totalCount == 0) {
+            //  初次查询时，要从数据库中读取总记录数
+            Integer count = authorityService.findByNameVagueCount(name);
+            setTotalCount(count);
+        } 
+        //  得到分页查询结果
+        logger.debug("name="+name);
+        logger.debug("totalCount="+totalCount);
+        List<Authority> auths = authorityService.findByNameVaguePerPage(name, start, limit);
+        logger.debug("auths="+auths.size());
+        resultMap.put("totalCount", totalCount);
+        resultMap.put("success", true);
+        resultMap.put("data", auths);
+        return SUCCESS;
+    }
+    
+    public String findBindedAuths() {
+        
+        String[] rIds = StringUtils.split(roleIds, ",");
+        if(!binded) return findByNameVague();
+
+        if (totalCount == 0) {
+            //  初次查询时，要从数据库中读取总记录数
+            Integer count = authorityService.findAuthsByRoleIdCount(Integer.parseInt(rIds[0]));
+            setTotalCount(count);
+        } 
+        
+        List<Authority> auths = authorityService.findAuthsByRoleId(Integer.parseInt(rIds[0]), start, limit);
+        resultMap.put("totalCount", totalCount);    
+        resultMap.put("success", true);
+        resultMap.put("data", auths);
+
+        return SUCCESS;
+    }
+
+    public String bindAuths() {
+        String[] rIds = StringUtils.split(roleIds, ",");
+        authorityService.bindAuths(authIds,Integer.parseInt(rIds[0]));
+        resultMap.put("message", getText("save.success"));
+        resultMap.put("success", true);
+        return SUCCESS;
+    }
+    
+    public String unBindAuths() {
+        String[] rIds = StringUtils.split(roleIds, ",");
+        authorityService.unBindAuths(authIds,Integer.parseInt(rIds[0]));
+        resultMap.put("message", getText("save.success"));
+        resultMap.put("success", true);
         return SUCCESS;
     }
     
@@ -66,15 +136,15 @@ public class AuthorityAction extends ActionSupport{
 	/**
 	 * @return the result
 	 */
-	public Map<String, Object> getResult() {
-		return result;
+	public Map<String, Object> getResultMap() {
+		return resultMap;
 	}
 
 	/**
 	 * @param result the result to set
 	 */
-	public void setResult(Map<String, Object> result) {
-		this.result = result;
+	public void setResultMap(Map<String, Object> resultMap) {
+		this.resultMap = resultMap;
 	}
 
 	/**
@@ -104,6 +174,32 @@ public class AuthorityAction extends ActionSupport{
 	public void setRoleIdBunch(String roleIdBunch) {
 		this.roleIdBunch = roleIdBunch;
 	}
-    
 
+    public void setStart(int start) {
+        this.start = start;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+    
+    public void setRoleIds(String roleIds) {
+        this.roleIds = roleIds;
+    }
+    
+    public void setAuthIds(String[] authIds) {
+        this.authIds = authIds;
+    }
+    
+    public void setBinded(boolean binded) {
+        this.binded = binded;
+    }
+    
+    public boolean isBinded() {
+        return binded;
+    }  
 }

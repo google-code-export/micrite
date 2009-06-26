@@ -65,7 +65,7 @@ public class UserAction extends ActionSupport {
     //  用户id拼串，形如“1,2,4”
     private String[] userIds;
     
-    private boolean matched;
+    private boolean binded;
     
     //  以下两个分页用
     //  起始索引
@@ -214,10 +214,10 @@ public class UserAction extends ActionSupport {
         return SUCCESS;
     }
    
-    public String findMatchedUsers() {
+    public String findBindedUsers() {
         
         String[] rIds = StringUtils.split(roleIds, ",");
-        if(!matched) return findByUsernameVague();
+        if(!binded) return findByUsernameVague();
 
         if (totalCount == 0) {
             //  初次查询时，要从数据库中读取总记录数
@@ -233,17 +233,17 @@ public class UserAction extends ActionSupport {
         return SUCCESS;
     }
 
-    public String addUsersMatched() {
+    public String bindUsers() {
         String[] rIds = StringUtils.split(roleIds, ",");
-        userService.addUsersMatched(userIds,Integer.parseInt(rIds[0]));
+        userService.bindUsers(userIds,Integer.parseInt(rIds[0]));
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
     }
     
-    public String delUsersMatched() {
+    public String unBindUsers() {
         String[] rIds = StringUtils.split(roleIds, ",");
-        userService.delUsersMatched(userIds,Integer.parseInt(rIds[0]));
+        userService.unBindUsers(userIds,Integer.parseInt(rIds[0]));
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -298,12 +298,12 @@ public class UserAction extends ActionSupport {
 		return settings;
 	}
 	
-    public void setMatched(boolean matched) {
-        this.matched = matched;
+    public void setBinded(boolean binded) {
+        this.binded = binded;
     }
     
-    public boolean isMatched() {
-        return matched;
+    public boolean isBinded() {
+        return binded;
     }    
 
 }

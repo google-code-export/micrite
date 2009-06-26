@@ -36,7 +36,7 @@ micrite.security.roleList.SearchPanel = function() {
 
     //  动作按钮数组
     this.resultProcessButtons = [{
-        text:this.putUser, 
+        text:this.bindUser, 
         scope:this, 
         handler:function() {
             //  选择的数据记录主键，形如“2, 4, 6, 10”
@@ -50,11 +50,11 @@ micrite.security.roleList.SearchPanel = function() {
             if(!(win = Ext.getCmp('userSelectWindow'))){
                 win = new Ext.Window({
                     id: 'userSelectWindow',
-                    title    : this.putUser,
+                    title    : this.bindUser,
                     closable : true,
                     autoLoad : {url: 'security/userSelect.jsp?roleIds='+roleIds+'&'+(new Date).getTime(),scripts:true},
-                    width    : 500,
-                    height   : 360,
+                    width    : 600,
+                    height   : 420,
                     maximizable : true,
                     layout:'fit'
                 });
@@ -62,6 +62,31 @@ micrite.security.roleList.SearchPanel = function() {
             win.show();
             win.center();            
             console.log(roleIds.length);
+        }
+    },{
+        text:this.bindAuthority, 
+        scope:this, 
+        handler:function() {
+            var roleIds = this.resultGrid.selModel.selections.keys;
+            if(roleIds.length!=1){
+                Ext.MessageBox.alert('提示','请选择一条记录');
+                return;
+            }
+            var win;
+            if(!(win = Ext.getCmp('authoritySelectWindow'))){
+                win = new Ext.Window({
+                    id: 'authoritySelectWindow',
+                    title    : this.bindAuthority,
+                    closable : true,
+                    autoLoad : {url: 'security/authoritySelect.jsp?roleIds='+roleIds+'&'+(new Date).getTime(),scripts:true},
+                    width    : 600,
+                    height   : 420,
+                    maximizable : true,
+                    layout:'fit'
+                });
+            }
+            win.show();
+            win.center();            
         }
     },{
         text:mbLocale.closeButton, 
@@ -72,7 +97,8 @@ micrite.security.roleList.SearchPanel = function() {
 };
 
 Ext.extend(micrite.security.roleList.SearchPanel, micrite.panel.SearchPanel, {
-    putUser:'Set User Related',
+    bindUser:'Bind User',
+    bindAuthority:'Bind Authority',
     byName:'By Role Name',
     name:'Role Name',
     addRole:'Add Role',

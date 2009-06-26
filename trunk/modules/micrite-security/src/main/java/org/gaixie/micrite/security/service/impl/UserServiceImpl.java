@@ -222,12 +222,11 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         return userDao.findByRoleIdCount(roleId);
     }  
     
-    public void addUsersMatched(String[] userIds, int roleId) {
+    public void bindUsers(String[] userIds, int roleId) {
         Role role = roleDao.getRole(roleId);
         for (int i = 0; i < userIds.length; i++) {
             User user = userDao.getUser(Integer.parseInt(userIds[i]));
             Set<Role> roles =  user.getRoles();
-            logger.debug("updateInfo");
             roles.add(role);
             user.setRoles(roles);
             //  从cache中删除修改的对象
@@ -237,12 +236,11 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         }
     }    
     
-    public void delUsersMatched(String[] userIds, int roleId) {
+    public void unBindUsers(String[] userIds, int roleId) {
         Role role = roleDao.getRole(roleId);
         for (int i = 0; i < userIds.length; i++) {
             User user = userDao.getUser(Integer.parseInt(userIds[i]));
             Set<Role> roles =  user.getRoles();
-            logger.debug("updateInfo");
             roles.remove(role);
             user.setRoles(roles);
             //  从cache中删除修改的对象

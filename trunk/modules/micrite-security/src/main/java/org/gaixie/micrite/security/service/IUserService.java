@@ -120,8 +120,8 @@ public interface IUserService {
     
     public Integer findUsersByRoleIdCount(int roleId);
     
-    public void addUsersMatched(String[] userIds, int roleId);
+    public void bindUsers(String[] userIds, int roleId);
     
-    public void delUsersMatched(String[] userIds, int roleId);
+    public void unBindUsers(String[] userIds, int roleId);
     
 }
