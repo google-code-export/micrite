@@ -90,9 +90,7 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
     // 配置项结束
     
 
-    //  自定义变量
-    //  当前查询条件Field数组
-    curConFields:[],
+ 
     //  查询结果grid
     resultGrid:null,
     //  查询函数
@@ -102,7 +100,9 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
     border:false,
     prevMenu:{url:0,reader:0,column:0,button:0},
     initComponent:function() {
-        
+    	   //  自定义变量
+        //  当前查询条件Field数组
+        this.curConFields = [];
         //  分页显示行号用
         var recordStart = 0;
         
