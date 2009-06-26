@@ -24,16 +24,11 @@
 
 package org.gaixie.micrite.beans;
 
-import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
@@ -54,14 +49,6 @@ public class Role {
     private String name;
     
     private String description;
-    
-    @ManyToMany(targetEntity = Authority.class)  
-    @JoinTable(name = "role_authority_map", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))  
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)  
-    private Set<Authority> authorities;  
-
-    @ManyToMany(mappedBy = "roles", targetEntity = User.class)
-    private Set<User> users;
     
     /**
      * No-arg constructor for JavaBean tools.
@@ -95,19 +82,4 @@ public class Role {
         this.description = description;
     }
 
-    public Set<Authority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }    
 }

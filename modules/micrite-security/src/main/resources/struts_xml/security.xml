@@ -136,7 +136,13 @@
                 <param name="target">resultMap</param>
             </result>
         </action> 
-                         
+
+        <action name="delUsersMatched" class="userAction" method="delUsersMatched">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action> 
+                                 
         <!-- ~~~~~~~~~~~~~~~~~~~~ Authority ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->        
         <action name="saveAuthority" class="authorityAction" method="save">
             <result name="success" type="json">

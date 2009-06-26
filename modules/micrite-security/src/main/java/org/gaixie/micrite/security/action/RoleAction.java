@@ -74,12 +74,6 @@ public class RoleAction extends ActionSupport{
      */
     public String findAll(){
     	roles = roleService.findAll();
-    	//Hibernate的级联导致json出现异常：
-    	//net.sf.json.JSONException: There is a cycle in the hierarchy!
-    	//手动去点roles的级联对象
-    	for(Role role : roles){
-    		role.setAuthorities(null);
-    	}
     	return SUCCESS;
     }
 
@@ -89,8 +83,6 @@ public class RoleAction extends ActionSupport{
      * @return "success"
      */
     public String findByNameVague() {
-        logger.debug("start=" + start);
-        logger.debug("limit=" + limit);
         if (totalCount == 0) {
             //  初次查询时，要从数据库中读取总记录数
             Integer count = roleService.findByNameVagueTotal(role.getName());
@@ -98,9 +90,7 @@ public class RoleAction extends ActionSupport{
         }         
         //  得到分页查询结果
         List<Role> searchRoles = roleService.findByNameVaguePerPage(role.getName(), start, limit);
-        for(Role role : searchRoles){
-            role.setAuthorities(null);
-        }
+
         actionResult.put("totalCount", totalCount);
         actionResult.put("success", true);
         actionResult.put("data", searchRoles);

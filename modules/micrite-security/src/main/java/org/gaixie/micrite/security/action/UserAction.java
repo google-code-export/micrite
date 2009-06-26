@@ -57,15 +57,14 @@ public class UserAction extends ActionSupport {
     
     //  用户
     private User user;
-    //  用户角色id拼串，形如“2,4,6”
-    private String userRoleIdsStr;
+    //  用户角色id字符串
+    private String roleIds;
     //  用户id拼串，形如“1,2,4”
     private String userIdsStr;
 
     //  用户id拼串，形如“1,2,4”
-    private String userIds;
+    private String[] userIds;
     
-    //  用户id拼串，形如“1,2,4”
     private boolean matched;
     
     //  以下两个分页用
@@ -91,9 +90,8 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */
     public String add() {
-        String[] userRoleIds = StringUtils.split(userRoleIdsStr, ",");
         try {
-            userService.add(user, userRoleIds);
+            userService.add(user);
             resultMap.put("message", getText("save.success"));
             resultMap.put("success", true);
         } catch(SecurityException e) {
@@ -218,23 +216,34 @@ public class UserAction extends ActionSupport {
    
     public String findMatchedUsers() {
         
-        String[] roleIds = StringUtils.split(userRoleIdsStr, ",");
-        Set<User> users;
-        if(matched)
-            users = userService.findUsersByRoleId(Integer.parseInt(roleIds[0]));
-        else{
-            return findByUsernameVague();
-        }
-            
+        String[] rIds = StringUtils.split(roleIds, ",");
+        if(!matched) return findByUsernameVague();
+
+        if (totalCount == 0) {
+            //  初次查询时，要从数据库中读取总记录数
+            Integer count = userService.findUsersByRoleIdCount(Integer.parseInt(rIds[0]));
+            setTotalCount(count);
+        } 
+        
+        List<User> users = userService.findUsersByRoleId(Integer.parseInt(rIds[0]), start, limit);
+        resultMap.put("totalCount", totalCount);    
         resultMap.put("success", true);
         resultMap.put("data", users);
+
         return SUCCESS;
     }
 
     public String addUsersMatched() {
-        String[] uIds = StringUtils.split(userIds, ",");
-        String[] rIds = StringUtils.split(userRoleIdsStr, ",");
-        userService.addUsersMatched(uIds,Integer.parseInt(rIds[0]));
+        String[] rIds = StringUtils.split(roleIds, ",");
+        userService.addUsersMatched(userIds,Integer.parseInt(rIds[0]));
+        resultMap.put("message", getText("save.success"));
+        resultMap.put("success", true);
+        return SUCCESS;
+    }
+    
+    public String delUsersMatched() {
+        String[] rIds = StringUtils.split(roleIds, ",");
+        userService.delUsersMatched(userIds,Integer.parseInt(rIds[0]));
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -265,15 +274,15 @@ public class UserAction extends ActionSupport {
         return userRoles;
     }
 
-    public void setUserRoleIdsStr(String userRoleIdsStr) {
-        this.userRoleIdsStr = userRoleIdsStr;
+    public void setRoleIds(String roleIds) {
+        this.roleIds = roleIds;
     }
 
     public void setUserIdsStr(String userIdsStr) {
         this.userIdsStr = userIdsStr;
     }
 
-    public void setUserIds(String userIds) {
+    public void setUserIds(String[] userIds) {
         this.userIds = userIds;
     }
     

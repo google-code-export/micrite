@@ -56,4 +56,15 @@ public class AuthorityDaoImpl extends HibernateDaoSupport implements IAuthorityD
     	getHibernateTemplate().update(authority);
     }
 
+    @SuppressWarnings("unchecked")
+    public List<Authority> findByRoleId(int roleId, int start, int limit) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(Authority.class)
+                                        .createCriteria("roles","r")
+                                        .add(Expression.eq("r.id",roleId));
+        
+        if(limit<=0) return getHibernateTemplate().findByCriteria(criteria);
+        
+        return getHibernateTemplate().findByCriteria(criteria,start,limit);
+    }
+    
 }

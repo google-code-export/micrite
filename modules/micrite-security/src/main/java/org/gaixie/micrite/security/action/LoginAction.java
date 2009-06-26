@@ -95,8 +95,6 @@ public class LoginAction extends ActionSupport{
                 skin = setting.getValue();
             }
         }
-        logger.debug("RowsPerPage:"+pageSize);
-        logger.debug("Skin:"+skin);
         return SUCCESS;
     }
     

@@ -47,19 +47,7 @@ micrite.security.userDetail.FormPanel = function() {
                 name: 'user.plainpassword',
                 inputType: 'password',
                 allowBlank:false
-            },new Ext.ux.form.CheckboxField({
-                fieldLabel: this.rolesText,
-                name:'userRoles',
-                hideOnSelect:false,
-                store:dataStore,
-                triggerAction:'all',
-                valueField:'id',
-                displayField:'name',
-                emptyText:this.userRolesText,
-                mode:'local',
-                allowBlank:false
-            })
-            ]
+            }]
         },{
         	buttonAlign:'center',
             buttons: [{
@@ -68,14 +56,12 @@ micrite.security.userDetail.FormPanel = function() {
 		        formBind:true,
                 handler: function() {
     	            // 构建form的提交参数
-    	            var params = { 'userRoleIdsStr': this.getForm().findField('userRoles').getValue() };      
     	            // form提交
     	            this.getForm().submit({
     	                url: '/' + document.location.href.split("/")[3] + '/addUser.action',
     	                method: 'POST',
     	                disabled:true,
     	                waitMsg: mbLocale.waitingMsg,
-    	                params:params,
     	                success: function(form, action) {
     	                    obj = Ext.util.JSON.decode(action.response.responseText);
     	                    showMsg('success', obj.message);	                

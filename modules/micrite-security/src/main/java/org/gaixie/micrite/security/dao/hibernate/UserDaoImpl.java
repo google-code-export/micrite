@@ -26,9 +26,11 @@ package org.gaixie.micrite.security.dao.hibernate;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Property;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -87,4 +89,37 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
         getHibernateTemplate().delete(user);
     }
 
+    /*
+     * 控制返回的结果集下面的几种方法：
+     * criteria.setProjection(Projections.projectionList()
+     *        .add(Projections.property("id"))
+     *        .add(Projections.property("fullname"))
+     *        .add(Projections.property("loginname"))                
+     *        .add(Projections.property("emailaddress"))
+     *        .add(Projections.property("enabled"))                
+     * );
+     * 
+     * 或者
+     * getHibernateTemplate().find("select u from User u join u.roles as r where r.id=?",roleId );
+     * 
+     */    
+    @SuppressWarnings("unchecked")
+    public List<User> findByRoleId(int roleId, int start, int limit) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(User.class)
+                                        .createCriteria("roles","r")
+                                        .add(Expression.eq("r.id",roleId));
+        return getHibernateTemplate().findByCriteria(criteria,start,limit);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public Integer findByRoleIdCount(int roleId) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(User.class);
+        criteria.setProjection(Projections.rowCount());
+        DetachedCriteria subCriteria = criteria.createCriteria("roles");
+        subCriteria.add(Expression.eq("id",roleId));
+        return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
+//        List<User> list = getHibernateTemplate().find("select u from User u join u.roles as r where r.id=?",roleId );
+//        return list;
+    }
+    
 }
