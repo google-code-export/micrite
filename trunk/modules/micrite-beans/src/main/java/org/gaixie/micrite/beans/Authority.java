@@ -33,6 +33,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -59,7 +61,8 @@ public class Authority {
 
     private String value;
 
-    @ManyToMany(mappedBy = "authorities", targetEntity = Role.class)
+    @ManyToMany(targetEntity = Role.class)  
+    @JoinTable(name = "role_authority_map", joinColumns = @JoinColumn(name = "authority_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Role> roles;
 

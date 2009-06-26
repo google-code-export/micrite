@@ -25,7 +25,9 @@
 package org.gaixie.micrite.security.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -51,13 +53,14 @@ public class AuthorityServiceImpl implements IAuthorityService {
     private IRoleDao roleDao;
 
     public boolean add(Authority authority, String roleIdBunch) {
-        authorityDao.save(authority);
         String[] arrRoleId = roleIdBunch.split(",");
+        Set<Role> roles = new HashSet<Role>();
         for (int i = 0; i < arrRoleId.length; i++) {
             Role role = roleDao.getRole(Integer.parseInt(arrRoleId[i]));
-            role.getAuthorities().add(authority);
-            roleDao.save(role);
+            roles.add(role);
         }
+        authority.setRoles(roles);
+        authorityDao.save(authority);
         if (authority.getType().equals("URL"))
             FilterSecurityInterceptor.refresh();
         else if (authority.getType().equals("METHOD"))

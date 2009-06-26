@@ -42,10 +42,9 @@ public interface IUserService {
      * 增加新用户。
      * 
      * @param user 用户
-     * @param roleIds 用户拥有的角色id数组
      * @throws SecurityException 用户名已存在时抛出
      */
-    public void add(User user, String[] roleIds) throws SecurityException;
+    public void add(User user) throws SecurityException;
     
     /**
      * 根据用户名判断用户是否已存在。
@@ -117,8 +116,12 @@ public interface IUserService {
      */
     public void enableOrDisableUsers(String[] userIds);
     
-    public Set<User> findUsersByRoleId(int roleId);
+    public List<User> findUsersByRoleId(int roleId, int start, int limit);
     
-    public void addUsersMatched(String[] userIds, int roleId);    
+    public Integer findUsersByRoleIdCount(int roleId);
+    
+    public void addUsersMatched(String[] userIds, int roleId);
+    
+    public void delUsersMatched(String[] userIds, int roleId);
     
 }

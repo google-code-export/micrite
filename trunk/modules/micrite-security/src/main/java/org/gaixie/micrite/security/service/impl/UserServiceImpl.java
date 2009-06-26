@@ -83,29 +83,18 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         }
         Set<Role> roles = user.getRoles();
         for (Role role : roles) {
-            Set<Authority> auths = role.getAuthorities();
-            for (Authority auth : auths) {
-                auth.getName();
-            }
+                role.getName();
         }
         
         return user;
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~  IUserService Implement ~~~~~~~~~~~~~~~~~~~~~~~~~~//
-    public void add(User user, String[] roleIds) throws SecurityException {
+    public void add(User user) throws SecurityException {
         if(isExistedByUsername(user.getUsername())) {
             throw new SecurityException("error.user.add.userNameInUse");
         }        
 
-        //  设置用户所属角色
-        Set<Role> roles = new HashSet<Role>();
-        for (String roleId : roleIds) {
-            Role role = roleDao.getRole(Integer.parseInt(roleId));
-            roles.add(role);
-        }
-        user.setRoles(roles);
-        
         //  明文密码
         String plainpassword = user.getPlainpassword();
         //  加密后的密码
@@ -224,14 +213,14 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         }
     }
     
-    public Set<User> findUsersByRoleId(int roleId) {
-            Role role = roleDao.getRole(roleId);
-            Set<User> users = role.getUsers();
-            for (User user : users) {
-                user.getLoginname();
-            }
-            return users;
+    public List<User> findUsersByRoleId(int roleId, int start, int limit) {
+        List<User> users = userDao.findByRoleId(roleId,start,limit);
+        return users;
     }    
+
+    public Integer findUsersByRoleIdCount(int roleId) {
+        return userDao.findByRoleIdCount(roleId);
+    }  
     
     public void addUsersMatched(String[] userIds, int roleId) {
         Role role = roleDao.getRole(roleId);
@@ -247,4 +236,19 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             }
         }
     }    
+    
+    public void delUsersMatched(String[] userIds, int roleId) {
+        Role role = roleDao.getRole(roleId);
+        for (int i = 0; i < userIds.length; i++) {
+            User user = userDao.getUser(Integer.parseInt(userIds[i]));
+            Set<Role> roles =  user.getRoles();
+            logger.debug("updateInfo");
+            roles.remove(role);
+            user.setRoles(roles);
+            //  从cache中删除修改的对象
+            if (userCache != null) {
+                userCache.removeUserFromCache(user.getLoginname());
+            }
+        }
+    }      
 }

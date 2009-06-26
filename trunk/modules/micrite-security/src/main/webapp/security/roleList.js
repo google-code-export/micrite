@@ -36,7 +36,7 @@ micrite.security.roleList.SearchPanel = function() {
 
     //  动作按钮数组
     this.resultProcessButtons = [{
-        text:mbLocale.submitButton, 
+        text:this.putUser, 
         scope:this, 
         handler:function() {
             //  选择的数据记录主键，形如“2, 4, 6, 10”
@@ -50,7 +50,7 @@ micrite.security.roleList.SearchPanel = function() {
             if(!(win = Ext.getCmp('userSelectWindow'))){
                 win = new Ext.Window({
                     id: 'userSelectWindow',
-                    title    : this.addUser,
+                    title    : this.putUser,
                     closable : true,
                     autoLoad : {url: 'security/userSelect.jsp?roleIds='+roleIds+'&'+(new Date).getTime(),scripts:true},
                     width    : 500,
@@ -72,6 +72,7 @@ micrite.security.roleList.SearchPanel = function() {
 };
 
 Ext.extend(micrite.security.roleList.SearchPanel, micrite.panel.SearchPanel, {
+    putUser:'Set User Related',
     byName:'By Role Name',
     name:'Role Name',
     addRole:'Add Role',

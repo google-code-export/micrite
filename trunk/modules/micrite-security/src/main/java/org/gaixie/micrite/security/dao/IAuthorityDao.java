@@ -52,5 +52,7 @@ public interface IAuthorityDao {
      * @param  authority authority对象
      */
     public void update(Authority authority);
+    
+    public List<Authority> findByRoleId(int roleId, int start, int limit);    
 
 }

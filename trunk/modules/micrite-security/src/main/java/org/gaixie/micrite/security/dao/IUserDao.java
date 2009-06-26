@@ -93,4 +93,8 @@ public interface IUserDao {
      * @param id 用户id
      */
     public void delete(Integer id);
+    
+    public List<User> findByRoleId(int roleId, int start, int limit);
+    
+    public Integer findByRoleIdCount(int roleId);
 }
