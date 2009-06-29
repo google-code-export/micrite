@@ -149,15 +149,15 @@ public class UserAction extends ActionSupport {
      * 
      * @return "success"
      */
-    public String findByUsernameVague() {
-        String username = user.getUsername();
+    public String findByFullnameVague() {
+        String fullname = user.getFullname();
         if (totalCount == 0) {
             //  初次查询时，要从数据库中读取总记录数
-            Integer count = userService.findByUsernameVagueCount(username);
+            Integer count = userService.findByFullnameVagueCount(fullname);
             setTotalCount(count);
         } 
         //  得到分页查询结果
-        List<User> users = userService.findByUsernameVaguePerPage(username, start, limit);
+        List<User> users = userService.findByFullnameVaguePerPage(fullname, start, limit);
         resultMap.put("totalCount", totalCount);
         resultMap.put("success", true);
         resultMap.put("data", users);
@@ -217,7 +217,7 @@ public class UserAction extends ActionSupport {
     public String findBindedUsers() {
         
         String[] rIds = StringUtils.split(roleIds, ",");
-        if(!binded) return findByUsernameVague();
+        if(!binded) return findByFullnameVague();
 
         if (totalCount == 0) {
             //  初次查询时，要从数据库中读取总记录数

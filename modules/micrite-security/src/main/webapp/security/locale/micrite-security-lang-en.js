@@ -95,3 +95,36 @@ function authorityDetailLocale(){
         });
     }    
 }
+function roleListLocale(){
+    if(micrite.security.roleList.SearchPanel) {
+        Ext.override(micrite.security.roleList.SearchPanel, {
+            bindUser:'Bind User',
+            bindAuthority:'Bind Authority',
+            addRole:'Add Role',
+            name:'Name',
+            description:'Description'
+        });
+    }    
+}
+function userSelectLocale(){
+    if(micrite.security.userSelect.SearchPanel) {
+        Ext.override(micrite.security.userSelect.SearchPanel, {
+            onlyBinded:'Only Binded',
+            addUser:'Add User',
+            fullName:'Full Name',
+            emailAddress:'Email Address',
+            enabled:'Enabled'
+        });
+    }    
+}
+function authoritySelectLocale(){
+    if(micrite.security.authoritySelect.SearchPanel) {
+        Ext.override(micrite.security.authoritySelect.SearchPanel, {
+            onlyBinded:'Only Binded',
+            addAuth:'Add Authority',
+            name:'Name',
+            type:'Type',
+            value:'Value'
+        });
+    }    
+}

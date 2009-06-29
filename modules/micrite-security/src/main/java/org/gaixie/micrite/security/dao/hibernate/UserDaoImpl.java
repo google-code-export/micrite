@@ -70,17 +70,17 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
         return user;
     }
 
-    public Integer findByNameVagueCount(String username) {
+    public Integer findByFullnameVagueCount(String fullname) {
         DetachedCriteria criteria = DetachedCriteria.forClass(User.class);
-        criteria.add(Expression.like("loginname", "%" + username + "%"));
+        criteria.add(Expression.like("fullname", "%" + fullname + "%"));
         criteria.setProjection(Projections.rowCount());
         return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
     }
 
     @SuppressWarnings("unchecked")
-    public List<User> findByUsernameVaguePerPage(String username, int start, int limit) {
+    public List<User> findByFullnameVaguePerPage(String fullname, int start, int limit) {
         DetachedCriteria criteria = DetachedCriteria.forClass(User.class);
-        criteria.add(Expression.like("loginname", "%" + username + "%"));
+        criteria.add(Expression.like("fullname", "%" + fullname + "%"));
         return getHibernateTemplate().findByCriteria(criteria, start, limit);
     }    
     

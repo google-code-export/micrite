@@ -36,7 +36,14 @@ Ext.extend(micrite.base.locale, {
     submitButton:'Save',
     closeButton:'Close',
     cancelButton:'Cancel',
+    bindButton:'Bind',
+    unbindButton:'UnBind',    
+    infoMsg:'Info',
     waitingMsg:'Saving Data...',
-    loadingMsg:'Loading Data...'
+    loadingMsg:'Loading Data...',
+    delConfirmMsg:'Are you sure want to delete?',
+    bindConfirmMsg:'Are you sure want to bind?',
+    unbindConfirmMsg:'Are you sure want to unbind?',
+    gridRowSelectMsg:'Select one row please!'
 });
 mbLocale = new micrite.base.locale();

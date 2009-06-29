@@ -27,6 +27,7 @@ package org.gaixie.micrite.security.service;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Role;
+import org.gaixie.micrite.security.SecurityException;
 
 /**
  * 授权资源服务接口，为系统授权及资源管理提供业务模型
@@ -50,5 +51,7 @@ public interface IRoleService {
     public List<Role> findByNameVaguePerPage(String name, int start, int limit);
     
     public int findByNameVagueTotal(String name);
+
+    public void delete(String[] roleIds) throws SecurityException;
     
 }

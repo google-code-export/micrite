@@ -72,20 +72,20 @@ public interface IUserDao {
      * 根据用户名查询用户的总数（模糊查询）。
      * 
      * @see org.gaixie.micrite.beans.User
-     * @param username 用户名
+     * @param fullName 真实姓名
      */
-    public Integer findByNameVagueCount(String username);
+    public Integer findByFullnameVagueCount(String fullName);
 
     /**
      * 根据用户名查询用户集合（模糊查询，分页）。
      * 
      * @see org.gaixie.micrite.beans.User
-     * @param username 用户名
+     * @param fullName 真实姓名
      * @param start 起始索引
      * @param limit 限制数
      * @return <code>User</code>对象列表
      */
-    public List<User> findByUsernameVaguePerPage(String username, int start, int limit);
+    public List<User> findByFullnameVaguePerPage(String fullName, int start, int limit);
     
     /**
      * 删除用户。

@@ -67,4 +67,5 @@ public interface IRoleDao {
 
     public Integer findByNameVagueTotal(String name);
 
+    public void delete(Integer id);    
 }

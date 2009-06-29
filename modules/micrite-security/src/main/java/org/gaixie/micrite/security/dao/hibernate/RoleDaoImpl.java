@@ -67,5 +67,8 @@ public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
         return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
     }   
     
-    
+    public void delete(Integer id) {
+        Role role = (Role)getHibernateTemplate().get(Role.class, id);
+        getHibernateTemplate().delete(role);
+    }    
 }

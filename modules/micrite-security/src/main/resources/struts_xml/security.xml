@@ -82,7 +82,7 @@
             </result>
         </action>
 
-        <action name="findUsersVague" class="userAction" method="findByUsernameVague">
+        <action name="findUsersVague" class="userAction" method="findByFullnameVague">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
                 <param name="excludes">roles,authorities,accountNonExpired,accountNonLocked,
@@ -178,11 +178,17 @@
         
         <action name="findRolesVague" class="roleAction" method="findByNameVague">
             <result name="success" type="json">
-                <param name="target">actionResult</param>
+                <param name="target">resultMap</param>
                 <param name="excludes">authorities,users</param>
             </result>
         </action>
-                        
+
+        <action name="deleteRoles" class="roleAction" method="delete">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action> 
+        
     </package>
 
 </struts>
