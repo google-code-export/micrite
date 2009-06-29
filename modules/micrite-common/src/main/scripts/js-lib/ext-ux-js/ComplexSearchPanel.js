@@ -376,6 +376,12 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
     listeners:{
         //  面板渲染时，初始化默认的查询条件组
         render:function() {
+			if (this.conNames.length == 1){
+				 var toolbarItems = this.getTopToolbar().items;
+		         var item = toolbarItems.last();
+		         toolbarItems.remove(item);
+		         item.destroy();
+			}
             var items = this.conCmpGroups[0];
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
