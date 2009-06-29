@@ -288,7 +288,7 @@ micrite.security.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
 function showMsg(msgType,msg) {
     var detailEl = Ext.DomHelper.insertFirst(Ext.getCmp('msg-panel').body, {id:'msg-div',cls : msgType=='failure'?'errorMsg':'infoMsg'}, true);
       if (msgType=='failure')
-         Ext.Msg.show({title:'failure',msg:msg});
+    	  Ext.Msg.alert('failure',msg);
       var dt = new Date();
       dt = '<em>&nbsp;' + dt.format('g:i a') + '</em>';  
 	detailEl.hide().update(msg+dt).slideIn('t');
