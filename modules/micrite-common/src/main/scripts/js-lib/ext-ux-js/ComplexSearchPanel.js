@@ -385,7 +385,7 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
 		         i=1;
 			}
             var items = this.conCmpGroups[0];
-            for (var i = 0; i < items.length; i++) {
+            for (; i < items.length; i++) {
                 var item = items[i];
                 if (item.xtype == 'textfield') {
                     item = new Ext.form.TextField(item);
