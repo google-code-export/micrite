@@ -3,7 +3,7 @@ Ext.namespace('micrite.security.roleList');
 
 micrite.security.roleList.SearchPanel = function() {
     //  查询条件分组名称数组
-    this.conNames = [this.byName];
+    this.conNames = [''];
     //  查询条件分组组件组数组
     this.conCmpGroups = [
         [this.name, {xtype:'textfield', name:'role.name', width:120}]
@@ -11,39 +11,40 @@ micrite.security.roleList.SearchPanel = function() {
     //  超链菜单项数组
     this.actionButtonMenuItems =  [{
         text:this.addRole,
+        iconCls :'add-icon',
         handler:function() {
             mainPanel.loadModule('security/roleDetail.js', 'Role Detail');
         }
     }];    
     //  查询请求的url
-    this.searchRequestURL = '/' + document.location.href.split("/")[3] + '/security/findRolesVague.action';
+    this.searchRequestURL = ['/' + document.location.href.split("/")[3] + '/security/findRolesVague.action'];
     
     //  查询结果数据按此格式读取
-    this.resultDataFields = [
+    this.resultDataFields = [[
         {name: 'name'},
         {name: 'description'}
-    ];
-    
+    ]];
+    this.comboGrid = [{url:0,reader:0,column:0,button:0}];
     //  查询结果行选择模型
     this.resultRowSelectionModel = new Ext.grid.CheckboxSelectionModel();
     
     //  查询结果列
-    this.resultColumns = [
+    this.resultColumns = [[
         {header: this.name, width: 100, sortable: true, dataIndex: 'name'},
         {header: this.description, width: 180, sortable: true, dataIndex: 'description'},
         this.resultRowSelectionModel
-    ];
+    ]];
 
     //  动作按钮数组
-    this.resultProcessButtons = [{
+    this.resultProcessButtons = [[{
         text:this.bindUser, 
+        iconCls :'bind-icon',
         scope:this, 
         handler:function() {
             //  选择的数据记录主键，形如“2, 4, 6, 10”
             var roleIds = this.resultGrid.selModel.selections.keys;
-            console.log(roleIds);
             if(roleIds.length!=1){
-                Ext.MessageBox.alert('提示','请选择一条记录');
+                Ext.MessageBox.alert(mbLocale.infoMsg,mbLocale.gridRowSelectMsg);
                 return;
             }
             var win;
@@ -61,15 +62,15 @@ micrite.security.roleList.SearchPanel = function() {
             }
             win.show();
             win.center();            
-            console.log(roleIds.length);
         }
     },{
-        text:this.bindAuthority, 
+        text:this.bindAuthority,
+        iconCls :'bind-icon',
         scope:this, 
         handler:function() {
             var roleIds = this.resultGrid.selModel.selections.keys;
             if(roleIds.length!=1){
-                Ext.MessageBox.alert('提示','请选择一条记录');
+                Ext.MessageBox.alert(mbLocale.infoMsg,mbLocale.gridRowSelectMsg);
                 return;
             }
             var win;
@@ -89,18 +90,50 @@ micrite.security.roleList.SearchPanel = function() {
             win.center();            
         }
     },{
-        text:mbLocale.closeButton, 
-        handler:function() {}
-    }];
+        text:mbLocale.deleteButton, 
+        iconCls :'delete-icon',
+        scope:this, 
+        handler:function() {
+            var roleIds = this.resultGrid.selModel.selections.keys;
+            if(roleIds.length!=1){
+                Ext.MessageBox.alert(mbLocale.infoMsg,mbLocale.gridRowSelectMsg);
+                return;
+            }
+            var deleteRolesFun = function(buttonId, text, opt) {
+                if (buttonId == 'yes') {
+                    Ext.Ajax.request({
+                        url:'/' + document.location.href.split("/")[3] + '/deleteRoles.action',
+                        params:{'roleIds':roleIds},
+                        scope:this,
+                        callback:function(options,success,response) {
+                            if (Ext.util.JSON.decode(response.responseText).success) {
+                                obj = Ext.util.JSON.decode(response.responseText);
+                                showMsg('success', obj.message);
+                            }else{
+                                obj = Ext.util.JSON.decode(response.responseText);
+                                showMsg('failure', obj.message);                                
+                            }
+                        }
+                    });
+                }
+            }
+            Ext.Msg.show({
+                title:mbLocale.infoMsg,
+                msg: mbLocale.delConfirmMsg,
+                buttons: Ext.Msg.YESNO,
+                scope: this,
+                fn: deleteRolesFun,
+                icon: Ext.MessageBox.QUESTION
+            });        
+        }
+    }]];
     
     micrite.security.roleList.SearchPanel.superclass.constructor.call(this);
 };
 
-Ext.extend(micrite.security.roleList.SearchPanel, micrite.panel.SearchPanel, {
+Ext.extend(micrite.security.roleList.SearchPanel, micrite.panel.ComplexSearchPanel, {
     bindUser:'Bind User',
     bindAuthority:'Bind Authority',
-    byName:'By Role Name',
-    name:'Role Name',
     addRole:'Add Role',
     name:'Name',
     description:'Description'

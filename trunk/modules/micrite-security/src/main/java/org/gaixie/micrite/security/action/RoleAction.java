@@ -28,8 +28,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Role;
+import org.gaixie.micrite.security.SecurityException;
 import org.gaixie.micrite.security.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -50,6 +52,8 @@ public class RoleAction extends ActionSupport{
     //输出到页面的数据
     private List<Role> roles;
 
+    private String roleIds;
+    
     //  用户
     private Role role;
     
@@ -63,7 +67,7 @@ public class RoleAction extends ActionSupport{
     private int totalCount;
     
     //  action处理结果（map对象）
-    private Map<String,Object> actionResult = new HashMap<String,Object>();
+    private Map<String,Object> resultMap = new HashMap<String,Object>();
     private Map<String,String> returnMsg = new HashMap<String,String>();    
 
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
@@ -91,12 +95,25 @@ public class RoleAction extends ActionSupport{
         //  得到分页查询结果
         List<Role> searchRoles = roleService.findByNameVaguePerPage(role.getName(), start, limit);
 
-        actionResult.put("totalCount", totalCount);
-        actionResult.put("success", true);
-        actionResult.put("data", searchRoles);
+        resultMap.put("totalCount", totalCount);
+        resultMap.put("success", true);
+        resultMap.put("data", searchRoles);
         return SUCCESS;
     }
-    
+
+    public String delete() {
+        String[] ids = StringUtils.split(roleIds, ",");
+        try {
+            roleService.delete(ids);
+            resultMap.put("message", getText("delete.success"));
+            resultMap.put("success", true);
+        } catch(SecurityException e) {
+            resultMap.put("message", getText(e.getMessage()));
+            resultMap.put("success", false);
+            logger.warn(getText(e.getMessage()));            
+        }
+        return SUCCESS;
+    }    
     // ~~~~~~~~~~~~~~~~~~~~~~~  Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
 
 	/**
@@ -133,7 +150,11 @@ public class RoleAction extends ActionSupport{
         this.totalCount = totalCount;
     }
     
-    public Map<String, Object> getActionResult() {
-        return actionResult;
+    public Map<String, Object> getResultMap() {
+        return resultMap;
+    }  
+    
+    public void setRoleIds(String roleIds) {
+        this.roleIds = roleIds;
     }    
 }

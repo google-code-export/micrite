@@ -29,7 +29,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.security.action.LoginAction;
+import org.gaixie.micrite.security.dao.IAuthorityDao;
 import org.gaixie.micrite.security.dao.IRoleDao;
+import org.gaixie.micrite.security.dao.IUserDao;
+import org.gaixie.micrite.security.SecurityException;
 import org.gaixie.micrite.security.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -42,7 +45,11 @@ public class RoleServiceImpl implements IRoleService {
     private static final Logger logger = Logger.getLogger(LoginAction.class); 
     @Autowired
     private IRoleDao roleDao;
-
+    @Autowired
+    private IUserDao userDao;
+    @Autowired
+    private IAuthorityDao authorityDao;
+    
     public List<Role> findAll() {
         List<Role> roles = roleDao.findAll();
         return roles;
@@ -55,4 +62,17 @@ public class RoleServiceImpl implements IRoleService {
     public int findByNameVagueTotal(String name) {
         return roleDao.findByNameVagueTotal(name);
     }    
+    
+    public void delete(String[] roleIds) throws SecurityException {
+        for (int i = 0; i < roleIds.length; i++) {
+            int roleId = Integer.parseInt(roleIds[i]);
+            if(userDao.findByRoleIdCount(roleId)>0) {
+                throw new SecurityException("error.role.delete.userNotEmptyInRole");
+            }   
+            if(authorityDao.findByRoleIdCount(roleId)>0) {
+                throw new SecurityException("error.role.delete.authNotEmptyInRole");
+            }  
+            roleDao.delete(roleId);
+        }
+    }
 }

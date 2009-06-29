@@ -17,3 +17,37 @@ em {
 	font-style: italic;
 	color: gray;
 }
+
+.add-icon {
+	background-image: url(../images/add.png) !important;
+}
+.delete-icon {
+	background-image: url(../images/delete.png) !important;
+}
+.cancel-icon {
+	background-image: url(../images/cancel.png) !important;
+}
+.save-icon {
+	background-image: url(../images/save.png) !important;
+}
+.bind-icon {
+	background-image: url(../images/bind.png) !important;
+}
+.unbind-icon {
+	background-image: url(../images/unbind.png) !important;
+}
+.chart-icon {
+	background-image: url(../images/chart.png) !important;
+}
+.edit-icon {
+	background-image: url(../images/edit.png) !important;
+}
+.info-icon {
+	background-image: url(../images/info.png) !important;
+}
+.alert-icon {
+	background-image: url(../images/alert.png) !important;
+}
+.other-icon {
+	background-image: url(../images/other.png) !important;
+}

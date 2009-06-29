@@ -6,18 +6,34 @@ Ext.namespace('micrite.security.authoritySelect');
 
 micrite.security.authoritySelect.SearchPanel = function() {
     //  查询条件分组名称数组
-    this.conNames = [this.byName];
+    this.conNames = [''];
     //  查询条件分组组件组数组
     this.conCmpGroups = [
         [this.name, {xtype:'textfield', name:'authority.name', width:120},
-         '',{xtype:'checkbox',boxLabel:'Only Binded', name:'binded'}
+         '',{xtype:'checkbox',boxLabel:this.onlyBinded, name:'binded'}
         ]
     ];
     //  超链菜单项数组
     this.actionButtonMenuItems =  [{
         text:this.addAuth,
+        iconCls :'add-icon',
+        scope:this,
         handler:function() {
-            mainPanel.loadModule('security/authorityDetail.js', 'Authority Detail');
+	    	var win;
+	    	if(!(win = Ext.getCmp('addAuthorityWindow'))){
+		        win = new Ext.Window({
+		        	id: 'addAuthorityWindow',
+		            title    : this.addAuth,
+		            closable : true,
+		            autoLoad : {url: 'security/authorityDetail.js?'+(new Date).getTime(),scripts:true},
+		            width    : 500,
+		            height   : 360,
+		            maximizable : true,
+		            layout:'fit'
+		        });
+	    	}
+	        win.show();
+	        win.center();
         }
     }];    
     //  查询请求的url
@@ -44,14 +60,14 @@ micrite.security.authoritySelect.SearchPanel = function() {
     this.comboGrid = [{url:0,reader:0,column:0,button:0}];
     //  动作按钮数组
     this.resultProcessButtons = [[{
-        text:mbLocale.submitButton, 
+        text:mbLocale.bindButton, 
+        iconCls :'bind-icon',
         scope:this, 
         handler:function() {
             //  选择的数据记录主键，形如“2, 4, 6, 10”
             var ids = this.resultGrid.selModel.selections.keys;
-            console.log(<%=request.getParameter("roleIds")%>);
             if(ids.length<1){
-                Ext.MessageBox.alert('提示','请选择一条记录');
+                Ext.MessageBox.alert(mbLocale.infoMsg,mbLocale.gridRowSelectMsg);
                 return;
             }
        
@@ -61,20 +77,21 @@ micrite.security.authoritySelect.SearchPanel = function() {
                         url:'/' + document.location.href.split("/")[3] + '/bindAuths.action?roleIds='+<%=request.getParameter("roleIds")%>,
                         params:{'authIds':ids},
                         scope:this,
-                        success:function(response, options) {
-                            obj = Ext.util.JSON.decode(response.responseText);
-                            showMsg('success', obj.message);
-                        },
-                        failure: function(response, options) {
-                            obj = Ext.util.JSON.decode(response.responseText);
-                            showMsg('failure', obj.message);
+                        callback:function(options,success,response) {
+                            if (Ext.util.JSON.decode(response.responseText).success) {
+                                obj = Ext.util.JSON.decode(response.responseText);
+                                showMsg('success', obj.message);
+                            }else{
+                                obj = Ext.util.JSON.decode(response.responseText);
+                                showMsg('failure', obj.message);                                
+                            }
                         }
                     });
                 }
             }
             Ext.Msg.show({
-                title:'确认框',
-                msg: '确定要删除吗？',
+                title:mbLocale.infoMsg,
+                msg: mbLocale.bindConfirmMsg,
                 buttons: Ext.Msg.YESNO,
                 scope: this,
                 fn: bindAuths,
@@ -82,42 +99,43 @@ micrite.security.authoritySelect.SearchPanel = function() {
             });
         }
     },{
-        text:mbLocale.closeButton, 
+        text:mbLocale.unbindButton, 
+        iconCls :'unbind-icon',
         scope:this,
         handler:function() {
-        //  选择的数据记录主键，形如“2, 4, 6, 10”
-        var ids = this.resultGrid.selModel.selections.keys;
-        console.log(<%=request.getParameter("roleIds")%>);
-        if(ids.length<1){
-            Ext.MessageBox.alert('提示','请选择一条记录');
-            return;
-        }
-   
-        var unBindAuths = function(buttonId, text, opt) {
-            if (buttonId == 'yes') {
-                Ext.Ajax.request({
-                    url:'/' + document.location.href.split("/")[3] + '/unBindAuths.action?roleIds='+<%=request.getParameter("roleIds")%>,
-                    params:{'authIds':ids},
-                    scope:this,
-                    success:function(response, options) {
-                        obj = Ext.util.JSON.decode(response.responseText);
-                        showMsg('success', obj.message);
-                    },
-                    failure: function(response, options) {
-                        obj = Ext.util.JSON.decode(response.responseText);
-                        showMsg('failure', obj.message);
-                    }
-                });
-            }
-        }
-        Ext.Msg.show({
-            title:'确认框',
-            msg: '确定要删除吗？',
-            buttons: Ext.Msg.YESNO,
-            scope: this,
-            fn: unBindAuths,
-            icon: Ext.MessageBox.QUESTION
-        });
+	        //  选择的数据记录主键，形如“2, 4, 6, 10”
+	        var ids = this.resultGrid.selModel.selections.keys;
+	        if(ids.length<1){
+	            Ext.MessageBox.alert(mbLocale.infoMsg,mbLocale.gridRowSelectMsg);
+	            return;
+	        }
+	   
+	        var unBindAuths = function(buttonId, text, opt) {
+	            if (buttonId == 'yes') {
+	                Ext.Ajax.request({
+	                    url:'/' + document.location.href.split("/")[3] + '/unBindAuths.action?roleIds='+<%=request.getParameter("roleIds")%>,
+	                    params:{'authIds':ids},
+	                    scope:this,
+	                    callback:function(options,success,response) {
+	                        if (Ext.util.JSON.decode(response.responseText).success) {
+	                            obj = Ext.util.JSON.decode(response.responseText);
+	                            showMsg('success', obj.message);
+	                        }else{
+	                            obj = Ext.util.JSON.decode(response.responseText);
+	                            showMsg('failure', obj.message);                                
+	                        }
+	                    }
+	                });
+	            }
+	        }
+	        Ext.Msg.show({
+                title:mbLocale.infoMsg,
+                msg: mbLocale.unbindConfirmMsg,                
+	            buttons: Ext.Msg.YESNO,
+	            scope: this,
+	            fn: unBindAuths,
+	            icon: Ext.MessageBox.QUESTION
+	        });
         }
     }]];
     
@@ -125,7 +143,7 @@ micrite.security.authoritySelect.SearchPanel = function() {
 };
 
 Ext.extend(micrite.security.authoritySelect.SearchPanel, micrite.panel.ComplexSearchPanel, {
-    byName:'By Authority Name',
+    onlyBinded:'Only Binded',
     addAuth:'Add Authority',
     name:'Name',
     type:'Type',
@@ -134,7 +152,7 @@ Ext.extend(micrite.security.authoritySelect.SearchPanel, micrite.panel.ComplexSe
 
 //  处理多语言
 try {baseLocale();} catch (e) {}
-try {roleListLocale();} catch (e) {}
+try {authoritySelectLocale();} catch (e) {}
 
 Ext.onReady(function() {
     Ext.QuickTips.init();

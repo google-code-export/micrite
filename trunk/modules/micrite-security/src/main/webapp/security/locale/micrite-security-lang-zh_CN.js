@@ -94,3 +94,36 @@ function authorityDetailLocale(){
         });
     }    
 }
+function roleListLocale(){
+    if(micrite.security.roleList.SearchPanel) {
+        Ext.override(micrite.security.roleList.SearchPanel, {
+            bindUser:'绑定用户',
+            bindAuthority:'绑定授权',
+            addRole:'增加角色',
+            name:'名称',
+            description:'描述'
+        });
+    }    
+}
+function userSelectLocale(){
+    if(micrite.security.userSelect.SearchPanel) {
+        Ext.override(micrite.security.userSelect.SearchPanel, {
+            onlyBinded:'只显示已绑定用户',
+            addUser:'增加用户',
+            fullName:'真实姓名',
+            emailAddress:'邮件',
+            enabled:'是否可用'
+        });
+    }    
+}
+function authoritySelectLocale(){
+    if(micrite.security.authoritySelect.SearchPanel) {
+        Ext.override(micrite.security.authoritySelect.SearchPanel, {
+            onlyBinded:'只显示已绑定授权',
+            addAuth:'增加授权',
+            name:'名称',
+            type:'类型',
+            value:'值'
+        });
+    }    
+}

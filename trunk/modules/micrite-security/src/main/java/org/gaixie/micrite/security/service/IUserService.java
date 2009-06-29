@@ -67,18 +67,18 @@ public interface IUserService {
     /**
      * 根据用户名查询用户的总数（模糊查询）。
      * 
-     * @param username 用户名
+     * @param fullname 真实姓名
      */
-    public Integer findByUsernameVagueCount(String username);
+    public Integer findByFullnameVagueCount(String fullname);
 
     /**
      * 根据用户名查询用户集合（模糊查询，分页）。
      * 
-     * @param username 用户名
+     * @param fullname 真实姓名
      * @param start 起始索引
      * @param limit 限制数
      */
-    public List<User> findByUsernameVaguePerPage(String username, int start, int limit);
+    public List<User> findByFullnameVaguePerPage(String fullname, int start, int limit);
     
     
     /**
