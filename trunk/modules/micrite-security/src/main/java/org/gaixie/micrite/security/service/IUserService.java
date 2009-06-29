@@ -114,7 +114,7 @@ public interface IUserService {
      * 
      * @param userIds 用户id数组
      */
-    public void enableOrDisableUsers(String[] userIds);
+    public void enableUsers(String[] userIds);
     
     public List<User> findUsersByRoleId(int roleId, int start, int limit);
     
