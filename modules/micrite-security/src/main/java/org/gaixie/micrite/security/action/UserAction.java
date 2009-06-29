@@ -24,8 +24,8 @@
 
 package org.gaixie.micrite.security.action;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,10 +59,8 @@ public class UserAction extends ActionSupport {
     private User user;
     //  用户角色id字符串
     private String roleIds;
-    //  用户id拼串，形如“1,2,4”
-    private String userIdsStr;
 
-    //  用户id拼串，形如“1,2,4”
+    //  用户id数组
     private String[] userIds;
     
     private boolean binded;
@@ -78,7 +76,7 @@ public class UserAction extends ActionSupport {
     //  action处理结果（map对象）
     private Map<String,Object> resultMap = new HashMap<String,Object>();
     //  用户的角色列表
-    private List<Role> userRoles = new ArrayList<Role>();    
+    private Set<Role> userRoles = new HashSet<Role>();    
     
     // user setting
     private List<Setting> settings;
@@ -175,12 +173,7 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */
     public String findUserRoles() {
-        logger.debug("userId=" + user.getId());
-        Set<Role> userRoles1 = userService.findUserRoles(user.getId());
-        for (Role role : userRoles1) {
-            userRoles.add(role);
-        }
-        logger.debug("userRoles.size()=" + userRoles.size());
+        userRoles = userService.findUserRoles(user.getId());
         return SUCCESS;
     }
 
@@ -190,12 +183,7 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */
     public String deleteUsers() {
-        logger.debug("userIdsStr=" + userIdsStr);
-        String[] ids = StringUtils.split(userIdsStr, ",");
-        for (int i = 0; i < ids.length; i++) {
-            logger.debug("ids[i]=" + ids[i]);
-        }
-        userService.deleteUsers(ids);
+        userService.deleteUsers(userIds);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -206,9 +194,8 @@ public class UserAction extends ActionSupport {
      * 
      * @return "success"
      */
-    public String enableOrDisableUsers() {
-        String[] ids = StringUtils.split(userIdsStr, ",");
-        userService.enableOrDisableUsers(ids);
+    public String enableUsers() {
+        userService.enableUsers(userIds);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -270,16 +257,12 @@ public class UserAction extends ActionSupport {
         this.totalCount = totalCount;
     }
 
-    public List<Role> getUserRoles() {
+    public Set<Role> getUserRoles() {
         return userRoles;
     }
 
     public void setRoleIds(String roleIds) {
         this.roleIds = roleIds;
-    }
-
-    public void setUserIdsStr(String userIdsStr) {
-        this.userIdsStr = userIdsStr;
     }
 
     public void setUserIds(String[] userIds) {

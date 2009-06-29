@@ -202,7 +202,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         }
     }
     
-    public void enableOrDisableUsers(String[] userIds) {
+    public void enableUsers(String[] userIds) {
         for (int i = 0; i < userIds.length; i++) {
             User user = userDao.getUser(Integer.parseInt(userIds[i]));
             user.setEnabled(!user.isEnabled());

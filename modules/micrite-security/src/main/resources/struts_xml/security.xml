@@ -117,7 +117,7 @@
             </result>
         </action>        
 
-        <action name="enableOrDisableUsers" class="userAction" method="enableOrDisableUsers">
+        <action name="enableUsers" class="userAction" method="enableUsers">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
             </result>
