@@ -12,10 +12,25 @@ micrite.security.roleList.SearchPanel = function() {
     this.actionButtonMenuItems =  [{
         text:this.addRole,
         iconCls :'add-icon',
+        scope:this,
         handler:function() {
-            mainPanel.loadModule('security/roleDetail.js', 'Role Detail');
-        }
-    }];    
+	    	var win;
+	    	if(!(win = Ext.getCmp('addRoleWindow'))){
+		        win = new Ext.Window({
+		        	id: 'addRoleWindow',
+		            title    : this.addUser,
+		            closable : true,
+		            autoLoad : {url: 'security/roleDetail.js?'+(new Date).getTime(),scripts:true},
+		            width    : 500,
+		            height   : 360,
+		            maximizable : true,
+		            layout:'fit'
+		        });
+	    	}
+	        win.show();
+	        win.center();
+    	}
+    }];  
     //  查询请求的url
     this.searchRequestURL = ['/' + document.location.href.split("/")[3] + '/security/findRolesVague.action'];
     

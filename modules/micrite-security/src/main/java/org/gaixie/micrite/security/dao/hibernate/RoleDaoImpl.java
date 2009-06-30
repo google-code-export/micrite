@@ -27,6 +27,7 @@ package org.gaixie.micrite.security.dao.hibernate;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Role;
+import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.dao.IRoleDao;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
@@ -70,5 +71,18 @@ public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
     public void delete(Integer id) {
         Role role = (Role)getHibernateTemplate().get(Role.class, id);
         getHibernateTemplate().delete(role);
-    }    
+    }
+    
+    @SuppressWarnings("unchecked")
+    public Role findByRolename(String rolename) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(Role.class);
+        criteria.add(Expression.eq("name", rolename));
+
+        List<Role> list = getHibernateTemplate().findByCriteria(criteria);
+        if (!list.isEmpty()) {
+            return list.get(0);
+        }
+
+        return null;
+    }
 }
