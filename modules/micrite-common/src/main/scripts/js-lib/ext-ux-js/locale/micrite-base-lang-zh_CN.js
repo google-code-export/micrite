@@ -183,7 +183,8 @@ function baseLocale(){
             delConfirmMsg:'确定要删除吗？',
             bindConfirmMsg:'确定要绑定？',
             unbindConfirmMsg:'确定要解除绑定？',
-            gridRowSelectMsg:'请选择一行数据！'
+            gridRowSelectMsg:'请选择一行数据！',
+            gridMultRowSelectMsg:'请选择数据！'
         });
     }
 }

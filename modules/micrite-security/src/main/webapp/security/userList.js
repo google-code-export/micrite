@@ -6,18 +6,18 @@ micrite.security.userList.SearchPanel = function() {
     this.conNames = [''];
     //  查询条件组件组数组
     this.conCmpGroups = [
-        [this.username, {xtype:'textfield', name:'user.fullname', width:120}]
+        [this.userName, {xtype:'textfield', name:'user.fullname', width:120}]
     ];
     //  动作按钮上的菜单项
-    this.actionButtonMenuItems =  [{
-        text:this.addUser,
+    this.actionButtonMenuItems = [{
+        text:this.addUserButton,
         scope:this,
         handler:function() {
 	    	var win;
 	    	if(!(win = Ext.getCmp('addUserWindow'))){
 		        win = new Ext.Window({
 		        	id: 'addUserWindow',
-		            title    : this.addUser,
+		            title    : this.addUserButton,
 		            closable : true,
 		            autoLoad : {url: 'security/userDetail.js?'+(new Date).getTime(),scripts:true},
 		            width    : 500,
@@ -34,52 +34,48 @@ micrite.security.userList.SearchPanel = function() {
     this.searchRequestURL = ['/' + document.location.href.split("/")[3] + '/security/findUsersVague.action'];
     //  查询结果数据按此格式读取
     this.resultDataFields = [
-                             [
-                                {name: 'fullname'},
-                                {name: 'emailaddress'},
-                                {name: 'loginname'},
-                                {name: 'enabled', type: 'boolean'}
-                             ]
+                                [
+                                    {name: 'fullname'},
+                                    {name: 'emailaddress'},
+                                    {name: 'loginname'},
+                                    {name: 'enabled', type: 'boolean'}
+                                ]
                             ];
     //  查询结果行选择模型
     this.resultRowSelectionModel = new Ext.grid.CheckboxSelectionModel();
     //  查询结果列数组
     this.resultColumns = [
-                          [
-                             {header: this.fullname, width: 100, sortable: true, dataIndex: 'fullname'},
-                             {header: this.emailaddress, width: 180, sortable: true, dataIndex: 'emailaddress'},
-                             {header: this.username, width: 90, sortable: true, dataIndex: 'loginname'},
-                             {header: this.enabled, width: 70, sortable: true, dataIndex: 'enabled'},
-                             this.resultRowSelectionModel
-                          ]
+                             [
+                                 {header: this.fullName, width: 100, sortable: true, dataIndex: 'fullname'},
+                                 {header: this.email, width: 180, sortable: true, dataIndex: 'emailaddress'},
+                                 {header: this.userName, width: 90, sortable: true, dataIndex: 'loginname'},
+                                 {header: this.enabled, width: 70, sortable: true, dataIndex: 'enabled'},
+                                 this.resultRowSelectionModel
+                             ]
                          ];
     //  查询结果处理按钮数组
     this.resultProcessButtons = [
     [
         {
-            text:'修改角色', 
+            text:this.modifyRolesButton, 
             scope:this, 
             handler:function() {
                 var userIds = this.resultGrid.selModel.selections.keys;
-                if (userIds.length == 0) {
-                    Ext.MessageBox.alert('提示','请选择数据记录');
-                    return;
-                }
-                if (userIds.length > 1) {
-                    Ext.MessageBox.alert('提示','只能选择一条数据记录');
+                if (userIds.length != 1) {
+                    Ext.MessageBox.alert(mbLocale.infoMsg, mbLocale.gridRowSelectMsg);
                     return;
                 }
                 //  加载所有角色
                 var allRoleListStore = new Ext.data.Store({
                     autoLoad:true,
-                    proxy:new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/findRolesAll.action'}),    
-                    reader:new Ext.data.JsonReader({id: 'id'}, [{name: 'name'}]),
+                    proxy:new Ext.data.HttpProxy({url:'/' + document.location.href.split("/")[3] + '/findRolesAll.action'}),    
+                    reader:new Ext.data.JsonReader({id:'id'}, [{name:'name'}, {name:'description'}]),
                     listeners:{
                         load:function() {
                             //  一旦加载完所有角色，取用户角色，将用户角色项设置为已选择
                             var userRoleListStore = new Ext.data.Store({
                                 proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/findUserRoles.action'}),    
-                                reader: new Ext.data.JsonReader({id: 'id'}, [{name: 'name'}]),
+                                reader: new Ext.data.JsonReader({id: 'id'}, []),
                                 listeners:{
                                     load:function(st, records, options) {
                                         var userRoleListGrid = Ext.getCmp('userRoleListGrid');
@@ -99,8 +95,9 @@ micrite.security.userList.SearchPanel = function() {
                 var roleListGridSelModel = new Ext.grid.CheckboxSelectionModel();
                 //  查询结果列
                 var roleListGridColumns = [
-                    roleListGridSelModel,
-                    {header: '角色名', sortable: true, dataIndex: 'name'}
+                    {header: this.roleName, sortable: true, dataIndex: 'name'},
+                    {header: this.roleDescription, sortable: true, dataIndex: 'description'},
+                    roleListGridSelModel
                 ];
                 var win = new Ext.Window({
                             title:"标题",
@@ -123,19 +120,19 @@ micrite.security.userList.SearchPanel = function() {
                                 store:allRoleListStore,
                                 colModel:new Ext.grid.ColumnModel(roleListGridColumns)
                             }],
-                            buttons:[{text:'保存', handler:function() {}},
-                                     {text:'关闭', handler:function() {win.close()}}]
+                            buttons:[{text:mbLocale.submitButton, handler:function() {}},
+                                     {text:mbLocale.closeButton, handler:function() {win.close()}}]
                 });
                 win.show();
             }
         },                                                          
         {
-            text:'删除', 
+            text:mbLocale.deleteButton, 
             scope:this, 
             handler:function() {
                 var userIds = this.resultGrid.selModel.selections.keys;
                 if (userIds.length == 0) {
-                    Ext.MessageBox.alert('提示','请选择数据记录');
+                    Ext.MessageBox.alert(mbLocale.infoMsg, mbLocale.gridMultRowSelectMsg);
                     return;
                 }
                 var deleteUsersFun = function(buttonId, text, opt) {
@@ -144,20 +141,21 @@ micrite.security.userList.SearchPanel = function() {
                             url:'/' + document.location.href.split("/")[3] + '/deleteUsers.action',
                             params:{'userIds':userIds},
                             scope:this,
-                            success:function(response, options) {
-                                obj = Ext.util.JSON.decode(response.responseText);
-                                showMsg('success', obj.message);
-                            },
-                            failure: function(response, options) {
-                                obj = Ext.util.JSON.decode(response.responseText);
-                                showMsg('failure', obj.message);
+                            callback:function(options, success, response) {
+                                if (Ext.util.JSON.decode(response.responseText).success) {
+                                    obj = Ext.util.JSON.decode(response.responseText);
+                                    showMsg('success', obj.message);
+                                } else {
+                                    obj = Ext.util.JSON.decode(response.responseText);
+                                    showMsg('failure', obj.message);
+                                }
                             }
                         });
                     }
-                }
+                };
                 Ext.Msg.show({
-                    title:'确认框',
-                    msg: '确定要删除吗？',
+                    title:mbLocale.infoMsg,
+                    msg: mbLocale.delConfirmMsg,
                     buttons: Ext.Msg.YESNO,
                     scope: this,
                     fn: deleteUsersFun,
@@ -166,19 +164,19 @@ micrite.security.userList.SearchPanel = function() {
             }
         },
         {
-            text:'置可用/不可用', 
+            text:this.enableUsersButton, 
             scope:this, 
             handler:function() {
                 var userIds = this.resultGrid.selModel.selections.keys;
                 if (userIds.length == 0) {
-                    Ext.MessageBox.alert('提示','请选择数据记录');
+                    Ext.MessageBox.alert(mbLocale.infoMsg, mbLocale.gridMultRowSelectMsg);
                     return;
                 }
                 var users = this.resultGrid.selModel.getSelections();
                 for (var i = 0; i < users.length; i++) {
                     //  判断所选择的用户可用状态是否一致（通过下一个条数据和上一条数据的可用状态比较来判断）
                     if (i > 0 && (users[i].get('enabled') != users[i - 1].get('enabled'))) {
-                        Ext.MessageBox.alert('提示','请确保选择的用户可用状态一致');
+                        Ext.MessageBox.alert(mbLocale.infoMsg, this.statusAccordConfMsg);
                         return;
                     }
                 }
@@ -188,20 +186,30 @@ micrite.security.userList.SearchPanel = function() {
                             url:'/' + document.location.href.split("/")[3] + '/enableUsers.action',
                             params:{'userIds':userIds},
                             scope:this,
-                            success:function(response, options) {
-                                obj = Ext.util.JSON.decode(response.responseText);
-                                showMsg('success', obj.message);
-                            },
-                            failure: function(response, options) {
-                                obj = Ext.util.JSON.decode(response.responseText);
-                                showMsg('failure', obj.message);
+                            callback:function(options, success, response) {
+                                if (Ext.util.JSON.decode(response.responseText).success) {
+                                    obj = Ext.util.JSON.decode(response.responseText);
+                                    showMsg('success', obj.message);
+                                } else {
+                                    obj = Ext.util.JSON.decode(response.responseText);
+                                    showMsg('failure', obj.message);
+                                }
                             }
                         });
                     }
+                };
+                
+                //  确认框提示信息
+                var enableOrDisableUsersConfMsg = '';
+                if (users[0].get('enabled')) {
+                    enableOrDisableUsersConfMsg = this.disableUsersConfMsg;
+                } else {
+                    enableOrDisableUsersConfMsg = this.enableUsersConfMsg;
                 }
+                
                 Ext.Msg.show({
-                    title:'确认框',
-                    msg: '确定修改用户可用状态吗？',
+                    title:mbLocale.infoMsg,
+                    msg: enableOrDisableUsersConfMsg,
                     buttons: Ext.Msg.YESNO,
                     scope: this,
                     fn: enableUsersFun,
@@ -217,12 +225,18 @@ micrite.security.userList.SearchPanel = function() {
 };
 
 Ext.extend(micrite.security.userList.SearchPanel, micrite.panel.ComplexSearchPanel, {
-    byUsername:'By User Name',
-    username:'User Name',
-    addUser:'Add User',
-    fullname:'Full Name',
-    emailaddress:'Email Address',
-    enabled:'Enabled'
+    userName:'User Name',
+    fullName:'Full Name',
+    email:'Email',
+    enabled:'Enabled',
+    roleName:'Role Name',
+    roleDescription:'Role Description',
+    addUserButton:'Add User',
+    modifyRolesButton:'Modify Roles',
+    enableUsersButton:'Enable/Disable',
+    statusAccordConfMsg:'Please make sure users selected are all enabled or disabled!',
+    enableUsersConfMsg:'Are you sure want to enable the users?',
+    disableUsersConfMsg:'Are you sure want to disable the users?'
 });
 
 //  处理多语言
