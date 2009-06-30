@@ -109,6 +109,7 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
         //  查询函数（点击查询按钮执行）
         this.searchFun = function() {
             recordStart = 0;
+            
             this.resultGrid.store.baseParams = {};
             var n = 0;
             for (var i = 0; i < this.curConFields.length; i++) {
@@ -123,6 +124,7 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
                 this.resultGrid.store.baseParams[name] = v;
                 n++;
             }
+         
             if (n) {
             	var ptbar = this.ptbar;
             	this.resultGrid.store.removeAll();
@@ -131,6 +133,7 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
 //                		Ext.getCmp(ptbar).enable();
 //                	else
 //                		Ext.getCmp(ptbar).disable();
+                    
                 }});
             }
         };         
@@ -347,26 +350,45 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
         	return new Ext.grid.ColumnModel([rowNumbererColumn].concat(ithis.resultColumns[imenu]));
         }
 
-        //  创建查询结果grid
-        this.resultGrid = new Ext.grid.GridPanel({
-        	id:'icenter',
-            region:'center',
-            border:false,
-            loadMask:{
-                msg:mbLocale.loadingMsg
-            },
-            stripeRows:true,
-
-            selModel:this.resultRowSelectionModel,
-            bbar:pagingToolbar,
-            viewConfig:{
-                forceFit:true,
-                enableRowBody:true
-            },
-            store:store(this),
-            colModel:columnModel(this)
-        });
-        
+        if (this.edit){
+            //  创建查询结果grid
+            this.resultGrid = new Ext.grid.EditorGridPanel({
+	            region:'center',
+	            clicksToEdit:2,
+	            border:false,
+	            loadMask:{
+	                msg:mbLocale.loadingMsg
+	            },
+	            stripeRows:true,
+	            selModel:this.resultRowSelectionModel,
+	            bbar:pagingToolbar,
+	            viewConfig:{
+	                forceFit:true,
+	                enableRowBody:true
+	            },
+	            store:store(this),
+	            colModel:columnModel(this)
+	        });
+        } else{
+	        	     //  创建查询结果grid
+	        this.resultGrid = new Ext.grid.GridPanel({
+	            region:'center',
+	            border:false,
+	            loadMask:{
+	                msg:mbLocale.loadingMsg
+	            },
+	            stripeRows:true,
+	
+	            selModel:this.resultRowSelectionModel,
+	            bbar:pagingToolbar,
+	            viewConfig:{
+	                forceFit:true,
+	                enableRowBody:true
+	            },
+	            store:store(this),
+	            colModel:columnModel(this)
+	        });
+        }
      
   
         this.items = [this.resultGrid];
