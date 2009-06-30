@@ -14,28 +14,29 @@ micrite.security.roleList.SearchPanel = function() {
         iconCls :'add-icon',
         scope:this,
         handler:function() {
-	    	var win;
-	    	if(!(win = Ext.getCmp('addRoleWindow'))){
-		        win = new Ext.Window({
-		        	id: 'addRoleWindow',
-		            title    : this.addUser,
-		            closable : true,
-		            autoLoad : {url: 'security/roleDetail.js?'+(new Date).getTime(),scripts:true},
-		            width    : 500,
-		            height   : 360,
-		            maximizable : true,
-		            layout:'fit'
-		        });
-	    	}
-	        win.show();
-	        win.center();
-    	}
+            var win;
+            if(!(win = Ext.getCmp('addRoleWindow'))){
+                win = new Ext.Window({
+                    id: 'addRoleWindow',
+                    title    : this.addUser,
+                    closable : true,
+                    autoLoad : {url: 'security/roleDetail.js?'+(new Date).getTime(),scripts:true},
+                    width    : 500,
+                    height   : 360,
+                    maximizable : true,
+                    layout:'fit'
+                });
+            }
+            win.show();
+            win.center();
+        }
     }];  
     //  查询请求的url
     this.searchRequestURL = ['/' + document.location.href.split("/")[3] + '/security/findRolesVague.action'];
     
     //  查询结果数据按此格式读取
     this.resultDataFields = [[
+        {name: 'id'},
         {name: 'name'},
         {name: 'description'}
     ]];
@@ -45,11 +46,16 @@ micrite.security.roleList.SearchPanel = function() {
     
     //  查询结果列
     this.resultColumns = [[
-        {header: this.name, width: 100, sortable: true, dataIndex: 'name'},
-        {header: this.description, width: 180, sortable: true, dataIndex: 'description'},
-        this.resultRowSelectionModel
-    ]];
+                           {header: this.name, width: 100, sortable: true, dataIndex: 'name',editor: new Ext.form.TextField({
+                               allowBlank: false, disabled:true
+                           })},
+                           {header: this.description, width: 180, sortable: true, dataIndex: 'description',editor: new Ext.form.TextField({
+                               allowBlank: false
+                           })},
+                           this.resultRowSelectionModel
+                       ]];
 
+    this.edit = true;
     //  动作按钮数组
     this.resultProcessButtons = [[{
         text:this.bindUser, 
@@ -138,6 +144,48 @@ micrite.security.roleList.SearchPanel = function() {
                 buttons: Ext.Msg.YESNO,
                 scope: this,
                 fn: deleteRolesFun,
+                icon: Ext.MessageBox.QUESTION
+            });        
+        }
+    },{
+        text:mbLocale.submitButton, 
+        iconCls :'save-icon',
+        scope:this, 
+        handler:function() {
+            var store = this.resultGrid.getStore();
+            var role;
+            if(store.getModifiedRecords().length!=1){
+                Ext.MessageBox.alert(mbLocale.infoMsg,mbLocale.gridRowEditMsg);
+                return;
+            }
+            role = store.getModifiedRecords()[0];
+            var updateRolesFun = function(buttonId, text, opt) {
+                if (buttonId == 'yes') {
+                    Ext.Ajax.request({
+                        url:'/' + document.location.href.split("/")[3] + '/updateRole.action',
+                        params:{'role.id':role.get('id'),
+                                'role.name':role.get('name'),
+                                'role.description':role.get('description')},
+                        scope:this,
+                        callback:function(options,success,response) {
+                            if (Ext.util.JSON.decode(response.responseText).success) {
+                                store.commitChanges();
+                                obj = Ext.util.JSON.decode(response.responseText);
+                                showMsg('success', obj.message);
+                            }else{
+                                obj = Ext.util.JSON.decode(response.responseText);
+                                showMsg('failure', obj.message);                                
+                            }
+                        }
+                    });
+                }
+            }
+            Ext.Msg.show({
+                title:mbLocale.infoMsg,
+                msg: mbLocale.updateConfirmMsg,
+                buttons: Ext.Msg.YESNO,
+                scope: this,
+                fn: updateRolesFun,
                 icon: Ext.MessageBox.QUESTION
             });        
         }

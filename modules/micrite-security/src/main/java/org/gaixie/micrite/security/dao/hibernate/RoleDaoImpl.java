@@ -53,6 +53,10 @@ public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
 			getHibernateTemplate().save(role);
 	}
 
+    public void update(Role role){
+        getHibernateTemplate().update(role);
+    }
+    
     @SuppressWarnings("unchecked")
     public List<Role> findByNameVaguePerPage(String name, int start, int limit) {
         DetachedCriteria criteria = DetachedCriteria.forClass(Role.class);

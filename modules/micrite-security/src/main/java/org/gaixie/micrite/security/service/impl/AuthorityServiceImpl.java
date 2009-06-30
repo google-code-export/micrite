@@ -93,6 +93,9 @@ public class AuthorityServiceImpl implements IAuthorityService {
             roles.add(role);
             auth.setRoles(roles);
         }
+
+        FilterSecurityInterceptor.refresh();
+        MethodSecurityInterceptor.refresh();
     }    
     
     public void unBindAuths(String[] authIds, int roleId) {
@@ -103,5 +106,8 @@ public class AuthorityServiceImpl implements IAuthorityService {
             roles.remove(role);
             auth.setRoles(roles);
         }
+        
+        FilterSecurityInterceptor.refresh();
+        MethodSecurityInterceptor.refresh();
     }       
 }

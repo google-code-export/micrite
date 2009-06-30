@@ -184,7 +184,9 @@ function baseLocale(){
             bindConfirmMsg:'确定要绑定？',
             unbindConfirmMsg:'确定要解除绑定？',
             gridRowSelectMsg:'请选择一行数据！',
-            gridMultRowSelectMsg:'请选择数据！'
+            gridMultRowSelectMsg:'请选择数据！',            
+            updateConfirmMsg:'确定要修改吗？',
+            gridRowEditMsg:'请一次只修改一行数据！'            
         });
     }
 }

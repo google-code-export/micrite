@@ -57,9 +57,16 @@ public interface IRoleService {
     /**
      * 增加新角色。
      * 
-     * @param role 用户
+     * @param role 角色对象
      * @throws SecurityException 角色名已存在时抛出
      */
     public void add(Role role) throws SecurityException;
     
+    /**
+     * 修改角色。
+     * 
+     * @param role 角色对象
+     * @throws SecurityException 角色名已存在时抛出
+     */
+    public void update(Role role) throws SecurityException;    
 }

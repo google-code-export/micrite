@@ -90,4 +90,18 @@ public class RoleServiceImpl implements IRoleService {
         }
         return false;
     }
+    
+    public void update(Role role) throws SecurityException {
+        Role crole = roleDao.getRole(role.getId());
+        /*
+         * 不要修改role.name，否则需要把role下面的所有user的cache都要清空
+         * 如果要修改role.name ，可以通过独立的方法修改，或者直接更新数据库，然后 restart web server
+         */
+//        if(!(crole.getName()).equals(role.getName())
+//                &&isExistedByRolename(role.getName())) {
+//            throw new SecurityException("error.role.add.roleNameInUse");
+//        }        
+//        crole.setName(role.getName());
+        crole.setDescription(role.getDescription());
+    }    
 }

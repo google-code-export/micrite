@@ -55,6 +55,12 @@ public interface IRoleDao {
     public void save(Role role);
 
     /**
+     * 修改Role
+     * @param  role role对象
+     */
+    public void update(Role role);
+    
+    /**
      * 根据角色名查询角色集合（模糊查询，分页）。
      * 
      * @see org.gaixie.micrite.beans.Role
