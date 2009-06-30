@@ -40,12 +40,18 @@ if(micrite.security.framework.MainPanel) {
 function userListLocale() {
     if(micrite.security.userList.SearchPanel) {
         Ext.override(micrite.security.userList.SearchPanel, {
-            byUsername:'按用户名',
-            username:'用户名',
-            addUser:'增加用户',
-            fullname:'名称',
-            emailaddress:'电子邮件',
-            enabled:'是否可用'
+            userName:'用户名',
+            fullName:'名称',
+            email:'电子邮件',
+            enabled:'是否可用',
+            roleName:'角色名',
+            roleDescription:'角色描述',
+            addUserButton:'增加用户',
+            modifyRolesButton:'修改角色',
+            enableUsersButton:'置可用/不可用',
+            statusAccordConfMsg:'请确保选择的用户可用状态一致！',
+            enableUsersConfMsg:'确定将用户置为可用？',
+            disableUsersConfMsg:'确定将用户置为不可用？'
         });
     }
 }

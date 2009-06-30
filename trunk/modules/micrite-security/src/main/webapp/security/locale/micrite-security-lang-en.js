@@ -41,12 +41,18 @@ if(micrite.security.framework.MainPanel) {
 function userListLocale() {
     if(micrite.security.userList.SearchPanel) {
         Ext.override(micrite.security.userList.SearchPanel, {
-            byUsername:'By User Name',
-            username:'User Name',
-            addUser:'Add User',
-            fullname:'Full Name',
-            emailaddress:'Email Address',
-            enabled:'Enabled'
+            userName:'User Name',
+            fullName:'Full Name',
+            email:'Email',
+            enabled:'Enabled',
+            roleName:'Role Name',
+            roleDescription:'Role Description',
+            addUserButton:'Add User',
+            modifyRolesButton:'Modify Roles',
+            enableUsersButton:'Enable/Disable',
+            statusAccordConfMsg:'Please make sure users selected are all enabled or disabled!',
+            enableUsersConfMsg:'Are you sure want to enable the users?',
+            disableUsersConfMsg:'Are you sure want to disable the users?'
         });
     }
 }

@@ -325,7 +325,8 @@ function baseLocale(){
             delConfirmMsg:'Are you sure want to delete?',
             bindConfirmMsg:'Are you sure want to bind?',
             unbindConfirmMsg:'Are you sure want to unbind?',
-            gridRowSelectMsg:'Select one row please!'            
+            gridRowSelectMsg:'Select one row please!',
+            gridMultRowSelectMsg:'Select some rows please!'
         });
     }
 }
