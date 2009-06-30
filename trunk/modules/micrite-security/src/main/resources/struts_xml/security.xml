@@ -194,7 +194,13 @@
                 <param name="target">resultMap</param>
             </result>
         </action>
-                
+
+        <action name="updateRole" class="roleAction" method="update">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
+                        
     </package>
 
 </struts>

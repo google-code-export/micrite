@@ -44,6 +44,8 @@ Ext.extend(micrite.base.locale, {
     delConfirmMsg:'Are you sure want to delete?',
     bindConfirmMsg:'Are you sure want to bind?',
     unbindConfirmMsg:'Are you sure want to unbind?',
-    gridRowSelectMsg:'Select one row please!'
+    gridRowSelectMsg:'Select one row please!',
+    updateConfirmMsg:'Are you sure want to update?',
+    gridRowEditMsg:'Modify one row please!'
 });
 mbLocale = new micrite.base.locale();
