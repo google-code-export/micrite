@@ -27,6 +27,7 @@ package org.gaixie.micrite.security.dao;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Role;
+import org.gaixie.micrite.beans.User;
 
 /**
  * 提供与 <code>Role</code> 实体有关的DAO接口。
@@ -67,5 +68,14 @@ public interface IRoleDao {
 
     public Integer findByNameVagueTotal(String name);
 
-    public void delete(Integer id);    
+    public void delete(Integer id);
+    
+    /**
+     * 根据角色名查询角色。
+     * 
+     * @see org.gaixie.micrite.beans.Role
+     * @param rolename 角色名
+     * @return <code>Role</code>对象
+     */
+    public Role findByRolename(String rolename);
 }

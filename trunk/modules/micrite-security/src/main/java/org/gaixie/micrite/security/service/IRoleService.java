@@ -54,4 +54,12 @@ public interface IRoleService {
 
     public void delete(String[] roleIds) throws SecurityException;
     
+    /**
+     * 增加新角色。
+     * 
+     * @param role 用户
+     * @throws SecurityException 角色名已存在时抛出
+     */
+    public void add(Role role) throws SecurityException;
+    
 }

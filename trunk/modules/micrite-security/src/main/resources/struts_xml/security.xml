@@ -188,7 +188,13 @@
                 <param name="target">resultMap</param>
             </result>
         </action> 
-        
+
+        <action name="addRole" class="roleAction" method="add">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
+                
     </package>
 
 </struts>

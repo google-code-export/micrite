@@ -75,4 +75,19 @@ public class RoleServiceImpl implements IRoleService {
             roleDao.delete(roleId);
         }
     }
+    
+    public void add(Role role) throws SecurityException {
+        if(isExistedByRolename(role.getName())) {
+            throw new SecurityException("error.role.add.roleNameInUse");
+        }        
+        roleDao.save(role);
+    }
+    
+    public boolean isExistedByRolename(String rolename) {
+        Role role = roleDao.findByRolename(rolename);
+        if (role != null) {
+            return true;
+        }
+        return false;
+    }
 }
