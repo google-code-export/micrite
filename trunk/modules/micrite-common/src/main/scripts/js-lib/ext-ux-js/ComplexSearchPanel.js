@@ -125,6 +125,7 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
             }
             if (n) {
             	var ptbar = this.ptbar;
+            	this.resultGrid.store.removeAll();
                 this.resultGrid.store.load({params:{start:0, limit:Ext.get('pageSize').dom.value},callback:function(r,o,s){
 //                	if (s&&r.length>0)
 //                		Ext.getCmp(ptbar).enable();
