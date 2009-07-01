@@ -27,6 +27,7 @@ package org.gaixie.micrite.security.service;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Authority;
+import org.gaixie.micrite.security.SecurityException;
 
 /**
  * 授权资源服务接口，为系统授权及资源管理提供业务模型
@@ -40,7 +41,7 @@ public interface IAuthorityService {
      * @param customerSourceId 客户来源id
      * @return 成功：true；失败：false
      */
-    public boolean add(Authority authority, String roleIdBunch);
+    public void add(Authority authority);
     
     public Integer findByNameVagueCount(String name);
     
@@ -53,4 +54,7 @@ public interface IAuthorityService {
     public void bindAuths(String[] authIds, int roleId);
     
     public void unBindAuths(String[] authIds, int roleId);
+    
+    public void delete(String[] authIds) throws SecurityException ;
+    public void update(Authority authority) throws SecurityException ;
 }

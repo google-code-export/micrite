@@ -53,6 +53,12 @@ public interface IAuthorityDao {
      */
     public void update(Authority authority);
     
+    /**
+     * 删除Authority
+     * @param  authority authority对象
+     */
+    public void delete(Authority authority);
+
     public Authority getAuthority(Integer id);
     
     public Integer findByNameVagueCount(String name);

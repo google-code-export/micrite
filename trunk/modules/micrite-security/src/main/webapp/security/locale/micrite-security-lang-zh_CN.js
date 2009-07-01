@@ -88,10 +88,8 @@ function authorityListLocale() {
             name:'名称',
             addAuthority:'增加授权',
             value:'值',
-            roles:'所属角色',
             type:'类型',
-            deleteButton:'删除',
-            closeButton:'关闭'
+            bindRole:'绑定角色'
         });
     }
 }

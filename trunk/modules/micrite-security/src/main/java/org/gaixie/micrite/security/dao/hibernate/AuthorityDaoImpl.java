@@ -56,6 +56,10 @@ public class AuthorityDaoImpl extends HibernateDaoSupport implements IAuthorityD
     public void update(Authority authority){
     	getHibernateTemplate().update(authority);
     }
+    
+    public void delete(Authority authority){
+    	getHibernateTemplate().delete(authority);
+    }
 
     public Authority getAuthority(Integer id) {
         Authority auth = (Authority)getHibernateTemplate().get(Authority.class, id);

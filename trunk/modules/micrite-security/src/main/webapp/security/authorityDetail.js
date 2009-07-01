@@ -1,28 +1,7 @@
 <script type="text/javascript">
 Ext.ns('micrite.security.authorityDetail');
 FromPanel = function() {
-    
-    var RecordRole = Ext.data.Record.create([    
-        
-    ]); 
-    var roleStore = new Ext.data.Store({
-        autoLoad:true,
-        proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/findRolesAll.action'}),    
-        reader: new Ext.data.JsonReader({id: "id"}, [{name: 'id'},{name: 'name'}])
-    });
-                                    
-
-	// turn on validation errors beside the field globally
-    Ext.form.Field.prototype.msgTarget = 'side';
-    
-  //先用Ext.apply方法添加自定义的password验证函数（也可以取其他的名字）
-    Ext.apply(Ext.form.VTypes,{
-    	authorityFormat:function(v){//val指这里的文本框值，field指这个文本框组件，大家要明白这个意思
-            var alpha = /^[a-zA-Z_]+$/;
-            return alpha.test(v);
-        }
-    });
-
+//  这里定义Panel的外观，内部控件等
 	FromPanel.superclass.constructor.call(this, {
         id: 'authorityDetailForm',
         bodyBorder: false,
@@ -69,20 +48,7 @@ FromPanel = function() {
                 allowBlank:false,
                 //blankText:'此项为必选项',
                 forceSelection:true
-            }), new Ext.ux.form.CheckboxField({
-                id:'authority_role',
-                fieldLabel: this.roleText,
-                hideOnSelect:false,
-                emptyText:this.lovComboEmptyText,
-                store:roleStore,
-                triggerAction:'all',
-                valueField:'id',
-                displayField:'name',
-                mode:'local',
-                allowBlank:false
-                })
-            ]
-               
+            })]
         },{
             buttonAlign:'center',
             buttons: [{
@@ -91,14 +57,14 @@ FromPanel = function() {
 	            formBind:true,
 	            handler: function(){
 	                // 构建form的提交参数
-	                var params = { 'roleIdBunch': this.getForm().findField('authority_role').getValue() };      
+//	                var params = { 'roleIdBunch': this.getForm().findField('authority_role').getValue() };      
 	                // form提交
 	                this.getForm().submit({
 	                    url: '/' + document.location.href.split("/")[3] + '/saveAuthority.action',
 	                    method: 'POST',
 	                    disabled:true,
 	                    waitMsg: mbLocale.waitingMsg,
-	                    params:params,
+//	                    params:params,
 	                    success: function(form, action) {
 	                        obj = Ext.util.JSON.decode(action.response.responseText);
 	                        showMsg('success', obj.message);                    
@@ -112,7 +78,8 @@ FromPanel = function() {
 	                });
 	            }                    
 	        },{
-	            text: mbLocale.closeButton
+	            text: mbLocale.closeButton,
+	            handler: function() {Ext.getCmp('addAuthorityWindow').close()}
             }],
         }],
     });
@@ -137,13 +104,7 @@ Ext.onReady(function() {
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
     
-    var formPanel = new micrite.security.authorityDetail.FormPanel();
-    
-    if (mainPanel) {
-        mainPanel.getActiveTab().add(formPanel);
-        mainPanel.getActiveTab().doLayout();
-    } else {
-        new Ext.Viewport({layout:'fit',items:[formPanel]});
-    }
+    Ext.getCmp('addAuthorityWindow').add(new micrite.security.authorityDetail.FormPanel());
+    Ext.getCmp('addAuthorityWindow').doLayout();
 });
 </script>

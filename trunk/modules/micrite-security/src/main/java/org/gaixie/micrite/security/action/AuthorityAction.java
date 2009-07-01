@@ -31,6 +31,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Authority;
+import org.gaixie.micrite.security.SecurityException;
 import org.gaixie.micrite.security.service.IAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -54,7 +55,6 @@ public class AuthorityAction extends ActionSupport{
     
     //获取的页面参数
     private Authority authority;
-    private String roleIdBunch;
 
     //  以下两个分页用
     //  起始索引
@@ -67,6 +67,8 @@ public class AuthorityAction extends ActionSupport{
     private String roleIds;
     private String[] authIds;
     private boolean binded;
+    
+    private String strAuthIds;
 
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     /**
@@ -74,9 +76,44 @@ public class AuthorityAction extends ActionSupport{
      * @return "success"
      */
     public String save() {
-        resultMap.put("success", authorityService.add(authority, roleIdBunch));
+    	authorityService.add(authority);
+    	resultMap.put("message", getText("save.success"));
+        resultMap.put("success", true);
         return SUCCESS;
     }
+    
+    public String delete() {
+    	logger.debug("strAuthIds =" + strAuthIds);
+        String[] ids = StringUtils.split(strAuthIds, ",");
+        try {
+        	authorityService.delete(ids);
+            resultMap.put("message", getText("delete.success"));
+            resultMap.put("success", true);
+        } catch(SecurityException e) {
+            resultMap.put("message", getText(e.getMessage()));
+            resultMap.put("success", false);
+            logger.warn(getText(e.getMessage()));            
+        }
+        return SUCCESS;
+    }
+    
+    /**
+     * 修改角色。
+     * 
+     * @return "success"
+     */
+    public String update() {
+        try {
+        	authorityService.update(authority);
+            resultMap.put("message", getText("save.success"));
+            resultMap.put("success", true);
+        } catch(SecurityException e) {
+            resultMap.put("message", getText(e.getMessage()));
+            resultMap.put("success", false);
+            logger.error(getText(e.getMessage()));
+        }
+        return SUCCESS;
+    }    
 
     public String findByNameVague() {
         String name = authority.getName();
@@ -161,20 +198,6 @@ public class AuthorityAction extends ActionSupport{
 		this.authority = authority;
 	}
 
-	/**
-	 * @return the roleIdBunch
-	 */
-	public String getRoleIdBunch() {
-		return roleIdBunch;
-	}
-
-	/**
-	 * @param roleIdBunch the roleIdBunch to set
-	 */
-	public void setRoleIdBunch(String roleIdBunch) {
-		this.roleIdBunch = roleIdBunch;
-	}
-
     public void setStart(int start) {
         this.start = start;
     }
@@ -201,5 +224,19 @@ public class AuthorityAction extends ActionSupport{
     
     public boolean isBinded() {
         return binded;
-    }  
+    }
+
+	/**
+	 * @return the strAuthIds
+	 */
+	public String getStrAuthIds() {
+		return strAuthIds;
+	}
+
+	/**
+	 * @param strAuthIds the strAuthIds to set
+	 */
+	public void setStrAuthIds(String strAuthIds) {
+		this.strAuthIds = strAuthIds;
+	}  
 }
