@@ -154,7 +154,11 @@ public class RoleAction extends ActionSupport{
         return SUCCESS;
     }    
     
-    
+    /**
+     * 根据用户查询角色。
+     * 
+     * @return "success"
+     */    
     public String findRolesByUser() {
         if(!binded) return findByNameVague();
 
@@ -195,6 +199,28 @@ public class RoleAction extends ActionSupport{
         resultMap.put("success", true);
         return SUCCESS;
     }
+
+    /**
+     * 根据资源查询角色。
+     * 
+     * @return "success"
+     */    
+    public String findRolesByAuthority() {
+        if(!binded) return findByNameVague();
+
+        if (totalCount == 0) {
+            //  初次查询时，要从数据库中读取总记录数
+            Integer count = roleService.findByAuthorityIdCount(Integer.parseInt(authorityId));
+            setTotalCount(count);
+        } 
+        
+        List<Role> authorityRoles = roleService.findByAuthorityIdPerPage(Integer.parseInt(authorityId), start, limit);
+        resultMap.put("totalCount", totalCount);    
+        resultMap.put("success", true);
+        resultMap.put("data", authorityRoles);
+
+        return SUCCESS;
+    }    
 
     /**
      * 将角色绑定到资源。

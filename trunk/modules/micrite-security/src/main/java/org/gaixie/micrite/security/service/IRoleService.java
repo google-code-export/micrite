@@ -106,6 +106,24 @@ public interface IRoleService {
     public void unBindRolesFromUser(String[] roleIds, int userId);
 
     /**
+     * 根据资源id查询角色列表（分页）。
+     * 
+     * @param authorityId 资源id
+     * @param start 起始索引
+     * @param limit 限制数
+     * @return 角色列表
+     */
+    public List<Role> findByAuthorityIdPerPage(int authorityId, int start, int limit);
+    
+    /**
+     * 根据资源id查询角色的总数。
+     * 
+     * @param authorityId 资源id
+     * @return 角色的总数
+     */
+    public int findByAuthorityIdCount(int authorityId);
+
+    /**
      * 将角色绑定到资源。
      * 
      * @param roleIds 角色id数组

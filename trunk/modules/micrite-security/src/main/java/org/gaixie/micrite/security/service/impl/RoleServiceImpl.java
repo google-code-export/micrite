@@ -143,6 +143,15 @@ public class RoleServiceImpl implements IRoleService {
         }
     }    
     
+    public List<Role> findByAuthorityIdPerPage(int authorityId, int start, int limit) {
+        return roleDao.findByAuthorityIdPerPage(authorityId, start, limit);
+    }
+    
+    public int findByAuthorityIdCount(int authorityId) {
+        return roleDao.findByAuthorityIdCount(authorityId);
+    }    
+
+    
     public void bindRolesToAuthority(String[] roleIds, int authorityId) {
         Authority authority = authorityDao.getAuthority(authorityId);
         for (int i = 0; i < roleIds.length; i++) {
