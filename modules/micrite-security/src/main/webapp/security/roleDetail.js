@@ -29,7 +29,7 @@ micrite.security.roleDetail.FormPanel = function() {
                 allowBlank:false
             },{
                 fieldLabel: this.descriptionText,
-                name: 'role.description',
+                name: 'role.description'
             }]
         },{
         	buttonAlign:'center',
@@ -38,7 +38,6 @@ micrite.security.roleDetail.FormPanel = function() {
 		        scope:this,
 		        formBind:true,
                 handler: function() {
-    	            // 构建form的提交参数
     	            // form提交
     	            this.getForm().submit({
     	                url: '/' + document.location.href.split("/")[3] + '/addRole.action',
@@ -70,13 +69,13 @@ micrite.security.roleDetail.FormPanel = Ext.extend(micrite.security.roleDetail.F
 	descriptionText: 'Description'
 });
 
-try{ roleDetailLocale(); } catch(e){}
-try {baseLocale();} catch (e) {}
+try{roleDetailLocale();} catch(e){}
+try{baseLocale();} catch (e) {}
 
 Ext.onReady(function() {
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
-    
+
     Ext.getCmp('addRoleWindow').add(new micrite.security.roleDetail.FormPanel());
     Ext.getCmp('addRoleWindow').doLayout();
 });
