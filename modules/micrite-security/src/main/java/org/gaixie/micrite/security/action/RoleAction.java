@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.security.SecurityException;
@@ -55,6 +54,8 @@ public class RoleAction extends ActionSupport{
     private String[] roleIds;
     //  用户Id
     private String userId;
+    //  资源Id
+    private String authorityId;
     
     //  用户
     private Role role;
@@ -171,6 +172,11 @@ public class RoleAction extends ActionSupport{
         return SUCCESS;
     }    
     
+    /**
+     * 将角色绑定到用户。
+     * 
+     * @return "success"
+     */
     public String bindRolesToUser() {
         roleService.bindRolesToUser(roleIds, Integer.parseInt(userId));
         resultMap.put("message", getText("save.success"));
@@ -178,6 +184,11 @@ public class RoleAction extends ActionSupport{
         return SUCCESS;
     }
     
+    /**
+     * 将角色从用户上解除绑定。
+     * 
+     * @return "success"
+     */
     public String unBindRolesFromUser() {
         roleService.unBindRolesFromUser(roleIds, Integer.parseInt(userId));
         resultMap.put("message", getText("save.success"));
@@ -185,6 +196,29 @@ public class RoleAction extends ActionSupport{
         return SUCCESS;
     }
 
+    /**
+     * 将角色绑定到资源。
+     * 
+     * @return "success"
+     */
+    public String bindRolesToAuthority() {
+        roleService.bindRolesToAuthority(roleIds, Integer.parseInt(authorityId));
+        resultMap.put("message", getText("save.success"));
+        resultMap.put("success", true);
+        return SUCCESS;
+    }
+    
+    /**
+     * 将角色从资源上解除绑定。
+     * 
+     * @return "success"
+     */
+    public String unBindRolesFromAuthority() {
+        roleService.unBindRolesFromAuthority(roleIds, Integer.parseInt(authorityId));
+        resultMap.put("message", getText("save.success"));
+        resultMap.put("success", true);
+        return SUCCESS;
+    }
     // ~~~~~~~~~~~~~~~~~~~~~~~  Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
 
 	/**
@@ -225,6 +259,9 @@ public class RoleAction extends ActionSupport{
         return resultMap;
     }  
     
+    public void setAuthorityId(String authorityId) {
+        this.authorityId = authorityId;
+    }
 
     public void setRoleIds(String[] roleIds) {
         this.roleIds = roleIds;

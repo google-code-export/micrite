@@ -219,6 +219,18 @@
                 <param name="target">resultMap</param>
             </result>
         </action>
+        
+        <action name="bindRolesToAuthority" class="roleAction" method="bindRolesToAuthority">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
+
+        <action name="unBindRolesFromAuthority" class="roleAction" method="unBindRolesFromAuthority">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
                         
     </package>
 
