@@ -27,6 +27,7 @@ package org.gaixie.micrite.security.service.impl;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.action.LoginAction;
@@ -139,6 +140,22 @@ public class RoleServiceImpl implements IRoleService {
         //  从cache中删除修改的对象
         if (userCache != null) {
             userCache.removeUserFromCache(user.getLoginname());
+        }
+    }    
+    
+    public void bindRolesToAuthority(String[] roleIds, int authorityId) {
+        Authority authority = authorityDao.getAuthority(authorityId);
+        for (int i = 0; i < roleIds.length; i++) {
+            Role role = roleDao.getRole(Integer.parseInt(roleIds[i]));
+            authority.getRoles().add(role);
+        }
+    }    
+    
+    public void unBindRolesFromAuthority(String[] roleIds, int authorityId) {
+        Authority authority = authorityDao.getAuthority(authorityId);
+        for (int i = 0; i < roleIds.length; i++) {
+            Role role = roleDao.getRole(Integer.parseInt(roleIds[i]));
+            authority.getRoles().remove(role);
         }
     }      
 }

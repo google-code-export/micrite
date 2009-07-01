@@ -27,7 +27,6 @@ package org.gaixie.micrite.security.dao;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Role;
-import org.gaixie.micrite.beans.User;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 
@@ -104,4 +103,23 @@ public interface IRoleDao {
      * @return 角色的总数
      */
     public Integer findByUserIdCount(int userId);
+    
+    /**
+     * 根据资源id查询角色列表（分页）。
+     * 
+     * @param authorityId 资源id
+     * @param start 起始索引
+     * @param limit 限制数
+     * @return 角色列表
+     */
+    public List<Role> findByAuthorityIdPerPage(int authorityId, int start, int limit);
+    
+    /**
+     * 根据资源id查询角色的总数。
+     * 
+     * @param authorityId 资源id
+     * @return 角色的总数
+     */
+    public Integer findByAuthorityIdCount(int authorityId);
+
 }

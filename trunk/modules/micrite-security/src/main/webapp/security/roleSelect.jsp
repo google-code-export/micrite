@@ -31,7 +31,7 @@ micrite.security.roleSelect.SearchPanel = function() {
     } else {
         searchURL = '/security/findRolesByAuthority.action?authorityId=' + <%=request.getParameter("authorityId")%>;
         bindURL = '/bindRolesToAuthority.action?authorityId='+<%=request.getParameter("authorityId")%>;
-        unBindURL = '/unBindRolesAuthority.action?authorityId='+<%=request.getParameter("authorityId")%>;
+        unBindURL = '/unBindRolesFromAuthority.action?authorityId='+<%=request.getParameter("authorityId")%>;
     }
     //  查询请求的url
     this.searchRequestURL = ['/' + document.location.href.split("/")[3] + searchURL];

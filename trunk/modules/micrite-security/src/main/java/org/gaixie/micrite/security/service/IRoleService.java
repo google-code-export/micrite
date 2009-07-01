@@ -26,8 +26,8 @@ package org.gaixie.micrite.security.service;
 
 import java.util.List;
 
+import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.beans.Role;
-import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.SecurityException;
 
 /**
@@ -90,7 +90,7 @@ public interface IRoleService {
     public int findByUserIdCount(int userId);
     
     /**
-     * 将角色绑定的用户。
+     * 将角色绑定到用户。
      * 
      * @param roleIds 角色id数组
      * @param userId 用户id
@@ -104,5 +104,21 @@ public interface IRoleService {
      * @param userId 用户id
      */
     public void unBindRolesFromUser(String[] roleIds, int userId);
+
+    /**
+     * 将角色绑定到资源。
+     * 
+     * @param roleIds 角色id数组
+     * @param authorityId 资源id
+     */
+    public void bindRolesToAuthority(String[] roleIds, int authorityId);
+    
+    /**
+     * 将角色从资源上解除绑定。
+     * 
+     * @param roleIds 角色id数组
+     * @param authorityId 资源id
+     */
+    public void unBindRolesFromAuthority(String[] roleIds, int authorityId);
 
 }

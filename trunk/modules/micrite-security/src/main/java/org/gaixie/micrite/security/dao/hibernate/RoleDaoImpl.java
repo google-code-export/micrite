@@ -27,7 +27,6 @@ package org.gaixie.micrite.security.dao.hibernate;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Role;
-import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.dao.IRoleDao;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
@@ -103,6 +102,22 @@ public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
         criteria.setProjection(Projections.rowCount())
                 .createCriteria("users")
                 .add(Expression.eq("id", userId));
+        return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Role> findByAuthorityIdPerPage(int authorityId, int start, int limit) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(Role.class);
+        criteria.createCriteria("authorities")
+                .add(Expression.eq("id", authorityId));
+        return getHibernateTemplate().findByCriteria(criteria, start, limit);
+    }
+    
+    public Integer findByAuthorityIdCount(int authorityId) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(Role.class);
+        criteria.setProjection(Projections.rowCount())
+                .createCriteria("authorities")
+                .add(Expression.eq("id", authorityId));
         return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
     }
 
