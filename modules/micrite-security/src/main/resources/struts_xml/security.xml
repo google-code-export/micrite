@@ -237,6 +237,13 @@
             </result>
         </action>
         
+        <action name="findRolesByAuthority" class="roleAction" method="findRolesByAuthority">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+                <param name="excludes">authorities,users</param>
+            </result>
+        </action>
+        
         <action name="bindRolesToAuthority" class="roleAction" method="bindRolesToAuthority">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
