@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Role;
+import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.action.LoginAction;
 import org.gaixie.micrite.security.dao.IAuthorityDao;
 import org.gaixie.micrite.security.dao.IRoleDao;
@@ -35,6 +36,7 @@ import org.gaixie.micrite.security.dao.IUserDao;
 import org.gaixie.micrite.security.SecurityException;
 import org.gaixie.micrite.security.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.providers.dao.UserCache;
 
 /**
  * 
@@ -49,6 +51,8 @@ public class RoleServiceImpl implements IRoleService {
     private IUserDao userDao;
     @Autowired
     private IAuthorityDao authorityDao;
+    @Autowired
+    private UserCache userCache;
     
     public List<Role> findAll() {
         List<Role> roles = roleDao.findAll();
@@ -104,4 +108,37 @@ public class RoleServiceImpl implements IRoleService {
 //        crole.setName(role.getName());
         crole.setDescription(role.getDescription());
     }    
+    
+    
+    public List<Role> findByUserIdPerPage(int userId, int start, int limit) {
+        return roleDao.findByUserIdPerPage(userId, start, limit);
+    }
+    
+    public int findByUserIdCount(int userId) {
+        return roleDao.findByUserIdCount(userId);
+    }    
+    
+    public void bindRolesToUser(String[] roleIds, int userId) {
+        User user = userDao.getUser(userId);
+        for (int i = 0; i < roleIds.length; i++) {
+            Role role = roleDao.getRole(Integer.parseInt(roleIds[i]));
+            user.getRoles().add(role);
+        }
+        //  从cache中删除修改的对象
+        if (userCache != null) {
+            userCache.removeUserFromCache(user.getLoginname());
+        }
+    }    
+    
+    public void unBindRolesFromUser(String[] roleIds, int userId) {
+        User user = userDao.getUser(userId);
+        for (int i = 0; i < roleIds.length; i++) {
+            Role role = roleDao.getRole(Integer.parseInt(roleIds[i]));
+            user.getRoles().remove(role);
+        }
+        //  从cache中删除修改的对象
+        if (userCache != null) {
+            userCache.removeUserFromCache(user.getLoginname());
+        }
+    }      
 }

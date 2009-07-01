@@ -27,6 +27,7 @@ package org.gaixie.micrite.security.service;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Role;
+import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.SecurityException;
 
 /**
@@ -69,4 +70,39 @@ public interface IRoleService {
      * @throws SecurityException 角色名已存在时抛出
      */
     public void update(Role role) throws SecurityException;    
+    
+    /**
+     * 根据用户id查询角色列表（分页）。
+     * 
+     * @param userId 用户id
+     * @param start 起始索引
+     * @param limit 限制数
+     * @return 角色列表
+     */
+    public List<Role> findByUserIdPerPage(int userId, int start, int limit);
+    
+    /**
+     * 根据用户id查询角色的总数。
+     * 
+     * @param userId 用户id
+     * @return 角色的总数
+     */
+    public int findByUserIdCount(int userId);
+    
+    /**
+     * 将角色绑定的用户。
+     * 
+     * @param roleIds 角色id数组
+     * @param userId 用户id
+     */
+    public void bindRolesToUser(String[] roleIds, int userId);    
+    
+    /**
+     * 将角色从用户上解除绑定。
+     * 
+     * @param roleIds 角色id数组
+     * @param userId 用户id
+     */
+    public void unBindRolesFromUser(String[] roleIds, int userId);
+
 }

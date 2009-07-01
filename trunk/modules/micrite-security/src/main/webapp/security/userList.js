@@ -57,77 +57,37 @@ micrite.security.userList.SearchPanel = function() {
     this.resultProcessButtons = [
     [
         {
-            text:this.modifyRolesButton, 
-            scope:this, 
+            text:this.bindRoles, 
+            iconCls :'bind-icon',
+            scope:this,
             handler:function() {
+                //  选择的数据记录主键，形如“2, 4, 6, 10”
                 var userIds = this.resultGrid.selModel.selections.keys;
-                if (userIds.length != 1) {
-                    Ext.MessageBox.alert(mbLocale.infoMsg, mbLocale.gridRowSelectMsg);
+                if(userIds.length != 1){
+                    Ext.MessageBox.alert(mbLocale.infoMsg,mbLocale.gridRowSelectMsg);
                     return;
                 }
-                //  加载所有角色
-                var allRoleListStore = new Ext.data.Store({
-                    autoLoad:true,
-                    proxy:new Ext.data.HttpProxy({url:'/' + document.location.href.split("/")[3] + '/findRolesAll.action'}),    
-                    reader:new Ext.data.JsonReader({id:'id'}, [{name:'name'}, {name:'description'}]),
-                    listeners:{
-                        load:function() {
-                            //  一旦加载完所有角色，取用户角色，将用户角色项设置为已选择
-                            var userRoleListStore = new Ext.data.Store({
-                                proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/findUserRoles.action'}),    
-                                reader: new Ext.data.JsonReader({id: 'id'}, []),
-                                listeners:{
-                                    load:function(st, records, options) {
-                                        var userRoleListGrid = Ext.getCmp('userRoleListGrid');
-                                        var userRoleRecords = [records.length];
-                                        for (var i = 0; i < records.length; i++) {
-                                            var userRoleRecord = userRoleListGrid.store.getById(records[i].id);
-                                            userRoleRecords[i] = userRoleRecord;
-                                        }
-                                        userRoleListGrid.selModel.selectRecords(userRoleRecords);
-                                    }
-                                }
-                            });
-                            userRoleListStore.load({params:{'user.id':userIds[0]}});
-                        }
-                    }
-                });
-                var roleListGridSelModel = new Ext.grid.CheckboxSelectionModel();
-                //  查询结果列
-                var roleListGridColumns = [
-                    {header: this.roleName, sortable: true, dataIndex: 'name'},
-                    {header: this.roleDescription, sortable: true, dataIndex: 'description'},
-                    roleListGridSelModel
-                ];
-                var win = new Ext.Window({
-                            title:"标题",
-                            width:600 ,
-                            height:400,
-                            items:[{
-                                id:'userRoleListGrid',
-                                xtype:'grid',
-                                autoHeight:true,
-                                border:false,
-                                loadMask:{
-                                    msg:mbLocale.loadingMsg
-                                },
-                                stripeRows:true,
-                                selModel:roleListGridSelModel,
-                                viewConfig:{
-                                    forceFit:true,
-                                    enableRowBody:true
-                                },
-                                store:allRoleListStore,
-                                colModel:new Ext.grid.ColumnModel(roleListGridColumns)
-                            }],
-                            buttons:[{text:mbLocale.submitButton, handler:function() {}},
-                                     {text:mbLocale.closeButton, handler:function() {win.close()}}]
-                });
+                var users = this.resultGrid.selModel.getSelections();
+                var win;
+                if(!(win = Ext.getCmp('roleSelectWindow'))){
+                    win = new Ext.Window({
+                        id: 'roleSelectWindow',
+                        title    : users[0].get('fullname') + ' ' + this.bindRoles ,
+                        closable : true,
+                        autoLoad : {url: 'security/roleSelect.jsp?userId=' + userIds[0] + '&' + (new Date).getTime(), scripts:true},
+                        width    : 600,
+                        height   : 420,
+                        maximizable : true,
+                        layout:'fit'
+                    });
+                }
                 win.show();
+                win.center();
             }
         },                                                          
         {
             text:mbLocale.deleteButton, 
+            iconCls :'delete-icon',
             scope:this, 
             handler:function() {
                 var userIds = this.resultGrid.selModel.selections.keys;
@@ -165,6 +125,7 @@ micrite.security.userList.SearchPanel = function() {
         },
         {
             text:this.enableUsersButton, 
+            iconCls :'bind-icon',
             scope:this, 
             handler:function() {
                 var userIds = this.resultGrid.selModel.selections.keys;
@@ -229,10 +190,8 @@ Ext.extend(micrite.security.userList.SearchPanel, micrite.panel.ComplexSearchPan
     fullName:'Full Name',
     email:'Email',
     enabled:'Enabled',
-    roleName:'Role Name',
-    roleDescription:'Role Description',
+    bindRoles:'Bind Roles',
     addUserButton:'Add User',
-    modifyRolesButton:'Modify Roles',
     enableUsersButton:'Enable/Disable',
     statusAccordConfMsg:'Please make sure users selected are all enabled or disabled!',
     enableUsersConfMsg:'Are you sure want to enable the users?',

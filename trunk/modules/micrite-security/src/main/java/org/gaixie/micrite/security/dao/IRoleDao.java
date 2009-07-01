@@ -28,6 +28,8 @@ import java.util.List;
 
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Expression;
 
 /**
  * 提供与 <code>Role</code> 实体有关的DAO接口。
@@ -84,4 +86,22 @@ public interface IRoleDao {
      * @return <code>Role</code>对象
      */
     public Role findByRolename(String rolename);
+    
+    /**
+     * 根据用户id查询角色列表（分页）。
+     * 
+     * @param userId 用户id
+     * @param start 起始索引
+     * @param limit 限制数
+     * @return 角色列表
+     */
+    public List<Role> findByUserIdPerPage(int userId, int start, int limit);
+    
+    /**
+     * 根据用户id查询角色的总数。
+     * 
+     * @param userId 用户id
+     * @return 角色的总数
+     */
+    public Integer findByUserIdCount(int userId);
 }

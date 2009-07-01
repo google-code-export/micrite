@@ -52,11 +52,15 @@ public class RoleAction extends ActionSupport{
     //输出到页面的数据
     private List<Role> roles;
 
-    private String roleIds;
+    private String[] roleIds;
+    //  用户Id
+    private String userId;
     
     //  用户
     private Role role;
     
+    private boolean binded;
+
     //  以下两个分页用
     //  起始索引
     private int start;
@@ -68,7 +72,6 @@ public class RoleAction extends ActionSupport{
     
     //  action处理结果（map对象）
     private Map<String,Object> resultMap = new HashMap<String,Object>();
-    private Map<String,String> returnMsg = new HashMap<String,String>();    
 
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
    
@@ -102,9 +105,8 @@ public class RoleAction extends ActionSupport{
     }
 
     public String delete() {
-        String[] ids = StringUtils.split(roleIds, ",");
         try {
-            roleService.delete(ids);
+            roleService.delete(roleIds);
             resultMap.put("message", getText("delete.success"));
             resultMap.put("success", true);
         } catch(SecurityException e) {
@@ -150,6 +152,39 @@ public class RoleAction extends ActionSupport{
         }
         return SUCCESS;
     }    
+    
+    
+    public String findRolesByUser() {
+        if(!binded) return findByNameVague();
+
+        if (totalCount == 0) {
+            //  初次查询时，要从数据库中读取总记录数
+            Integer count = roleService.findByUserIdCount(Integer.parseInt(userId));
+            setTotalCount(count);
+        } 
+        
+        List<Role> userRoles = roleService.findByUserIdPerPage(Integer.parseInt(userId), start, limit);
+        resultMap.put("totalCount", totalCount);    
+        resultMap.put("success", true);
+        resultMap.put("data", userRoles);
+
+        return SUCCESS;
+    }    
+    
+    public String bindRolesToUser() {
+        roleService.bindRolesToUser(roleIds, Integer.parseInt(userId));
+        resultMap.put("message", getText("save.success"));
+        resultMap.put("success", true);
+        return SUCCESS;
+    }
+    
+    public String unBindRolesFromUser() {
+        roleService.unBindRolesFromUser(roleIds, Integer.parseInt(userId));
+        resultMap.put("message", getText("save.success"));
+        resultMap.put("success", true);
+        return SUCCESS;
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~  Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
 
 	/**
@@ -190,7 +225,16 @@ public class RoleAction extends ActionSupport{
         return resultMap;
     }  
     
-    public void setRoleIds(String roleIds) {
+
+    public void setRoleIds(String[] roleIds) {
         this.roleIds = roleIds;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setBinded(boolean binded) {
+        this.binded = binded;
     }    
 }
