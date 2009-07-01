@@ -45,14 +45,22 @@ function userListLocale() {
             fullName:'Full Name',
             email:'Email',
             enabled:'Enabled',
-            roleName:'Role Name',
-            roleDescription:'Role Description',
+            bindRoles:'Bind Roles',
             addUserButton:'Add User',
-            modifyRolesButton:'Modify Roles',
             enableUsersButton:'Enable/Disable',
             statusAccordConfMsg:'Please make sure users selected are all enabled or disabled!',
             enableUsersConfMsg:'Are you sure want to enable the users?',
             disableUsersConfMsg:'Are you sure want to disable the users?'
+        });
+    }
+}
+
+function roleSelectLocale() {
+    if(micrite.security.roleSelect.SearchPanel) {
+        Ext.override(micrite.security.roleSelect.SearchPanel, {
+            onlyBinded:'Only Binded',
+            roleName:'Role Name',
+            roleDescription:'Role Description'
         });
     }
 }

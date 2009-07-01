@@ -44,14 +44,23 @@ function userListLocale() {
             fullName:'名称',
             email:'电子邮件',
             enabled:'是否可用',
-            roleName:'角色名',
-            roleDescription:'角色描述',
+            bindRoles:'绑定角色',
             addUserButton:'增加用户',
-            modifyRolesButton:'修改角色',
+            bindRolesButton:'绑定角色',
             enableUsersButton:'置可用/不可用',
             statusAccordConfMsg:'请确保选择的用户可用状态一致！',
             enableUsersConfMsg:'确定将用户置为可用？',
             disableUsersConfMsg:'确定将用户置为不可用？'
+        });
+    }
+}
+
+function roleSelectLocale() {
+    if(micrite.security.roleSelect.SearchPanel) {
+        Ext.override(micrite.security.roleSelect.SearchPanel, {
+            onlyBinded:'仅绑定的',
+            roleName:'角色名',
+            roleDescription:'角色描述'
         });
     }
 }

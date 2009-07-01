@@ -89,4 +89,21 @@ public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
 
         return null;
     }
+    
+    @SuppressWarnings("unchecked")
+    public List<Role> findByUserIdPerPage(int userId, int start, int limit) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(Role.class);
+        criteria.createCriteria("users")
+                .add(Expression.eq("id", userId));
+        return getHibernateTemplate().findByCriteria(criteria, start, limit);
+    }
+    
+    public Integer findByUserIdCount(int userId) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(Role.class);
+        criteria.setProjection(Projections.rowCount())
+                .createCriteria("users")
+                .add(Expression.eq("id", userId));
+        return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
+    }
+
 }

@@ -200,6 +200,25 @@
                 <param name="target">resultMap</param>
             </result>
         </action>
+        
+        <action name="findRolesByUser" class="roleAction" method="findRolesByUser">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+                <param name="excludes">authorities,users</param>
+            </result>
+        </action>
+
+        <action name="bindRolesToUser" class="roleAction" method="bindRolesToUser">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
+
+        <action name="unBindRolesFromUser" class="roleAction" method="unBindRolesFromUser">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
                         
     </package>
 
