@@ -128,6 +128,7 @@ micrite.security.roleList.SearchPanel = function() {
                         scope:this,
                         callback:function(options,success,response) {
                             if (Ext.util.JSON.decode(response.responseText).success) {
+                                this.refresh();
                                 obj = Ext.util.JSON.decode(response.responseText);
                                 showMsg('success', obj.message);
                             }else{
