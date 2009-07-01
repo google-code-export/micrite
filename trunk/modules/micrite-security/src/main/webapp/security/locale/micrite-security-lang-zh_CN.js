@@ -133,3 +133,12 @@ function authoritySelectLocale(){
         });
     }    
 }
+function roleDetailLocale(){
+    if(micrite.security.roleDetail.FormPanel) {
+        Ext.override(micrite.security.roleDetail.FormPanel, {
+        	roleDetailText: '角色信息',
+        	rolenameText: '角色名',
+        	descriptionText: '描述'
+        });
+    }    
+}

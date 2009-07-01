@@ -134,3 +134,12 @@ function authoritySelectLocale(){
         });
     }    
 }
+function roleDetailLocale(){
+    if(micrite.security.roleDetail.FormPanel) {
+        Ext.override(micrite.security.roleDetail.FormPanel, {
+        	roleDetailText: 'Role Detail',
+        	rolenameText: 'Role Name',
+        	descriptionText: 'Description'
+        });
+    }    
+}
