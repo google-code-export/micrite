@@ -24,15 +24,13 @@
 
 package org.gaixie.micrite.security.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.beans.Role;
+import org.gaixie.micrite.security.SecurityException;
 import org.gaixie.micrite.security.dao.IAuthorityDao;
 import org.gaixie.micrite.security.dao.IRoleDao;
 import org.gaixie.micrite.security.filter.FilterSecurityInterceptor;
@@ -52,20 +50,8 @@ public class AuthorityServiceImpl implements IAuthorityService {
     @Autowired
     private IRoleDao roleDao;
 
-    public boolean add(Authority authority, String roleIdBunch) {
-        String[] arrRoleId = roleIdBunch.split(",");
-        Set<Role> roles = new HashSet<Role>();
-        for (int i = 0; i < arrRoleId.length; i++) {
-            Role role = roleDao.getRole(Integer.parseInt(arrRoleId[i]));
-            roles.add(role);
-        }
-        authority.setRoles(roles);
+    public void add(Authority authority) {
         authorityDao.save(authority);
-        if (authority.getType().equals("URL"))
-            FilterSecurityInterceptor.refresh();
-        else if (authority.getType().equals("METHOD"))
-            MethodSecurityInterceptor.refresh();
-        return true;
     }
     
     public Integer findByNameVagueCount(String name) {
@@ -109,5 +95,22 @@ public class AuthorityServiceImpl implements IAuthorityService {
         
         FilterSecurityInterceptor.refresh();
         MethodSecurityInterceptor.refresh();
-    }       
+    } 
+    
+    public void delete(String[] authIds) throws SecurityException {
+        for (int i = 0; i < authIds.length; i++) {
+            Authority authority = authorityDao.getAuthority(Integer.parseInt(authIds[i]));
+            
+            if(authority.getRoles() != null && authority.getRoles().size() > 0) {
+                throw new SecurityException("error.authority.delete.roleNotEmptyInAuthority");
+            }   
+            authorityDao.delete(authority);
+        }
+    }
+    
+    public void update(Authority authority) throws SecurityException {
+    	Authority auth = authorityDao.getAuthority(authority.getId());
+    	auth.setValue(authority.getValue());
+    }
+    
 }

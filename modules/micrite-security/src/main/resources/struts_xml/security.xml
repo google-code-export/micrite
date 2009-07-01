@@ -168,7 +168,24 @@
                 <param name="target">resultMap</param>
             </result>
         </action> 
+        <action name="findAuthoritiesVague" class="authorityAction" method="findByNameVague">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+                <param name="excludes">roles,rolesString</param>
+            </result>
+        </action>
+
+        <action name="deleteAuthority" class="authorityAction" method="delete">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action> 
         
+        <action name="updateAuthority" class="authorityAction" method="update">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action> 
         <!-- ~~~~~~~~~~~~~~~~~~~~ Role ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->   
         <action name="findRolesAll" class="roleAction" method="findAll">
             <result name="success" type="json">

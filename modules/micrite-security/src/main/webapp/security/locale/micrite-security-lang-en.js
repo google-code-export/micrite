@@ -88,10 +88,8 @@ function authorityListLocale() {
             name:'Name',
             addAuthority:'Add Authority',
             value:'Value',
-            roles:'RolesString',
             type:'Type',
-            deleteButton:'Delete',
-            closeButton:'Close'
+            bindRole:'Bind Roles'
         });
     }
 }
