@@ -137,7 +137,10 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
                     
                 }});
             }
-        };         
+        };
+        this.refresh = function(){
+        	Ext.getCmp(this.ptbar).fireEvent("refresh");
+        }         
         //  查询按钮
         var searchButton = {
             text:mbLocale.searchButton,
@@ -298,6 +301,7 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
         	return new Ext.data.Store({
             proxy:new Ext.data.HttpProxy({url:ithis.searchRequestURL[imenu],
                                           listeners:{
+                               
                                               loadexception:function(proxy, options, response, error) {
                                                   obj = Ext.util.JSON.decode(response.responseText);
                                                   showMsg('failure', obj);
@@ -324,6 +328,13 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
                 this.store.load({params:o});
             },  
             listeners:{
+            	refresh:function(){
+	                var o = {totalCount:0};
+	                pn = this.paramNames;
+	                o[pn.start] = recordStart;
+	                o[pn.limit] = this.pageSize;
+	                this.store.load({params:o});
+            	},
                 render:function(comp){
             	   this.addSeparator();
             	   if (bbtn.length > 0 && cbtn > -1) 
