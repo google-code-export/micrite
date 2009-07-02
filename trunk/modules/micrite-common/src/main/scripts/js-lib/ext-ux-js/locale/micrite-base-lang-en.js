@@ -325,8 +325,8 @@ function baseLocale(){
             delConfirmMsg:'Are you sure want to delete?',
             bindConfirmMsg:'Are you sure want to bind?',
             unbindConfirmMsg:'Are you sure want to unbind?',
-            gridRowSelectMsg:'Select one row please!',
-            gridMultRowSelectMsg:'Select some rows please!',
+            gridRowSelectMsg:'You must select one row in this grid!',
+            gridMultRowSelectMsg:'You must select at least one row in this grid!',
             updateConfirmMsg:'Are you sure want to update?',
             gridRowEditMsg:'Modify one row please!'            
         });
