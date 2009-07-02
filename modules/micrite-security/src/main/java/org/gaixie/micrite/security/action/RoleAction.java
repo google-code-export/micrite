@@ -106,6 +106,11 @@ public class RoleAction extends ActionSupport {
         return SUCCESS;
     }
 
+    /**
+     * 删除角色。
+     * 
+     * @return "success"
+     */    
     public String delete() {
         try {
             roleService.delete(roleIds);

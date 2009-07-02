@@ -34,6 +34,11 @@ import org.gaixie.micrite.beans.Authority;
  */
 public interface ISecurityInterceptor {
 
+    /**
+     * 根据授权资源类型取得资源对象集合。
+     * 
+     * @param type 授权资源类型
+     */    
     public List<Authority> loadAuthorities(String type);  
     
 }
