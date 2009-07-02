@@ -64,7 +64,7 @@ public class AuthorityAction extends ActionSupport{
     //  记录总数（分页中改变页码时，会传递该参数过来）
     private int totalCount;
     
-    private String roleIds;
+    private int roleId;
     private String[] authIds;
     private boolean binded;
     
@@ -135,16 +135,15 @@ public class AuthorityAction extends ActionSupport{
     
     public String findBindedAuths() {
         
-        String[] rIds = StringUtils.split(roleIds, ",");
         if(!binded) return findByNameVague();
 
         if (totalCount == 0) {
             //  初次查询时，要从数据库中读取总记录数
-            Integer count = authorityService.findAuthsByRoleIdCount(Integer.parseInt(rIds[0]));
+            Integer count = authorityService.findAuthsByRoleIdCount(roleId);
             setTotalCount(count);
         } 
         
-        List<Authority> auths = authorityService.findAuthsByRoleId(Integer.parseInt(rIds[0]), start, limit);
+        List<Authority> auths = authorityService.findAuthsByRoleId(roleId, start, limit);
         resultMap.put("totalCount", totalCount);    
         resultMap.put("success", true);
         resultMap.put("data", auths);
@@ -153,16 +152,14 @@ public class AuthorityAction extends ActionSupport{
     }
 
     public String bindAuths() {
-        String[] rIds = StringUtils.split(roleIds, ",");
-        authorityService.bindAuths(authIds,Integer.parseInt(rIds[0]));
+        authorityService.bindAuths(authIds,roleId);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
     }
     
     public String unBindAuths() {
-        String[] rIds = StringUtils.split(roleIds, ",");
-        authorityService.unBindAuths(authIds,Integer.parseInt(rIds[0]));
+        authorityService.unBindAuths(authIds,roleId);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -210,8 +207,8 @@ public class AuthorityAction extends ActionSupport{
         this.totalCount = totalCount;
     }
     
-    public void setRoleIds(String roleIds) {
-        this.roleIds = roleIds;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
     
     public void setAuthIds(String[] authIds) {
