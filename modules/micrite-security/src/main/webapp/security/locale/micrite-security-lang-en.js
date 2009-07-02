@@ -46,7 +46,7 @@ function userListLocale() {
             email:'Email',
             enabled:'Enabled',
             bindRoles:'Bind Roles',
-            addUserButton:'Add User',
+            addUser:'Add User',
             enableUsersButton:'Enable/Disable',
             statusAccordConfMsg:'Please make sure users selected are all enabled or disabled!',
             enableUsersConfMsg:'Are you sure want to enable the users?',
@@ -58,6 +58,7 @@ function userListLocale() {
 function roleSelectLocale() {
     if(micrite.security.roleSelect.SearchPanel) {
         Ext.override(micrite.security.roleSelect.SearchPanel, {
+            addRole:'Add Role',
             onlyBinded:'Only Binded',
             roleName:'Role Name',
             roleDescription:'Role Description'

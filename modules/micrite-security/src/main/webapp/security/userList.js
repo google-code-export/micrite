@@ -10,7 +10,7 @@ micrite.security.userList.SearchPanel = function() {
     ];
     //  动作按钮上的菜单项
     this.actionButtonMenuItems = [{
-        text:this.addUserButton,
+        text:this.addUser,
         iconCls :'add-icon',
         scope:this,
         handler:function() {
@@ -18,7 +18,7 @@ micrite.security.userList.SearchPanel = function() {
 	    	if(!(win = Ext.getCmp('addUserWindow'))){
 		        win = new Ext.Window({
 		        	id: 'addUserWindow',
-		            title    : this.addUserButton,
+		            title    : this.addUser,
 		            closable : true,
 		            autoLoad : {url: 'security/userDetail.js?'+(new Date).getTime(),scripts:true},
 		            width    : 500,
@@ -92,7 +92,7 @@ micrite.security.userList.SearchPanel = function() {
                 if(!(win = Ext.getCmp('roleSelectWindow'))){
                     win = new Ext.Window({
                         id: 'roleSelectWindow',
-                        title    : users[0].get('fullname') + ' ' + this.bindRoles ,
+                        title    : this.bindRoles + ' -- ' +  users[0].get('fullname'),
                         closable : true,
                         autoLoad : {url: 'security/roleSelect.jsp?userId=' + userIds[0] + '&' + (new Date).getTime(), scripts:true},
                         width    : 600,
@@ -255,7 +255,7 @@ Ext.extend(micrite.security.userList.SearchPanel, micrite.panel.ComplexSearchPan
     email:'Email',
     enabled:'Enabled',
     bindRoles:'Bind Roles',
-    addUserButton:'Add User',
+    addUser:'Add User',
     enableUsersButton:'Enable/Disable',
     statusAccordConfMsg:'Please make sure users selected are all enabled or disabled!',
     enableUsersConfMsg:'Are you sure want to enable the users?',

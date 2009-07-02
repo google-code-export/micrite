@@ -45,7 +45,7 @@ function userListLocale() {
             email:'电子邮件',
             enabled:'可用',
             bindRoles:'绑定角色',
-            addUserButton:'增加用户',
+            addUser:'增加用户',
             bindRolesButton:'绑定角色',
             enableUsersButton:'置可用/不可用',
             statusAccordConfMsg:'请确保选择的用户可用状态一致！',
@@ -58,6 +58,7 @@ function userListLocale() {
 function roleSelectLocale() {
     if(micrite.security.roleSelect.SearchPanel) {
         Ext.override(micrite.security.roleSelect.SearchPanel, {
+            addRole:'增加角色',
             onlyBinded:'仅绑定的',
             roleName:'角色名',
             roleDescription:'角色描述'
