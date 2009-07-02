@@ -15,8 +15,26 @@ micrite.security.roleSelect.SearchPanel = function() {
     ];
     //  超链菜单项数组
     this.actionButtonMenuItems = [{
-        text:'',
-        scope:this
+        text:this.addRole,
+        iconCls :'add-icon',
+        scope:this,
+        handler:function() {
+            var win;
+            if(!(win = Ext.getCmp('addRoleWindow'))){
+                win = new Ext.Window({
+                    id: 'addRoleWindow',
+                    title    : this.addRole,
+                    closable : true,
+                    autoLoad : {url: 'security/roleDetail.js?'+(new Date).getTime(),scripts:true},
+                    width    : 500,
+                    height   : 360,
+                    maximizable : true,
+                    layout:'fit'
+                });
+            }
+            win.show();
+            win.center();
+        }
     }];    
     //  查询请求的url
     var searchURL = '';
@@ -139,6 +157,7 @@ micrite.security.roleSelect.SearchPanel = function() {
 };
 
 Ext.extend(micrite.security.roleSelect.SearchPanel, micrite.panel.ComplexSearchPanel, {
+    addRole:'Add Role',
     onlyBinded:'Only Binded',
     roleName:'Role Name',
     roleDescription:'Role Description'

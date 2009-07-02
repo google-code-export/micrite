@@ -18,7 +18,7 @@ micrite.security.roleList.SearchPanel = function() {
             if(!(win = Ext.getCmp('addRoleWindow'))){
                 win = new Ext.Window({
                     id: 'addRoleWindow',
-                    title    : this.addUser,
+                    title    : this.addRole,
                     closable : true,
                     autoLoad : {url: 'security/roleDetail.js?'+(new Date).getTime(),scripts:true},
                     width    : 500,
