@@ -150,7 +150,12 @@ public class UserAction extends ActionSupport {
         resultMap.put("data", users);
         return SUCCESS;
     }
-    
+
+    /**
+     * 根据名称查找可选择配置项。
+     * 
+     * @return "success"
+     */    
     public String findSettingByName(){
     	setSettings(userService.findSettingByName(settings.get(0).getName()));
     	return SUCCESS;
@@ -179,7 +184,12 @@ public class UserAction extends ActionSupport {
         resultMap.put("success", true);
         return SUCCESS;
     }
-   
+
+    /**
+     * 根据角色查询用户。
+     * 
+     * @return "success"
+     */    
     public String findBindedUsers() {
         
         if(!binded) return findByFullnameVague();
@@ -198,13 +208,23 @@ public class UserAction extends ActionSupport {
         return SUCCESS;
     }
 
+    /**
+     * 将用户绑定到角色。
+     * 
+     * @return "success"
+     */    
     public String bindUsers() {
         userService.bindUsers(userIds,roleId);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
     }
-    
+
+    /**
+     * 将用户从角色上解除绑定。
+     * 
+     * @return "success"
+     */    
     public String unBindUsers() {
         userService.unBindUsers(userIds,roleId);
         resultMap.put("message", getText("save.success"));
