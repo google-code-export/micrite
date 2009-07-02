@@ -190,15 +190,15 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 		return settingDao.findSettingByName(name);
 	}	
     
-    public void deleteUsers(String[] userIds) {
+    public void deleteUsers(int[] userIds) {
         for (int i = 0; i < userIds.length; i++) {
-            userDao.delete(Integer.parseInt(userIds[i]));
+            userDao.delete(userIds[i]);
         }
     }
     
-    public void enableUsers(String[] userIds) {
+    public void enableUsers(int[] userIds) {
         for (int i = 0; i < userIds.length; i++) {
-            User user = userDao.getUser(Integer.parseInt(userIds[i]));
+            User user = userDao.getUser(userIds[i]);
             user.setEnabled(!user.isEnabled());
             //  从cache中删除修改的对象
             if (userCache != null) {
@@ -216,10 +216,10 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         return userDao.findByRoleIdCount(roleId);
     }  
     
-    public void bindUsers(String[] userIds, int roleId) {
+    public void bindUsers(int[] userIds, int roleId) {
         Role role = roleDao.getRole(roleId);
         for (int i = 0; i < userIds.length; i++) {
-            User user = userDao.getUser(Integer.parseInt(userIds[i]));
+            User user = userDao.getUser(userIds[i]);
             Set<Role> roles =  user.getRoles();
             roles.add(role);
             user.setRoles(roles);
@@ -230,10 +230,10 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         }
     }    
     
-    public void unBindUsers(String[] userIds, int roleId) {
+    public void unBindUsers(int[] userIds, int roleId) {
         Role role = roleDao.getRole(roleId);
         for (int i = 0; i < userIds.length; i++) {
-            User user = userDao.getUser(Integer.parseInt(userIds[i]));
+            User user = userDao.getUser(userIds[i]);
             Set<Role> roles =  user.getRoles();
             roles.remove(role);
             user.setRoles(roles);

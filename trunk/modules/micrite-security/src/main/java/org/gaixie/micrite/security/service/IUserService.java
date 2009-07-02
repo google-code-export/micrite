@@ -99,21 +99,21 @@ public interface IUserService {
      * 
      * @param userIds 用户id数组
      */
-    public void deleteUsers(String[] userIds);
+    public void deleteUsers(int[] userIds);
     
     /**
      * 设置用户状态可用/不可用：将原可用的设置为不可用，原不可用的设置为可用。
      * 
      * @param userIds 用户id数组
      */
-    public void enableUsers(String[] userIds);
+    public void enableUsers(int[] userIds);
     
     public List<User> findUsersByRoleId(int roleId, int start, int limit);
     
     public Integer findUsersByRoleIdCount(int roleId);
     
-    public void bindUsers(String[] userIds, int roleId);
+    public void bindUsers(int[] userIds, int roleId);
     
-    public void unBindUsers(String[] userIds, int roleId);
+    public void unBindUsers(int[] userIds, int roleId);
     
 }
