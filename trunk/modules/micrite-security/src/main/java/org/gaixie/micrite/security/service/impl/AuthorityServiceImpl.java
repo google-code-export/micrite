@@ -108,7 +108,7 @@ public class AuthorityServiceImpl implements IAuthorityService {
         }
     }
     
-    public void update(Authority authority) throws SecurityException {
+    public void update(Authority authority){
     	Authority auth = authorityDao.getAuthority(authority.getId());
     	auth.setValue(authority.getValue());
     }
