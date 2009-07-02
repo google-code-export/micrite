@@ -43,12 +43,12 @@ import com.opensymphony.xwork2.ActionSupport;
  * 通过调用相关的Service类，完成对Authority基本信息的增加，删除，修改，查询。
  */
 public class AuthorityAction extends ActionSupport{ 
-	private static final long serialVersionUID = 1721180911011412346L;
+    private static final long serialVersionUID = 1721180911011412346L;
 
-	private static final Logger logger = Logger.getLogger(AuthorityAction.class);
-	
-	@Autowired
-	private IAuthorityService authorityService;
+    private static final Logger logger = Logger.getLogger(AuthorityAction.class);
+    
+    @Autowired
+    private IAuthorityService authorityService;
 
     //以Map格式存放操作的结果，然后由struts2-json插件转换为json对象
     private Map<String,Object> resultMap = new HashMap<String,Object>();
@@ -65,28 +65,24 @@ public class AuthorityAction extends ActionSupport{
     private int totalCount;
     
     private int roleId;
-    private String[] authIds;
+    private int[] authIds;
     private boolean binded;
     
-    private String strAuthIds;
-
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     /**
      * 保存授权资源信息
      * @return "success"
      */
     public String save() {
-    	authorityService.add(authority);
-    	resultMap.put("message", getText("save.success"));
+        authorityService.add(authority);
+        resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
     }
     
     public String delete() {
-    	logger.debug("strAuthIds =" + strAuthIds);
-        String[] ids = StringUtils.split(strAuthIds, ",");
         try {
-        	authorityService.delete(ids);
+            authorityService.delete(authIds);
             resultMap.put("message", getText("delete.success"));
             resultMap.put("success", true);
         } catch(SecurityException e) {
@@ -104,7 +100,7 @@ public class AuthorityAction extends ActionSupport{
      */
     public String update() {
         try {
-        	authorityService.update(authority);
+            authorityService.update(authority);
             resultMap.put("message", getText("save.success"));
             resultMap.put("success", true);
         } catch(SecurityException e) {
@@ -167,33 +163,33 @@ public class AuthorityAction extends ActionSupport{
     
     // ~~~~~~~~~~~~~~~~~~~~~~~  Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
 
-	/**
-	 * @return the result
-	 */
-	public Map<String, Object> getResultMap() {
-		return resultMap;
-	}
+    /**
+     * @return the result
+     */
+    public Map<String, Object> getResultMap() {
+        return resultMap;
+    }
 
-	/**
-	 * @param result the result to set
-	 */
-	public void setResultMap(Map<String, Object> resultMap) {
-		this.resultMap = resultMap;
-	}
+    /**
+     * @param result the result to set
+     */
+    public void setResultMap(Map<String, Object> resultMap) {
+        this.resultMap = resultMap;
+    }
 
-	/**
-	 * @return the authority
-	 */
-	public Authority getAuthority() {
-		return authority;
-	}
+    /**
+     * @return the authority
+     */
+    public Authority getAuthority() {
+        return authority;
+    }
 
-	/**
-	 * @param authority the authority to set
-	 */
-	public void setAuthority(Authority authority) {
-		this.authority = authority;
-	}
+    /**
+     * @param authority the authority to set
+     */
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
+    }
 
     public void setStart(int start) {
         this.start = start;
@@ -211,7 +207,7 @@ public class AuthorityAction extends ActionSupport{
         this.roleId = roleId;
     }
     
-    public void setAuthIds(String[] authIds) {
+    public void setAuthIds(int[] authIds) {
         this.authIds = authIds;
     }
     
@@ -223,17 +219,4 @@ public class AuthorityAction extends ActionSupport{
         return binded;
     }
 
-	/**
-	 * @return the strAuthIds
-	 */
-	public String getStrAuthIds() {
-		return strAuthIds;
-	}
-
-	/**
-	 * @param strAuthIds the strAuthIds to set
-	 */
-	public void setStrAuthIds(String strAuthIds) {
-		this.strAuthIds = strAuthIds;
-	}  
 }

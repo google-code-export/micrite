@@ -101,7 +101,7 @@ micrite.security.authorityList.SearchPanel = function() {
                 if (buttonId == 'yes') {
                     Ext.Ajax.request({
                         url:'/' + document.location.href.split("/")[3] + '/deleteAuthority.action',
-                        params:{'strAuthIds':authorityIds},
+                        params:{'authIds':authorityIds},
                         scope:this,
                         callback:function(options,success,response) {
                             if (Ext.util.JSON.decode(response.responseText).success) {
