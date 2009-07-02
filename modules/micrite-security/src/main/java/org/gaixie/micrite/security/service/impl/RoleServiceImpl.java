@@ -26,11 +26,9 @@ package org.gaixie.micrite.security.service.impl;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
-import org.gaixie.micrite.security.action.LoginAction;
 import org.gaixie.micrite.security.dao.IAuthorityDao;
 import org.gaixie.micrite.security.dao.IRoleDao;
 import org.gaixie.micrite.security.dao.IUserDao;
@@ -47,7 +45,6 @@ import org.springframework.security.providers.dao.UserCache;
  */
 public class RoleServiceImpl implements IRoleService {
 
-    private static final Logger logger = Logger.getLogger(LoginAction.class); 
     @Autowired
     private IRoleDao roleDao;
     @Autowired
@@ -70,9 +67,9 @@ public class RoleServiceImpl implements IRoleService {
         return roleDao.findByNameVagueTotal(name);
     }    
     
-    public void delete(String[] roleIds) throws SecurityException {
+    public void delete(int[] roleIds) throws SecurityException {
         for (int i = 0; i < roleIds.length; i++) {
-            int roleId = Integer.parseInt(roleIds[i]);
+            int roleId = roleIds[i];
             if(userDao.findByRoleIdCount(roleId)>0) {
                 throw new SecurityException("error.role.delete.userNotEmptyInRole");
             }   
@@ -121,10 +118,10 @@ public class RoleServiceImpl implements IRoleService {
         return roleDao.findByUserIdCount(userId);
     }    
     
-    public void bindRolesToUser(String[] roleIds, int userId) {
+    public void bindRolesToUser(int[] roleIds, int userId) {
         User user = userDao.getUser(userId);
         for (int i = 0; i < roleIds.length; i++) {
-            Role role = roleDao.getRole(Integer.parseInt(roleIds[i]));
+            Role role = roleDao.getRole(roleIds[i]);
             user.getRoles().add(role);
         }
         //  从cache中删除修改的对象
@@ -133,10 +130,10 @@ public class RoleServiceImpl implements IRoleService {
         }
     }    
     
-    public void unBindRolesFromUser(String[] roleIds, int userId) {
+    public void unBindRolesFromUser(int[] roleIds, int userId) {
         User user = userDao.getUser(userId);
         for (int i = 0; i < roleIds.length; i++) {
-            Role role = roleDao.getRole(Integer.parseInt(roleIds[i]));
+            Role role = roleDao.getRole(roleIds[i]);
             user.getRoles().remove(role);
         }
         //  从cache中删除修改的对象
@@ -154,10 +151,10 @@ public class RoleServiceImpl implements IRoleService {
     }    
 
     
-    public void bindRolesToAuthority(String[] roleIds, int authorityId) {
+    public void bindRolesToAuthority(int[] roleIds, int authorityId) {
         Authority authority = authorityDao.getAuthority(authorityId);
         for (int i = 0; i < roleIds.length; i++) {
-            Role role = roleDao.getRole(Integer.parseInt(roleIds[i]));
+            Role role = roleDao.getRole(roleIds[i]);
             authority.getRoles().add(role);
         }
         FilterSecurityInterceptor.refresh();
@@ -165,10 +162,10 @@ public class RoleServiceImpl implements IRoleService {
         
     }    
     
-    public void unBindRolesFromAuthority(String[] roleIds, int authorityId) {
+    public void unBindRolesFromAuthority(int[] roleIds, int authorityId) {
         Authority authority = authorityDao.getAuthority(authorityId);
         for (int i = 0; i < roleIds.length; i++) {
-            Role role = roleDao.getRole(Integer.parseInt(roleIds[i]));
+            Role role = roleDao.getRole(roleIds[i]);
             authority.getRoles().remove(role);
         }
         FilterSecurityInterceptor.refresh();
