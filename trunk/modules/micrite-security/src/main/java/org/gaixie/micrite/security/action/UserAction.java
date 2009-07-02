@@ -57,8 +57,8 @@ public class UserAction extends ActionSupport {
     
     //  用户
     private User user;
-    //  用户角色id字符串
-    private String roleIds;
+    //  用户角色id
+    private int roleId;
 
     //  用户id数组
     private String[] userIds;
@@ -188,16 +188,15 @@ public class UserAction extends ActionSupport {
    
     public String findBindedUsers() {
         
-        String[] rIds = StringUtils.split(roleIds, ",");
         if(!binded) return findByFullnameVague();
 
         if (totalCount == 0) {
             //  初次查询时，要从数据库中读取总记录数
-            Integer count = userService.findUsersByRoleIdCount(Integer.parseInt(rIds[0]));
+            Integer count = userService.findUsersByRoleIdCount(roleId);
             setTotalCount(count);
         } 
         
-        List<User> users = userService.findUsersByRoleId(Integer.parseInt(rIds[0]), start, limit);
+        List<User> users = userService.findUsersByRoleId(roleId, start, limit);
         resultMap.put("totalCount", totalCount);    
         resultMap.put("success", true);
         resultMap.put("data", users);
@@ -206,16 +205,14 @@ public class UserAction extends ActionSupport {
     }
 
     public String bindUsers() {
-        String[] rIds = StringUtils.split(roleIds, ",");
-        userService.bindUsers(userIds,Integer.parseInt(rIds[0]));
+        userService.bindUsers(userIds,roleId);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
     }
     
     public String unBindUsers() {
-        String[] rIds = StringUtils.split(roleIds, ",");
-        userService.unBindUsers(userIds,Integer.parseInt(rIds[0]));
+        userService.unBindUsers(userIds,roleId);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -246,8 +243,8 @@ public class UserAction extends ActionSupport {
         return userRoles;
     }
 
-    public void setRoleIds(String roleIds) {
-        this.roleIds = roleIds;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
     public void setUserIds(String[] userIds) {

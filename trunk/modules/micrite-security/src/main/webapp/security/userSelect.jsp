@@ -37,7 +37,7 @@ micrite.security.userSelect.SearchPanel = function() {
         }
     }];    
     //  查询请求的url
-    this.searchRequestURL = ['/' + document.location.href.split("/")[3] + '/security/findBindedUsers.action?roleIds='+<%=request.getParameter("roleIds")%>];
+    this.searchRequestURL = ['/' + document.location.href.split("/")[3] + '/security/findBindedUsers.action?roleId='+<%=request.getParameter("roleId")%>];
     
     //  查询结果数据按此格式读取
     this.resultDataFields = [[
@@ -74,7 +74,7 @@ micrite.security.userSelect.SearchPanel = function() {
             var bindUsers = function(buttonId, text, opt) {
                 if (buttonId == 'yes') {
                     Ext.Ajax.request({
-                        url:'/' + document.location.href.split("/")[3] + '/bindUsers.action?roleIds='+<%=request.getParameter("roleIds")%>,
+                        url:'/' + document.location.href.split("/")[3] + '/bindUsers.action?roleId='+<%=request.getParameter("roleId")%>,
                         params:{'userIds':ids},
                         scope:this,
                         callback:function(options,success,response) {
@@ -113,7 +113,7 @@ micrite.security.userSelect.SearchPanel = function() {
         var unBindUsers = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 Ext.Ajax.request({
-                    url:'/' + document.location.href.split("/")[3] + '/unBindUsers.action?roleIds='+<%=request.getParameter("roleIds")%>,
+                    url:'/' + document.location.href.split("/")[3] + '/unBindUsers.action?roleId='+<%=request.getParameter("roleId")%>,
                     params:{'userIds':ids},
                     scope:this,
                     callback:function(options,success,response) {
