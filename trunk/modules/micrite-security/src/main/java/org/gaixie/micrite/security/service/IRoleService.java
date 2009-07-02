@@ -26,7 +26,6 @@ package org.gaixie.micrite.security.service;
 
 import java.util.List;
 
-import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.security.SecurityException;
 
@@ -53,7 +52,7 @@ public interface IRoleService {
     
     public int findByNameVagueTotal(String name);
 
-    public void delete(String[] roleIds) throws SecurityException;
+    public void delete(int[] roleIds) throws SecurityException;
     
     /**
      * 增加新角色。
@@ -95,7 +94,7 @@ public interface IRoleService {
      * @param roleIds 角色id数组
      * @param userId 用户id
      */
-    public void bindRolesToUser(String[] roleIds, int userId);    
+    public void bindRolesToUser(int[] roleIds, int userId);    
     
     /**
      * 将角色从用户上解除绑定。
@@ -103,7 +102,7 @@ public interface IRoleService {
      * @param roleIds 角色id数组
      * @param userId 用户id
      */
-    public void unBindRolesFromUser(String[] roleIds, int userId);
+    public void unBindRolesFromUser(int[] roleIds, int userId);
 
     /**
      * 根据资源id查询角色列表（分页）。
@@ -129,7 +128,7 @@ public interface IRoleService {
      * @param roleIds 角色id数组
      * @param authorityId 资源id
      */
-    public void bindRolesToAuthority(String[] roleIds, int authorityId);
+    public void bindRolesToAuthority(int[] roleIds, int authorityId);
     
     /**
      * 将角色从资源上解除绑定。
@@ -137,6 +136,6 @@ public interface IRoleService {
      * @param roleIds 角色id数组
      * @param authorityId 资源id
      */
-    public void unBindRolesFromAuthority(String[] roleIds, int authorityId);
+    public void unBindRolesFromAuthority(int[] roleIds, int authorityId);
 
 }

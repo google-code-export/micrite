@@ -40,7 +40,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * 处理用户对角色操作的事件。
  * 
  */
-public class RoleAction extends ActionSupport{
+public class RoleAction extends ActionSupport {
 	private static final long serialVersionUID = 3072284877032259302L;
 
 	private static final Logger logger = Logger.getLogger(RoleAction.class);
@@ -48,18 +48,19 @@ public class RoleAction extends ActionSupport{
 	@Autowired
 	private IRoleService roleService;
 
-    //输出到页面的数据
+    //  输出到页面的数据
     private List<Role> roles;
 
-    private String[] roleIds;
+    private int[] roleIds;
     //  用户Id
-    private String userId;
+    private int userId;
     //  资源Id
-    private String authorityId;
+    private int authorityId;
     
     //  用户
     private Role role;
     
+    //  查询条件
     private boolean binded;
 
     //  以下两个分页用
@@ -164,11 +165,11 @@ public class RoleAction extends ActionSupport{
 
         if (totalCount == 0) {
             //  初次查询时，要从数据库中读取总记录数
-            Integer count = roleService.findByUserIdCount(Integer.parseInt(userId));
+            Integer count = roleService.findByUserIdCount(userId);
             setTotalCount(count);
         } 
         
-        List<Role> userRoles = roleService.findByUserIdPerPage(Integer.parseInt(userId), start, limit);
+        List<Role> userRoles = roleService.findByUserIdPerPage(userId, start, limit);
         resultMap.put("totalCount", totalCount);    
         resultMap.put("success", true);
         resultMap.put("data", userRoles);
@@ -182,7 +183,7 @@ public class RoleAction extends ActionSupport{
      * @return "success"
      */
     public String bindRolesToUser() {
-        roleService.bindRolesToUser(roleIds, Integer.parseInt(userId));
+        roleService.bindRolesToUser(roleIds, userId);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -194,7 +195,7 @@ public class RoleAction extends ActionSupport{
      * @return "success"
      */
     public String unBindRolesFromUser() {
-        roleService.unBindRolesFromUser(roleIds, Integer.parseInt(userId));
+        roleService.unBindRolesFromUser(roleIds, userId);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -210,11 +211,11 @@ public class RoleAction extends ActionSupport{
 
         if (totalCount == 0) {
             //  初次查询时，要从数据库中读取总记录数
-            Integer count = roleService.findByAuthorityIdCount(Integer.parseInt(authorityId));
+            Integer count = roleService.findByAuthorityIdCount(authorityId);
             setTotalCount(count);
         } 
         
-        List<Role> authorityRoles = roleService.findByAuthorityIdPerPage(Integer.parseInt(authorityId), start, limit);
+        List<Role> authorityRoles = roleService.findByAuthorityIdPerPage(authorityId, start, limit);
         resultMap.put("totalCount", totalCount);    
         resultMap.put("success", true);
         resultMap.put("data", authorityRoles);
@@ -228,7 +229,7 @@ public class RoleAction extends ActionSupport{
      * @return "success"
      */
     public String bindRolesToAuthority() {
-        roleService.bindRolesToAuthority(roleIds, Integer.parseInt(authorityId));
+        roleService.bindRolesToAuthority(roleIds, authorityId);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -240,7 +241,7 @@ public class RoleAction extends ActionSupport{
      * @return "success"
      */
     public String unBindRolesFromAuthority() {
-        roleService.unBindRolesFromAuthority(roleIds, Integer.parseInt(authorityId));
+        roleService.unBindRolesFromAuthority(roleIds, authorityId);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -284,17 +285,17 @@ public class RoleAction extends ActionSupport{
     public Map<String, Object> getResultMap() {
         return resultMap;
     }  
-    
-    public void setAuthorityId(String authorityId) {
-        this.authorityId = authorityId;
-    }
 
-    public void setRoleIds(String[] roleIds) {
+    public void setRoleIds(int[] roleIds) {
         this.roleIds = roleIds;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public void setAuthorityId(int authorityId) {
+        this.authorityId = authorityId;
     }
 
     public void setBinded(boolean binded) {
