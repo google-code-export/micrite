@@ -107,13 +107,37 @@ public interface IUserService {
      * @param userIds 用户id数组
      */
     public void enableUsers(int[] userIds);
-    
+
+    /**
+     * 根据角色查询用户对象集合
+     * 
+     * @param roleId 角色id
+     * @param start 起始索引
+     * @param limit 限制数
+     */    
     public List<User> findUsersByRoleId(int roleId, int start, int limit);
-    
+
+    /**
+     * 根据角色查询用户对象记录数。
+     * 
+     * @param roleId 角色id
+     */    
     public Integer findUsersByRoleIdCount(int roleId);
-    
+
+    /**
+     * 将用户绑定到角色。
+     * 
+     * @param userIds 用户id数组
+     * @param roleId 角色id
+     */    
     public void bindUsers(int[] userIds, int roleId);
-    
+
+    /**
+     * 将用户从角色上解除绑定。
+     * 
+     * @param userIds 用户id数组
+     * @param roleId 角色id
+     */    
     public void unBindUsers(int[] userIds, int roleId);
     
 }
