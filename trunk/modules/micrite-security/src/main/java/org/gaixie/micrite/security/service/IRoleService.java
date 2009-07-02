@@ -49,9 +49,19 @@ public interface IRoleService {
      * @param limit 限制数
      */
     public List<Role> findByNameVaguePerPage(String name, int start, int limit);
-    
+
+    /**
+     * 根据角色名查询角色的总数（模糊查询）。
+     * 
+     * @param name 角色名
+     */    
     public int findByNameVagueTotal(String name);
 
+    /**
+     * 删除角色。
+     * 
+     * @param roleIds 角色id数组
+     */      
     public void delete(int[] roleIds) throws SecurityException;
     
     /**

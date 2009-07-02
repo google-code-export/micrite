@@ -71,6 +71,10 @@ public class LoginAction extends ActionSupport{
 		return SUCCESS;
     }    
 
+    /**
+     * 登录失败，返回失败原因
+     * @return "success"
+     */	
 	public String loginFailed(){
 		errorMsg.put("reason", getText("error.login.authenticationFailed"));
 		loginResult.put( "success", false );  
@@ -78,12 +82,20 @@ public class LoginAction extends ActionSupport{
 		return SUCCESS;
 	}
 
+    /**
+     * 加载当前菜单节点的下一级菜单
+     * @return "success"
+     */	
 	public String loadMenu(){
         User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		menu = loginService.loadChildNodes(currentUser,node);
 		return SUCCESS;
 	}
 
+    /**
+     * 加载当前用户的配置项
+     * @return "success"
+     */ 	
     public String loadSetting(){
         User cUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Setting> settings = userService.getSettings(cUser.getId());
