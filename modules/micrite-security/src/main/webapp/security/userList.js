@@ -11,6 +11,7 @@ micrite.security.userList.SearchPanel = function() {
     //  动作按钮上的菜单项
     this.actionButtonMenuItems = [{
         text:this.addUserButton,
+        iconCls :'add-icon',
         scope:this,
         handler:function() {
 	    	var win;
@@ -46,13 +47,32 @@ micrite.security.userList.SearchPanel = function() {
     //  查询结果列数组
     this.resultColumns = [
                              [
-                                 {header: this.fullName, width: 100, sortable: true, dataIndex: 'fullname'},
-                                 {header: this.email, width: 180, sortable: true, dataIndex: 'emailaddress'},
-                                 {header: this.userName, width: 90, sortable: true, dataIndex: 'loginname'},
+                                 {
+                                     header: this.fullName, 
+                                     width: 100, 
+                                     sortable: true, 
+                                     dataIndex: 'fullname',
+                                     editor: new Ext.form.TextField({allowBlank: false})
+                                 },
+                                 {
+                                     header: this.email, 
+                                     width: 180, 
+                                     sortable: true, 
+                                     dataIndex: 'emailaddress',
+                                     editor: new Ext.form.TextField({})
+                                 },
+                                 {   
+                                     header: this.userName, 
+                                     width: 90, 
+                                     sortable: true, 
+                                     dataIndex: 'loginname',
+                                     editor: new Ext.form.TextField({allowBlank: false})
+                                 },
                                  {header: this.enabled, width: 70, sortable: true, dataIndex: 'enabled'},
                                  this.resultRowSelectionModel
                              ]
                          ];
+    this.edit = true;
     //  查询结果处理按钮数组
     this.resultProcessButtons = [
     [
@@ -103,6 +123,7 @@ micrite.security.userList.SearchPanel = function() {
                             scope:this,
                             callback:function(options, success, response) {
                                 if (Ext.util.JSON.decode(response.responseText).success) {
+                                    this.refresh();
                                     obj = Ext.util.JSON.decode(response.responseText);
                                     showMsg('success', obj.message);
                                 } else {
@@ -149,6 +170,7 @@ micrite.security.userList.SearchPanel = function() {
                             scope:this,
                             callback:function(options, success, response) {
                                 if (Ext.util.JSON.decode(response.responseText).success) {
+                                    this.refresh();
                                     obj = Ext.util.JSON.decode(response.responseText);
                                     showMsg('success', obj.message);
                                 } else {
@@ -176,6 +198,48 @@ micrite.security.userList.SearchPanel = function() {
                     fn: enableUsersFun,
                     icon: Ext.MessageBox.QUESTION
                 });
+            }
+        },{
+            text:mbLocale.submitButton, 
+            iconCls :'save-icon',
+            scope:this, 
+            handler:function() {
+                var store = this.resultGrid.getStore();
+                if(store.getModifiedRecords().length != 1){
+                    Ext.MessageBox.alert(mbLocale.infoMsg, mbLocale.gridRowEditMsg);
+                    return;
+                }
+                var user = store.getModifiedRecords()[0];
+                var updateUserFun = function(buttonId, text, opt) {
+                    if (buttonId == 'yes') {
+                        Ext.Ajax.request({
+                            url:'/' + document.location.href.split("/")[3] + '/updateUserInfo.action',
+                            params:{'user.id':user.id,
+                                    'user.fullname':user.get('fullname'),
+                                    'user.emailaddress':user.get('emailaddress'),
+                                    'user.loginname':user.get('loginname')},
+                            scope:this,
+                            callback:function(options,success,response) {
+                                if (Ext.util.JSON.decode(response.responseText).success) {
+                                    store.commitChanges();
+                                    obj = Ext.util.JSON.decode(response.responseText);
+                                    showMsg('success', obj.message);
+                                }else{
+                                    obj = Ext.util.JSON.decode(response.responseText);
+                                    showMsg('failure', obj.message);                                
+                                }
+                            }
+                        });
+                    }
+                }
+                Ext.Msg.show({
+                    title:mbLocale.infoMsg,
+                    msg: mbLocale.updateConfirmMsg,
+                    buttons: Ext.Msg.YESNO,
+                    scope: this,
+                    fn: updateUserFun,
+                    icon: Ext.MessageBox.QUESTION
+                });        
             }
         }
     ]
