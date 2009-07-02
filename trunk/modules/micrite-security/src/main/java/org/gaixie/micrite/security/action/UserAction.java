@@ -92,7 +92,7 @@ public class UserAction extends ActionSupport {
             userService.add(user);
             resultMap.put("message", getText("save.success"));
             resultMap.put("success", true);
-        } catch(SecurityException e) {
+        } catch (SecurityException e) {
             resultMap.put("message", getText(e.getMessage()));
             resultMap.put("success", false);
             logger.error(getText(e.getMessage()));
@@ -118,9 +118,15 @@ public class UserAction extends ActionSupport {
      */
     public String updateInfo() {
     	user.setSettings(settings);
-        userService.updateInfo(user);
-        resultMap.put("message", getText("save.success"));
-        resultMap.put("success", true);
+        try {
+            userService.updateInfo(user);
+            resultMap.put("message", getText("save.success"));
+            resultMap.put("success", true);
+        } catch (SecurityException e) {
+            resultMap.put("message", getText(e.getMessage()));
+            resultMap.put("success", false);
+            logger.error(getText(e.getMessage()));
+        }
         return SUCCESS;
     }
 

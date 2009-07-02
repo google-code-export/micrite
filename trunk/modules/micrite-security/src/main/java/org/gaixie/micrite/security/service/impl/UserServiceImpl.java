@@ -112,10 +112,16 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         return false;
     }
     
-    public void updateInfo(User u) {
+    public void updateInfo(User u) throws SecurityException {
     	logger.info("updateInfo");
         //  取出用户
         User user = userDao.getUser(u.getId());
+        //  如果修改了用户名，则校验新用户名在系统是否存在
+        if (!u.getUsername().equals(user.getUsername())) {
+            if(isExistedByUsername(u.getUsername())) {
+                throw new SecurityException("error.user.add.userNameInUse");
+            } 
+        }    
 
         // 修改用户
         user.setFullname(u.getFullname());
@@ -126,15 +132,17 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             user.setCryptpassword(cryptpassword);
         }
         
-        List<Setting> list = new ArrayList<Setting>();
-
-        //判断是否需要更新setting,如果选项和缺省值一致,则不更新
-        for (Setting s:u.getSettings()){
-        	Setting setting = settingDao.getSetting(s.getId());
-//        	if (setting.getSortindex() != 0)
-        		list.add(setting);
+        if (u.getSettings() != null) {
+            List<Setting> list = new ArrayList<Setting>();
+    
+            //判断是否需要更新setting,如果选项和缺省值一致,则不更新
+            for (Setting s:u.getSettings()){
+            	Setting setting = settingDao.getSetting(s.getId());
+    //        	if (setting.getSortindex() != 0)
+            		list.add(setting);
+            }
+            user.setSettings(list);
         }
-        user.setSettings(list);
         
         //  持久化修改
         userDao.update(user);

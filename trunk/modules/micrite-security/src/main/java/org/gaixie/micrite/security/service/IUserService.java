@@ -61,8 +61,9 @@ public interface IUserService {
      * @param user对象,可更新属性包括, 用户id,newFullname 新名称,
      * newEmailaddress 新email地址,newPlainpassword 新密码（明文）
      * user对象包括一个setting对象
+     * @throws SecurityException 
      */
-    public void updateInfo(User user);
+    public void updateInfo(User user) throws SecurityException;
 
     /**
      * 根据用户名查询用户的总数（模糊查询）。
