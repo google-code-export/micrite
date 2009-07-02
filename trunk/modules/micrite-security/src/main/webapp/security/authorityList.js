@@ -18,7 +18,7 @@ micrite.security.authorityList.SearchPanel = function() {
             if(!(win = Ext.getCmp('addAuthorityWindow'))){
                 win = new Ext.Window({
                     id: 'addAuthorityWindow',
-                    title    : this.addUser,
+                    title    : this.addAuthority,
                     closable : true,
                     autoLoad : {url: 'security/authorityDetail.js?'+(new Date).getTime(),scripts:true},
                     width    : 500,
@@ -75,7 +75,7 @@ micrite.security.authorityList.SearchPanel = function() {
             if(!(win = Ext.getCmp('roleSelectWindow'))){
                 win = new Ext.Window({
                     id: 'roleSelectWindow',
-                    title    : authority[0].get('name') + ' ' + this.bindRoles ,
+                    title    : this.bindRole  + ' -- ' +  authority[0].get('name') ,
                     closable : true,
                     autoLoad : {url: 'security/roleSelect.jsp?authorityId=' + authorityIds[0] + '&' + (new Date).getTime(), scripts:true},
                     width    : 600,

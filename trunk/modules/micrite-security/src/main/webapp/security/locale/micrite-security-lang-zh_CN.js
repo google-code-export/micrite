@@ -96,7 +96,7 @@ function authorityListLocale() {
 function authorityDetailLocale(){
     if(micrite.security.authorityDetail.FormPanel) {
         Ext.override(micrite.security.authorityDetail.FormPanel, {
-            authorityDetailText:'增加资源',
+            authorityDetailText:'增加授权',
             idText:'ID',
             nameText:'名称',
             valueText:'值',
