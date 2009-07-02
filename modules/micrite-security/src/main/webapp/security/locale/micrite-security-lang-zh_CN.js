@@ -43,7 +43,7 @@ function userListLocale() {
             userName:'用户名',
             fullName:'名称',
             email:'电子邮件',
-            enabled:'是否可用',
+            enabled:'可用',
             bindRoles:'绑定角色',
             addUserButton:'增加用户',
             bindRolesButton:'绑定角色',

@@ -146,7 +146,7 @@ micrite.security.userList.SearchPanel = function() {
         },
         {
             text:this.enableUsersButton, 
-            iconCls :'bind-icon',
+            iconCls :'other-icon',
             scope:this, 
             handler:function() {
                 var userIds = this.resultGrid.selModel.selections.keys;
