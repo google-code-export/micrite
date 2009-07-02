@@ -101,17 +101,6 @@ public class UserAction extends ActionSupport {
     }
 
     /**
-     * 根据用户名判断用户是否已存在。
-     * 
-     * @return "success"
-     */
-    public String isExistedByUsername() {
-        boolean isExisted = userService.isExistedByUsername(user.getUsername());
-        resultMap.put("success", isExisted);
-        return SUCCESS;
-    }
-
-    /**
      * 修改用户信息。
      * 
      * @return "success"
@@ -173,16 +162,6 @@ public class UserAction extends ActionSupport {
     	return SUCCESS;
     }
     
-    /**
-     * 根据用户id查询用户角色列表。
-     * 
-     * @return "success"
-     */
-    public String findUserRoles() {
-        userRoles = userService.findUserRoles(user.getId());
-        return SUCCESS;
-    }
-
     /**
      * 删除若干用户。
      * 

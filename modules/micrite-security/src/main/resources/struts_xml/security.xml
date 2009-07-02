@@ -70,12 +70,6 @@
             </result>
         </action>
 
-        <action name="IsUserExisted" class="userAction" method="isExistedByUsername">
-            <result name="success" type="json">
-                <param name="target">resultMap</param>
-            </result>
-        </action>
-            
         <action name="updateUserInfo" class="userAction" method="updateInfo">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
@@ -103,13 +97,6 @@
                 <param name="target">settings</param>
             </result>
         </action>
-        
-        <action name="findUserRoles" class="userAction" method="findUserRoles">
-            <result name="success" type="json">
-                <param name="target">userRoles</param>
-                <param name="excludes">authorities</param>
-            </result>
-        </action>        
         
         <action name="deleteUsers" class="userAction" method="deleteUsers">
             <result name="success" type="json">

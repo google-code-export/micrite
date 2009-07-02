@@ -25,12 +25,9 @@
 package org.gaixie.micrite.security.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.Setting;
 import org.gaixie.micrite.beans.User;
@@ -57,8 +54,6 @@ import org.springframework.security.userdetails.UsernameNotFoundException;
  */
 public class UserServiceImpl implements IUserService, UserDetailsService {
     
-    private final static Logger logger = Logger.getLogger(UserServiceImpl.class);
-
     @Autowired
     private IUserDao userDao;
     @Autowired
@@ -113,7 +108,6 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     }
     
     public void updateInfo(User u) throws SecurityException {
-    	logger.info("updateInfo");
         //  取出用户
         User user = userDao.getUser(u.getId());
         //  如果修改了用户名，则校验新用户名在系统是否存在
@@ -195,14 +189,6 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	public List<Setting> findSettingByName(String name) {
 		return settingDao.findSettingByName(name);
 	}	
-    
-    public Set<Role> findUserRoles(Integer userId) {
-        Set<Role> userRoles = userDao.getUser(userId).getRoles();
-        for (Role role : userRoles) {
-            role.getId();
-        }
-        return userRoles;
-    }
     
     public void deleteUsers(String[] userIds) {
         for (int i = 0; i < userIds.length; i++) {
