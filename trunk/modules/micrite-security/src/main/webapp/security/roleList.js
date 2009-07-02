@@ -68,11 +68,12 @@ micrite.security.roleList.SearchPanel = function() {
                 Ext.MessageBox.alert(mbLocale.infoMsg,mbLocale.gridRowSelectMsg);
                 return;
             }
+            var roles = this.resultGrid.selModel.getSelections();
             var win;
             if(!(win = Ext.getCmp('userSelectWindow'))){
                 win = new Ext.Window({
                     id: 'userSelectWindow',
-                    title    : this.bindUser,
+                    title    : this.bindUser+' -- '+roles[0].get('name'),
                     closable : true,
                     autoLoad : {url: 'security/userSelect.jsp?roleIds='+roleIds+'&'+(new Date).getTime(),scripts:true},
                     width    : 600,
@@ -94,11 +95,12 @@ micrite.security.roleList.SearchPanel = function() {
                 Ext.MessageBox.alert(mbLocale.infoMsg,mbLocale.gridRowSelectMsg);
                 return;
             }
+            var roles = this.resultGrid.selModel.getSelections();
             var win;
             if(!(win = Ext.getCmp('authoritySelectWindow'))){
                 win = new Ext.Window({
                     id: 'authoritySelectWindow',
-                    title    : this.bindAuthority,
+                    title    : this.bindAuthority+' -- '+roles[0].get('name'),
                     closable : true,
                     autoLoad : {url: 'security/authoritySelect.jsp?roleIds='+roleIds+'&'+(new Date).getTime(),scripts:true},
                     width    : 600,
