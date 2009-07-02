@@ -61,7 +61,7 @@ public class UserAction extends ActionSupport {
     private int roleId;
 
     //  用户id数组
-    private String[] userIds;
+    private int[] userIds;
     
     private boolean binded;
     
@@ -247,7 +247,7 @@ public class UserAction extends ActionSupport {
         this.roleId = roleId;
     }
 
-    public void setUserIds(String[] userIds) {
+    public void setUserIds(int[] userIds) {
         this.userIds = userIds;
     }
     
