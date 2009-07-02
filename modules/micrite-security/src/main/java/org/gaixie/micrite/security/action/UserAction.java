@@ -25,14 +25,10 @@
 package org.gaixie.micrite.security.action;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.Setting;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.SecurityException;
@@ -75,8 +71,6 @@ public class UserAction extends ActionSupport {
 
     //  action处理结果（map对象）
     private Map<String,Object> resultMap = new HashMap<String,Object>();
-    //  用户的角色列表
-    private Set<Role> userRoles = new HashSet<Role>();    
     
     // user setting
     private List<Setting> settings;
@@ -237,10 +231,6 @@ public class UserAction extends ActionSupport {
 
     public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
-    }
-
-    public Set<Role> getUserRoles() {
-        return userRoles;
     }
 
     public void setRoleId(int roleId) {
