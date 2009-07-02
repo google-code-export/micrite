@@ -99,7 +99,7 @@ public class AuthorityServiceImpl implements IAuthorityService {
     
     public void delete(String[] authIds) throws SecurityException {
         for (int i = 0; i < authIds.length; i++) {
-            Authority authority = authorityDao.getAuthority(Integer.parseInt(authIds[i]));
+            Authority authority = authorityDao.getAuthority(Integer.parseInt(authIds[i].trim()));
             
             if(authority.getRoles() != null && authority.getRoles().size() > 0) {
                 throw new SecurityException("error.authority.delete.roleNotEmptyInAuthority");

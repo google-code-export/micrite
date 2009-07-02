@@ -34,6 +34,8 @@ import org.gaixie.micrite.security.action.LoginAction;
 import org.gaixie.micrite.security.dao.IAuthorityDao;
 import org.gaixie.micrite.security.dao.IRoleDao;
 import org.gaixie.micrite.security.dao.IUserDao;
+import org.gaixie.micrite.security.filter.FilterSecurityInterceptor;
+import org.gaixie.micrite.security.filter.MethodSecurityInterceptor;
 import org.gaixie.micrite.security.SecurityException;
 import org.gaixie.micrite.security.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,6 +160,9 @@ public class RoleServiceImpl implements IRoleService {
             Role role = roleDao.getRole(Integer.parseInt(roleIds[i]));
             authority.getRoles().add(role);
         }
+        FilterSecurityInterceptor.refresh();
+        MethodSecurityInterceptor.refresh();
+        
     }    
     
     public void unBindRolesFromAuthority(String[] roleIds, int authorityId) {
@@ -166,5 +171,8 @@ public class RoleServiceImpl implements IRoleService {
             Role role = roleDao.getRole(Integer.parseInt(roleIds[i]));
             authority.getRoles().remove(role);
         }
+        FilterSecurityInterceptor.refresh();
+        MethodSecurityInterceptor.refresh();
+        
     }      
 }

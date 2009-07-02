@@ -93,8 +93,8 @@ micrite.security.authorityList.SearchPanel = function() {
         scope:this, 
         handler:function() {
             var authorityIds = this.resultGrid.selModel.selections.keys;
-            if(authorityIds.length!=1){
-                Ext.MessageBox.alert(mbLocale.infoMsg,mbLocale.gridRowSelectMsg);
+            if(authorityIds.length<1){
+                Ext.MessageBox.alert(mbLocale.infoMsg,mbLocale.gridMultRowSelectMsg);
                 return;
             }
             var deleteAuthorityFun = function(buttonId, text, opt) {
