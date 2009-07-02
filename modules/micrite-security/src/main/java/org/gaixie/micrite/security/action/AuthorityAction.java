@@ -70,7 +70,7 @@ public class AuthorityAction extends ActionSupport{
     
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     /**
-     * 保存授权资源信息
+     * 保存授权信息
      * @return "success"
      */
     public String save() {
@@ -80,6 +80,10 @@ public class AuthorityAction extends ActionSupport{
         return SUCCESS;
     }
     
+    /**
+     * 删除授权
+     * @return "success"
+     */
     public String delete() {
         try {
             authorityService.delete(authIds);
@@ -94,23 +98,21 @@ public class AuthorityAction extends ActionSupport{
     }
     
     /**
-     * 修改角色。
+     * 修改授权
      * 
      * @return "success"
      */
     public String update() {
-        try {
-            authorityService.update(authority);
-            resultMap.put("message", getText("save.success"));
-            resultMap.put("success", true);
-        } catch(SecurityException e) {
-            resultMap.put("message", getText(e.getMessage()));
-            resultMap.put("success", false);
-            logger.error(getText(e.getMessage()));
-        }
+        authorityService.update(authority);
+        resultMap.put("message", getText("save.success"));
+        resultMap.put("success", true);
         return SUCCESS;
     }    
 
+    /**
+     * 根据名称查找授权
+     * @return "success"
+     */
     public String findByNameVague() {
         String name = authority.getName();
         if (totalCount == 0) {
@@ -129,6 +131,10 @@ public class AuthorityAction extends ActionSupport{
         return SUCCESS;
     }
     
+    /**
+     * 查找指定角色的授权
+     * @return
+     */
     public String findBindedAuths() {
         
         if(!binded) return findByNameVague();
@@ -147,6 +153,10 @@ public class AuthorityAction extends ActionSupport{
         return SUCCESS;
     }
 
+    /**
+     * 将授权绑定角色
+     * @return
+     */
     public String bindAuths() {
         authorityService.bindAuths(authIds,roleId);
         resultMap.put("message", getText("save.success"));
@@ -154,6 +164,10 @@ public class AuthorityAction extends ActionSupport{
         return SUCCESS;
     }
     
+    /**
+     * 将授权与角色取消绑定
+     * @return
+     */
     public String unBindAuths() {
         authorityService.unBindAuths(authIds,roleId);
         resultMap.put("message", getText("save.success"));

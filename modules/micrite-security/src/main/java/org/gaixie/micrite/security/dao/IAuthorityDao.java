@@ -59,14 +59,43 @@ public interface IAuthorityDao {
      */
     public void delete(Authority authority);
 
+    /**
+     * 取得Authority
+     * @param id Authority ID
+     * @return Authority对象
+     */
     public Authority getAuthority(Integer id);
     
+    /**
+     * 按名称模糊查询，获得Authority集合数量
+     * @param name 授权数量
+     * @return 授权集合数量
+     */
     public Integer findByNameVagueCount(String name);
     
+    /**
+     * 按名称模糊查询Authority集合
+     * @param name 授权名称
+     * @param start 起始索引
+     * @param limit 限制数
+     * @return Authority集合
+     */
     public List<Authority> findByNameVaguePerPage(String name, int start, int limit);
     
+    /**
+     * 查找指定角色的Authority集合
+     * @param roleId 角色ID
+     * @param start 起始索引
+     * @param limit 限制数
+     * @return Authority集合
+     */
     public List<Authority> findByRoleId(int roleId, int start, int limit);   
     
+    /**
+     * 查找指定角色的Authority数量
+     * @param roleId
+     * @return Authority数量
+     */
     public Integer findByRoleIdCount(int roleId);
 
 }
