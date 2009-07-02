@@ -71,10 +71,10 @@ public class AuthorityServiceImpl implements IAuthorityService {
         return authorityDao.findByRoleIdCount(roleId);
     }  
     
-    public void bindAuths(String[] authIds, int roleId) {
+    public void bindAuths(int[] authIds, int roleId) {
         Role role = roleDao.getRole(roleId);
         for (int i = 0; i < authIds.length; i++) {
-            Authority auth = authorityDao.getAuthority(Integer.parseInt(authIds[i]));
+            Authority auth = authorityDao.getAuthority(authIds[i]);
             Set<Role> roles =  auth.getRoles();
             roles.add(role);
             auth.setRoles(roles);
@@ -84,10 +84,10 @@ public class AuthorityServiceImpl implements IAuthorityService {
         MethodSecurityInterceptor.refresh();
     }    
     
-    public void unBindAuths(String[] authIds, int roleId) {
+    public void unBindAuths(int[] authIds, int roleId) {
         Role role = roleDao.getRole(roleId);
         for (int i = 0; i < authIds.length; i++) {
-            Authority auth = authorityDao.getAuthority(Integer.parseInt(authIds[i]));
+            Authority auth = authorityDao.getAuthority(authIds[i]);
             Set<Role> roles =  auth.getRoles();
             roles.remove(role);
             auth.setRoles(roles);
@@ -97,9 +97,9 @@ public class AuthorityServiceImpl implements IAuthorityService {
         MethodSecurityInterceptor.refresh();
     } 
     
-    public void delete(String[] authIds) throws SecurityException {
+    public void delete(int[] authIds) throws SecurityException {
         for (int i = 0; i < authIds.length; i++) {
-            Authority authority = authorityDao.getAuthority(Integer.parseInt(authIds[i].trim()));
+            Authority authority = authorityDao.getAuthority(authIds[i]);
             
             if(authority.getRoles() != null && authority.getRoles().size() > 0) {
                 throw new SecurityException("error.authority.delete.roleNotEmptyInAuthority");

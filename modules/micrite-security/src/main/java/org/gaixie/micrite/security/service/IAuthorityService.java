@@ -51,10 +51,10 @@ public interface IAuthorityService {
     
     public Integer findAuthsByRoleIdCount(int roleId);
     
-    public void bindAuths(String[] authIds, int roleId);
+    public void bindAuths(int[] authIds, int roleId);
     
-    public void unBindAuths(String[] authIds, int roleId);
+    public void unBindAuths(int[] authIds, int roleId);
     
-    public void delete(String[] authIds) throws SecurityException ;
+    public void delete(int[] authIds) throws SecurityException ;
     public void update(Authority authority) throws SecurityException ;
 }
