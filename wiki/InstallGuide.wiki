@@ -126,7 +126,7 @@ hibernate.dialect org.hibernate.dialect.DerbyDialect
 =Deploy Micrite=
 
 Use your server's administration console to deploy the Micrite web application.
-You can deploy as a directory, in which case you'll have to enter the path to your Micrite installation's webapp/micrite directory. Or you can deploy as a WAR file, in which case you will have to have created a WAR file as we described in Section _*The Micrite War*_.
+You can deploy as a directory, in which case you'll have to enter the path to your Micrite installation's webapp/micrite directory. Or you can deploy as a WAR file, in which case you will have to have created a WAR file as we described in Section [InstallGuide#The_Micrite_War The Micrite War].
 
 ==Deploying to Apache Tomcat 6.0==
 You can deploy to Tomcat as either a directory or a WAR file.
