@@ -88,5 +88,6 @@ public class PieStyle {
      * @param chart JFreeChart对象
      */    
     public static void setBackground(JFreeChart chart){
+        chart.setBackgroundPaint(null);
     }       
 }
