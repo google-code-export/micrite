@@ -135,9 +135,10 @@ You can deploy to Tomcat as either a directory or a WAR file.
 Context Path : /micrite
 WAR or Directory URL : c:\gaixie-micrite-0.9\webapp\micrite
 }}}
- * WAR file to deploy
-Select micrite.war file to deploy.
-
+ * WAR file to deploy 
+{{{
+Just select micrite.war file to deploy.
+}}}
 Once Micrite is deployed, you'll see that it's listed among the other applications. There's a _*/micrite*_ link to Micrite itself and there are options to start, stop, reload and undeploy.<br>
 If Micrite doesn't start-up, look for the problem in the logs. You can find them in Tomcat's logs directory. The Tomcat log file is catalina.out.
 
