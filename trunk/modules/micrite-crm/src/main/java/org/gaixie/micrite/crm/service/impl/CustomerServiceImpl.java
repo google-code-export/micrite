@@ -24,14 +24,12 @@
 
 package org.gaixie.micrite.crm.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.dao.ICustomerDao;
 import org.gaixie.micrite.crm.service.ICustomerService;
-import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
@@ -46,45 +44,30 @@ public class CustomerServiceImpl implements ICustomerService {
     @Autowired
     private ICustomerDao customerDao;
 
-    public void add(Customer customer, Integer customerSourceId) {
+    public void add(Customer customer, int customerSourceId) {
         CustomerSource cs = customerDao.getCustomerSource(customerSourceId);
         customer.setCustomerSource(cs);
         customerDao.save(customer);
     }
     
-    public void update(Customer customer, Integer customerSourceId) {
+    public void update(Customer c, int customerSourceId) {
+        Customer customer = customerDao.getCustomer(c.getId());
         CustomerSource cs = customerDao.getCustomerSource(customerSourceId);
+        
         customer.setCustomerSource(cs);
+        customer.setName(c.getName());
+        customer.setTelephone(c.getTelephone());
         customerDao.update(customer);
     }
 
     public List<CustomerSource> findALLCustomerSource() {
-        List<CustomerSource> customerSource = customerDao
-                .findAllCustomerSource();
+        List<CustomerSource> customerSource = customerDao.findAllCustomerSource();
         return customerSource;
     }
 
-    public Customer getCustomer(int id) {
-        return customerDao.getCustomer(id);
-    }
-
-    public List<Customer> findByTelExact(String telephone) {
-        List<Customer> list = customerDao.findByTelExact(telephone);
-        return list;
-    }
-
-    public List<Customer> findByTelVague(String telephone) {
-        List<Customer> list = customerDao.findByTelVague(telephone);
-        return list;
-    }
-    
-    public int getNum() {
-        int count = customerDao.getCount();
-        return  count;
-    }
     
     public CategoryDataset getCustomerSourceBarDataset(String tel) {
-        List list = customerDao.findCustomerSourceGroupForTel(tel);
+        List list = customerDao.findCSGroupByTelVague(tel);
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         if (list != null && list.size() != 0) {
             for (int i = 0; i < list.size(); i++) {
@@ -97,8 +80,8 @@ public class CustomerServiceImpl implements ICustomerService {
         return dataset;
     }
     
-    public PieDataset getCustomerSourcePieDataset() {
-        List list = customerDao.findCustomerSourceGroup();
+    public PieDataset getCustomerSourcePieDataset(String telphone) {
+        List list = customerDao.findCSGroupByTelVague(telphone);
         DefaultPieDataset dataset = new DefaultPieDataset();
         if (list != null && list.size() != 0) {
             for (int i = 0; i < list.size(); i++) {
@@ -112,21 +95,20 @@ public class CustomerServiceImpl implements ICustomerService {
         
     }
 
-    public List<Customer> findByTelPerPage(String telephone, int start,
+    public List<Customer> findByTelVaguePerPage(String telephone, int start,
             int limit) {
-        List<Customer> list = customerDao.findByTelPerPage(telephone,start,limit);
+        List<Customer> list = customerDao.findByTelVaguePerPage(telephone,start,limit);
         return list;
     }
 
-    public int findByTelTotal(String telephone) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int findByTelVagueCount(String telephone) {
+        return customerDao.findByTelVagueCount(telephone); 
     }
 
     public void delete(int[] customerIds) {
         for (int i = 0; i < customerIds.length; i++) {
-            customerDao.delete(customerIds[i]);
+            Customer customer = customerDao.getCustomer(customerIds[i]);
+            customerDao.delete(customer);
         }
     }
-
 }
