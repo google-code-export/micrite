@@ -150,3 +150,15 @@ function roleDetailLocale(){
         });
     }    
 }
+
+function userDetailLocale(){
+    if(micrite.security.userDetail.FormPanel) {
+        Ext.override(micrite.security.userDetail.FormPanel, {
+            userDetailText: 'User Detail',
+            fullnameText: 'Full Name',
+            emailaddressText: 'Email Address',
+            loginnameText: 'User Name',
+            passwordText: 'Password'
+        });
+    }    
+}

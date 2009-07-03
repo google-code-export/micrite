@@ -150,3 +150,15 @@ function roleDetailLocale(){
         });
     }    
 }
+
+function userDetailLocale(){
+    if(micrite.security.userDetail.FormPanel) {
+        Ext.override(micrite.security.userDetail.FormPanel, {
+            userDetailText: '用户信息',
+            fullnameText: '真实姓名',
+            emailaddressText: '电子邮件',
+            loginnameText: '用户名',
+            passwordText: '密码'
+        });
+    }    
+}
