@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/* ===========================================================
+ * $Id$
+ * This file is part of Micrite
+ * ===========================================================
+ *
+ * (C) Copyright 2009, by Gaixie.org and Contributors.
+ * 
+ * Project Info:  http://micrite.gaixie.org/
+ *
+ * Micrite is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Micrite is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Micrite.  If not, see <http://www.gnu.org/licenses />.
+ *
+ */
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.gaixie.micrite</groupId>
+		<artifactId>micrite-parent</artifactId>
+		<version>0.9</version>
+	</parent>
+
+	<groupId>org.gaixie.micrite</groupId>
+	<artifactId>micrite-assemblies</artifactId>
+	<name>Micrite Assemblies</name>
+	<packaging>pom</packaging>
+
+	<properties>
+		<webapp.path>${basedir}/target/gaixie-micrite-${project.version}/gaixie-micrite-${project.version}/webapp/micrite</webapp.path>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<configuration>
+					<webAppSourceDirectory>${webapp.path}</webAppSourceDirectory>
+					<webXml>${webapp.path}/WEB-INF/web.xml</webXml>
+					<classesDirectory>${webapp.path}/WEB-INF/classes</classesDirectory>
+				</configuration>				
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<!-- 对micrite的代码模块进行组装	-->
+					<execution>
+						<id>distribution</id>
+						<phase>package</phase>
+						<goals>
+							<goal>directory-single</goal>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<finalName>gaixie-micrite-${project.version}</finalName>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptors>
+								<descriptor>${project.basedir}/src/main/assembly/micrite-assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+
+					<!-- 对micrite的项目网站进行组装	-->
+					<execution>
+						<id>site-distribution</id>
+						<phase>site</phase>
+						<goals>
+							<goal>directory-single</goal>
+						</goals>
+						<configuration>
+							<finalName>micrite-site</finalName>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptors>
+								<descriptor>${project.basedir}/src/main/assembly/micrite-site.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+	</build>
+
+</project>
