@@ -36,8 +36,14 @@ em {
 .unbind-icon {
 	background-image: url(../images/unbind.png) !important;
 }
-.chart-icon {
-	background-image: url(../images/chart.png) !important;
+.pie-chart-icon {
+	background-image: url(../images/pie-chart.png) !important;
+}
+.bar-chart-icon {
+	background-image: url(../images/bar-chart.png) !important;
+}
+.line-chart-icon {
+	background-image: url(../images/line-chart.png) !important;
 }
 .edit-icon {
 	background-image: url(../images/edit.png) !important;
