@@ -76,7 +76,7 @@ public class BarStyle {
      * @param chart JFreeChart对象
      */    
     public static void setBackground(JFreeChart chart){
-//        chart.setBackgroundPaint(Color.white);
+        chart.setBackgroundPaint(null);
                 
     }    
 }
