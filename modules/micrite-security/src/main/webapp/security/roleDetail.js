@@ -70,7 +70,6 @@ micrite.security.roleDetail.FormPanel = Ext.extend(micrite.security.roleDetail.F
 });
 
 try{roleDetailLocale();} catch(e){}
-try{baseLocale();} catch (e) {}
 
 Ext.onReady(function() {
     Ext.QuickTips.init();

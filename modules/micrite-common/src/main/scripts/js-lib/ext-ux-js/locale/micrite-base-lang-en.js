@@ -309,26 +309,23 @@ if(Ext.form.RadioGroup){
 }
 
 //------------------------------------
-function baseLocale(){
-    if(micrite.base.locale) {
-        Ext.override(micrite.base.locale, {
-            searchButton:'Search',                
-            submitButton:'Save',
-            closeButton:'Close',
-            cancelButton:'Cancel',
-            deleteButton:'Delete',
-            bindButton:'Bind',
-            unbindButton:'UnBind',             
-            infoMsg:'Info',
-            waitingMsg:'Saving Data...',
-            loadingMsg:'Loading Data...',
-            delConfirmMsg:'Are you sure want to delete?',
-            bindConfirmMsg:'Are you sure want to bind?',
-            unbindConfirmMsg:'Are you sure want to unbind?',
-            gridRowSelectMsg:'You must select one row in this grid!',
-            gridMultRowSelectMsg:'You must select at least one row in this grid!',
-            updateConfirmMsg:'Are you sure want to update?',
-            gridRowEditMsg:'Modify one row please!'            
-        });
-    }
+mbLocale = {
+    actionMenu:'Action Menu',        
+    searchButton:'Search',                
+    submitButton:'Save',
+    closeButton:'Close',
+    cancelButton:'Cancel',
+    deleteButton:'Delete',
+    bindButton:'Bind',
+    unbindButton:'UnBind',             
+    infoMsg:'Info',
+    waitingMsg:'Saving Data...',
+    loadingMsg:'Loading Data...',
+    delConfirmMsg:'Are you sure want to delete?',
+    bindConfirmMsg:'Are you sure want to bind?',
+    unbindConfirmMsg:'Are you sure want to unbind?',
+    gridRowSelectMsg:'You must select one row in this grid!',
+    gridMultRowSelectMsg:'You must select at least one row in this grid!',
+    updateConfirmMsg:'Are you sure want to update?',
+    gridRowEditMsg:'Modify one row please!'            
 }

@@ -92,7 +92,6 @@ micrite.security.userDetail.FormPanel = Ext.extend(micrite.security.userDetail.F
 });
 
 try{ userDetailLocale(); } catch(e){}
-try {baseLocale();} catch (e) {}
 
 Ext.onReady(function() {
     Ext.QuickTips.init();

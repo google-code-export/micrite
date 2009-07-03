@@ -151,7 +151,6 @@ Ext.extend(micrite.security.authoritySelect.SearchPanel, micrite.panel.ComplexSe
 });
 
 //  处理多语言
-try {baseLocale();} catch (e) {}
 try {authoritySelectLocale();} catch (e) {}
 
 Ext.onReady(function() {

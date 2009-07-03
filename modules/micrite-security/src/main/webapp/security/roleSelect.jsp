@@ -164,7 +164,6 @@ Ext.extend(micrite.security.roleSelect.SearchPanel, micrite.panel.ComplexSearchP
 });
 
 //  处理多语言
-try {baseLocale();} catch (e) {}
 try {roleSelectLocale();} catch (e) {}
 
 Ext.onReady(function() {
