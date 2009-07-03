@@ -98,7 +98,6 @@ micrite.security.authorityDetail.FormPanel=Ext.extend(FromPanel, Ext.FormPanel, 
 });
 
 try{ authorityDetailLocale(); } catch(e){}
-try {baseLocale();} catch (e) {}
 
 Ext.onReady(function() {
     Ext.QuickTips.init();

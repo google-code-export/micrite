@@ -151,7 +151,7 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
         
         //  动作按钮（位于工具栏右面）
         var actionButton = {
-            text:'Action',
+            text:mbLocale.actionMenu,
             menu:{xtype:'menu', items:this.actionButtonMenuItems}
         };
         

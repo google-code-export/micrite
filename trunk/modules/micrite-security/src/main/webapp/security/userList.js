@@ -263,7 +263,6 @@ Ext.extend(micrite.security.userList.SearchPanel, micrite.panel.ComplexSearchPan
 });
 
 //  处理多语言
-try {baseLocale();} catch (e) {}
 try {userListLocale();} catch (e) {}
 
 Ext.onReady(function() {

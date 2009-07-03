@@ -167,26 +167,23 @@ if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
   });
 }
 
-function baseLocale(){
-    if(micrite.base.locale) {
-        Ext.override(micrite.base.locale, {
-            searchButton:'查询',    
-            submitButton:'提交',
-            closeButton:'关闭',
-            cancelButton:'取消',
-            deleteButton:'删除',
-            bindButton:'绑定',
-            unbindButton:'解除绑定',             
-            infoMsg:'信息',
-            waitingMsg:'数据提交中...',
-            loadingMsg:'数据加载中...',
-            delConfirmMsg:'确定要删除吗？',
-            bindConfirmMsg:'确定要绑定？',
-            unbindConfirmMsg:'确定要解除绑定？',
-            gridRowSelectMsg:'请选择一行数据！',
-            gridMultRowSelectMsg:'请选择数据！',            
-            updateConfirmMsg:'确定要修改吗？',
-            gridRowEditMsg:'请一次只修改一行数据！'            
-        });
-    }
+mbLocale = {
+    actionMenu:'操作菜单',          
+    searchButton:'查询',    
+    submitButton:'提交',
+    closeButton:'关闭',
+    cancelButton:'取消',
+    deleteButton:'删除',
+    bindButton:'绑定',
+    unbindButton:'解除绑定',             
+    infoMsg:'信息',
+    waitingMsg:'数据提交中...',
+    loadingMsg:'数据加载中...',
+    delConfirmMsg:'确定要删除吗？',
+    bindConfirmMsg:'确定要绑定？',
+    unbindConfirmMsg:'确定要解除绑定？',
+    gridRowSelectMsg:'请选择一行数据！',
+    gridMultRowSelectMsg:'请选择数据！',            
+    updateConfirmMsg:'确定要修改吗？',
+    gridRowEditMsg:'请一次只修改一行数据！'            
 }
