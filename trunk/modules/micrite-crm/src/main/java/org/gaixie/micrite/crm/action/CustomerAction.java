@@ -47,17 +47,11 @@ public class CustomerAction extends ActionSupport{
 	private ICustomerService customerService;
 
     //以Map格式存放操作的结果，然后由struts2-json插件转换为json对象
-    private Map<String,String> result = new HashMap<String,String>();
     private Map<String,Object> resultMap = new HashMap<String,Object>();
 
-    //输出到页面的数据
-    private int customerNum = 0;
-    private List<Customer> customers;
     private List<CustomerSource> customerSource;
     //获取的页面参数
-    private int customerId;
     private Customer customer;
-    private String telephone;
     private int customerSourceId;
     private int[] customerIds;
     
@@ -70,35 +64,27 @@ public class CustomerAction extends ActionSupport{
 
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     /**
-     * 默认起始事件，获得显示数据，包含总客户数、客户来源
-     * @return "success"
-     */
-    public String index() {
-        customerNum = customerService.getNum();
-        
-        return SUCCESS;
-    }
-    /**
      * 保存客户信息
      * @return "success"
      */
-    public String save() {
+    public String add() {
         customerService.add(customer, customerSourceId);
-        result.put("success", "true");
+        resultMap.put("message", getText("save.success"));
+        resultMap.put("success", true);
         return SUCCESS;
     }
     /**
      * 查找客户信息
      * @return "success"
      */
-    public String find() {
+    public String findByTelVague() {
         if (totalCount == 0) {
             //  初次查询时，要从数据库中读取总记录数
-            Integer count = customerService.findByTelVague(telephone).size();
+            Integer count = customerService.findByTelVagueCount(customer.getTelephone());
             setTotalCount(count);
         }         
         //  得到分页查询结果
-        customers = customerService.findByTelPerPage(telephone, start, limit);
+        List<Customer> customers = customerService.findByTelVaguePerPage(customer.getTelephone(), start, limit);
         resultMap.put("totalCount", totalCount);
         resultMap.put("success", true);
         resultMap.put("data", customers);
@@ -108,15 +94,10 @@ public class CustomerAction extends ActionSupport{
      * 获取修改的客户信息
      * @return "success"
      */
-    public String edit() {
-        try {
-            customerService.update(customer, customerSourceId);
-            resultMap.put("message", getText("save.success"));
-            resultMap.put("success", true);
-        } catch(SecurityException e) {
-            resultMap.put("message", getText(e.getMessage()));
-            resultMap.put("success", false);
-        }
+    public String update() {
+        customerService.update(customer, customerSourceId);
+        resultMap.put("message", getText("save.success"));
+        resultMap.put("success", true);
         return SUCCESS;
         
     }
@@ -125,17 +106,15 @@ public class CustomerAction extends ActionSupport{
      * @return
      */
     public String delete(){
-        try {
-            customerService.delete(customerIds);
-            resultMap.put("message", getText("save.success"));
-            resultMap.put("success", true);
-        } catch(SecurityException e) {
-            resultMap.put("message", getText(e.getMessage()));
-            resultMap.put("success", false);
-        }
+        customerService.delete(customerIds);
+        resultMap.put("message", getText("delete.success"));
+        resultMap.put("success", true);
         return SUCCESS;
     }
-    
+    /**
+     * 获得用户来源
+     * @return
+     */
     public String getPartner(){
         customerSource = customerService.findALLCustomerSource();
         return SUCCESS;
@@ -155,34 +134,10 @@ public class CustomerAction extends ActionSupport{
         this.customer = customer;
     }
     /**
-     * @return the customerNum
-     */
-    public int getCustomerNum() {
-        return customerNum;
-    }
-    /**
-     * @return the customers
-     */
-    public List<Customer> getCustomers() {
-        return customers;
-    }
-    /**
      * @return the customerSource
      */
     public List<CustomerSource> getCustomerSource() {
         return customerSource;
-    }
-    /**
-     * @param id the id to set
-     */
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-    /**
-     * @param telephone the telephone to set
-     */
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
     }
     /**
      * @param customerSourceId the customerSourceId to set
@@ -191,34 +146,10 @@ public class CustomerAction extends ActionSupport{
         this.customerSourceId = customerSourceId;
     }
     /**
-     * @return the customerId
-     */
-    public int getCustomerId() {
-        return customerId;
-    }
-    /**
-     * @return the telephone
-     */
-    public String getTelephone() {
-        return telephone;
-    }
-    /**
      * @return the customerSourceId
      */
     public int getCustomerSourceId() {
         return customerSourceId;
-    }
-    /**
-     * @param customerNum the customerNum to set
-     */
-    public void setCustomerNum(int customerNum) {
-        this.customerNum = customerNum;
-    }
-    /**
-     * @param customers the customers to set
-     */
-    public void setCustomers(List<Customer> customers) {
-        this.customers = customers;
     }
     /**
      * @param customerSource the customerSource to set

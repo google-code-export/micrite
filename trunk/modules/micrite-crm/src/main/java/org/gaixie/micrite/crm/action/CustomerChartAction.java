@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.crm.service.ICustomerService;
 import org.gaixie.micrite.jfreechart.style.BarStyle;
 import org.gaixie.micrite.jfreechart.style.PieStyle;
@@ -49,19 +50,17 @@ public class CustomerChartAction extends ActionSupport {
     private ICustomerService customerService;
     private JFreeChart chart;
     private Map<String,Object> resultMap = new HashMap<String,Object>();
-    private String telephone;
+    private Customer customer;
 
     /**
      * 2D柱图
      * @return
      */
     public String getBarChart(){
-        String tel = telephone;
-        System.out.println(tel);
         chart = ChartFactory.createBarChart("用户来源分析", 
                                             "来源", 
                                             "数量",
-                                            customerService.getCustomerSourceBarDataset(tel), 
+                                            customerService.getCustomerSourceBarDataset(customer.getTelephone()), 
                                             PlotOrientation.VERTICAL,
                                             false, false, false);
         BarStyle.styleDefault(chart);
@@ -82,13 +81,26 @@ public class CustomerChartAction extends ActionSupport {
      * 2D饼图
      * @return
      */
-//    public String getPieChart(){
-//        chart = ChartFactory.createPieChart("用户来源分析", 
-//                                            customerService.getCustomerSourcePieDataset(), 
-//                                            false, false, false);  
-//        PieStyle.styleDefault(chart);
-//        return SUCCESS;
-//    }
+    public String getPieChart(){
+        chart = ChartFactory.createPieChart("用户来源分析",
+                                            customerService.getCustomerSourcePieDataset(customer.getTelephone()),
+                                            false,
+                                            true,
+                                            false);
+        PieStyle.styleDefault(chart);
+        StandardEntityCollection entityCollection = new StandardEntityCollection();
+        ChartRenderingInfo info = new ChartRenderingInfo(entityCollection);
+        String filename = "";
+        try {
+            filename = ServletUtilities.saveChartAsPNG(chart, 600, 450, info, null);
+            resultMap.put("success", true);
+            resultMap.put("filename", filename);
+        } catch (IOException e) {
+            resultMap.put("success", false);
+        }
+        return SUCCESS ;
+    }
+    
     
     public JFreeChart getChart() {
         return chart;
@@ -101,11 +113,13 @@ public class CustomerChartAction extends ActionSupport {
         this.resultMap = resultMap;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
+
+
 }

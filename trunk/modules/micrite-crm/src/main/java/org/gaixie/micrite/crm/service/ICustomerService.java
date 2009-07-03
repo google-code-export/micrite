@@ -40,41 +40,14 @@ public interface ICustomerService {
      * @param customer 客户实体
      * @param customerSourceId 客户来源id
      */
-    public void add(Customer customer, Integer customerSourceId);
+    public void add(Customer customer, int customerSourceId);
 
     /**
      * 修改客户信息
      * @param customer 客户实体
      * @param customerSourceId 客户来源id
      */
-    public void update(Customer customer, Integer customerSourceId);
-
-    /**
-     * 获取客户数量
-     * @return 客户数量
-     */
-    public int getNum();
-
-    /**
-     * 根据电话精确查找客户
-     * @param telephone 客户电话
-     * @return 客户实体集合
-     */
-    public List<Customer> findByTelExact(String telephone);
-
-    /**
-     * 根据电话模糊查找客户
-     * @param telephone 客户电话
-     * @return 客户实体集合
-     */
-    public List<Customer> findByTelVague(String telephone);
-
-    /**
-     * 根据客户ID获取客户
-     * @param id 客户id
-     * @return 客户实体
-     */
-    public Customer getCustomer(int id);
+    public void update(Customer customer, int customerSourceId);
 
     /**
      * 获取客户来源
@@ -82,11 +55,12 @@ public interface ICustomerService {
      */
     public List<CustomerSource> findALLCustomerSource();
     
-    /**
-     * 获取用户来源的饼图对象
-     * @return
-     */
-    public PieDataset getCustomerSourcePieDataset();
+   /**
+    * 获取用户来源的饼图对象
+    * @param telephone
+    * @return
+    */
+    public PieDataset getCustomerSourcePieDataset(String telephone);
     
     /**
      * 获取用户来源的2D柱图对象
@@ -94,17 +68,23 @@ public interface ICustomerService {
      */
     public CategoryDataset getCustomerSourceBarDataset(String tel);
     /**
-     * 分页查询客户
+     * 根据电话分页模糊查询客户
      * @param telephone
      * @param start
      * @param limit
      * @return
      */
-    public List<Customer> findByTelPerPage(String telephone, int start, int limit);
+    public List<Customer> findByTelVaguePerPage(String telephone, int start, int limit);
     /**
      * 删除客户
      * @param customer
      */
     public void delete(int[] customerIds);
+    /**
+     * 根据电话模糊查询总记录数
+     * @param telephone
+     * @return
+     */
+    public int findByTelVagueCount(String telephone);
 
 }

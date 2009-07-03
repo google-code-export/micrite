@@ -28,10 +28,10 @@ import java.util.List;
 
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
-import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.crm.dao.ICustomerDao;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Projections;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
@@ -50,14 +50,8 @@ public class CustomerDaoImpl extends HibernateDaoSupport implements ICustomerDao
 
     }
 
-    public void delete(int id) {
-        Customer customer = (Customer)getHibernateTemplate().get(Customer.class, id);
+    public void delete(Customer customer) {
         getHibernateTemplate().delete(customer);
-
-    }
-
-    public Customer getCustomer(int id) {
-        return (Customer) getHibernateTemplate().get(Customer.class, id);
     }
 
     public CustomerSource getCustomerSource(int id) {
@@ -70,41 +64,33 @@ public class CustomerDaoImpl extends HibernateDaoSupport implements ICustomerDao
     	return cs;
     }
 
-    public int getCount() {
-        String sql = "select count(*) from Customer ";
-        return ((Number) getHibernateTemplate().getSessionFactory()
-        		.getCurrentSession().createQuery(sql).uniqueResult()).intValue();
-    }
-    
+//    @SuppressWarnings("unchecked")
+//    public List findCSGroup(){
+//        String sql =
+//            "select count(cs.name),cs.name from Customer  c join c.customerSource cs group by cs.name";
+//        return  getHibernateTemplate().find(sql);
+//    }
     @SuppressWarnings("unchecked")
-	public List<Customer> findByTelExact(String telephone) {
-    	List<Customer> list = getHibernateTemplate().find("from Customer e where telephone = ?", telephone);
-    	return list;
-    }
-
-    @SuppressWarnings("unchecked")
-	public List<Customer> findByTelVague(String telephone) {
-    	List<Customer> list = getHibernateTemplate().find("from Customer e where telephone like ?", "%" + telephone + "%");
-    	return list;
-    }
-    
-    @SuppressWarnings("unchecked")
-    public List findCustomerSourceGroup(){
-        String sql =
-            "select count(cs.name),cs.name from Customer  c join c.customerSource cs group by cs.name";
-        return  getHibernateTemplate().find(sql);
-    }
-    @SuppressWarnings("unchecked")
-    public List findCustomerSourceGroupForTel(String tel) {
+    public List findCSGroupByTelVague(String tel) {
         String sql =
             "select count(cs.name),cs.name from Customer  c join c.customerSource cs where telephone like ? group by cs.name";
         return  getHibernateTemplate().find(sql, "%" + tel + "%");
     }
     @SuppressWarnings("unchecked")
-    public List<Customer> findByTelPerPage(String telephone, int start,
-            int limit) {
+    public List<Customer> findByTelVaguePerPage(String telephone, int start,int limit) {
         DetachedCriteria criteria = DetachedCriteria.forClass(Customer.class);
         criteria.add(Expression.like("telephone", "%"+telephone+"%"));
         return getHibernateTemplate().findByCriteria(criteria,start,limit); 
     }
+    public int findByTelVagueCount(String telephone) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(Customer.class);
+        criteria.add(Expression.like("telephone", "%"+telephone+"%"));
+        criteria.setProjection(Projections.rowCount());
+        return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
+    }
+
+    public Customer getCustomer(int id) {
+        return (Customer) getHibernateTemplate().get(Customer.class, id);
+    }
+
 }

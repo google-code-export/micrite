@@ -8,7 +8,12 @@ function customerListLocale(){
         	searchStartTime:'StartTime',
         	searchEndTime:'EndTime',	        	
         	newCustomer:'New Customer',
-    		customerSourceChart:'Customer Source Chart'
+    		customerSourceBarChart:'Customer Source BarChart',
+    		customerSourcePieChart:'Customer Source PieChart',
+    		colModelId:'ID',
+            colModelName:'Name',
+            colModelMobile:'Cellphone',
+            colModelSource:'Source'
         });
     }	
     if(micrite.crm.customerList.SearchResultGrid) {
