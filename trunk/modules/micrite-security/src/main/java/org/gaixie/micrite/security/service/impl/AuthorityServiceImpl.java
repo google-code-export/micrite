@@ -62,8 +62,8 @@ public class AuthorityServiceImpl implements IAuthorityService {
         return authorityDao.findByNameVaguePerPage(name, start, limit);
     }  
     
-    public List<Authority> findAuthsByRoleId(int roleId, int start, int limit) {
-        List<Authority> auths = authorityDao.findByRoleId(roleId,start,limit);
+    public List<Authority> findAuthsByRoleIdPerPage(int roleId, int start, int limit) {
+        List<Authority> auths = authorityDao.findByRoleIdPerPage(roleId,start,limit);
         return auths;
     }    
 

@@ -98,7 +98,7 @@
             </result>
         </action>
         
-        <action name="deleteUsers" class="userAction" method="deleteUsers">
+        <action name="deleteUsers" class="userAction" method="delete">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
             </result>

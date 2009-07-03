@@ -81,17 +81,25 @@ public class AuthorityDaoImpl extends HibernateDaoSupport implements IAuthorityD
     }  
     
     @SuppressWarnings("unchecked")
-    public List<Authority> findByRoleId(int roleId, int start, int limit) {
+    public List<Authority> findByRoleIdPerPage(int roleId, int start, int limit) {
         DetachedCriteria criteria = 
             DetachedCriteria.forClass(Authority.class)
                              .createCriteria("roles","r")
                              .add(Expression.eq("r.id",roleId));
         
-        if(limit<=0) return getHibernateTemplate().findByCriteria(criteria);
-        
         return getHibernateTemplate().findByCriteria(criteria,start,limit);
     }
 
+    @SuppressWarnings("unchecked")
+    public List<Authority> findByRoleId(int roleId) {
+        DetachedCriteria criteria = 
+            DetachedCriteria.forClass(Authority.class)
+                             .createCriteria("roles","r")
+                             .add(Expression.eq("r.id",roleId));
+        
+        return getHibernateTemplate().findByCriteria(criteria);
+    }
+    
     @SuppressWarnings("unchecked")
     public Integer findByRoleIdCount(int roleId) {
         DetachedCriteria criteria = 

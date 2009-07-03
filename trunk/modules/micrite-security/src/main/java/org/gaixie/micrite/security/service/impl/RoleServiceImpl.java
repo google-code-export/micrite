@@ -63,8 +63,8 @@ public class RoleServiceImpl implements IRoleService {
         return roleDao.findByNameVaguePerPage(name, start, limit);
     }
     
-    public int findByNameVagueTotal(String name) {
-        return roleDao.findByNameVagueTotal(name);
+    public int findByNameVagueCount(String name) {
+        return roleDao.findByNameVagueCount(name);
     }    
     
     public void delete(int[] roleIds) throws SecurityException {
@@ -76,7 +76,8 @@ public class RoleServiceImpl implements IRoleService {
             if(authorityDao.findByRoleIdCount(roleId)>0) {
                 throw new SecurityException("error.role.delete.authNotEmptyInRole");
             }  
-            roleDao.delete(roleId);
+            Role role = roleDao.getRole(roleId);
+            roleDao.delete(role);
         }
     }
     

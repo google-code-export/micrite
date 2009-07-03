@@ -99,7 +99,7 @@ public interface IUserService {
      * 
      * @param userIds 用户id数组
      */
-    public void deleteUsers(int[] userIds);
+    public void delete(int[] userIds);
     
     /**
      * 设置用户状态可用/不可用：将原可用的设置为不可用，原不可用的设置为可用。
@@ -115,7 +115,7 @@ public interface IUserService {
      * @param start 起始索引
      * @param limit 限制数
      */    
-    public List<User> findUsersByRoleId(int roleId, int start, int limit);
+    public List<User> findUsersByRoleIdPerPage(int roleId, int start, int limit);
 
     /**
      * 根据角色查询用户对象记录数。

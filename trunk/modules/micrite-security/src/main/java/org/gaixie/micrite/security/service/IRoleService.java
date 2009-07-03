@@ -55,7 +55,7 @@ public interface IRoleService {
      * 
      * @param name 角色名
      */    
-    public int findByNameVagueTotal(String name);
+    public int findByNameVagueCount(String name);
 
     /**
      * 删除角色。

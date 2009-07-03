@@ -84,8 +84,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
         return getHibernateTemplate().findByCriteria(criteria, start, limit);
     }    
     
-    public void delete(Integer id) {
-        User user = (User)getHibernateTemplate().get(User.class, id);
+    public void delete(User user) {
         getHibernateTemplate().delete(user);
     }
 
@@ -104,7 +103,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
      * 
      */    
     @SuppressWarnings("unchecked")
-    public List<User> findByRoleId(int roleId, int start, int limit) {
+    public List<User> findByRoleIdPerPage(int roleId, int start, int limit) {
         DetachedCriteria criteria = DetachedCriteria.forClass(User.class)
                                         .createCriteria("roles","r")
                                         .add(Expression.eq("r.id",roleId));

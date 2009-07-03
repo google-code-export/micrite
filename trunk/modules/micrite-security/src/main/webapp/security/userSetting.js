@@ -42,7 +42,7 @@ micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
 		            },{
 		                fieldLabel: this.userName,
 		                name: 'user.loginname',
-		                disabled : true
+		                allowBlank:false
 		            }, {
 		                fieldLabel: this.password,
 		                name: 'user.plainpassword',

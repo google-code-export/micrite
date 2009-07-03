@@ -64,7 +64,7 @@ public interface IAuthorityService {
      * @param limit 限制数
      * @return 授权集合
      */
-    public List<Authority> findAuthsByRoleId(int roleId, int start, int limit);
+    public List<Authority> findAuthsByRoleIdPerPage(int roleId, int start, int limit);
     
     /**
      * 查找指定角色的授权数量

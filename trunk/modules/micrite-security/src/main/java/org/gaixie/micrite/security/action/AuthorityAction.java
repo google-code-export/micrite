@@ -145,7 +145,7 @@ public class AuthorityAction extends ActionSupport{
             setTotalCount(count);
         } 
         
-        List<Authority> auths = authorityService.findAuthsByRoleId(roleId, start, limit);
+        List<Authority> auths = authorityService.findAuthsByRoleIdPerPage(roleId, start, limit);
         resultMap.put("totalCount", totalCount);    
         resultMap.put("success", true);
         resultMap.put("data", auths);

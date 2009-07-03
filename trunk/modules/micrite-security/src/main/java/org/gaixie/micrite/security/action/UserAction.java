@@ -166,8 +166,8 @@ public class UserAction extends ActionSupport {
      * 
      * @return "success"
      */
-    public String deleteUsers() {
-        userService.deleteUsers(userIds);
+    public String delete() {
+        userService.delete(userIds);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -200,7 +200,7 @@ public class UserAction extends ActionSupport {
             setTotalCount(count);
         } 
         
-        List<User> users = userService.findUsersByRoleId(roleId, start, limit);
+        List<User> users = userService.findUsersByRoleIdPerPage(roleId, start, limit);
         resultMap.put("totalCount", totalCount);    
         resultMap.put("success", true);
         resultMap.put("data", users);
