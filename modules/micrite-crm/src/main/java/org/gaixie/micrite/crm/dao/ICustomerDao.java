@@ -48,7 +48,7 @@ public interface ICustomerDao {
      * 删除Customer
      * @param  customer customer对象
      */
-    public void delete(int id);
+    public void delete(Customer customer);
 
     /**
      * 根据ID获得Customer对象
@@ -63,7 +63,6 @@ public interface ICustomerDao {
      * @return CustomerSource对象
      */
     public CustomerSource getCustomerSource(int id);
-    
 
     /**
      * 获得所有CustomerSource
@@ -72,37 +71,16 @@ public interface ICustomerDao {
     public List<CustomerSource> findAllCustomerSource();
 
     /**
-     * 获得Customer记录数
-     * @return Customer对象数目
-     */
-    public int getCount();
-    
-    /**
-     * 根据电话精确查找Customer
-     * @param  telephone 字段名
-     * @return Customer对象集合
-     */
-    public List<Customer> findByTelExact(String telephone);
-
-    /**
-     * 根据电话模糊查找Customer
-     * @param  column 字段名
-     * @param  value 字段值
-     * @return Customer对象集合
-     */
-    public List<Customer> findByTelVague(String telephone);
-    
-    /**
      * 按用户来源进行分组
      * @return
      */
-    public List findCustomerSourceGroup();
+//    public List findCSGroup(String telphone);
     /**
-     * 按用户来源进行分组（分页查询）
+     * 根据电话模糊查询并按用户来源进行分组
      * @param tel
      * @return
      */
-    public List findCustomerSourceGroupForTel(String tel);
+    public List findCSGroupByTelVague(String telphone);
     /**
      * 分页查询客户
      * @param telephone
@@ -110,6 +88,12 @@ public interface ICustomerDao {
      * @param limit
      * @return
      */
-    public List<Customer> findByTelPerPage(String telephone, int start, int limit);
+    public List<Customer> findByTelVaguePerPage(String telephone, int start, int limit);
+    /**
+     * 根据电话模糊查询总记录数
+     * @param telephone
+     * @return
+     */
+    public int findByTelVagueCount(String telephone);
 
 }

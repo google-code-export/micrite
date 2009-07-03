@@ -222,4 +222,30 @@ public class CustomerServiceImplMock implements ICustomerService {
         // TODO Auto-generated method stub
         
     }
+
+    public void add(Customer customer, int customerSourceId) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public int findByTelVagueCount(String telephone) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public List<Customer> findByTelVaguePerPage(String telephone, int start,
+            int limit) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public PieDataset getCustomerSourcePieDataset(String telephone) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public void update(Customer customer, int customerSourceId) {
+        // TODO Auto-generated method stub
+        
+    }
 }

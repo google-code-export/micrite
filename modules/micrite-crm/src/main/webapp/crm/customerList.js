@@ -6,7 +6,7 @@ micrite.crm.customerList.SearchPanel = function() {
     this.conNames = [this.searchCondition1, this.searchCondition2,this.searchCondition3];
     //  查询条件分组组件组数组
     this.conCmpGroups = [
-   		[	this.searchCellphone, {xtype:'textfield', name:'telephone', width:120}],
+   		[	this.searchCellphone, {xtype:'textfield', name:'customer.telephone', width:120}],
    		[	this.searchStartTime, {xtype:'textfield', name:'time', width:120}],
         [	this.searchStartTime, {xtype:'datetimefield', name:'startTime', width:135},
         	this.searchEndTime,	{xtype:'datetimefield', name:'endTime', width:135},
@@ -17,29 +17,64 @@ micrite.crm.customerList.SearchPanel = function() {
     ];
     //  超链菜单项数组
     this.actionButtonMenuItems =  [{
-        text:this.customerSourceChart,
-        iconCls :'add-icon',
+        text:this.customerSourceBarChart,
+        iconCls :'bar-chart-icon',
         scope:this,
         handler:function() {
         	Ext.Ajax.request({
         		scope:this,
 				url:'crm/getCustomerSourceBarChart.action?'+(new Date).getTime(),
-				params:{telephone:this.curConFields[0].getRawValue()},
+				params:{'customer.telephone':this.curConFields[0].getRawValue()},
 				method:'post',
 				success:function(response){
 					obj = Ext.util.JSON.decode(response.responseText);
 					var filename = obj.filename;
 					var win;
-					if(!(win = Ext.getCmp('customerSourceChart'))){
+					if(!(win = Ext.getCmp('customerSourceBarChart'))){
 				        win = new Ext.Window({
-					            id    : 'customerSourceChart',
-					            title	: this.customerSourceChart,
+					            id    : 'customerSourceBarChart',
+					            title	: this.customerSourceBarChart,
 					            closable : true,
 					            width    : 630,
 					            height   : 520,
 					            plain    : true,
 					            maximizable: true,
-					            renderTo : mainPanel.getActiveTab().items.itemAt(0).getId(),
+								html:    '<img src = "'+'/' + document.location.href.split("/")[3]
+				                                                                                  + '/DisplayChart?filename='+filename+'">',
+					            layout   : 'fit'
+				        	});
+				        win.show();
+				        win.center();
+					}
+				},
+				failure:function(){
+					Ext.Msg.alert('info','FALSE');
+				}
+    		});
+        }
+    },{
+        text:this.customerSourcePieChart,
+        iconCls :'pie-chart-icon',
+        scope:this,
+        handler:function() {
+        	Ext.Ajax.request({
+        		scope:this,
+				url:'crm/getCustomerSourcePieChart.action?'+(new Date).getTime(),
+				params:{'customer.telephone':this.curConFields[0].getRawValue()},
+				method:'post',
+				success:function(response){
+					obj = Ext.util.JSON.decode(response.responseText);
+					var filename = obj.filename;
+					var win;
+					if(!(win = Ext.getCmp('customerSourcePieChart'))){
+				        win = new Ext.Window({
+					            id    : 'customerSourcePieChart',
+					            title	: this.customerSourcePieChart,
+					            closable : true,
+					            width    : 630,
+					            height   : 520,
+					            plain    : true,
+					            maximizable: true,
 								html:    '<img src = "'+'/' + document.location.href.split("/")[3]
 				                                                                                  + '/DisplayChart?filename='+filename+'">',
 					            layout   : 'fit'
@@ -226,7 +261,6 @@ Ext.extend(micrite.crm.customerList.SearchPanel, micrite.panel.ComplexSearchPane
 
 //  处理多语言
 try {customerListLocale();} catch (e) {}
-try {baseLocale();} catch (e) {}
 /**
  * 由于收到的数据是个数组，所以需要使用该函数提取值
  * 
