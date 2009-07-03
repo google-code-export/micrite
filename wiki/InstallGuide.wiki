@@ -126,11 +126,17 @@ hibernate.dialect org.hibernate.dialect.DerbyDialect
 =Deploy Micrite=
 
 Use your server's administration console to deploy the Micrite web application.
-You can deploy as a directory, in which case you'll have to enter the path to your Micrite installation's webapp/
-micrite directory. Or you can deploy as a WAR file, in which case you will have to have created a WAR file as we described in Section _*The Micrite War*_.
+You can deploy as a directory, in which case you'll have to enter the path to your Micrite installation's webapp/micrite directory. Or you can deploy as a WAR file, in which case you will have to have created a WAR file as we described in Section _*The Micrite War*_.
 
 ==Deploying to Apache Tomcat 6.0==
-You can deploy to Tomcat as either a directory or a WAR file. The screens-hot below shows directory-based deployment options.
+You can deploy to Tomcat as either a directory or a WAR file.
+ * Deploy directory (Windows)
+{{{
+Context Path : /micrite
+WAR or Directory URL : c:\gaixie-micrite-0.9\webapp\micrite
+}}}
+ * WAR file to deploy
+Select micrite.war file to deploy.
 
 Once Micrite is deployed, you'll see that it's listed among the other applications. There's a _*/micrite*_ link to Micrite itself and there are options to start, stop, reload and undeploy.<br>
 If Micrite doesn't start-up, look for the problem in the logs. You can find them in Tomcat's logs directory. The Tomcat log file is catalina.out.
