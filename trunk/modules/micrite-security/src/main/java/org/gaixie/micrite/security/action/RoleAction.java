@@ -48,9 +48,6 @@ public class RoleAction extends ActionSupport {
 	@Autowired
 	private IRoleService roleService;
 
-    //  输出到页面的数据
-    private List<Role> roles;
-
     private int[] roleIds;
     //  用户Id
     private int userId;
@@ -77,15 +74,6 @@ public class RoleAction extends ActionSupport {
 
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
    
-    /**
-     * 查找所有角色
-     * @return "success"
-     */
-    public String findAll(){
-    	roles = roleService.findAll();
-    	return SUCCESS;
-    }
-
     /**
      * 根据角色名查询角色集合（模糊查询）。
      * 
@@ -252,20 +240,6 @@ public class RoleAction extends ActionSupport {
         return SUCCESS;
     }
     // ~~~~~~~~~~~~~~~~~~~~~~~  Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
-
-	/**
-	 * @return the roles
-	 */
-	public List<Role> getRoles() {
-		return roles;
-	}
-
-	/**
-	 * @param roles the roles to set
-	 */
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
 
     public void setRole(Role role) {
         this.role = role;

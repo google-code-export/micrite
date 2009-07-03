@@ -54,11 +54,6 @@ public class RoleServiceImpl implements IRoleService {
     @Autowired
     private UserCache userCache;
     
-    public List<Role> findAll() {
-        List<Role> roles = roleDao.findAll();
-        return roles;
-    }
-    
     public List<Role> findByNameVaguePerPage(String name, int start, int limit) {
         return roleDao.findByNameVaguePerPage(name, start, limit);
     }

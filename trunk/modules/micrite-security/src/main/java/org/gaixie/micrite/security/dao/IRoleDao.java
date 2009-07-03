@@ -27,20 +27,12 @@ package org.gaixie.micrite.security.dao;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Role;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Expression;
 
 /**
  * 提供与 <code>Role</code> 实体有关的DAO接口。
  * 
  */
 public interface IRoleDao {
-    /**
-     * 根据所有角色对象集合.
-     * 
-     * @return <code>Role</code> 对象集合
-     */
-    public List<Role> findAll();
     
     /**
      * 根据角色Id获得角色对象.

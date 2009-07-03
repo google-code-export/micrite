@@ -174,12 +174,6 @@
             </result>
         </action> 
         <!-- ~~~~~~~~~~~~~~~~~~~~ Role ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->   
-        <action name="findRolesAll" class="roleAction" method="findAll">
-            <result name="success" type="json">
-                <param name="target">roles</param>
-            </result>
-        </action>
-        
         <action name="findRolesVague" class="roleAction" method="findByNameVague">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
