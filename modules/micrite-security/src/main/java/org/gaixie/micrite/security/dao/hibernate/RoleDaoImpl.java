@@ -64,15 +64,14 @@ public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
     }	
     
     @SuppressWarnings("unchecked")
-    public Integer findByNameVagueTotal(String name) {
+    public Integer findByNameVagueCount(String name) {
         DetachedCriteria criteria = DetachedCriteria.forClass(Role.class);
         criteria.add(Expression.like("name", "%"+name+"%"));
         criteria.setProjection(Projections.rowCount());
         return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
     }   
     
-    public void delete(Integer id) {
-        Role role = (Role)getHibernateTemplate().get(Role.class, id);
+    public void delete(Role role) {
         getHibernateTemplate().delete(role);
     }
     

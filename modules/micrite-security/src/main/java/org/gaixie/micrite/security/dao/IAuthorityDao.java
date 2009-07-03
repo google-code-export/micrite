@@ -74,7 +74,7 @@ public interface IAuthorityDao {
     public Integer findByNameVagueCount(String name);
     
     /**
-     * 按名称模糊查询Authority集合
+     * 按名称模糊查询Authority集合(分页)
      * @param name 授权名称
      * @param start 起始索引
      * @param limit 限制数
@@ -83,13 +83,20 @@ public interface IAuthorityDao {
     public List<Authority> findByNameVaguePerPage(String name, int start, int limit);
     
     /**
-     * 查找指定角色的Authority集合
+     * 查找指定角色的Authority集合(分页)
      * @param roleId 角色ID
      * @param start 起始索引
      * @param limit 限制数
      * @return Authority集合
      */
-    public List<Authority> findByRoleId(int roleId, int start, int limit);   
+    public List<Authority> findByRoleIdPerPage(int roleId, int start, int limit);   
+
+    /**
+     * 查找指定角色的Authority集合
+     * @param roleId 角色ID
+     * @return Authority集合
+     */
+    public List<Authority> findByRoleId(int roleId);   
     
     /**
      * 查找指定角色的Authority数量

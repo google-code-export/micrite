@@ -94,7 +94,7 @@ public class RoleAction extends ActionSupport {
     public String findByNameVague() {
         if (totalCount == 0) {
             //  初次查询时，要从数据库中读取总记录数
-            Integer count = roleService.findByNameVagueTotal(role.getName());
+            Integer count = roleService.findByNameVagueCount(role.getName());
             setTotalCount(count);
         }         
         //  得到分页查询结果

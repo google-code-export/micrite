@@ -110,6 +110,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     public void updateInfo(User u) throws SecurityException {
         //  取出用户
         User user = userDao.getUser(u.getId());
+        
         //  如果修改了用户名，则校验新用户名在系统是否存在
         if (!u.getUsername().equals(user.getUsername())) {
             if(isExistedByUsername(u.getUsername())) {
@@ -117,8 +118,14 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             } 
         }    
 
+        //  从cache中删除修改的修改前的User对象
+        if (userCache != null) {
+            userCache.removeUserFromCache(user.getUsername());
+        }
+        
         // 修改用户
         user.setFullname(u.getFullname());
+        user.setLoginname(u.getUsername());
         user.setEmailaddress(u.getEmailaddress());
         //  密码为非空字符串，才修改密码
         if (!"".equals(user.getPlainpassword())&&user.getPlainpassword()!=null) {
@@ -142,10 +149,6 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         userDao.update(user);
         
         String username = user.getLoginname();
-        //  从cache中删除修改的对象
-        if (userCache != null) {
-            userCache.removeUserFromCache(username);
-        }
         
         Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
         //  如果修改的是当前登陆用户，则要重新设置SecurityContext中认证用户
@@ -190,9 +193,10 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 		return settingDao.findSettingByName(name);
 	}	
     
-    public void deleteUsers(int[] userIds) {
+    public void delete(int[] userIds) {
         for (int i = 0; i < userIds.length; i++) {
-            userDao.delete(userIds[i]);
+            User user = userDao.getUser(userIds[i]);
+            userDao.delete(user);
         }
     }
     
@@ -207,8 +211,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         }
     }
     
-    public List<User> findUsersByRoleId(int roleId, int start, int limit) {
-        List<User> users = userDao.findByRoleId(roleId,start,limit);
+    public List<User> findUsersByRoleIdPerPage(int roleId, int start, int limit) {
+        List<User> users = userDao.findByRoleIdPerPage(roleId,start,limit);
         return users;
     }    
 

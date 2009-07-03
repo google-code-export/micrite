@@ -72,10 +72,19 @@ public interface IRoleDao {
      */
     public List<Role> findByNameVaguePerPage(String name, int start, int limit);
     
+    /**
+     * 根据角色名查询角色集合记录总数。
+     * 
+     * @see org.gaixie.micrite.beans.Role
+     * @param name 角色名
+     */
+    public Integer findByNameVagueCount(String name);
 
-    public Integer findByNameVagueTotal(String name);
-
-    public void delete(Integer id);
+    /**
+     * 删除角色
+     * @param  role 角色对象
+     */    
+    public void delete(Role role);
     
     /**
      * 根据角色名查询角色。

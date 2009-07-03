@@ -56,7 +56,7 @@ public class LoginServiceImpl implements ILoginService {
 
         Set<Role> roles = user.getRoles();
         for (Role role : roles) {
-            List<Authority> auths = authorityDao.findByRoleId(role.getId(),0,0);
+            List<Authority> auths = authorityDao.findByRoleId(role.getId());
             for (Authority auth : auths) {
                 // 如果没有"/"，表示不会用于menu中显示
                 if (StringUtils.indexOf(auth.getName(), "/") >= 0) {
@@ -82,11 +82,13 @@ public class LoginServiceImpl implements ILoginService {
                     map.put("text", names[0]);
                     map.put("id", "/" + names[0]);
                     if (names.length > 1) {
+                        //  不是叶子节点，url存放的是菜单的name，作为加载下级菜单的node
                         map.put("url", names[0]);
                         map.put("leaf", false);
                     } else {
+                        // 去掉第一个字符"/"和最后一个字符"*"，不用于前端的extjs autoload
                         map.put("url", StringUtils
-                                .substring(auth.getValue(), 1));
+                                .substring(auth.getValue(), 1,auth.getValue().length()-1));
                         map.put("leaf", true);
                     }
                     menu.add(map);

@@ -90,11 +90,26 @@ public interface IUserDao {
     /**
      * 删除用户。
      * 
-     * @param id 用户id
+     * @param user <code>User</code>对象
      */
-    public void delete(Integer id);
+    public void delete(User user);
     
-    public List<User> findByRoleId(int roleId, int start, int limit);
-    
+    /**
+     * 根据角色查询用户集合（分页）。
+     * 
+     * @see org.gaixie.micrite.beans.User
+     * @param roleId 角色id
+     * @param start 起始索引
+     * @param limit 限制数
+     * @return <code>User</code>对象列表
+     */  
+    public List<User> findByRoleIdPerPage(int roleId, int start, int limit);
+
+    /**
+     * 根据用角色查询用户的总记录数。
+     * 
+     * @see org.gaixie.micrite.beans.User
+     * @param roleId 角色id
+     */     
     public Integer findByRoleIdCount(int roleId);
 }
