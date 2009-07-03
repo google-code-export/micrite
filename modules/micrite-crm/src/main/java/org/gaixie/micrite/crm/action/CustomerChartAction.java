@@ -24,12 +24,19 @@
 
 package org.gaixie.micrite.crm.action;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.gaixie.micrite.crm.service.ICustomerService;
 import org.gaixie.micrite.jfreechart.style.BarStyle;
 import org.gaixie.micrite.jfreechart.style.PieStyle;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.entity.StandardEntityCollection;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.servlet.ServletUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -41,19 +48,33 @@ public class CustomerChartAction extends ActionSupport {
     @Autowired
     private ICustomerService customerService;
     private JFreeChart chart;
-    
+    private Map<String,Object> resultMap = new HashMap<String,Object>();
+    private String telephone;
+
     /**
      * 2D柱图
      * @return
      */
     public String getBarChart(){
+        String tel = telephone;
+        System.out.println(tel);
         chart = ChartFactory.createBarChart("用户来源分析", 
                                             "来源", 
                                             "数量",
-                                            customerService.getCustomerSourceBarDataset(), 
+                                            customerService.getCustomerSourceBarDataset(tel), 
                                             PlotOrientation.VERTICAL,
                                             false, false, false);
         BarStyle.styleDefault(chart);
+        StandardEntityCollection entityCollection = new StandardEntityCollection();
+        ChartRenderingInfo info = new ChartRenderingInfo(entityCollection);
+        String filename = "";
+        try {
+            filename = ServletUtilities.saveChartAsPNG(chart, 600, 450, info, null);
+            resultMap.put("success", true);
+            resultMap.put("filename", filename);
+        } catch (IOException e) {
+            resultMap.put("success", false);
+        }
         return SUCCESS ;
     }
     
@@ -61,15 +82,30 @@ public class CustomerChartAction extends ActionSupport {
      * 2D饼图
      * @return
      */
-    public String getPieChart(){
-        chart = ChartFactory.createPieChart("用户来源分析", 
-                                            customerService.getCustomerSourcePieDataset(), 
-                                            false, false, false);  
-        PieStyle.styleDefault(chart);
-        return SUCCESS;
-    }
+//    public String getPieChart(){
+//        chart = ChartFactory.createPieChart("用户来源分析", 
+//                                            customerService.getCustomerSourcePieDataset(), 
+//                                            false, false, false);  
+//        PieStyle.styleDefault(chart);
+//        return SUCCESS;
+//    }
     
     public JFreeChart getChart() {
         return chart;
+    }
+    public Map<String, Object> getResultMap() {
+        return resultMap;
+    }
+
+    public void setResultMap(Map<String, Object> resultMap) {
+        this.resultMap = resultMap;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 }

@@ -48,7 +48,7 @@ public interface ICustomerDao {
      * 删除Customer
      * @param  customer customer对象
      */
-    public void delete(Customer customer);
+    public void delete(int id);
 
     /**
      * 根据ID获得Customer对象
@@ -97,5 +97,19 @@ public interface ICustomerDao {
      * @return
      */
     public List findCustomerSourceGroup();
+    /**
+     * 按用户来源进行分组（分页查询）
+     * @param tel
+     * @return
+     */
+    public List findCustomerSourceGroupForTel(String tel);
+    /**
+     * 分页查询客户
+     * @param telephone
+     * @param start
+     * @param limit
+     * @return
+     */
+    public List<Customer> findByTelPerPage(String telephone, int start, int limit);
 
 }

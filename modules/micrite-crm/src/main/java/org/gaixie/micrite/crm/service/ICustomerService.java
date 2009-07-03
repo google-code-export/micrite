@@ -92,6 +92,19 @@ public interface ICustomerService {
      * 获取用户来源的2D柱图对象
      * @return
      */
-    public CategoryDataset getCustomerSourceBarDataset();
+    public CategoryDataset getCustomerSourceBarDataset(String tel);
+    /**
+     * 分页查询客户
+     * @param telephone
+     * @param start
+     * @param limit
+     * @return
+     */
+    public List<Customer> findByTelPerPage(String telephone, int start, int limit);
+    /**
+     * 删除客户
+     * @param customer
+     */
+    public void delete(int[] customerIds);
 
 }

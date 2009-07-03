@@ -83,8 +83,8 @@ public class CustomerServiceImpl implements ICustomerService {
         return  count;
     }
     
-    public CategoryDataset getCustomerSourceBarDataset() {
-        List list = customerDao.findCustomerSourceGroup();
+    public CategoryDataset getCustomerSourceBarDataset(String tel) {
+        List list = customerDao.findCustomerSourceGroupForTel(tel);
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         if (list != null && list.size() != 0) {
             for (int i = 0; i < list.size(); i++) {
@@ -110,6 +110,23 @@ public class CustomerServiceImpl implements ICustomerService {
         }
         return dataset;
         
+    }
+
+    public List<Customer> findByTelPerPage(String telephone, int start,
+            int limit) {
+        List<Customer> list = customerDao.findByTelPerPage(telephone,start,limit);
+        return list;
+    }
+
+    public int findByTelTotal(String telephone) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public void delete(int[] customerIds) {
+        for (int i = 0; i < customerIds.length; i++) {
+            customerDao.delete(customerIds[i]);
+        }
     }
 
 }

@@ -48,17 +48,25 @@ public class CustomerAction extends ActionSupport{
 
     //以Map格式存放操作的结果，然后由struts2-json插件转换为json对象
     private Map<String,String> result = new HashMap<String,String>();
+    private Map<String,Object> resultMap = new HashMap<String,Object>();
 
     //输出到页面的数据
     private int customerNum = 0;
     private List<Customer> customers;
     private List<CustomerSource> customerSource;
-
     //获取的页面参数
-    private Integer customerId;
+    private int customerId;
     private Customer customer;
     private String telephone;
-    private Integer customerSourceId;
+    private int customerSourceId;
+    private int[] customerIds;
+    
+    //起始索引
+    private int start;
+    //限制数
+    private int limit;
+    //记录总数（分页中改变页码时，会传递该参数过来）
+    private int totalCount;
 
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     /**
@@ -84,7 +92,16 @@ public class CustomerAction extends ActionSupport{
      * @return "success"
      */
     public String find() {
-        customers = customerService.findByTelVague(telephone);
+        if (totalCount == 0) {
+            //  初次查询时，要从数据库中读取总记录数
+            Integer count = customerService.findByTelVague(telephone).size();
+            setTotalCount(count);
+        }         
+        //  得到分页查询结果
+        customers = customerService.findByTelPerPage(telephone, start, limit);
+        resultMap.put("totalCount", totalCount);
+        resultMap.put("success", true);
+        resultMap.put("data", customers);
         return SUCCESS;
     }
     /**
@@ -92,8 +109,30 @@ public class CustomerAction extends ActionSupport{
      * @return "success"
      */
     public String edit() {
-        customerService.update(customer, customerSourceId);
-        result.put("success", "true");
+        try {
+            customerService.update(customer, customerSourceId);
+            resultMap.put("message", getText("save.success"));
+            resultMap.put("success", true);
+        } catch(SecurityException e) {
+            resultMap.put("message", getText(e.getMessage()));
+            resultMap.put("success", false);
+        }
+        return SUCCESS;
+        
+    }
+    /**
+     * 删除客户
+     * @return
+     */
+    public String delete(){
+        try {
+            customerService.delete(customerIds);
+            resultMap.put("message", getText("save.success"));
+            resultMap.put("success", true);
+        } catch(SecurityException e) {
+            resultMap.put("message", getText(e.getMessage()));
+            resultMap.put("success", false);
+        }
         return SUCCESS;
     }
     
@@ -136,7 +175,7 @@ public class CustomerAction extends ActionSupport{
     /**
      * @param id the id to set
      */
-    public void setCustomerId(Integer customerId) {
+    public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
     /**
@@ -148,13 +187,13 @@ public class CustomerAction extends ActionSupport{
     /**
      * @param customerSourceId the customerSourceId to set
      */
-    public void setCustomerSourceId(Integer customerSourceId) {
+    public void setCustomerSourceId(int customerSourceId) {
         this.customerSourceId = customerSourceId;
     }
     /**
      * @return the customerId
      */
-    public Integer getCustomerId() {
+    public int getCustomerId() {
         return customerId;
     }
     /**
@@ -166,7 +205,7 @@ public class CustomerAction extends ActionSupport{
     /**
      * @return the customerSourceId
      */
-    public Integer getCustomerSourceId() {
+    public int getCustomerSourceId() {
         return customerSourceId;
     }
     /**
@@ -187,6 +226,35 @@ public class CustomerAction extends ActionSupport{
     public void setCustomerSource(List<CustomerSource> customerSource) {
         this.customerSource = customerSource;
     }
-    
+    public int getStart() {
+        return start;
+    }
+    public void setStart(int start) {
+        this.start = start;
+    }
+    public int getLimit() {
+        return limit;
+    }
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+    public int getTotalCount() {
+        return totalCount;
+    }
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
 
+    public Map<String, Object> getResultMap() {
+        return resultMap;
+    }
+    public void setResultMap(Map<String, Object> resultMap) {
+        this.resultMap = resultMap;
+    }
+    public int[] getCustomerIds() {
+        return customerIds;
+    }
+    public void setCustomerIds(int[] customerIds) {
+        this.customerIds = customerIds;
+    }
 }
