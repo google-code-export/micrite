@@ -7,17 +7,14 @@ function customerListLocale(){
         	searchCellphone:'手机号',        	
         	searchStartTime:'起始时间',
         	searchEndTime:'截至时间',	        	
-            newCustomer:'增加新客户'
-        });
-    }	
-    if(micrite.crm.customerList.SearchResultGrid) {
-        Ext.override(micrite.crm.customerList.SearchResultGrid, {
+            newCustomer:'增加新客户',
+            customerSourceChart:'用户来源分析',
             colModelId:'ID',
             colModelName:'姓名',
             colModelMobile:'手机号',
             colModelSource:'来源'
         });
-    }
+    }	
 }
 function customerDetailLocale(){
     if(micrite.crm.customerDetail.FormPanel) {

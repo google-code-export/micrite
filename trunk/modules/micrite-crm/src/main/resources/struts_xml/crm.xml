@@ -13,12 +13,18 @@
 		</action>
 		<action name="findCustomer" class="customerAction" method="find">
             <result name="success" type="json">
-                <param name="target">customers</param>
+                <param name="target">resultMap</param>
+                <param name="excludes">customerSource</param>
             </result>
 		</action>
 		<action name="editCustomer" class="customerAction" method="edit">
             <result name="success" type="json">
-                <param name="target">result</param>
+                <param name="target">resultMap</param>
+            </result>
+		</action>
+		<action name="deleteCustomer" class="customerAction" method="delete">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
             </result>
 		</action>
 		<action name="getCustomerPartner" class="customerAction" method="getPartner">
@@ -27,9 +33,8 @@
             </result>
 		</action>
         <action name="getCustomerSourceBarChart" class="customerChartAction" method="getBarChart" >
-            <result type="chart">
-                <param name="width">600</param>
-                <param name="height">450</param>
+           <result name="success" type="json">
+                <param name="target">resultMap</param>
             </result>
         </action>
         <action name="getCustomerSourcePieChart" class="customerChartAction" method="getPieChart" >

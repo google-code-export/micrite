@@ -203,7 +203,23 @@ public class CustomerServiceImplMock implements ICustomerService {
         return null;
     }
     
-    public CategoryDataset getCustomerSourceBarDataset(){
+    public CategoryDataset getCustomerSourceBarDataset(String tel){
         return null;        
+    }
+
+    public List<Customer> findByTelPerPage(String telephone, int start,
+            int limit) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public int findByTelTotal(String telephone) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public void delete(int[] customerIds) {
+        // TODO Auto-generated method stub
+        
     }
 }

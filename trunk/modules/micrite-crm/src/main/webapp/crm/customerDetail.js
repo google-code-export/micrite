@@ -20,30 +20,19 @@ micrite.crm.customerDetail.FormPanel = function() {
     
     micrite.crm.customerDetail.FormPanel.superclass.constructor.call(this, {
         id: 'customerDetail-form',
-        frame: false,
+        frame: true,
         labelAlign: 'left',
-        header: false,
-        border: false,
-        bodyBorder: false,
-        autoHeight:true,
-        style: {
-            "margin-top": "10px" // when you add custom margin in IE 6...
-        },        
-    
-        items: [{
-            border:false
-        },{
+    	style:'padding:1px',
+        items: [
+        {
             xtype: 'fieldset',
-            labelWidth: 40,
+			labelWidth: 150,
             title:this.customerDetailText,
             layout:'form',
-            width: 300,
+            collapsible: true,
             defaults: {width: 170},    // Default config options for child items
             defaultType: 'textfield',
             autoHeight: true,
-            style: {
-                "margin-left": "10px" // when you add custom margin in IE 6...
-            },
             items: [{
                 id:'cid',
                 fieldLabel: this.idText,
@@ -52,11 +41,13 @@ micrite.crm.customerDetail.FormPanel = function() {
             },{
                 id:'cname',
                 fieldLabel: this.nameText,
-                name: 'name'
+                name: 'name',
+                allowBlank:false
             },{
                 id:'ctelephone',
                 fieldLabel: this.mobileText,
-                name: 'telephone'
+                name: 'telephone',
+                allowBlank:false
             }, new Ext.form.ComboBox({
                 id:'sourceSelect',
                 name:'customerSource',
@@ -71,39 +62,39 @@ micrite.crm.customerDetail.FormPanel = function() {
                 forceSelection:true,
                 triggerAction:'all',
                 lazyInit:false,
-    
+    			lazyRender : true,
                 store:store,
                 typeAhead: true
-    
-                
             })]
                
-        }],
-        buttons: [{
-            text: mbLocale.submitButton,
-            handler: function(){
-            Ext.getCmp("customerDetail-form").getForm().submit({
-                url: '/' + document.location.href.split("/")[3] + '/crm/saveCustomer.action',
-                method: 'POST',
-                disabled:true,
-                waitMsg: mbLocale.waitingMsg,
-                params:{
-                    customerSourceId: Ext.getCmp('sourceSelect').getValue(),
-                    'customer.id': Ext.getCmp('cid').getValue(),
-                    'customer.name': Ext.getCmp('cname').getValue(),
-                    'customer.telephone' : Ext.getCmp('ctelephone').getValue()
-                },
-                success: function(form, action){
-                    Ext.MessageBox.alert('Message', 'Plan saved.');
-                },
-                failure: function(form, action){
-                    Ext.MessageBox.alert('Message', 'Save failed');
-                }
-            });}                    
         },{
-            text: mbLocale.cancelButton
-        }],
-        buttonAlign:'left'
+        	buttonAlign:'center',
+        	buttons: [{
+	            text: mbLocale.submitButton,
+	            handler: function(){
+	            Ext.getCmp("customerDetail-form").getForm().submit({
+	                url: '/' + document.location.href.split("/")[3] + '/crm/saveCustomer.action',
+	                method: 'POST',
+	                disabled:true,
+	                waitMsg: mbLocale.waitingMsg,
+	                params:{
+	                    customerSourceId: Ext.getCmp('sourceSelect').getValue(),
+	                    'customer.id': Ext.getCmp('cid').getValue(),
+	                    'customer.name': Ext.getCmp('cname').getValue(),
+	                    'customer.telephone' : Ext.getCmp('ctelephone').getValue()
+	                },
+	                success: function(form, action){
+	                    Ext.MessageBox.alert('Message', 'Plan saved.');
+	                },
+	                failure: function(form, action){
+	                    Ext.MessageBox.alert('Message', 'Save failed');
+	                }
+	            });}                    
+	        },{
+	            text: mbLocale.closeButton,
+	        	handler: function() {Ext.getCmp('addCusetomerWindow').close()}
+	        }]
+        }]
     });
     
 }
@@ -123,7 +114,7 @@ try {baseLocale();} catch (e) {}
 Ext.onReady(function(){
 
     Ext.QuickTips.init();
-//    var formPanel = new micrite.crm.customerDetail.FormPanel();
+     Ext.form.Field.prototype.msgTarget = 'side';
     Ext.getCmp('addCusetomerWindow').add(new micrite.crm.customerDetail.FormPanel());
     Ext.getCmp('addCusetomerWindow').doLayout();
 

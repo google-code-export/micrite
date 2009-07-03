@@ -7,7 +7,8 @@ function customerListLocale(){
         	searchCellphone:'Cellphone',        	
         	searchStartTime:'StartTime',
         	searchEndTime:'EndTime',	        	
-        	newCustomer:'New Customer'
+        	newCustomer:'New Customer',
+    		customerSourceChart:'Customer Source Chart'
         });
     }	
     if(micrite.crm.customerList.SearchResultGrid) {
