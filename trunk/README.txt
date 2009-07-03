@@ -24,7 +24,8 @@ Gaixie Micrite是一个基于Struts2,Spring2的完整项目实现。
    
     *从头进行一次干净的编译，运行下面命令
     mvn clean install
-
+    
+详细编译指南见：http://code.google.com/p/micrite/wiki/Building
 -------------------------------------------------------------------------------
 运行
 -------------------------------------------------------------------------------
@@ -36,7 +37,7 @@ Gaixie Micrite是一个基于Struts2,Spring2的完整项目实现。
 
 2. 运行整个Micrite项目:
 
- * 进入Micrite/seesmblies，运行下面命令
+ * 进入Micrite/assemblies，运行下面命令
     mvn jetty:run
 
 -------------------------------------------------------------------------------
@@ -49,15 +50,19 @@ Gaixie Micrite是一个基于Struts2,Spring2的完整项目实现。
   
   会在assemblies/taget下产生micrite-site目录，此目录存放所有项目相关文档（包括apidocs）
 
-详细Micrite相关文档请访问 http://www.gaixie.org/wiki/100:mainpage
+2.官方文档
+详细Micrite相关文档请访问 http://code.google.com/p/micrite/w/list
 
 -------------------------------------------------------------------------------
 支持
 -------------------------------------------------------------------------------
 
-此版本的任何问题，都可以通过micrite用户邮件列表得到支持
+此版本的任何问题，都可以通过micrite邮件列表得到支持
 
+ 开发邮件列表:
+ gaixie-micrite-dev@googlegroups.com
+ 
  用户邮件列表:
- gaixie-micrite-user@googlegroups.com
+ gaixie-micrite-users@googlegroups.com
 
 $Id$
