@@ -118,10 +118,6 @@ micrite.security.roleList.SearchPanel = function() {
         scope:this, 
         handler:function() {
             var roleIds = this.resultGrid.selModel.selections.keys;
-            if(roleIds.length!=1){
-                Ext.MessageBox.alert(mbLocale.infoMsg,mbLocale.gridRowSelectMsg);
-                return;
-            }
             var deleteRolesFun = function(buttonId, text, opt) {
                 if (buttonId == 'yes') {
                     Ext.Ajax.request({
