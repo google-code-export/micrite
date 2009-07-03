@@ -8,13 +8,6 @@ Ext.ns('micrite.security.userDetail');
 
 //  FormPanel构造函数
 micrite.security.userDetail.FormPanel = function() {
-    //  role多选框数据源
-    var dataStore = new Ext.data.Store({
-        autoLoad:true,
-        proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/findRolesAll.action'}),    
-        reader: new Ext.data.JsonReader({id: "id"}, [{name: 'id'},{name: 'name'}])
-    });
-
     //  这里定义Panel的外观，内部控件等
     micrite.security.userDetail.FormPanel.superclass.constructor.call(this, {
         id: 'userDetailForm',
@@ -86,9 +79,7 @@ micrite.security.userDetail.FormPanel = Ext.extend(micrite.security.userDetail.F
     fullnameText: 'Full Name',
     emailaddressText: 'Email Address',
     loginnameText: 'User Name',
-    passwordText: 'Password',
-    rolesText: 'Role',
-    userRolesText: 'Select Roles'
+    passwordText: 'Password'
 });
 
 try{ userDetailLocale(); } catch(e){}
