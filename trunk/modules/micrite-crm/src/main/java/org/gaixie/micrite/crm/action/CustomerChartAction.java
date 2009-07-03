@@ -57,12 +57,13 @@ public class CustomerChartAction extends ActionSupport {
      * @return
      */
     public String getBarChart(){
-        chart = ChartFactory.createBarChart("用户来源分析", 
-                                            "来源", 
-                                            "数量",
-                                            customerService.getCustomerSourceBarDataset(customer.getTelephone()), 
-                                            PlotOrientation.VERTICAL,
-                                            false, false, false);
+        chart = ChartFactory.createBarChart(
+                    getText("customer.source.chart.bar.title"), 
+                    getText("customer.source.chart.bar.y"), 
+                    getText("customer.source.chart.bar.x"),
+                    customerService.getCustomerSourceBarDataset(customer.getTelephone()), 
+                    PlotOrientation.VERTICAL,
+                    false, false, false);
         BarStyle.styleDefault(chart);
         StandardEntityCollection entityCollection = new StandardEntityCollection();
         ChartRenderingInfo info = new ChartRenderingInfo(entityCollection);
@@ -82,11 +83,12 @@ public class CustomerChartAction extends ActionSupport {
      * @return
      */
     public String getPieChart(){
-        chart = ChartFactory.createPieChart("用户来源分析",
-                                            customerService.getCustomerSourcePieDataset(customer.getTelephone()),
-                                            false,
-                                            true,
-                                            false);
+        chart = ChartFactory.createPieChart(
+                    getText("customer.source.chart.pie.title"),
+                    customerService.getCustomerSourcePieDataset(customer.getTelephone()),
+                    false,
+                    true,
+                    false);
         PieStyle.styleDefault(chart);
         StandardEntityCollection entityCollection = new StandardEntityCollection();
         ChartRenderingInfo info = new ChartRenderingInfo(entityCollection);

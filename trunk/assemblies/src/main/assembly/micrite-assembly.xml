@@ -104,9 +104,6 @@
 			<directory>../modules/micrite-security/src/main/resources
 			</directory>
 			<outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
-			<excludes>
-				<exclude>hibernate/**</exclude>
-			</excludes>
 		</fileSet>
 		<fileSet>
 			<directory>../modules/micrite-crm/target
@@ -133,9 +130,9 @@
 			</directory>
 			<outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
 			<includes>
-				<include>**/applicationContext*.xml
-				</include>
+				<include>**/applicationContext*.xml</include>
 				<include>**/struts_xml/*</include>
+                <include>**/crm/*</include>
 			</includes>
 		</fileSet>
 
