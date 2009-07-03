@@ -36,12 +36,6 @@ import org.gaixie.micrite.security.SecurityException;
 public interface IRoleService {
 
     /**
-     * 查找并返回所有角色对象
-     * @return 角色对象集合
-     */
-    public List<Role> findAll();
-    
-    /**
      * 根据角色名查询用户集合（模糊查询，分页）。
      * 
      * @param name 角色名

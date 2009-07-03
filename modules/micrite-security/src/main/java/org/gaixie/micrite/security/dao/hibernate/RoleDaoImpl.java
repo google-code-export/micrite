@@ -39,11 +39,6 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  */
 public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
 
-	@SuppressWarnings("unchecked")
-	public List<Role> findAll() {
-        return getHibernateTemplate().find("from Role e");
-	}
-
 	public Role getRole(int id) {
 		return (Role)getHibernateTemplate().get(Role.class, id);
 	}
@@ -63,7 +58,6 @@ public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
         return getHibernateTemplate().findByCriteria(criteria,start,limit);            
     }	
     
-    @SuppressWarnings("unchecked")
     public Integer findByNameVagueCount(String name) {
         DetachedCriteria criteria = DetachedCriteria.forClass(Role.class);
         criteria.add(Expression.like("name", "%"+name+"%"));
