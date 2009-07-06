@@ -25,7 +25,7 @@ micrite.security.userSelect.SearchPanel = function() {
 		        	id: 'addUserWindow',
 		            title    : this.addUser,
 		            closable : true,
-		            autoLoad : {url: 'security/userDetail.js?'+(new Date).getTime(),scripts:true},
+		            autoLoad : {url: 'security/userDetail.js?'+(new Date()).getTime(),scripts:true},
 		            width    : 500,
 		            height   : 360,
 		            maximizable : true,
@@ -88,7 +88,7 @@ micrite.security.userSelect.SearchPanel = function() {
                         }
                     });
                 }
-            }
+            };
             Ext.Msg.show({
                 title:mbLocale.infoMsg,
                 msg: mbLocale.bindConfirmMsg,
@@ -127,7 +127,7 @@ micrite.security.userSelect.SearchPanel = function() {
                     }
                 });
             }
-        }
+        };
         Ext.Msg.show({
             title:mbLocale.infoMsg,
             msg: mbLocale.unbindConfirmMsg,

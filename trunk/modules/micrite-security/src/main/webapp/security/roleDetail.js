@@ -32,31 +32,31 @@ micrite.security.roleDetail.FormPanel = function() {
                 name: 'role.description'
             }]
         },{
-        	buttonAlign:'center',
+            buttonAlign:'center',
             buttons: [{
                 text: mbLocale.submitButton,
-		        scope:this,
-		        formBind:true,
+                scope:this,
+                formBind:true,
                 handler: function() {
-    	            // form提交
-    	            this.getForm().submit({
-    	                url: '/' + document.location.href.split("/")[3] + '/addRole.action',
-    	                method: 'POST',
-    	                disabled:true,
-    	                waitMsg: mbLocale.waitingMsg,
-    	                success: function(form, action) {
-    	                    obj = Ext.util.JSON.decode(action.response.responseText);
-    	                    showMsg('success', obj.message);	                
-    	                },
-    	                failure: function(form, action) {
-    	                    obj = Ext.util.JSON.decode(action.response.responseText);
-    	                    showMsg('failure', obj.message);
-    	                }
-    	            });
-    	        }                    
+                    // form提交
+                    this.getForm().submit({
+                        url: '/' + document.location.href.split("/")[3] + '/addRole.action',
+                        method: 'POST',
+                        disabled:true,
+                        waitMsg: mbLocale.waitingMsg,
+                        success: function(form, action) {
+                            obj = Ext.util.JSON.decode(action.response.responseText);
+                            showMsg('success', obj.message);                    
+                        },
+                        failure: function(form, action) {
+                            obj = Ext.util.JSON.decode(action.response.responseText);
+                            showMsg('failure', obj.message);
+                        }
+                    });
+                }                    
             },{
                 text: mbLocale.closeButton,
-                handler: function() {Ext.getCmp('addRoleWindow').close()}
+                handler: function() {Ext.getCmp('addRoleWindow').close();}
             }]
         }]
     });
@@ -64,9 +64,9 @@ micrite.security.roleDetail.FormPanel = function() {
 
 //  页面上的字符串在这里定义
 micrite.security.roleDetail.FormPanel = Ext.extend(micrite.security.roleDetail.FormPanel, Ext.FormPanel, {
-	roleDetailText: 'Role Detail',
-	rolenameText: 'Role Name',
-	descriptionText: 'Description'
+    roleDetailText: 'Role Detail',
+    rolenameText: 'Role Name',
+    descriptionText: 'Description'
 });
 
 try{roleDetailLocale();} catch(e){}

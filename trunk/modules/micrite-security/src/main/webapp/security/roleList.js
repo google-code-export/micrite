@@ -20,7 +20,7 @@ micrite.security.roleList.SearchPanel = function() {
                     id: 'addRoleWindow',
                     title    : this.addRole,
                     closable : true,
-                    autoLoad : {url: 'security/roleDetail.js?'+(new Date).getTime(),scripts:true},
+                    autoLoad : {url: 'security/roleDetail.js?'+(new Date()).getTime(),scripts:true},
                     width    : 500,
                     height   : 360,
                     maximizable : true,
@@ -75,7 +75,7 @@ micrite.security.roleList.SearchPanel = function() {
                     id: 'userSelectWindow',
                     title    : this.bindUser+' -- '+roles[0].get('name'),
                     closable : true,
-                    autoLoad : {url: 'security/userSelect.jsp?roleId='+roleIds[0]+'&'+(new Date).getTime(),scripts:true},
+                    autoLoad : {url: 'security/userSelect.jsp?roleId='+roleIds[0]+'&'+(new Date()).getTime(),scripts:true},
                     width    : 600,
                     height   : 420,
                     maximizable : true,
@@ -102,7 +102,7 @@ micrite.security.roleList.SearchPanel = function() {
                     id: 'authoritySelectWindow',
                     title    : this.bindAuthority+' -- '+roles[0].get('name'),
                     closable : true,
-                    autoLoad : {url: 'security/authoritySelect.jsp?roleId='+roleIds[0]+'&'+(new Date).getTime(),scripts:true},
+                    autoLoad : {url: 'security/authoritySelect.jsp?roleId='+roleIds[0]+'&'+(new Date()).getTime(),scripts:true},
                     width    : 600,
                     height   : 420,
                     maximizable : true,
@@ -136,7 +136,7 @@ micrite.security.roleList.SearchPanel = function() {
                         }
                     });
                 }
-            }
+            };
             Ext.Msg.show({
                 title:mbLocale.infoMsg,
                 msg: mbLocale.delConfirmMsg,
@@ -178,7 +178,7 @@ micrite.security.roleList.SearchPanel = function() {
                         }
                     });
                 }
-            }
+            };
             Ext.Msg.show({
                 title:mbLocale.infoMsg,
                 msg: mbLocale.updateConfirmMsg,
@@ -212,7 +212,7 @@ Ext.onReady(function() {
         mainPanel.getActiveTab().add(formPanel);
         mainPanel.getActiveTab().doLayout();
     } else {
-        new Ext.Viewport({
+        var vp = new Ext.Viewport({
             layout:'fit',
             items:[formPanel]
         });

@@ -175,7 +175,7 @@ Ext.onReady(function() {
         mainPanel.getActiveTab().add(formPanel);
         mainPanel.getActiveTab().doLayout();
     } else {
-        new Ext.Viewport({layout:'fit', items:[formPanel]});
+        var vp = new Ext.Viewport({layout:'fit', items:[formPanel]});
     }
 });
 

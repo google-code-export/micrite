@@ -25,7 +25,7 @@ micrite.security.authoritySelect.SearchPanel = function() {
 		        	id: 'addAuthorityWindow',
 		            title    : this.addAuth,
 		            closable : true,
-		            autoLoad : {url: 'security/authorityDetail.js?'+(new Date).getTime(),scripts:true},
+		            autoLoad : {url: 'security/authorityDetail.js?'+(new Date()).getTime(),scripts:true},
 		            width    : 500,
 		            height   : 360,
 		            maximizable : true,

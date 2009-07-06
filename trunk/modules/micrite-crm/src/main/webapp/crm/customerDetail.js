@@ -22,11 +22,11 @@ micrite.crm.customerDetail.FormPanel = function() {
         id: 'customerDetail-form',
         frame: true,
         labelAlign: 'left',
-    	style:'padding:1px',
+        style:'padding:1px',
         items: [
         {
             xtype: 'fieldset',
-			labelWidth: 150,
+            labelWidth: 150,
             title:this.customerDetailText,
             layout:'form',
             collapsible: true,
@@ -62,45 +62,45 @@ micrite.crm.customerDetail.FormPanel = function() {
                 forceSelection:true,
                 triggerAction:'all',
                 lazyInit:false,
-    			lazyRender : true,
+                lazyRender : true,
                 store:store,
                 typeAhead: true
             })]
                
         },{
-        	buttonAlign:'center',
-        	buttons: [{
-	            text: mbLocale.submitButton,
-	            handler: function(){
-		            Ext.getCmp("customerDetail-form").getForm().submit({
-		                url: '/' + document.location.href.split("/")[3] + '/crm/saveCustomer.action',
-		                method: 'POST',
-		                disabled:true,
-		                waitMsg: mbLocale.waitingMsg,
-		                params:{
-		                    customerSourceId: Ext.getCmp('sourceSelect').getValue(),
-		                    'customer.id': Ext.getCmp('cid').getValue(),
-		                    'customer.name': Ext.getCmp('cname').getValue(),
-		                    'customer.telephone' : Ext.getCmp('ctelephone').getValue()
-		                },
-		                success: function(form, action) {
-	    	                    obj = Ext.util.JSON.decode(action.response.responseText);
-	    	                    showMsg('success', obj.message);	                
-		                },
-		                failure: function(form, action) {
-		                    obj = Ext.util.JSON.decode(action.response.responseText);
-		                    showMsg('failure', obj.message);
-		                }
-		            });
-	            }                    
-	        },{
-	            text: mbLocale.closeButton,
-	        	handler: function() {Ext.getCmp('addCusetomerWindow').close()}
-	        }]
+            buttonAlign:'center',
+            buttons: [{
+                text: mbLocale.submitButton,
+                handler: function(){
+                    Ext.getCmp("customerDetail-form").getForm().submit({
+                        url: '/' + document.location.href.split("/")[3] + '/crm/saveCustomer.action',
+                        method: 'POST',
+                        disabled:true,
+                        waitMsg: mbLocale.waitingMsg,
+                        params:{
+                            customerSourceId: Ext.getCmp('sourceSelect').getValue(),
+                            'customer.id': Ext.getCmp('cid').getValue(),
+                            'customer.name': Ext.getCmp('cname').getValue(),
+                            'customer.telephone' : Ext.getCmp('ctelephone').getValue()
+                        },
+                        success: function(form, action) {
+                                obj = Ext.util.JSON.decode(action.response.responseText);
+                                showMsg('success', obj.message);                    
+                        },
+                        failure: function(form, action) {
+                            obj = Ext.util.JSON.decode(action.response.responseText);
+                            showMsg('failure', obj.message);
+                        }
+                    });
+                }                    
+            },{
+                text: mbLocale.closeButton,
+                handler: function() {Ext.getCmp('addCusetomerWindow').close();}
+            }]
         }]
     });
     
-}
+};
 
 Ext.extend(micrite.crm.customerDetail.FormPanel, Ext.FormPanel, {
     customerDetailText:'Customer Detail',
