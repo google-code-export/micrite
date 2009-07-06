@@ -14,22 +14,22 @@ micrite.security.userList.SearchPanel = function() {
         iconCls :'add-icon',
         scope:this,
         handler:function() {
-	    	var win;
-	    	if(!(win = Ext.getCmp('addUserWindow'))){
-		        win = new Ext.Window({
-		        	id: 'addUserWindow',
-		            title    : this.addUser,
-		            closable : true,
-		            autoLoad : {url: 'security/userDetail.js?'+(new Date).getTime(),scripts:true},
-		            width    : 500,
-		            height   : 360,
-		            maximizable : true,
-		            layout:'fit'
-		        });
-	    	}
-	        win.show();
-	        win.center();
-    	}
+            var win;
+            if(!(win = Ext.getCmp('addUserWindow'))){
+                win = new Ext.Window({
+                    id: 'addUserWindow',
+                    title    : this.addUser,
+                    closable : true,
+                    autoLoad : {url: 'security/userDetail.js?'+(new Date()).getTime(),scripts:true},
+                    width    : 500,
+                    height   : 360,
+                    maximizable : true,
+                    layout:'fit'
+                });
+            }
+            win.show();
+            win.center();
+        }
     }];    
     //  查询请求的url
     this.searchRequestURL = ['/' + document.location.href.split("/")[3] + '/security/findUsersVague.action'];
@@ -94,7 +94,7 @@ micrite.security.userList.SearchPanel = function() {
                         id: 'roleSelectWindow',
                         title    : this.bindRoles + ' -- ' +  users[0].get('fullname'),
                         closable : true,
-                        autoLoad : {url: 'security/roleSelect.jsp?userId=' + userIds[0] + '&' + (new Date).getTime(), scripts:true},
+                        autoLoad : {url: 'security/roleSelect.jsp?userId=' + userIds[0] + '&' + (new Date()).getTime(), scripts:true},
                         width    : 600,
                         height   : 420,
                         maximizable : true,
@@ -111,7 +111,7 @@ micrite.security.userList.SearchPanel = function() {
             scope:this, 
             handler:function() {
                 var userIds = this.resultGrid.selModel.selections.keys;
-                if (userIds.length == 0) {
+                if (userIds.length <= 0) {
                     Ext.MessageBox.alert(mbLocale.infoMsg, mbLocale.gridMultRowSelectMsg);
                     return;
                 }
@@ -150,7 +150,7 @@ micrite.security.userList.SearchPanel = function() {
             scope:this, 
             handler:function() {
                 var userIds = this.resultGrid.selModel.selections.keys;
-                if (userIds.length == 0) {
+                if (userIds.length <= 0) {
                     Ext.MessageBox.alert(mbLocale.infoMsg, mbLocale.gridMultRowSelectMsg);
                     return;
                 }
@@ -231,7 +231,7 @@ micrite.security.userList.SearchPanel = function() {
                             }
                         });
                     }
-                }
+                };
                 Ext.Msg.show({
                     title:mbLocale.infoMsg,
                     msg: mbLocale.updateConfirmMsg,
@@ -273,7 +273,7 @@ Ext.onReady(function() {
         mainPanel.getActiveTab().add(formPanel);
         mainPanel.getActiveTab().doLayout();
     } else {
-        new Ext.Viewport({
+        var vp = new Ext.Viewport({
             layout:'fit',
             items:[formPanel]
         });

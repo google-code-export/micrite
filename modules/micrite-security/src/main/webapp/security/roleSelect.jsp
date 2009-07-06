@@ -25,7 +25,7 @@ micrite.security.roleSelect.SearchPanel = function() {
                     id: 'addRoleWindow',
                     title    : this.addRole,
                     closable : true,
-                    autoLoad : {url: 'security/roleDetail.js?'+(new Date).getTime(),scripts:true},
+                    autoLoad : {url: 'security/roleDetail.js?'+(new Date()).getTime(),scripts:true},
                     width    : 500,
                     height   : 360,
                     maximizable : true,
@@ -101,7 +101,7 @@ micrite.security.roleSelect.SearchPanel = function() {
                         }
                     });
                 }
-            }
+            };
             Ext.Msg.show({
                 title:mbLocale.infoMsg,
                 msg: mbLocale.bindConfirmMsg,
@@ -141,7 +141,7 @@ micrite.security.roleSelect.SearchPanel = function() {
                     }
                 });
             }
-        }
+        };
         Ext.Msg.show({
             title:mbLocale.infoMsg,
             msg: mbLocale.unbindConfirmMsg,

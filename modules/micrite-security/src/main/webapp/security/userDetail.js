@@ -67,7 +67,7 @@ micrite.security.userDetail.FormPanel = function() {
     	        }                    
             },{
                 text: mbLocale.closeButton,
-                handler: function() {Ext.getCmp('addUserWindow').close()}
+                handler: function() {Ext.getCmp('addUserWindow').close();}
             }]
         }]
     });

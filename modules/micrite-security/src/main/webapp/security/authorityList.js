@@ -20,7 +20,7 @@ micrite.security.authorityList.SearchPanel = function() {
                     id: 'addAuthorityWindow',
                     title    : this.addAuthority,
                     closable : true,
-                    autoLoad : {url: 'security/authorityDetail.js?'+(new Date).getTime(),scripts:true},
+                    autoLoad : {url: 'security/authorityDetail.js?'+(new Date()).getTime(),scripts:true},
                     width    : 500,
                     height   : 360,
                     maximizable : true,
@@ -37,9 +37,9 @@ micrite.security.authorityList.SearchPanel = function() {
     //  查询结果格式读取器
     this.resultDataFields = [[
         {name: 'id'},
-	    {name: 'name'},
-	    {name: 'value'},
-	    {name: 'type'}
+        {name: 'name'},
+        {name: 'value'},
+        {name: 'type'}
     ]];
     this.comboGrid = [{url:0,reader:0,column:0,button:0}];
     //  查询结果行选择模型
@@ -47,12 +47,12 @@ micrite.security.authorityList.SearchPanel = function() {
 
     //  查询结果列
     this.resultColumns = [[
-	                         {header: this.name, width: 120, sortable: true, dataIndex: 'name'},
-	                         {header: this.value, width: 200, sortable: true, dataIndex: 'value',
-	                        	 editor: new Ext.form.TextField({
-	                        		 allowBlank: false
-	                        	 })
-	                         },
+                             {header: this.name, width: 120, sortable: true, dataIndex: 'name'},
+                             {header: this.value, width: 200, sortable: true, dataIndex: 'value',
+                                 editor: new Ext.form.TextField({
+                                     allowBlank: false
+                                 })
+                             },
                              //{header: this.roles, width: 110, sortable: true, dataIndex: 'rolesString'},
                              {header: this.type, width: 50, sortable: true, dataIndex: 'type'},
                              this.resultRowSelectionModel
@@ -77,7 +77,7 @@ micrite.security.authorityList.SearchPanel = function() {
                     id: 'roleSelectWindow',
                     title    : this.bindRole  + ' -- ' +  authority[0].get('name') ,
                     closable : true,
-                    autoLoad : {url: 'security/roleSelect.jsp?authorityId=' + authorityIds[0] + '&' + (new Date).getTime(), scripts:true},
+                    autoLoad : {url: 'security/roleSelect.jsp?authorityId=' + authorityIds[0] + '&' + (new Date()).getTime(), scripts:true},
                     width    : 600,
                     height   : 420,
                     maximizable : true,
@@ -105,7 +105,7 @@ micrite.security.authorityList.SearchPanel = function() {
                         scope:this,
                         callback:function(options,success,response) {
                             if (Ext.util.JSON.decode(response.responseText).success) {
-                            	this.refresh();
+                                this.refresh();
                                 obj = Ext.util.JSON.decode(response.responseText);
                                 showMsg('success', obj.message);
                             }else{
@@ -115,7 +115,7 @@ micrite.security.authorityList.SearchPanel = function() {
                         }
                     });
                 }
-            }
+            };
             Ext.Msg.show({
                 title:mbLocale.infoMsg,
                 msg: mbLocale.delConfirmMsg,
@@ -156,7 +156,7 @@ micrite.security.authorityList.SearchPanel = function() {
                         }
                     });
                 }
-            }
+            };
             Ext.Msg.show({
                 title:mbLocale.infoMsg,
                 msg: mbLocale.updateConfirmMsg,
@@ -191,7 +191,7 @@ Ext.onReady(function() {
         mainPanel.getActiveTab().add(formPanel);
         mainPanel.getActiveTab().doLayout();
     } else {
-        new Ext.Viewport({
+        var vp = new Ext.Viewport({
             layout:'fit',
             items:[formPanel]
         });

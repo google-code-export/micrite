@@ -133,8 +133,8 @@ msgPanel = function(){
      collapsible: false,
      renderHidden:true,
      autoScroll:true
- })
-}
+ });
+};
 micrite.security.framework.msgPanel = Ext.extend(msgPanel, Ext.Panel, {
 	messageText:'Message'
 });
@@ -194,7 +194,7 @@ MenuTreePanel = function() {
         scope:this
     });
 
-}
+};
 //指明NavPanel的父类
 micrite.security.framework.MenuTreePanel=Ext.extend(MenuTreePanel, Ext.tree.TreePanel, {
 	navPanelText:'Navigator',
@@ -222,8 +222,8 @@ NavPanel = function() {
         collapsible: true,
         collapseMode:'mini',
         items:[new MenuTreePanel(),new msgPanel()]
-    })
-}
+    });
+};
 micrite.security.framework.NavPanel = Ext.extend(NavPanel, Ext.Panel, {
 	
 });
@@ -245,7 +245,7 @@ MainPanel = function() {
 
     });
 
-}
+};
 
 micrite.security.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
     centerPanelText:'Center Panel',
@@ -286,8 +286,9 @@ micrite.security.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
 
 function showMsg(msgType,msg) {
     var detailEl = Ext.DomHelper.insertFirst(Ext.getCmp('msg-panel').body, {id:'msg-div',cls : msgType=='failure'?'errorMsg':'infoMsg'}, true);
-      if (msgType=='failure')
+      if (msgType=='failure'){
     	  Ext.Msg.alert('failure',msg);
+      }
       var dt = new Date();
       dt = '<em>&nbsp;' + dt.format('g:i a') + '</em>';  
 	detailEl.hide().update(msg+dt).slideIn('t');
