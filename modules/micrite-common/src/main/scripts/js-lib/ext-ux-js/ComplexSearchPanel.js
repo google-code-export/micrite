@@ -140,7 +140,7 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
         };
         this.refresh = function(){
         	Ext.getCmp(this.ptbar).fireEvent("refresh");
-        }         
+        };      
         //  查询按钮
         var searchButton = {
             text:mbLocale.searchButton,
@@ -199,8 +199,8 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
 	        Ext.getCmp(panel.ptbar).displayEl.update('');
         	//Ext.getCmp(panel.ptbar).disable();
             var bstore = store(panel,menuItemSelectedValue);
-        	panel.resultGrid.reconfigure(bstore
-        			,columnModel(panel,menuItemSelectedValue));
+        	panel.resultGrid.reconfigure(bstore,
+        			columnModel(panel,menuItemSelectedValue));
         	Ext.getCmp(panel.ptbar).bind(bstore);
         	
          
@@ -210,19 +210,19 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
         		var item = toolbarItems.last();
         		toolbarItems.remove(item);
         		 item.destroy();
-        	};
+        	}
                 if (panel.resultProcessButtons.length > 0) {
                 	var i = panel.comboGrid[menuItemSelectedValue].button;
                 
-                	if (i>-1)
+                	if (i>-1){
                        Ext.getCmp(panel.ptbar).add(panel.resultProcessButtons[i]);
-                    else{
+                	}else{
                         panel.prevMenu.button = -1;
                     }
                 }
       
              Ext.apply(panel.prevMenu,panel.comboGrid[menuItemSelectedValue]);
-        }
+        };
         //  删除ToolbarItems
         var removeToolbarItemsFun = function(panel) {
             var toolbarItems = panel.getTopToolbar().items;
@@ -246,16 +246,17 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
                 reCreateToolbarItemsFun(this, menuItemSelectedValue);
                 //  重建Grid
                 Ext.applyIf(this.comboGrid[menuItemSelectedValue],{url:0,reader:0,column:0,button:-1});
-                if (this.prevMenu.url != this.comboGrid[menuItemSelectedValue].url
-                || this.prevMenu.button != this.comboGrid[menuItemSelectedValue].button
-                || this.prevMenu.column != this.comboGrid[menuItemSelectedValue].column
-                || this.prevMenu.reader != this.comboGrid[menuItemSelectedValue].reader)
+                if (this.prevMenu.url != this.comboGrid[menuItemSelectedValue].url ||
+                		this.prevMenu.button != this.comboGrid[menuItemSelectedValue].button ||
+                		this.prevMenu.column != this.comboGrid[menuItemSelectedValue].column ||
+                		this.prevMenu.reader != this.comboGrid[menuItemSelectedValue].reader){
                     reCreateGrid(this, menuItemSelectedValue);
+                }
             }
         };
         //  创建查询条件按钮上的菜单
         var conButtonMenu = new Ext.menu.Menu();
-        for (var i = 0; i < this.conNames.length; i++) {
+        for (i = 0; i < this.conNames.length; i++) {
             conButtonMenu.add({
                 text:this.conNames[i],
                 value:i,
@@ -281,23 +282,25 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
 
         var reader = function (ithis,imenu){
           
-        	if (arguments.length < 2 
-        			|| imenu > ithis.comboGrid.length
-        			|| !ithis.comboGrid[imenu].reader)
+        	if (arguments.length < 2 ||
+        			imenu > ithis.comboGrid.length ||
+        			 !ithis.comboGrid[imenu].reader){
         		imenu = 0;
-        	else
+        	}else{
         		imenu = ithis.comboGrid[imenu].reader;
+        	}
         	return new Ext.data.JsonReader({totalProperty:'totalCount', root:'data', id:'id'},
                                              ithis.resultDataFields[imenu]);
         };
         //  创建store
         var store = function (ithis,imenu){
-        	if (arguments.length < 2 
-        			|| imenu > ithis.comboGrid.length
-        			|| !ithis.comboGrid[imenu].url)
+        	if (arguments.length < 2 ||
+        			 imenu > ithis.comboGrid.length ||
+        			 !ithis.comboGrid[imenu].url){
         		imenu = 0;
-        	else
+        	}else{
         		imenu = ithis.comboGrid[imenu].url;
+        	}
         	return new Ext.data.Store({
             proxy:new Ext.data.HttpProxy({url:ithis.searchRequestURL[imenu],
                                           listeners:{
@@ -316,7 +319,7 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
         var cbtn = this.comboGrid[0].button;
         var pagingToolbar = new Ext.PagingToolbar({
         	id:this.ptbar,
-            pageSize:parseInt(Ext.get('pageSize').dom.value),
+            pageSize: parseInt(Ext.get('pageSize').dom.value,10),
             store:store(this),
             displayInfo:true,
             doLoad : function(start) {
@@ -337,8 +340,9 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
             	},
                 render:function(comp){
             	   this.addSeparator();
-            	   if (bbtn.length > 0 && cbtn > -1) 
+            	   if (bbtn.length > 0 && cbtn > -1) {
             	       this.add(bbtn[0]);
+            	   }
                 }}
         });
         
@@ -352,15 +356,15 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
         var columnModel = function (ithis,imenu){
         	
         	
-        	if (arguments.length < 2 
-        			|| imenu > ithis.comboGrid.length
-        			|| !ithis.comboGrid[imenu].column){
+        	if (arguments.length < 2 ||
+        			 imenu > ithis.comboGrid.length ||
+        			 !ithis.comboGrid[imenu].column){
         		imenu = 0;
         	}else{
         		imenu = ithis.comboGrid[imenu].column;
         	}
         	return new Ext.grid.ColumnModel([rowNumbererColumn].concat(ithis.resultColumns[imenu]));
-        }
+        };
 
         if (this.edit){
             //  创建查询结果grid
@@ -421,7 +425,7 @@ Ext.extend(micrite.panel.ComplexSearchPanel, Ext.Panel, {
 			}
             var items = this.conCmpGroups[0];
             for (; i < items.length; i++) {
-                var item = items[i];
+                item = items[i];
                 if (item.xtype == 'textfield') {
                     item = new Ext.form.TextField(item);
                     this.curConFields[this.curConFields.length] = item;
