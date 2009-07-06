@@ -1,5 +1,4 @@
 <script type="text/javascript">
-
 Ext.ns('micrite.security.userSetting');
 
 
@@ -123,7 +122,7 @@ micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
 	    			                obj = Ext.util.JSON.decode(action.response.responseText);
 	    			                showMsg('failure', obj.message);
 	    			            }
-	    			    	})
+	    			    	});
 	    				} 
 	    		    }]
 		    	}]
@@ -143,7 +142,7 @@ micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
 			        } else {
 			            return true;
 			        }
-			    },
+			    }
 			});
 			//  处理“再次录入密码”校验未通过时显示的提示信息
 			Ext.apply(Ext.form.VTypes, {
@@ -179,4 +178,5 @@ Ext.onReady(function() {
         new Ext.Viewport({layout:'fit', items:[formPanel]});
     }
 });
+
 </script>

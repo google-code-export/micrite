@@ -46,7 +46,6 @@ FromPanel = function() {
                 emptyText:this.comboEmptyText,
                 selectOnFocus:true,
                 allowBlank:false,
-                //blankText:'此项为必选项',
                 forceSelection:true
             })]
         },{
@@ -79,11 +78,11 @@ FromPanel = function() {
 	            }                    
 	        },{
 	            text: mbLocale.closeButton,
-	            handler: function() {Ext.getCmp('addAuthorityWindow').close()}
-            }],
-        }],
+	            handler: function() {Ext.getCmp('addAuthorityWindow').close();}
+            }]
+        }]
     });
-}
+};
 
 micrite.security.authorityDetail.FormPanel=Ext.extend(FromPanel, Ext.FormPanel, {
     authorityDetailText:'Authority Detail',
