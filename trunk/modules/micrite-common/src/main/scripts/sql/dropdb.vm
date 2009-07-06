@@ -9,6 +9,7 @@ DON'T RUN THIS, IT'S NOT A DATABASE DROP SCRIPT!!!
 #dropAutoIncrement("userbase")
 #dropAutoIncrement("roles")
 #dropAutoIncrement("authorities")
+#dropAutoIncrement("setting")
 #dropAutoIncrement("customer_source")
 #dropAutoIncrement("customers")
 
