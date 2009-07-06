@@ -24,18 +24,18 @@
  */
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <html>
 <head>
 <title>Micrite</title>
-<link rel="stylesheet" type="text/css"	href="js-lib/ext-js/resources/css/ext-all.css" />
+<link rel="stylesheet" type="text/css"  href="js-lib/ext-js/resources/css/ext-all.css" />
 <script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base.js"></script>
 <script type="text/javascript" src="js-lib/ext-js/ext-all.js"></script>
 <style>
 .micrite {
-	padding-top: 4px;
-	padding-right: 550px;
+    padding-top: 4px;
+    padding-right: 550px;
 }
 </style>
 <script type="text/javascript">
@@ -85,7 +85,12 @@ micrite.security.framework.LoginWindow = Ext.extend(LoginWindow, Ext.Window, {
             bodyStyle :'padding:10px',
             buttons : [ {
                 text :this.submitText,
-                handler :onSubmit
+                scope:this,
+                handler :function(){
+                  this.loginPanel.getForm().submit( {
+                      reset :true
+                  });
+                }
             }, {
                 text :this.cancelText,
                 handler :Ext.emptyFn
@@ -129,12 +134,6 @@ micrite.security.framework.LoginWindow = Ext.extend(LoginWindow, Ext.Window, {
             },
             url :this.submitUrl
         });
-        var form = this.loginPanel.getForm();
-        function onSubmit() {
-            form.submit( {
-                reset :true
-            });
-        }
 
         this.layout = "border";
         this.border = false;
