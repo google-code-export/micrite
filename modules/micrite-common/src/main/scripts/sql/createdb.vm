@@ -119,7 +119,7 @@ CREATE TABLE setting(
   id                       $db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
   name                     varchar(32) NOT NULL,
   value                    varchar(32) NOT NULL,
-  sortindex                integer NOT NULL DEFAULT 0,
+  sortindex                integer default 0 NOT NULL,
   enabled                  $db.BOOLEAN_SQL_TYPE_TRUE NOT NULL
 );
 ALTER TABLE setting ADD CONSTRAINT setting_name_sortindex_uq UNIQUE ( name,sortindex );
