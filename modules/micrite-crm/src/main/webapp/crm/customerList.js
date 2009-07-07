@@ -7,9 +7,9 @@ micrite.crm.customerList.SearchPanel = function() {
     //  查询条件分组组件组数组
     this.conCmpGroups = [
         [   this.searchCellphone, {xtype:'textfield', name:'customer.telephone', width:120}],
-        [   this.searchStartTime, {xtype:'textfield', name:'time', width:120}],
-        [   this.searchStartTime, {xtype:'datetimefield', name:'startTime', width:135},
-            this.searchEndTime, {xtype:'datetimefield', name:'endTime', width:135},
+        [   this.searchStartTime, {xtype:'datetimefield', name:'time', width:135,format:'Y-m-d H:i'}],
+        [   this.searchStartTime, {xtype:'datetimefield', name:'startTime', width:135,format:'Y-m-d H:i'},
+            this.searchEndTime, {xtype:'datetimefield', name:'endTime', width:135,format:'Y-m-d H:i'},
             'Gb',   {xtype:'checkbox', name:'gb', width:40,height:20},
             'Gn',   {xtype:'checkbox', name:'gn', width:40,height:20},
             'Gi',   {xtype:'checkbox', name:'gi', width:40,height:20},
