@@ -13,7 +13,7 @@
 	text-indent:5px;
 }
 
-em {
+#msg-div em {
 	font-style: italic;
 	color: gray;
 }
