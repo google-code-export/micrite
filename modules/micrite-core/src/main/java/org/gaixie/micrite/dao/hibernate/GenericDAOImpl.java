@@ -32,10 +32,15 @@ import org.gaixie.micrite.dao.IGenericDAO;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
- * 客户管理持久化实现，基于hibernate
- * @see org.gaixie.micrite.crm.dao.ICustomerDao
+ * Implements the generic CRUD data access operations using Hibernate.
+ * <p>
+ * To write a DAO, subclass and parameterize this class with your entity.
+ * Of course, assuming that you have a traditional 1:1 appraoch for
+ * Entity:DAO design. 
+ *
  */
-public abstract class GenericDAOImpl<T,ID extends Serializable> extends HibernateDaoSupport implements IGenericDAO<T, ID> {
+public abstract class GenericDAOImpl<T,ID extends Serializable> 
+        extends HibernateDaoSupport implements IGenericDAO<T, ID> {
     private Class<T> persistentClass;
 
     @SuppressWarnings("unchecked")
@@ -63,6 +68,7 @@ public abstract class GenericDAOImpl<T,ID extends Serializable> extends Hibernat
         getHibernateTemplate().delete(entity);
     }
 
+    @SuppressWarnings("unchecked")    
     public T get(ID id) {
         return (T) getHibernateTemplate().get(getPersistentClass(), id);
     }
