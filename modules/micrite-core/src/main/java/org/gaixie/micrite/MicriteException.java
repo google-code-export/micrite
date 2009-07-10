@@ -22,7 +22,7 @@
  *
  */
 
-package org.gaixie.micrite.core;
+package org.gaixie.micrite;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
