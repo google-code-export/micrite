@@ -3,7 +3,7 @@
  * <p>
  * 涉及的内容包括: 
  * <ul>
- *   <li> Basic exceptions including NullArgumentException. (See {@link org.gaixie.micrite.core.MicriteException} class) 
+ *   <li> Basic exceptions including NullArgumentException. (See {@link org.gaixie.micrite.MicriteException} class) 
  * </ul> 
  *
  * @since 0.4
