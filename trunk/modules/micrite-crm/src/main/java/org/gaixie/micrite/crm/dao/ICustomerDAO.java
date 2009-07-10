@@ -27,35 +27,11 @@ package org.gaixie.micrite.crm.dao;
 import java.util.List;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
-
+import org.gaixie.micrite.dao.IGenericDAO;
 /**
  * 客户管理持久化接口
  */
-public interface ICustomerDao {
-    /**
-     * 保存Customer
-     * @param  customer customer对象
-     */
-    public void save(Customer customer);
-
-    /**
-     * 更新Customer
-     * @param  customer customer对象
-     */
-    public void update(Customer customer);
-
-    /**
-     * 删除Customer
-     * @param  customer customer对象
-     */
-    public void delete(Customer customer);
-
-    /**
-     * 根据ID获得Customer对象
-     * @param  id Customer对象id
-     * @return Customer对象
-     */
-    public Customer getCustomer(int id);
+public interface ICustomerDAO extends IGenericDAO<Customer, Integer> {
 
     /**
      * 根据ID获得CustomerSource对象

@@ -28,7 +28,8 @@ import java.util.List;
 
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
-import org.gaixie.micrite.crm.dao.ICustomerDao;
+import org.gaixie.micrite.crm.dao.ICustomerDAO;
+import org.gaixie.micrite.dao.hibernate.GenericDAOImpl;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
@@ -36,23 +37,9 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
  * 客户管理持久化实现，基于hibernate
- * @see org.gaixie.micrite.crm.dao.ICustomerDao
+ * @see org.gaixie.micrite.crm.dao.ICustomerDAO
  */
-public class CustomerDaoImpl extends HibernateDaoSupport implements ICustomerDao {
-
-    public void save(Customer customer) {
-        getHibernateTemplate().save(customer);
-
-    }
-
-    public void update(Customer customer) {
-        getHibernateTemplate().update(customer);
-
-    }
-
-    public void delete(Customer customer) {
-        getHibernateTemplate().delete(customer);
-    }
+public class CustomerDAOImpl extends GenericDAOImpl<Customer, Integer> implements ICustomerDAO {
 
     public CustomerSource getCustomerSource(int id) {
         return (CustomerSource) getHibernateTemplate().get(CustomerSource.class, id);
@@ -87,10 +74,6 @@ public class CustomerDaoImpl extends HibernateDaoSupport implements ICustomerDao
         criteria.add(Expression.like("telephone", "%"+telephone+"%"));
         criteria.setProjection(Projections.rowCount());
         return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
-    }
-
-    public Customer getCustomer(int id) {
-        return (Customer) getHibernateTemplate().get(Customer.class, id);
     }
 
 }

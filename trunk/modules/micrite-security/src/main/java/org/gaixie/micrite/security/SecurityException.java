@@ -24,7 +24,7 @@
 
 package org.gaixie.micrite.security;
 
-import org.gaixie.micrite.core.MicriteException;
+import org.gaixie.micrite.MicriteException;
 
 
 /**

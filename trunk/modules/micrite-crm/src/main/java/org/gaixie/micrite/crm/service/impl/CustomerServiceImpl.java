@@ -28,7 +28,7 @@ import java.util.List;
 
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
-import org.gaixie.micrite.crm.dao.ICustomerDao;
+import org.gaixie.micrite.crm.dao.ICustomerDAO;
 import org.gaixie.micrite.crm.service.ICustomerService;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -42,32 +42,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CustomerServiceImpl implements ICustomerService {
 
     @Autowired
-    private ICustomerDao customerDao;
+    private ICustomerDAO customerDAO;
 
     public void add(Customer customer, int customerSourceId) {
-        CustomerSource cs = customerDao.getCustomerSource(customerSourceId);
+        CustomerSource cs = customerDAO.getCustomerSource(customerSourceId);
         customer.setCustomerSource(cs);
-        customerDao.save(customer);
+        customerDAO.save(customer);
     }
     
     public void update(Customer c, int customerSourceId) {
-        Customer customer = customerDao.getCustomer(c.getId());
-        CustomerSource cs = customerDao.getCustomerSource(customerSourceId);
+        Customer customer = customerDAO.get(c.getId());
+        CustomerSource cs = customerDAO.getCustomerSource(customerSourceId);
         
         customer.setCustomerSource(cs);
         customer.setName(c.getName());
         customer.setTelephone(c.getTelephone());
-        customerDao.update(customer);
+        customerDAO.update(customer);
     }
 
     public List<CustomerSource> findALLCustomerSource() {
-        List<CustomerSource> customerSource = customerDao.findAllCustomerSource();
+        List<CustomerSource> customerSource = customerDAO.findAllCustomerSource();
         return customerSource;
     }
 
     
     public CategoryDataset getCustomerSourceBarDataset(String tel) {
-        List list = customerDao.findCSGroupByTelVague(tel);
+        List list = customerDAO.findCSGroupByTelVague(tel);
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         if (list != null && list.size() != 0) {
             for (int i = 0; i < list.size(); i++) {
@@ -81,7 +81,7 @@ public class CustomerServiceImpl implements ICustomerService {
     }
     
     public PieDataset getCustomerSourcePieDataset(String telphone) {
-        List list = customerDao.findCSGroupByTelVague(telphone);
+        List list = customerDAO.findCSGroupByTelVague(telphone);
         DefaultPieDataset dataset = new DefaultPieDataset();
         if (list != null && list.size() != 0) {
             for (int i = 0; i < list.size(); i++) {
@@ -97,18 +97,18 @@ public class CustomerServiceImpl implements ICustomerService {
 
     public List<Customer> findByTelVaguePerPage(String telephone, int start,
             int limit) {
-        List<Customer> list = customerDao.findByTelVaguePerPage(telephone,start,limit);
+        List<Customer> list = customerDAO.findByTelVaguePerPage(telephone,start,limit);
         return list;
     }
 
     public int findByTelVagueCount(String telephone) {
-        return customerDao.findByTelVagueCount(telephone); 
+        return customerDAO.findByTelVagueCount(telephone); 
     }
 
     public void delete(int[] customerIds) {
         for (int i = 0; i < customerIds.length; i++) {
-            Customer customer = customerDao.getCustomer(customerIds[i]);
-            customerDao.delete(customer);
+            Customer customer = customerDAO.get(customerIds[i]);
+            customerDAO.delete(customer);
         }
     }
 }

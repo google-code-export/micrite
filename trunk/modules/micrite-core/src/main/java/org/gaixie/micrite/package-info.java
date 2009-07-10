@@ -8,4 +8,4 @@
  *
  * @since 0.4
  */
-package org.gaixie.micrite.core;
+package org.gaixie.micrite;
