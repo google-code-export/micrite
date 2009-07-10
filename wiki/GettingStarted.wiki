@@ -1,6 +1,5 @@
-#summary This document describes how to learn micrite quickly.
+#summary 如何基于Micrite快速的开发出自己的业务模块。
 #labels Phase-Implementation
-
 = Introduction =
 
 本文档会帮助你快速的掌握micrite，并基于micrite开发自己的业务模块。
@@ -24,4 +23,3 @@ Checkout Source Code......
 == 通过extjs显式出来 ==
 
 == 为新作的模块加上权限 ==
-
