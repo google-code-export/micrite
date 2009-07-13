@@ -9,18 +9,18 @@ micrite.crm.customerDetail.FormPanel = function() {
         //设定读取的地址
         proxy: new Ext.data.HttpProxy({url: '/' + document.location.href.split("/")[3] + '/crm/getCustomerPartner.action'}),    
         //设定读取的格式    
-        reader: new Ext.data.JsonReader({    
+        reader: new Ext.data.JsonReader({
             id:"id"
         }, RecordDef),    
-        remoteSort: true   
+        remoteSort: true
     });
     
-    // turn on validation errors beside the field globally
     Ext.form.Field.prototype.msgTarget = 'side';
     
     micrite.crm.customerDetail.FormPanel.superclass.constructor.call(this, {
         id: 'customerDetail-form',
         frame: true,
+        plain:true,
         labelAlign: 'left',
         style:'padding:1px',
         items: [
@@ -95,7 +95,10 @@ micrite.crm.customerDetail.FormPanel = function() {
                 }                    
             },{
                 text: mbLocale.closeButton,
-                handler: function() {Ext.getCmp('addCusetomerWindow').close();}
+                scope:this,
+                handler: function(){
+                	Ext.WindowMgr.getActive().close();
+                	}
             }]
         }]
     });
@@ -117,8 +120,9 @@ Ext.onReady(function(){
 
     Ext.QuickTips.init();
      Ext.form.Field.prototype.msgTarget = 'side';
-    Ext.getCmp('addCusetomerWindow').add(new micrite.crm.customerDetail.FormPanel());
-    Ext.getCmp('addCusetomerWindow').doLayout();
+     Ext.WindowMgr.getActive().add(new micrite.crm.customerDetail.FormPanel());
+     Ext.WindowMgr.getActive().doLayout();
+        
 
 });
 </script>

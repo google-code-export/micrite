@@ -33,13 +33,13 @@
 <title>Welcome to Micrite!</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-js/resources/css/ext-all.css">
-<script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base-debug.js"></script>
 <script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
-<script type="text/javascript" src="js-lib/ext-ux-js/DateTime.js"></script>
-<script type="text/javascript" src="js-lib/ext-ux-js/CheckboxField.js"></script>
 
+<script type="text/javascript" src="js-lib/ext-ux-js/CheckboxField.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/Spinner.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/SpinnerStrategy.js"></script>
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/micrite-all.css">
-<link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/DateTime.css">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/CheckboxField.css">
 <style type="text/css">
 .main-header .x-panel-body {
@@ -60,13 +60,13 @@
     padding-bottom:3px;
 }
 .home {
-	background-image: url(security/images/framework/home.gif) !important;
+    background-image: url(security/images/framework/home.gif) !important;
 }
 .user {
-	background-image: url(security/images/framework/user.gif) !important;
+    background-image: url(security/images/framework/user.gif) !important;
 }
 .exit {
-	background-image: url(security/images/framework/exit.gif) !important;
+    background-image: url(security/images/framework/exit.gif) !important;
 }
 </style>
 <script type="text/javascript">
@@ -121,7 +121,7 @@ micrite.security.framework.HeaderPanel = Ext.extend(Ext.Panel, {
 }); // eo Tutorial.LocalizationWin
 
 msgPanel = function(){
-	   // 显式调用父类构造器    
+       // 显式调用父类构造器    
  msgPanel.superclass.constructor.call(this, {
      id:'msg-panel',
    //  region:'center',
@@ -129,14 +129,14 @@ msgPanel = function(){
      border:false,
      title:this.messageText,
      split:true,
-	 bodyStyle:'padding:4px',
+     bodyStyle:'padding:4px',
      collapsible: false,
      renderHidden:true,
      autoScroll:true
  });
 };
 micrite.security.framework.msgPanel = Ext.extend(msgPanel, Ext.Panel, {
-	messageText:'Message'
+    messageText:'Message'
 });
 
 MenuTreePanel = function() {
@@ -197,7 +197,7 @@ MenuTreePanel = function() {
 };
 //指明NavPanel的父类
 micrite.security.framework.MenuTreePanel=Ext.extend(MenuTreePanel, Ext.tree.TreePanel, {
-	navPanelText:'Navigator',
+    navPanelText:'Navigator',
     expandText:'Expand All',
     collapseText:'Collapse All',    
     allModulesText:'All Modules'
@@ -225,7 +225,7 @@ NavPanel = function() {
     });
 };
 micrite.security.framework.NavPanel = Ext.extend(NavPanel, Ext.Panel, {
-	
+    
 });
 
 
@@ -287,11 +287,11 @@ micrite.security.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
 function showMsg(msgType,msg) {
     var detailEl = Ext.DomHelper.insertFirst(Ext.getCmp('msg-panel').body, {id:'msg-div',cls : msgType=='failure'?'errorMsg':'infoMsg'}, true);
       if (msgType=='failure'){
-    	  Ext.Msg.alert('failure',msg);
+          Ext.Msg.alert('failure',msg);
       }
       var dt = new Date();
       dt = '<em>&nbsp;' + dt.format('g:i a') + '</em>';  
-	detailEl.hide().update(msg+dt).slideIn('t');
+    detailEl.hide().update(msg+dt).slideIn('t');
 }
 
 Ext.onReady(function(){
@@ -329,7 +329,7 @@ Ext.onReady(function(){
 
 <body>
 <s:hidden id="pageSize" name="pageSize"></s:hidden>
-<script type="text/javascript" src="js-lib/ext-ux-js/ComplexSearchPanel.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/ComplexGrid.js"></script>
 <div id="header"></div>
 </body>
 </html>
