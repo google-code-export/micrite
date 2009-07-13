@@ -56,7 +56,7 @@ micrite.security.roleDetail.FormPanel = function() {
                 }                    
             },{
                 text: mbLocale.closeButton,
-                handler: function() {Ext.getCmp('addRoleWindow').close();}
+                handler: function() {Ext.WindowMgr.getActive().close();}
             }]
         }]
     });
@@ -75,7 +75,7 @@ Ext.onReady(function() {
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
 
-    Ext.getCmp('addRoleWindow').add(new micrite.security.roleDetail.FormPanel());
-    Ext.getCmp('addRoleWindow').doLayout();
+    Ext.WindowMgr.getActive().add(new micrite.security.roleDetail.FormPanel());
+    Ext.WindowMgr.getActive().doLayout();
 });
 </script>
