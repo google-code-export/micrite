@@ -27,12 +27,13 @@ package org.gaixie.micrite.security.dao;
 import java.util.List;
 
 import org.gaixie.micrite.beans.User;
+import org.gaixie.micrite.dao.IGenericDAO;
 
 /**
  * 提供与<code>User</code>对象有关的DAO接口。
  * 
  */
-public interface IUserDao {
+public interface IUserDAO extends IGenericDAO<User, Integer>{
     
     /**
      * 根据用户名查询用户。
@@ -43,31 +44,6 @@ public interface IUserDao {
      */
     public User findByUsername(String username);
 
-    /**
-     * 保存用户。
-     * 
-     * @see org.gaixie.micrite.beans.User
-     * @param user <code>User</code>对象
-     */
-    public void save(User user);
-    
-    /**
-     * 更新用户。
-     * 
-     * @see org.gaixie.micrite.beans.User
-     * @param user <code>User</code>对象
-     */
-    public void update(User user);
-    
-    /**
-     * 根据id得到用户。
-     * 
-     * @see org.gaixie.micrite.beans.User
-     * @param id 用户id
-     * @return <code>User</code>对象
-     */
-    public User getUser(Integer id);
-    
     /**
      * 根据用户名查询用户的总数（模糊查询）。
      * 
@@ -86,13 +62,6 @@ public interface IUserDao {
      * @return <code>User</code>对象列表
      */
     public List<User> findByFullnameVaguePerPage(String fullName, int start, int limit);
-    
-    /**
-     * 删除用户。
-     * 
-     * @param user <code>User</code>对象
-     */
-    public void delete(User user);
     
     /**
      * 根据角色查询用户集合（分页）。

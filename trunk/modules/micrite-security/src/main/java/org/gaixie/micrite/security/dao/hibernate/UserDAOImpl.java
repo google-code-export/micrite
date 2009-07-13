@@ -26,23 +26,20 @@ package org.gaixie.micrite.security.dao.hibernate;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
+import org.gaixie.micrite.beans.User;
+import org.gaixie.micrite.dao.hibernate.GenericDAOImpl;
+import org.gaixie.micrite.security.dao.IUserDAO;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Property;
 import org.springframework.jmx.export.annotation.ManagedResource;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
-import org.gaixie.micrite.beans.User;
-import org.gaixie.micrite.security.dao.IUserDao;
 
 /**
  * 接口<code>IUserDao</code> 的Hibernate实现。
  * 
  */
 @ManagedResource(objectName = "micrite:type=dao,name=UserDaoImpl", description = "Micrite UserDaoImpl Bean")
-public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
+public class UserDAOImpl extends GenericDAOImpl<User, Integer> implements IUserDAO {
     
     @SuppressWarnings("unchecked")
     public User findByUsername(String username) {
@@ -55,19 +52,6 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
         }
 
         return null;
-    }
-
-    public void save(User user) {
-        getHibernateTemplate().save(user);
-    }
-    
-    public void update(User user) {
-        getHibernateTemplate().update(user);
-    }
-    
-    public User getUser(Integer id) {
-        User user = (User)getHibernateTemplate().get(User.class, id);
-        return user;
     }
 
     public Integer findByFullnameVagueCount(String fullname) {
@@ -84,10 +68,6 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
         return getHibernateTemplate().findByCriteria(criteria, start, limit);
     }    
     
-    public void delete(User user) {
-        getHibernateTemplate().delete(user);
-    }
-
     /*
      * 控制返回的结果集下面的几种方法：
      * criteria.setProjection(Projections.projectionList()
@@ -110,7 +90,6 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
         return getHibernateTemplate().findByCriteria(criteria,start,limit);
     }
     
-    @SuppressWarnings("unchecked")
     public Integer findByRoleIdCount(int roleId) {
         DetachedCriteria criteria = DetachedCriteria.forClass(User.class);
         criteria.setProjection(Projections.rowCount());

@@ -27,30 +27,18 @@ package org.gaixie.micrite.security.dao.hibernate;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Role;
-import org.gaixie.micrite.security.dao.IRoleDao;
+import org.gaixie.micrite.dao.hibernate.GenericDAOImpl;
+import org.gaixie.micrite.security.dao.IRoleDAO;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
  * 接口<code>IRoleDao</code> 的Hibernate实现。
  *
  */
-public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
+public class RoleDAOImpl extends GenericDAOImpl<Role, Integer>  implements IRoleDAO {
 
-	public Role getRole(int id) {
-		return (Role)getHibernateTemplate().get(Role.class, id);
-	}
-	
-	public void save(Role role){
-			getHibernateTemplate().save(role);
-	}
-
-    public void update(Role role){
-        getHibernateTemplate().update(role);
-    }
-    
     @SuppressWarnings("unchecked")
     public List<Role> findByNameVaguePerPage(String name, int start, int limit) {
         DetachedCriteria criteria = DetachedCriteria.forClass(Role.class);
@@ -64,10 +52,6 @@ public class RoleDaoImpl extends HibernateDaoSupport  implements IRoleDao {
         criteria.setProjection(Projections.rowCount());
         return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
     }   
-    
-    public void delete(Role role) {
-        getHibernateTemplate().delete(role);
-    }
     
     @SuppressWarnings("unchecked")
     public Role findByRolename(String rolename) {

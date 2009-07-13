@@ -31,11 +31,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.User;
-import org.gaixie.micrite.security.dao.IAuthorityDao;
+import org.gaixie.micrite.security.dao.IAuthorityDAO;
 import org.gaixie.micrite.security.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -46,17 +45,15 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class LoginServiceImpl implements ILoginService {
 	
-	private final static Logger logger = Logger.getLogger(LoginServiceImpl.class);
-
     @Autowired
-    private IAuthorityDao authorityDao;
+    private IAuthorityDAO authorityDAO;
     
     public Set<Map<String, Object>> loadChildNodes(User user, String node) {
         Set<Map<String, Object>> menu = new HashSet<Map<String, Object>>();
 
         Set<Role> roles = user.getRoles();
         for (Role role : roles) {
-            List<Authority> auths = authorityDao.findByRoleId(role.getId());
+            List<Authority> auths = authorityDAO.findByRoleId(role.getId());
             for (Authority auth : auths) {
                 // 如果没有"/"，表示不会用于menu中显示
                 if (StringUtils.indexOf(auth.getName(), "/") >= 0) {

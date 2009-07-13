@@ -27,12 +27,11 @@ package org.gaixie.micrite.security.service.impl;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.security.SecurityException;
-import org.gaixie.micrite.security.dao.IAuthorityDao;
-import org.gaixie.micrite.security.dao.IRoleDao;
+import org.gaixie.micrite.security.dao.IAuthorityDAO;
+import org.gaixie.micrite.security.dao.IRoleDAO;
 import org.gaixie.micrite.security.filter.FilterSecurityInterceptor;
 import org.gaixie.micrite.security.filter.MethodSecurityInterceptor;
 import org.gaixie.micrite.security.service.IAuthorityService;
@@ -44,37 +43,36 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class AuthorityServiceImpl implements IAuthorityService {
 
-    private static final Logger logger = Logger.getLogger(AuthorityServiceImpl.class);
     @Autowired
-    private IAuthorityDao authorityDao;
+    private IAuthorityDAO authorityDAO;
     @Autowired
-    private IRoleDao roleDao;
+    private IRoleDAO roleDAO;
 
     public void add(Authority authority) {
-        authorityDao.save(authority);
+        authorityDAO.save(authority);
     }
     
     public Integer findByNameVagueCount(String name) {
-        return authorityDao.findByNameVagueCount(name);
+        return authorityDAO.findByNameVagueCount(name);
     }
 
     public List<Authority> findByNameVaguePerPage(String name, int start, int limit) {
-        return authorityDao.findByNameVaguePerPage(name, start, limit);
+        return authorityDAO.findByNameVaguePerPage(name, start, limit);
     }  
     
     public List<Authority> findAuthsByRoleIdPerPage(int roleId, int start, int limit) {
-        List<Authority> auths = authorityDao.findByRoleIdPerPage(roleId,start,limit);
+        List<Authority> auths = authorityDAO.findByRoleIdPerPage(roleId,start,limit);
         return auths;
     }    
 
     public Integer findAuthsByRoleIdCount(int roleId) {
-        return authorityDao.findByRoleIdCount(roleId);
+        return authorityDAO.findByRoleIdCount(roleId);
     }  
     
     public void bindAuths(int[] authIds, int roleId) {
-        Role role = roleDao.getRole(roleId);
+        Role role = roleDAO.get(roleId);
         for (int i = 0; i < authIds.length; i++) {
-            Authority auth = authorityDao.getAuthority(authIds[i]);
+            Authority auth = authorityDAO.get(authIds[i]);
             Set<Role> roles =  auth.getRoles();
             roles.add(role);
             auth.setRoles(roles);
@@ -85,9 +83,9 @@ public class AuthorityServiceImpl implements IAuthorityService {
     }    
     
     public void unBindAuths(int[] authIds, int roleId) {
-        Role role = roleDao.getRole(roleId);
+        Role role = roleDAO.get(roleId);
         for (int i = 0; i < authIds.length; i++) {
-            Authority auth = authorityDao.getAuthority(authIds[i]);
+            Authority auth = authorityDAO.get(authIds[i]);
             Set<Role> roles =  auth.getRoles();
             roles.remove(role);
             auth.setRoles(roles);
@@ -99,17 +97,17 @@ public class AuthorityServiceImpl implements IAuthorityService {
     
     public void delete(int[] authIds) throws SecurityException {
         for (int i = 0; i < authIds.length; i++) {
-            Authority authority = authorityDao.getAuthority(authIds[i]);
+            Authority authority = authorityDAO.get(authIds[i]);
             
             if(authority.getRoles() != null && authority.getRoles().size() > 0) {
                 throw new SecurityException("error.authority.delete.roleNotEmptyInAuthority");
             }   
-            authorityDao.delete(authority);
+            authorityDAO.delete(authority);
         }
     }
     
     public void update(Authority authority){
-    	Authority auth = authorityDao.getAuthority(authority.getId());
+    	Authority auth = authorityDAO.get(authority.getId());
     	auth.setValue(authority.getValue());
     }
     

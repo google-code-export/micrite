@@ -27,18 +27,18 @@ package org.gaixie.micrite.security.dao.hibernate;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Authority;
-import org.gaixie.micrite.security.dao.IAuthorityDao;
+import org.gaixie.micrite.dao.hibernate.GenericDAOImpl;
+import org.gaixie.micrite.security.dao.IAuthorityDAO;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
  * 接口<code>IAuthorityDao</code> 的Hibernate实现。
  *
  */
-public class AuthorityDaoImpl extends HibernateDaoSupport implements IAuthorityDao {
+public class AuthorityDAOImpl extends GenericDAOImpl<Authority, Integer> implements IAuthorityDAO {
 
     @SuppressWarnings("unchecked")
     public List<Authority> findByType(String type) {
@@ -47,24 +47,6 @@ public class AuthorityDaoImpl extends HibernateDaoSupport implements IAuthorityD
         criteria.addOrder(Order.desc("value"));
         return getHibernateTemplate().findByCriteria(criteria);
     }	
-    
-    public void save(Authority authority){
-    	
-    	getHibernateTemplate().save(authority);
-    }
-
-    public void update(Authority authority){
-    	getHibernateTemplate().update(authority);
-    }
-    
-    public void delete(Authority authority){
-    	getHibernateTemplate().delete(authority);
-    }
-
-    public Authority getAuthority(Integer id) {
-        Authority auth = (Authority)getHibernateTemplate().get(Authority.class, id);
-        return auth;
-    }
     
     public Integer findByNameVagueCount(String name) {
         DetachedCriteria criteria = DetachedCriteria.forClass(Authority.class);
@@ -100,7 +82,6 @@ public class AuthorityDaoImpl extends HibernateDaoSupport implements IAuthorityD
         return getHibernateTemplate().findByCriteria(criteria);
     }
     
-    @SuppressWarnings("unchecked")
     public Integer findByRoleIdCount(int roleId) {
         DetachedCriteria criteria = 
             DetachedCriteria.forClass(Authority.class)

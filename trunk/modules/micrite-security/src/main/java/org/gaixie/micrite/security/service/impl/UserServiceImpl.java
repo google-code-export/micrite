@@ -32,9 +32,9 @@ import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.Setting;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.SecurityException;
-import org.gaixie.micrite.security.dao.IRoleDao;
-import org.gaixie.micrite.security.dao.ISettingDao;
-import org.gaixie.micrite.security.dao.IUserDao;
+import org.gaixie.micrite.security.dao.IRoleDAO;
+import org.gaixie.micrite.security.dao.ISettingDAO;
+import org.gaixie.micrite.security.dao.IUserDAO;
 import org.gaixie.micrite.security.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -55,11 +55,11 @@ import org.springframework.security.userdetails.UsernameNotFoundException;
 public class UserServiceImpl implements IUserService, UserDetailsService {
     
     @Autowired
-    private IUserDao userDao;
+    private IUserDAO userDAO;
     @Autowired
-    private IRoleDao roleDao;
+    private IRoleDAO roleDAO;
     @Autowired
-    private ISettingDao settingDao;    
+    private ISettingDAO settingDAO;    
 
     //  用于对明文密码加密
     @Autowired
@@ -70,7 +70,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     // ~~~~~~~~~~~~~~~~~~~~~~~  UserDetailsService Implement ~~~~~~~~~~~~~~~~~~~~~~~~~~//
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException, DataAccessException {
-        User user = userDao.findByUsername(username);
+        User user = userDAO.findByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User " + username
@@ -96,11 +96,11 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         String cryptpassword = passwordEncoder.encodePassword(plainpassword, null);
         user.setCryptpassword(cryptpassword);
         user.setEnabled(true);
-        userDao.save(user);
+        userDAO.save(user);
     }
 
     public boolean isExistedByUsername(String username) {
-        User user = userDao.findByUsername(username);
+        User user = userDAO.findByUsername(username);
         if (user != null) {
             return true;
         }
@@ -109,7 +109,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     
     public void updateInfo(User u) throws SecurityException {
         //  取出用户
-        User user = userDao.getUser(u.getId());
+        User user = userDAO.get(u.getId());
         
         //  如果修改了用户名，则校验新用户名在系统是否存在
         if (!u.getUsername().equals(user.getUsername())) {
@@ -138,7 +138,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     
             //判断是否需要更新setting,如果选项和缺省值一致,则不更新
             for (Setting s:u.getSettings()){
-            	Setting setting = settingDao.getSetting(s.getId());
+            	Setting setting = settingDAO.get(s.getId());
     //        	if (setting.getSortindex() != 0)
             		list.add(setting);
             }
@@ -146,7 +146,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         }
         
         //  持久化修改
-        userDao.update(user);
+        userDAO.update(user);
         
         String username = user.getLoginname();
         
@@ -169,15 +169,15 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     }
 
     public Integer findByFullnameVagueCount(String fullname) {
-        return userDao.findByFullnameVagueCount(fullname);
+        return userDAO.findByFullnameVagueCount(fullname);
     }
 
     public List<User> findByFullnameVaguePerPage(String fullname, int start, int limit) {
-        return userDao.findByFullnameVaguePerPage(fullname, start, limit);
+        return userDAO.findByFullnameVaguePerPage(fullname, start, limit);
     }
     
     public List<Setting> getSettings(int userId){
-        User user = userDao.getUser(userId);
+        User user = userDAO.get(userId);
         List<Setting> settings = user.getSettings();
         if (settings.size()>0){   
             // org.hibernate.LazyInitializationException
@@ -186,23 +186,23 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             }
             return settings;
         }
-        return settingDao.findAllDefault();
+        return settingDAO.findAllDefault();
     }
 
 	public List<Setting> findSettingByName(String name) {
-		return settingDao.findSettingByName(name);
+		return settingDAO.findSettingByName(name);
 	}	
     
     public void delete(int[] userIds) {
         for (int i = 0; i < userIds.length; i++) {
-            User user = userDao.getUser(userIds[i]);
-            userDao.delete(user);
+            User user = userDAO.get(userIds[i]);
+            userDAO.delete(user);
         }
     }
     
     public void enableUsers(int[] userIds) {
         for (int i = 0; i < userIds.length; i++) {
-            User user = userDao.getUser(userIds[i]);
+            User user = userDAO.get(userIds[i]);
             user.setEnabled(!user.isEnabled());
             //  从cache中删除修改的对象
             if (userCache != null) {
@@ -212,18 +212,18 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     }
     
     public List<User> findUsersByRoleIdPerPage(int roleId, int start, int limit) {
-        List<User> users = userDao.findByRoleIdPerPage(roleId,start,limit);
+        List<User> users = userDAO.findByRoleIdPerPage(roleId,start,limit);
         return users;
     }    
 
     public Integer findUsersByRoleIdCount(int roleId) {
-        return userDao.findByRoleIdCount(roleId);
+        return userDAO.findByRoleIdCount(roleId);
     }  
     
     public void bindUsers(int[] userIds, int roleId) {
-        Role role = roleDao.getRole(roleId);
+        Role role = roleDAO.get(roleId);
         for (int i = 0; i < userIds.length; i++) {
-            User user = userDao.getUser(userIds[i]);
+            User user = userDAO.get(userIds[i]);
             Set<Role> roles =  user.getRoles();
             roles.add(role);
             user.setRoles(roles);
@@ -235,9 +235,9 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     }    
     
     public void unBindUsers(int[] userIds, int roleId) {
-        Role role = roleDao.getRole(roleId);
+        Role role = roleDAO.get(roleId);
         for (int i = 0; i < userIds.length; i++) {
-            User user = userDao.getUser(userIds[i]);
+            User user = userDAO.get(userIds[i]);
             Set<Role> roles =  user.getRoles();
             roles.remove(role);
             user.setRoles(roles);

@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Setting;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.service.ILoginService;
@@ -46,8 +45,6 @@ import com.opensymphony.xwork2.ActionSupport;
 public class LoginAction extends ActionSupport{ 
 	private static final long serialVersionUID = -5277215719944190914L;
 
-	private static final Logger logger = Logger.getLogger(LoginAction.class); 
-	
 	@Autowired
 	private ILoginService loginService;
     @Autowired
