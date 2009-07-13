@@ -27,31 +27,13 @@ package org.gaixie.micrite.security.dao;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Role;
+import org.gaixie.micrite.dao.IGenericDAO;
 
 /**
  * 提供与 <code>Role</code> 实体有关的DAO接口。
  * 
  */
-public interface IRoleDao {
-    
-    /**
-     * 根据角色Id获得角色对象.
-     * @param id 角色ID
-     * @return <code>Role</code> 对象
-     */
-    public Role getRole(int id);
-    
-    /**
-     * 保存Role
-     * @param  role role对象
-     */
-    public void save(Role role);
-
-    /**
-     * 修改Role
-     * @param  role role对象
-     */
-    public void update(Role role);
+public interface IRoleDAO extends IGenericDAO<Role, Integer>{
     
     /**
      * 根据角色名查询角色集合（模糊查询，分页）。
@@ -72,12 +54,6 @@ public interface IRoleDao {
      */
     public Integer findByNameVagueCount(String name);
 
-    /**
-     * 删除角色
-     * @param  role 角色对象
-     */    
-    public void delete(Role role);
-    
     /**
      * 根据角色名查询角色。
      * 

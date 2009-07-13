@@ -2,12 +2,12 @@
 
 <ehcache>
     <diskStore path="java.io.tmpdir/ehcache-security" />
-    <defaultCache maxElementsInMemory="10000" eternal="false"
+    <defaultCache maxElementsInMemory="5000" eternal="false"
         timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="true"
         diskPersistent="false" diskExpiryThreadIntervalSeconds="120" />
 
     <!-- security cache-->
-    <cache name="userCache" maxElementsInMemory="10000" eternal="false"
+    <cache name="userCache" maxElementsInMemory="5000" eternal="false"
         overflowToDisk="true" timeToIdleSeconds="1200" timeToLiveSeconds="7200"
         diskPersistent="false" diskExpiryThreadIntervalSeconds="120" />
         

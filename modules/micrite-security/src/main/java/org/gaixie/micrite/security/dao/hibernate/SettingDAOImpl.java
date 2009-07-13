@@ -3,13 +3,13 @@ package org.gaixie.micrite.security.dao.hibernate;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Setting;
-import org.gaixie.micrite.security.dao.ISettingDao;
+import org.gaixie.micrite.dao.hibernate.GenericDAOImpl;
+import org.gaixie.micrite.security.dao.ISettingDAO;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 @SuppressWarnings("unchecked")
-public class SettingDaoImpl extends HibernateDaoSupport implements ISettingDao {
+public class SettingDAOImpl extends GenericDAOImpl<Setting, Integer> implements ISettingDAO {
 
 
 	public List<Setting> findSettingByName(String name) {
@@ -19,10 +19,6 @@ public class SettingDaoImpl extends HibernateDaoSupport implements ISettingDao {
 		return getHibernateTemplate().findByCriteria(criteria);
 	}
 
-	public Setting getSetting(int id) {
-		return (Setting)getHibernateTemplate().get(Setting.class, id);
-	}
-	
 	public List<Setting> findAllDefault() {
 	    DetachedCriteria criteria = DetachedCriteria.forClass(Setting.class);
 	    criteria.add(Expression.eq("sortindex", 0 ));

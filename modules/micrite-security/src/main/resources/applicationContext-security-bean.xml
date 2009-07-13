@@ -41,16 +41,16 @@
     <bean id="roleService"  class="org.gaixie.micrite.security.service.impl.RoleServiceImpl" />
     <bean id="securityInterceptorService"  class="org.gaixie.micrite.security.service.impl.SecurityInterceptorImpl" />
     
-    <bean id="userDao" class="org.gaixie.micrite.security.dao.hibernate.UserDaoImpl">
+    <bean id="userDAO" class="org.gaixie.micrite.security.dao.hibernate.UserDAOImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-    <bean id="authorityDao" class="org.gaixie.micrite.security.dao.hibernate.AuthorityDaoImpl">
+    <bean id="authorityDAO" class="org.gaixie.micrite.security.dao.hibernate.AuthorityDAOImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-    <bean id="roleDao" class="org.gaixie.micrite.security.dao.hibernate.RoleDaoImpl">
+    <bean id="roleDAO" class="org.gaixie.micrite.security.dao.hibernate.RoleDAOImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-    <bean id="settingDao" class="org.gaixie.micrite.security.dao.hibernate.SettingDaoImpl">
+    <bean id="settingDAO" class="org.gaixie.micrite.security.dao.hibernate.SettingDAOImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
     

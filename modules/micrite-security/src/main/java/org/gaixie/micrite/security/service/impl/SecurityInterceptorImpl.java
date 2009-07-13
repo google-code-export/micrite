@@ -26,10 +26,9 @@ package org.gaixie.micrite.security.service.impl;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.beans.Role;
-import org.gaixie.micrite.security.dao.IAuthorityDao;
+import org.gaixie.micrite.security.dao.IAuthorityDAO;
 import org.gaixie.micrite.security.service.ISecurityInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -39,13 +38,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class SecurityInterceptorImpl implements ISecurityInterceptor {
 
-    private static final Logger logger = Logger.getLogger(SecurityInterceptorImpl.class);
     @Autowired
-    private IAuthorityDao authorityDao;
+    private IAuthorityDAO authorityDAO;
 
     public List<Authority> loadAuthorities(String type) {
         
-        List<Authority> authorities = authorityDao.findByType(type);
+        List<Authority> authorities = authorityDAO.findByType(type);
         for (Authority authority : authorities) {
             for (Role role : authority.getRoles()) {
                 role.getName();

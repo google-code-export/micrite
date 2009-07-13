@@ -27,12 +27,13 @@ package org.gaixie.micrite.security.dao;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Authority;
+import org.gaixie.micrite.dao.IGenericDAO;
 
 /**
  * 提供与 <code>Authority</code> 实体有关的DAO接口。
  * 
  */
-public interface IAuthorityDao {
+public interface IAuthorityDAO extends IGenericDAO<Authority, Integer>{
     /**
      * 根据权限类型获得权限对象集合。
      * 
@@ -40,31 +41,6 @@ public interface IAuthorityDao {
      * @return <code>Authority</code> 对象集合
      */
     public List<Authority> findByType(String type);
-    
-    /**
-     * 保存Authority
-     * @param  authority authority对象
-     */
-    public void save(Authority authority);
-
-    /**
-     * 更新Authority
-     * @param  authority authority对象
-     */
-    public void update(Authority authority);
-    
-    /**
-     * 删除Authority
-     * @param  authority authority对象
-     */
-    public void delete(Authority authority);
-
-    /**
-     * 取得Authority
-     * @param id Authority ID
-     * @return Authority对象
-     */
-    public Authority getAuthority(Integer id);
     
     /**
      * 按名称模糊查询，获得Authority集合数量

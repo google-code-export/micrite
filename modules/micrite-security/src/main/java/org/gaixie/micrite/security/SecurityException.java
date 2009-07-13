@@ -33,6 +33,9 @@ import org.gaixie.micrite.MicriteException;
 public class SecurityException extends MicriteException {
     
     
+    private static final long serialVersionUID = -4146997497348618309L;
+
+
     public SecurityException() {
         super();
     }

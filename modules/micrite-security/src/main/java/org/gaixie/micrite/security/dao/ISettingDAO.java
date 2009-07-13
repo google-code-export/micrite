@@ -3,8 +3,9 @@ package org.gaixie.micrite.security.dao;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Setting;
+import org.gaixie.micrite.dao.IGenericDAO;
 
-public interface ISettingDao {
+public interface ISettingDAO extends IGenericDAO<Setting, Integer>{
     /**
      * 查询系统给用户的默认设置
      * @return <code>UserSetting</code>对象列表
@@ -17,9 +18,4 @@ public interface ISettingDao {
      */
     public List<Setting> findSettingByName(String name);
     
-    /**
-     * 根据配置项id查询可用配置属性
-     * @return <code>UserSetting</code>对象列表
-     */
-    public Setting getSetting(int id);
 }
