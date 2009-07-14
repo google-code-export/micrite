@@ -181,7 +181,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
                 title    : this.newCustomer,
                 autoLoad : {url: this.urlPrefix + '/crm/customerDetail.js',scripts:true},
                 width    : 500,
-                height   : 360,
+                height   : 360
             });
 	}, //eof addCustomer
 	
