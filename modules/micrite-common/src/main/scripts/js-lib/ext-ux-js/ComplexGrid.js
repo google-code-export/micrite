@@ -237,7 +237,7 @@ micrite.ComplexGrid = {
         var store =  new Ext.data.Store({
             proxy : new Ext.data.HttpProxy(Ext.apply({
                     	url: this.urlPrefix + this.urls[this.compSet[i].url]
-                    },micrite.util.gridLoad())),
+                    },micrite.util.proxyLoad())),
             reader : new Ext.data.JsonReader({
 	                	totalProperty:'totalCount',
 	            	    root:'data',id:'id'},

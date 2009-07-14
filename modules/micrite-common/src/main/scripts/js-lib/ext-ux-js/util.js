@@ -25,7 +25,7 @@ micrite.util = function() {
     };
     
      return {
-        gridLoad : function () {
+         proxyLoad : function () {
              c ={listeners:{
                         loadexception:function(proxy, options, resp, error) {
                          var res = Ext.decode(resp.responseText);
@@ -74,7 +74,7 @@ micrite.util = function() {
                         });
             pb.wait({
                 interval:100,
-                text:'Loading...',
+                text:mbLocale.loadingMsg,
                 increment:10
             });
             return win;

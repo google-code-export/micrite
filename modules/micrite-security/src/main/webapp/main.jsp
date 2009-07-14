@@ -35,10 +35,11 @@
 <link rel="stylesheet" type="text/css" href="js-lib/ext-js/resources/css/ext-all.css">
 <script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base-debug.js"></script>
 <script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
-<script type="text/javascript" src="js-lib/ext-ux-js/util.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/CheckboxField.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/Spinner.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/SpinnerStrategy.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/locale/micrite-base-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/util.js"></script>
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/micrite-all.css">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/CheckboxField.css">
 <style type="text/css">
@@ -323,7 +324,6 @@ Ext.onReady(function(){
 
 });
 </script>
-<script type="text/javascript" src="js-lib/ext-ux-js/locale/micrite-base-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 <script type="text/javascript" src="security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 <script type="text/javascript" src="crm/locale/micrite-crm-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 <s:if test="%{skin=='Gray'}" >
