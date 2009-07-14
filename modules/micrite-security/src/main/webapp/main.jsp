@@ -269,7 +269,10 @@ micrite.security.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
     loadModule : function(href,tabTitle){
         var tab;
         if(!(tab = this.getItem(tabTitle))){
-            var autoLoad = {url: href,scripts:true};
+            var autoLoad = {url: href,scripts:true,callback: function(){
+                if (Ext.getDom('session-expired')){
+                	showMsg('failure','dddd');
+                }}};
             tab = new Ext.Panel({
                 id: tabTitle,
                 title: tabTitle,
