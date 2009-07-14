@@ -1,5 +1,5 @@
 .details .x-btn-text {
-    background-image: url(../images/search.png);
+    background-image: url(../images/icons/search.png);
 }
 
 .errorMsg {
@@ -19,41 +19,41 @@
 }
 
 .add-icon {
-	background-image: url(../images/add.png) !important;
+	background-image: url(../images/icons/add.png) !important;
 }
 .delete-icon {
-	background-image: url(../images/delete.png) !important;
+	background-image: url(../images/icons/delete.png) !important;
 }
 .cancel-icon {
-	background-image: url(../images/cancel.png) !important;
+	background-image: url(../images/icons/cancel.png) !important;
 }
 .save-icon {
-	background-image: url(../images/save.png) !important;
+	background-image: url(../images/icons/save.png) !important;
 }
 .bind-icon {
-	background-image: url(../images/bind.png) !important;
+	background-image: url(../images/icons/bind.png) !important;
 }
 .unbind-icon {
-	background-image: url(../images/unbind.png) !important;
+	background-image: url(../images/icons/unbind.png) !important;
 }
 .pie-chart-icon {
-	background-image: url(../images/pie-chart.png) !important;
+	background-image: url(../images/icons/pie-chart.png) !important;
 }
 .bar-chart-icon {
-	background-image: url(../images/bar-chart.png) !important;
+	background-image: url(../images/icons/bar-chart.png) !important;
 }
 .line-chart-icon {
-	background-image: url(../images/line-chart.png) !important;
+	background-image: url(../images/icons/line-chart.png) !important;
 }
 .edit-icon {
-	background-image: url(../images/edit.png) !important;
+	background-image: url(../images/icons/edit.png) !important;
 }
 .info-icon {
-	background-image: url(../images/info.png) !important;
+	background-image: url(../images/icons/info.png) !important;
 }
 .alert-icon {
-	background-image: url(../images/alert.png) !important;
+	background-image: url(../images/icons/alert.png) !important;
 }
 .other-icon {
-	background-image: url(../images/other.png) !important;
+	background-image: url(../images/icons/other.png) !important;
 }

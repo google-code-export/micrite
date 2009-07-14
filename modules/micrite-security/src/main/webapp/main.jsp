@@ -323,7 +323,7 @@ Ext.onReady(function(){
 <script type="text/javascript" src="security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 <script type="text/javascript" src="crm/locale/micrite-crm-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 <s:if test="%{skin=='Gray'}" >
-<link rel="stylesheet" type="text/css" href="js-lib/ext-js/resources/css/xtheme-gray.css">
+<link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/xtheme-gray-extend.css">
 </s:if>
 </head>
 
