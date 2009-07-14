@@ -186,13 +186,17 @@ MenuTreePanel = function() {
         })
     );
 
-    // 选择节点前先判断是否叶子节点
-    this.getSelectionModel().on({
-        'beforeselect' : function(sm, node){
-             return node.isLeaf();
-        },
+
+    // session 过期的处理
+    this.getLoader().on({
+        'load' : function(sm, node,r){
+	        var res = Ext.decode(r.responseText);
+	        if (res.message){
+                showMsg('failure',res.message);
+	        }
+        },        
         scope:this
-    });
+    });    
 
 };
 //指明NavPanel的父类
@@ -249,23 +253,6 @@ MainPanel = function() {
 
 micrite.security.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
     centerPanelText:'Center Panel',
-    initEvents : function(){
-        MainPanel.superclass.initEvents.call(this);
-        this.body.on('click', this.onClick, this);
-//        this.on("remove", function (e, tabItem){
-//            tabItem.cancel = true;
-//        });
-
-    },
-    // 点击tab上的链接，创建新的tab页并显示，class必须为inner-link，id为新tab的名字
-    onClick: function(e, target){
-        e.stopEvent();
-        if(target.className == 'inner-link'){
-            this.loadModule(target.href,target.id);
-        }
-    },
-
-
     loadModule : function(href,tabTitle){
         var tab;
         if(!(tab = this.getItem(tabTitle))){
@@ -321,7 +308,6 @@ Ext.onReady(function(){
 
     Ext.getCmp('module-tree').on('click', function(node, e){
         if(node.isLeaf()){
-           e.stopEvent();
            mainPanel.loadModule(node.attributes.url, node.attributes.text);
         }
    });

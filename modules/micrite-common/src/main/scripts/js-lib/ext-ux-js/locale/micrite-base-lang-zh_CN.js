@@ -186,5 +186,5 @@ mbLocale = {
     gridMultRowSelectMsg:'请选择数据！',            
     updateConfirmMsg:'确定要修改吗？',
     gridRowEditMsg:'请一次只修改一行数据！',
-    sessionExpiredMsg:'无权限访问或者长时间未操作，点击[是]将重新登录！'
+    sessionExpiredMsg:'无权限访问或者长时间未操作，请重新登录！'
 }
