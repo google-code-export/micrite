@@ -199,7 +199,7 @@ micrite.ComplexGrid = {
 	            item = new Ext.form.DateField(item);
 	            this.curFields[this.curFields.length] = item;
 	        } else if (item.xtype == 'uxspinner') {
-                item = new Ext.ux.form.Spinner(item),
+                item = new Ext.ux.form.Spinner(item);
                 this.curFields[this.curFields.length] = item;
             }
             toolbar.add(item);
