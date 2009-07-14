@@ -122,7 +122,7 @@ micrite.ComplexGrid = {
         if (this.searchFields){
 	        //  查询按钮
 	        var searchButton = {
-	            text:'Search',
+	            text:mbLocale.searchButton,
 	            cls:'x-btn-text-icon details',
 	            scope:this,
 	            handler:this.startSearch
