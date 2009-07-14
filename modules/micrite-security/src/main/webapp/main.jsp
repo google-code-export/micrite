@@ -35,7 +35,7 @@
 <link rel="stylesheet" type="text/css" href="js-lib/ext-js/resources/css/ext-all.css">
 <script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base-debug.js"></script>
 <script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
-
+<script type="text/javascript" src="js-lib/ext-ux-js/util.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/CheckboxField.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/Spinner.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/SpinnerStrategy.js"></script>
@@ -269,10 +269,7 @@ micrite.security.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
     loadModule : function(href,tabTitle){
         var tab;
         if(!(tab = this.getItem(tabTitle))){
-            var autoLoad = {url: href,scripts:true,callback: function(){
-                if (Ext.getDom('session-expired')){
-                	showMsg('failure','dddd');
-                }}};
+            var autoLoad = micrite.util.autoLoad({url: href,scripts:true});
             tab = new Ext.Panel({
                 id: tabTitle,
                 title: tabTitle,
