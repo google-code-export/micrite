@@ -61,6 +61,11 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	             this.searchStartTime,
 	             {xtype:'datefield',
 	              name:'mydate',
+	              width:135},
+	             {xtype:'uxspinner',
+	              name:'mydate',
+	              fieldLabel: 'Time',
+	              strategy: new Ext.ux.form.Spinner.TimeStrategy(),
 	              width:135}
 	            ],[
 	             this.searchStartTime,

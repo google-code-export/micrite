@@ -1,67 +1,91 @@
-Ext.ns('micrite','micrite.util');
+Ext.ns('micrite');
+/**
+yourClassName = Ext.extend(micrite.ComplexEditorGrid, {
+	//class本身多语言字符，声明在这里
+	anyName :'ID',
 
-micrite.util = {
-	 	genWindow : function(c){
-	 		 if (c.id && Ext.getCmp(c.id)) {
-                Ext.getCmp(c.id).center();
-                return;
-            }
-	 		var pbid = Ext.id();
-	        var win = new Ext.Window(Ext.apply({
-		            closable : true,
-		            width    : 640,
-		            height   : 520,
-		            plain    : true,
-		            maximizable: true,
-		            html:    '<div id="'+ pbid +'" style="height:100%;top:40%;left:30%;position:absolute;"></div>',
-		            layout   : 'fit',
-	            },c));
-	        win.show();
-	        win.center();
-            var pbar3 = new Ext.ProgressBar({
-                            width:Math.round(win.width*0.4,0),
-                            renderTo:Ext.get(pbid)
-                        });
-            pbar3.wait({
-                interval:100,
-                text:'Loading...',
-                increment:10
-            });
-	        return win;
-	    },
-	    ajaxRequest : function (c,scope){
-	    	var success = function(r,o){
-	    		var res = Ext.decode(r.responseText);
-	    		if (res.message)
-	    		   showMsg('success',res.message);
-	    	};
-	    	var failure = function(r,o){
-	    		var res = Ext.decode(r.responseText);
-	    		if (res.expired){
-	    			window.location='j_spring_security_logout';
-	    		}else if (res.message){
-	    			showMsg('failure', res.message);
-	    			Ext.Msg.alert('info','FALSE');
-	    		}
-            };
-	    	c.success = success.createSequence(c.success,scope);
-	    	c.failure = failure.createSequence(c.failure,scope);
-	        Ext.Ajax.request(Ext.apply({
-	            scope:scope,
-	            method:'post',
-	            requestexception:function(conn,response,options){
-	            	Ext.Message.alert('Serivce Down');
-	            }
-	        },c));
-	    }
- 	}
-
+	initComponent:function() { 
+	配置项说明
+	var config = {
+	        基本配置项，必须声明
+			可以是一个空对象，如果有bbarAction必须配置
+			配置项的值，0，1，2...等等代表对应数组的下标
+	        compSet: [
+	             {url:0,reader:0,columns:0,bbarAction:0}
+	        ],
+	        组合查询条件切换菜单，选项
+	           根据需要配置，如果没有多个组合条件，则不需要声明
+			searchMenu : [
+				 this.s1,s2
+			],
+			查询条件，必须声明
+			searchFields :[[
+	             this.searchCellphone,
+	             {xtype:'textfield',
+	              name:'customer.telephone',
+	              width:120}
+	            ],[
+	             this.searchStartTime,
+	             {xtype:'datefield', name:'startTime', width:135},
+	             this.searchEndTime,
+	             {xtype:'datefield', name:'endTime', width:135}
+	        ]],
+	        查询请求地址，必须声明
+	        urls: ['/crm/findCustomer.action','/crm/findCustomerNew.action'],
+	        readers : [[
+			     {name: 'id',type:'int'},
+			     {name: 'name'},
+			     {name: 'telephone'},
+			     {name: 'customer_source_id'}
+	        ]],
+	        表格字段，必须声明
+			columnsArray: [[
+		          {
+		          	header:this.colModelName,
+		          	width:100, sortable: true,dataIndex: 'name',
+		          	editor:new Ext.form.TextField({allowBlank: false})
+		          },
+		          {
+		          	header: this.colModelMobile,
+		          	width: 100, sortable: true, dataIndex: 'telephone',
+		          	editor:new Ext.form.TextField({allowBlank: false})
+		          },
+		          new Ext.grid.CheckboxSelectionModel()
+	         ]],
+	         表格下方工具栏按钮，选项
+	         tbarActions : [{
+	        	 text:this.customerSourceBarChart,
+	        	 iconCls :'bar-chart-icon',
+	        	 scope:this,
+	        	 handler:this.yourFun
+	         }],
+	         表格上方工具栏最右端菜单，选项
+	         bbarActions:[[{
+	        	 text:mbLocale.deleteButton, 
+	        	 iconCls :'delete-icon',
+	        	 scope:this, 
+	        	 handler:this.yourFun
+	         }]]
+	    }; // eo config object
+		// apply config
+		//以下两行代码必须有
+		Ext.apply(this, Ext.apply(this.initialConfig, config)); 
+		yourClassName.superclass.initComponent.apply(this, arguments);
+	}，
+	//你的handler调用的函数声明在下面
+	yourFun : function() {
+        });
+	} //eof addCustomer
+}); //eo extend	
+**/
 micrite.ComplexGrid = {
     border : false,
     pageSize : parseInt(Ext.getDom('pageSize').value,10),
     urlPrefix : '/' + document.location.href.split("/")[3],
     initComponent:function() {
+ 
         var config = {
+    		layout:'fit',
             viewConfig:{forceFit:true}
         }; // eo config object
         // apply config
@@ -72,6 +96,7 @@ micrite.ComplexGrid = {
         }
         //  创建tbar
         this.tbar = new Ext.Toolbar();
+
         //创建分组查询条件菜单
         if (this.searchMenu){
 	         //  创建查询条件按钮上的菜单
@@ -173,8 +198,8 @@ micrite.ComplexGrid = {
 	        } else if (item.xtype == 'datefield') {
 	            item = new Ext.form.DateField(item);
 	            this.curFields[this.curFields.length] = item;
-	        } else if (item.xtype == 'spinnerfield') {
-                item = new Ext.ux.form.SpinnerField(item);
+	        } else if (item.xtype == 'uxspinner') {
+                item = new Ext.ux.form.Spinner(item),
                 this.curFields[this.curFields.length] = item;
             }
             toolbar.add(item);
@@ -210,15 +235,9 @@ micrite.ComplexGrid = {
     },
     getStoreById : function(i){
         var store =  new Ext.data.Store({
-            proxy : new Ext.data.HttpProxy({
-                    	url: this.urlPrefix + this.urls[this.compSet[i].url],
-                        listeners:{
-                            loadexception:function(proxy, options, resp, error) {
-                                obj = Ext.util.JSON.decode(resp.responseText);
-                                showMsg('failure', obj);
-                            }
-                        }
-                    }),
+            proxy : new Ext.data.HttpProxy(Ext.apply({
+                    	url: this.urlPrefix + this.urls[this.compSet[i].url]
+                    },micrite.util.gridLoad())),
             reader : new Ext.data.JsonReader({
 	                	totalProperty:'totalCount',
 	            	    root:'data',id:'id'},
@@ -240,7 +259,7 @@ micrite.ComplexGrid = {
             }
             this.store.rejectChanges(); 
             this.store.load({params:{start:0, limit:this.pageSize},callback:function(r,o,s){
-                //To Do
+                 // console.log(33);
             }});
      },
      initCompSet : function(item,index,allItem) {
@@ -285,6 +304,7 @@ micrite.ComplexGrid = {
     	   this.genButtomField(0);
     	   this.previousCompSet = this.compSet[0];
     	   delete this.tbar;
+    	   
         }
      }
 };
