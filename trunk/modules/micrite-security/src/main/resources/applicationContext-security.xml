@@ -46,7 +46,7 @@
         <sec:intercept-url pattern="/security/images/**" filters="none" />
         <sec:intercept-url pattern="/js-lib/**" filters="none" />
         <sec:form-login login-page="/expire.jsp" authentication-failure-url="/loginFailed.action" default-target-url="/loginSuccess.action"  />
-        <sec:logout logout-success-url="/index.jsp"/>
+        <sec:logout logout-success-url="/login.jsp"/>
         <sec:http-basic />
     </sec:http>
 

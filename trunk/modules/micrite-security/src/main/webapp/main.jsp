@@ -286,12 +286,30 @@ micrite.security.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
 
 function showMsg(msgType,msg) {
     var detailEl = Ext.DomHelper.insertFirst(Ext.getCmp('msg-panel').body, {id:'msg-div',cls : msgType=='failure'?'errorMsg':'infoMsg'}, true);
-      if (msgType=='failure'){
-          Ext.Msg.alert('failure',msg);
-      }
-      var dt = new Date();
-      dt = '<em>&nbsp;' + dt.format('g:i a') + '</em>';  
-    detailEl.hide().update(msg+dt).slideIn('t');
+    var failureMsg = msg;
+    if (msgType=='failure'){
+        // 如果session-expired，显式确认框，如果Yes，清空session并返回到登录页面
+        if (msg.indexOf('session expired')!=-1){
+            Ext.Msg.show({
+                title:mbLocale.infoMsg,
+                msg: mbLocale.sessionExpiredMsg,
+                buttons: Ext.Msg.YESNO,
+                scope: this,
+                fn: function(buttonId, text, opt) {
+            		if (buttonId == 'yes') {
+                    window.location = 'j_spring_security_logout';
+            		}
+                },
+                icon: Ext.MessageBox.QUESTION
+            }); 
+            failureMsg = mbLocale.sessionExpiredMsg;
+        }else{
+      		Ext.Msg.alert('failure',msg);
+        }
+    }
+    var dt = new Date();
+    dt = '<em>&nbsp;' + dt.format('g:i a') + '</em>';  
+    detailEl.hide().update(failureMsg+dt).slideIn('t');
 }
 
 Ext.onReady(function(){
