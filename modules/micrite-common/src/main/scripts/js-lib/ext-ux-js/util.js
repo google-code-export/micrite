@@ -34,7 +34,7 @@ micrite.util = function() {
                              }
                         }
                     }
-                 }
+                 };
              return c;
         },
         autoLoad : function (c){
@@ -64,7 +64,7 @@ micrite.util = function() {
                     plain    : true,
                     maximizable: true,
                     html:    '<div id="'+ pbid +'" style="height:100%;top:40%;left:30%;position:absolute;"></div>',
-                    layout   : 'fit',
+                    layout   : 'fit'
                 },c));
             win.show();
             win.center();
@@ -90,5 +90,5 @@ micrite.util = function() {
                 }
             },c));
         }
-     }
+     };
 }();
