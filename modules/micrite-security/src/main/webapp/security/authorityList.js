@@ -93,7 +93,10 @@ micrite.security.authorityList.SearchPanel = Ext.extend(micrite.ComplexEditorGri
                     url: this.urlPrefix + '/deleteAuthority.action',
                     params:{'authIds':authorityIds},
                     success:function(r,o){
-                        this.store.reload();
+                        var res = Ext.decode(r.responseText);
+                        if (res&&res.success){
+                            this.store.reload();
+                        }
                     },
                     failure:Ext.emptyFn
                 },this);
@@ -124,7 +127,10 @@ micrite.security.authorityList.SearchPanel = Ext.extend(micrite.ComplexEditorGri
                     params:{'authority.id':authority.get('id'),
                         'authority.value':authority.get('value')},
                     success:function(r,o){
-                        this.store.commitChanges();
+                        var res = Ext.decode(r.responseText);
+                        if (res&&res.success){
+                            this.store.commitChanges();
+                        }
                     },
                     failure:Ext.emptyFn
                 },this);
