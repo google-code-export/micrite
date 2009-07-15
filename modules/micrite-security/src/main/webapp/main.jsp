@@ -39,7 +39,7 @@
 <div id="x-loading-mask" style="width:100%; height:100%; background:#618BAC; position:absolute; z-index:20000; left:0; top:0;">&#160;</div>
   <div id="x-loading-panel" style="position:absolute;left:40%;top:40%;border:1px solid #9c9f9d;padding:2px;background:#d1d8db;width:300px;text-align:center;z-index:20001;">
     <div style="border:1px solid #c1d1d6;color:#666;background:white;padding:10px;margin:0;padding-left: 20px;height:30px;text-align:left;">
-      <div id="load-status" style="height:30px;padding-top:5px;">Loading System ...</div>
+      <div id="load-status" style="height:30px;padding-top:5px;"><s:text name="loading.system"/></div>
     </div>
 </div>
 <script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base-debug.js"></script>
