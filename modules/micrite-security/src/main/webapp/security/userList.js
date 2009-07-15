@@ -106,7 +106,10 @@ micrite.security.userList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
                     url: this.urlPrefix + '/deleteUsers.action',
                     params:{'userIds':userIds},
                     success:function(r,o){
-                        this.store.reload();
+                        var res = Ext.decode(r.responseText);
+                        if (res && res.success){
+                            this.store.reload();
+                        }
                     },
                     failure:Ext.emptyFn
                 },this);
@@ -141,7 +144,10 @@ micrite.security.userList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
                     url: this.urlPrefix + '/enableUsers.action',
                     params:{'userIds':userIds},
                     success:function(r,o){
-                        this.store.reload();
+                        var res = Ext.decode(r.responseText);
+                        if (res && res.success){
+                            this.store.reload();
+                        }
                     },
                     failure:Ext.emptyFn
                 },this);
