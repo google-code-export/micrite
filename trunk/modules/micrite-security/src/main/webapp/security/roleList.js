@@ -109,7 +109,10 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
                     url: this.urlPrefix + '/deleteRoles.action',
                     params:{'roleIds':roleIds},
                     success:function(r,o){
-                        this.store.reload();
+                        var res = Ext.decode(r.responseText);
+                        if (res&&res.success){
+                            this.store.reload();
+                        }
                     },
                     failure:Ext.emptyFn
                 },this);

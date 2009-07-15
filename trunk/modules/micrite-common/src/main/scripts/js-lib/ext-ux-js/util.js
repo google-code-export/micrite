@@ -2,8 +2,8 @@ Ext.ns('micrite.util');
 micrite.util = function() {
     var success = function(r,o){
         var res = Ext.decode(r.responseText);
-        if (res.message){
-            if (res.message.indexOf('session expired')!=-1){
+        if (res&&res.message){
+            if (!res.success){
                 showMsg('failure',res.message);
             }else{
                 showMsg('success',res.message);
@@ -13,7 +13,7 @@ micrite.util = function() {
     var failure = function(r,o){
         var res = Ext.decode(r.responseText);
         if (!res){
-        	showMsg('failure', 'No Response From Server');
+            showMsg('failure', 'No Response From Server');
         }else if (res.message){
             showMsg('failure', res.message);
         }
@@ -32,7 +32,7 @@ micrite.util = function() {
                         loadexception:function(proxy, options, resp, error) {
                          var res = Ext.decode(resp.responseText);
                          if (!res){
-                         	showMsg('failure', 'No Response From Server');
+                            showMsg('failure', 'No Response From Server');
                          }else if (res.message){
                                 showMsg('failure',res.message);
                              }
