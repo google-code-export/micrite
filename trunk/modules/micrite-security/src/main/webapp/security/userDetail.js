@@ -67,7 +67,7 @@ micrite.security.userDetail.FormPanel = function() {
     	        }                    
             },{
                 text: mbLocale.closeButton,
-                handler: function() {Ext.getCmp('addUserWindow').close();}
+                handler: function() {Ext.WindowMgr.getActive().close();}
             }]
         }]
     });
@@ -88,7 +88,7 @@ Ext.onReady(function() {
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
     
-    Ext.getCmp('addUserWindow').add(new micrite.security.userDetail.FormPanel());
-    Ext.getCmp('addUserWindow').doLayout();
+    Ext.WindowMgr.getActive().add(new micrite.security.userDetail.FormPanel());
+    Ext.WindowMgr.getActive().doLayout();
 });
 </script>
