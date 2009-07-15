@@ -78,7 +78,7 @@ FromPanel = function() {
 	            }                    
 	        },{
 	            text: mbLocale.closeButton,
-	            handler: function() {Ext.getCmp('addAuthorityWindow').close();}
+	            handler: function() {Ext.WindowMgr.getActive().close();}
             }]
         }]
     });
@@ -102,7 +102,7 @@ Ext.onReady(function() {
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
     
-    Ext.getCmp('addAuthorityWindow').add(new micrite.security.authorityDetail.FormPanel());
-    Ext.getCmp('addAuthorityWindow').doLayout();
+    Ext.WindowMgr.getActive().add(new micrite.security.authorityDetail.FormPanel());
+    Ext.WindowMgr.getActive().doLayout();
 });
 </script>
