@@ -12,7 +12,9 @@ micrite.util = function() {
     };
     var failure = function(r,o){
         var res = Ext.decode(r.responseText);
-        if (res.message){
+        if (!res){
+        	showMsg('failure', 'No Response From Server');
+        }else if (res.message){
             showMsg('failure', res.message);
         }
     };
@@ -29,7 +31,9 @@ micrite.util = function() {
              c ={listeners:{
                         loadexception:function(proxy, options, resp, error) {
                          var res = Ext.decode(resp.responseText);
-                             if (res.message){
+                         if (!res){
+                         	showMsg('failure', 'No Response From Server');
+                         }else if (res.message){
                                 showMsg('failure',res.message);
                              }
                         }

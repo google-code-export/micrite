@@ -144,7 +144,7 @@ micrite.ComplexGrid = {
 	        }
         }
         this.colModel = this.getColumnById(0);
-        this.selModel = new Ext.grid.RowSelectionModel();
+        
         //创建数据源
         this.store = this.getStoreById(0);
         //创建分页工具栏

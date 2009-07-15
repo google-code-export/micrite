@@ -40,6 +40,7 @@
 <script type="text/javascript" src="js-lib/ext-ux-js/SpinnerStrategy.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/locale/micrite-base-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/util.js"></script>
+<link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/Spinner.css">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/micrite-all.css">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/CheckboxField.css">
 <style type="text/css">

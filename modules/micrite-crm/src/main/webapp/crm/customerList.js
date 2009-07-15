@@ -41,6 +41,8 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		triggerAction :'all',
 		lazyRender:false 
 	});
+	
+	var sm = new Ext.grid.CheckboxSelectionModel();
 	var config = {
 	        compSet: [
 	             {url:0,reader:0,columns:0,bbarAction:0},
@@ -104,7 +106,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		          	width: 100, sortable: true, dataIndex: 'customer_source_id',
 		          	editor:combo,renderer:comboBoxRenderer(combo)
 		          },
-		          new Ext.grid.CheckboxSelectionModel()
+		          sm
 			 ],[
                   {
                     header:'col1',
@@ -121,7 +123,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
                     width: 100, sortable: true, dataIndex: 'customer_source_id',
                     editor:combo,renderer:comboBoxRenderer(combo)
                   },
-                  new Ext.grid.CheckboxSelectionModel()
+                  sm
              ]],
 	         tbarActions : [{
 	        	 text:this.customerSourceBarChart,
@@ -149,7 +151,8 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	        	 iconCls :'save-icon',
 	        	 scope:this, 
 	        	 handler:this.saveCustomer
-	         }]]
+	         }]],
+	         sm:sm
 	    }; // eo config object
 
 		// apply config
