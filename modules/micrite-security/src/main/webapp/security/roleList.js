@@ -9,6 +9,7 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
     description:'Description',
         
     initComponent:function() { 
+    var sm = new Ext.grid.CheckboxSelectionModel();
     var config = {
             compSet:[{url:0,reader:0,columns:0,bbarAction:0}],
             searchFields :[[
@@ -27,7 +28,7 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
                 {header: this.description, width: 180, sortable: true, dataIndex: 'description',editor: new Ext.form.TextField({
                     allowBlank: false
                 })},
-                new Ext.grid.CheckboxSelectionModel()
+                sm
              ]],
              tbarActions : [{
                  text:this.addRole,
@@ -55,7 +56,8 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
                  iconCls :'save-icon',
                  scope:this, 
                  handler:this.saveRoleFun                 
-             }]]
+             }]],
+             sm:sm
         }; // eo config object
     Ext.apply(this, Ext.apply(this.initialConfig, config)); 
     micrite.security.roleList.SearchPanel.superclass.initComponent.apply(this, arguments);    

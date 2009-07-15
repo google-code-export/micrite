@@ -54,7 +54,7 @@
     background-image: url(security/images/framework/collapse-all.gif) !important;
 }
 .x-tree-node div.modules-node{
-    background:#eee url(extjs/examples/feed-viewer/images/cmp-bg.gif) repeat-x;
+    background:#eee;
     margin-top:1px;
     border-top:1px solid #ddd;
     border-bottom:1px solid #ccc;
