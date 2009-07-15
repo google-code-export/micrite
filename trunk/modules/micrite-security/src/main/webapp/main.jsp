@@ -33,6 +33,15 @@
 <title>Welcome to Micrite!</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-js/resources/css/ext-all.css">
+</head>
+
+<body>
+<div id="x-loading-mask" style="width:100%; height:100%; background:#618BAC; position:absolute; z-index:20000; left:0; top:0;">&#160;</div>
+  <div id="x-loading-panel" style="position:absolute;left:40%;top:40%;border:1px solid #9c9f9d;padding:2px;background:#d1d8db;width:300px;text-align:center;z-index:20001;">
+    <div style="border:1px solid #c1d1d6;color:#666;background:white;padding:10px;margin:0;padding-left: 20px;height:30px;text-align:left;">
+      <div id="load-status" style="height:30px;padding-top:5px;">Loading System ...</div>
+    </div>
+</div>
 <script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base-debug.js"></script>
 <script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/CheckboxField.js"></script>
@@ -192,10 +201,10 @@ MenuTreePanel = function() {
     // session 过期的处理
     this.getLoader().on({
         'load' : function(sm, node,r){
-	        var res = Ext.decode(r.responseText);
-	        if (res.message){
+            var res = Ext.decode(r.responseText);
+            if (res.message){
                 showMsg('failure',res.message);
-	        }
+            }
         },        
         scope:this
     });    
@@ -285,15 +294,15 @@ function showMsg(msgType,msg) {
                 buttons: Ext.Msg.YESNO,
                 scope: this,
                 fn: function(buttonId, text, opt) {
-            		if (buttonId == 'yes') {
+                    if (buttonId == 'yes') {
                     window.location = 'j_spring_security_logout';
-            		}
+                    }
                 },
                 icon: Ext.MessageBox.QUESTION
             }); 
             failureMsg = mbLocale.sessionExpiredMsg;
         }else{
-      		Ext.Msg.alert('failure',msg);
+            Ext.Msg.alert('failure',msg);
         }
     }
     var dt = new Date();
@@ -322,7 +331,9 @@ Ext.onReady(function(){
             mainPanel
         ]
     });
-
+   Ext.get('x-loading-mask').hide();
+   Ext.get('x-loading-panel').hide();
+   
 });
 </script>
 <script type="text/javascript" src="security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
@@ -330,9 +341,7 @@ Ext.onReady(function(){
 <s:if test="%{skin=='Gray'}" >
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/xtheme-gray-extend.css">
 </s:if>
-</head>
 
-<body>
 <s:hidden id="pageSize" name="pageSize"></s:hidden>
 <script type="text/javascript" src="js-lib/ext-ux-js/ComplexGrid.js"></script>
 <div id="header"></div>
