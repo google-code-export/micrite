@@ -30,9 +30,9 @@
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
 <title>Welcome to Micrite</title>
-<meta http-equiv="REFRESH" content="0;url=http://sites.google.com/a/gaixie.org/portal/"></HEAD>
+</head>
 <BODY>
 <jsp:forward page="/login.jsp" />
-Redirecting to Micrite ...
+Redirecting to Micrite login page...
 </BODY>
 </html>
