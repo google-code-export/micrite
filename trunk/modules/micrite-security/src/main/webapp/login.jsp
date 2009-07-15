@@ -635,8 +635,6 @@ Ext.onReady( function() {
     LoginWindow.show();
 });
 </script>
-<script type="text/javascript" src="js-lib/ext-ux-js/locale/micrite-base-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
-<script type="text/javascript" src="security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 </head>
 <body>
 </body>
