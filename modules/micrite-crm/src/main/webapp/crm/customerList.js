@@ -85,7 +85,6 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	        ]],
 	        urls: ['/crm/findCustomer.action','/crm/findCustomerNew.action'],
 	        readers : [[
-			     {name: 'id',type:'int'},
 			     {name: 'name'},
 			     {name: 'telephone'},
 			     {name: 'customer_source_id'}

@@ -17,7 +17,6 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
             ]],
             urls: ['/security/findRolesVague.action'],
             readers : [[
-                {name: 'id'},
                 {name: 'name'},
                 {name: 'description'}
             ]],

@@ -224,13 +224,15 @@ micrite.ComplexGrid = {
 	    toolbar.doLayout();
     },
     getColumnById : function(i){
-        var rn = new Ext.grid.RowNumberer({
-            scope : this,
-            renderer:function(value, metadata, record, rowIndex) {
-                var start = this.store.lastOptions.params.start;
-                return  start + 1 + rowIndex;
-            }
-        });
+        var rn = new Ext.grid.RowNumberer(
+//            {
+//                scope : this,
+//                renderer:function(value, metadata, record, rowIndex) {
+//                    var start = this.store.lastOptions.params.start;
+//                    return  start + 1 + rowIndex;
+//                }
+//            }
+        );
         return new Ext.grid.ColumnModel([rn].concat(this.columnsArray[this.compSet[i].columns]));
     },
     getStoreById : function(i){
