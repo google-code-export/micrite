@@ -84,10 +84,13 @@ micrite.ComplexGrid = {
     urlPrefix : '/' + document.location.href.split("/")[3],
     initComponent:function() {
  
-        var config = {
-    		layout:'fit',
-            viewConfig:{forceFit:true}
-        }; // eo config object
+		var forceFit = true;
+		if (this.forceFit != undefined && !this.forceFit)
+			forceFit = this.forceFit;
+	    var config = {
+			layout:'fit',
+	        viewConfig:{forceFit:forceFit}
+	    }; // eo config object
         // apply config
         Ext.apply(this, Ext.apply(this.initialConfig, config));
         if (this.compSet){
