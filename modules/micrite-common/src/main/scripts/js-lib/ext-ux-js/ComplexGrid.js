@@ -86,7 +86,7 @@ micrite.ComplexGrid = {
  
 	    var config = {
 			layout:'fit',
-	        viewConfig:{forceFit:forceFit}
+	        viewConfig:{forceFit:true}
 	    }; // eo config object
         // apply config
         Ext.apply(this, Ext.applyIf(this.initialConfig, config));
