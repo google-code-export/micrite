@@ -67,20 +67,13 @@ micrite.util = function() {
                     height   : 520,
                     plain    : true,
                     maximizable: true,
-                    html:    '<div id="'+ pbid +'" style="height:100%;top:40%;left:30%;position:absolute;"></div>',
+                    html:    '<div id="'+pbid+'" style="height:100%;"></div>',
                     layout   : 'fit'
                 },c));
             win.show();
             win.center();
-            var pb = new Ext.ProgressBar({
-                            width:Math.round(win.width*0.4,0),
-                            renderTo:Ext.get(pbid)
-                        });
-            pb.wait({
-                interval:100,
-                text:mbLocale.loadingMsg,
-                increment:10
-            });
+            var myMask = new Ext.LoadMask(Ext.get(pbid), {msg:mbLocale.loadingMsg});
+            myMask.show();
             return win;
         },
         ajaxRequest : function (c,scope){
