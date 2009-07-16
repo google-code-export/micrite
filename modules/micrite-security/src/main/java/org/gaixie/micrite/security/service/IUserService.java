@@ -56,7 +56,7 @@ public interface IUserService {
      * 修改用户信息。
      * 密码不为空字串时才修改密码。
      * 
-     * @param user对象,可更新属性包括, 用户id,newFullname 新名称,
+     * @param user 用户对象,可更新属性包括, 用户id,newFullname 新名称,
      * newEmailaddress 新email地址,newPlainpassword 新密码（明文）
      * user对象包括一个setting对象
      * @throws SecurityException 
@@ -67,6 +67,7 @@ public interface IUserService {
      * 根据用户名查询用户的总数（模糊查询）。
      * 
      * @param fullname 真实姓名
+     * @return 用户数量
      */
     public Integer findByFullnameVagueCount(String fullname);
 
@@ -76,6 +77,7 @@ public interface IUserService {
      * @param fullname 真实姓名
      * @param start 起始索引
      * @param limit 限制数
+     * @return 用户集合
      */
     public List<User> findByFullnameVaguePerPage(String fullname, int start, int limit);
     
@@ -83,14 +85,14 @@ public interface IUserService {
     /**
      * 根据配置项名称查询可用配置
      * @param name
-     * @return
+     * @return 配置集合
      */
     public List<Setting> findSettingByName(String name);
 
     /**
      * 根据用户查询所拥有的个性化配置
      * @param userId
-     * @return
+     * @return 配置集合
      */    
     public List<Setting> getSettings(int userId);
     
@@ -114,6 +116,7 @@ public interface IUserService {
      * @param roleId 角色id
      * @param start 起始索引
      * @param limit 限制数
+     * @return 用户集合
      */    
     public List<User> findUsersByRoleIdPerPage(int roleId, int start, int limit);
 
@@ -121,6 +124,7 @@ public interface IUserService {
      * 根据角色查询用户对象记录数。
      * 
      * @param roleId 角色id
+     * @return 用户数量
      */    
     public Integer findUsersByRoleIdCount(int roleId);
 

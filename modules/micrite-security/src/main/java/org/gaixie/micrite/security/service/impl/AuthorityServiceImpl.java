@@ -38,8 +38,8 @@ import org.gaixie.micrite.security.service.IAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
+ * 接口 <code>IAuthorityService</code> 的实现类。
  * 
- *
  */
 public class AuthorityServiceImpl implements IAuthorityService {
 

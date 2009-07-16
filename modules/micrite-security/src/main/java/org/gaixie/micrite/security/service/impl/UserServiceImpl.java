@@ -50,7 +50,6 @@ import org.springframework.security.userdetails.UsernameNotFoundException;
 /**
  * 用户业务实现
  * 
- * @see org.gaixie.micrite.security.service.IUserService
  */
 public class UserServiceImpl implements IUserService, UserDetailsService {
     

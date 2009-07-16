@@ -39,7 +39,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * 客户的一个来源。
+ * Micrite的一个客户来源。
  */
 @Entity
 @Table(name = "customer_source")

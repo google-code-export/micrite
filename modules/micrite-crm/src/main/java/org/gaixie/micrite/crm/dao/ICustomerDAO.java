@@ -46,15 +46,11 @@ public interface ICustomerDAO extends IGenericDAO<Customer, Integer> {
      */
     public List<CustomerSource> findAllCustomerSource();
 
-    /**
-     * 按用户来源进行分组
-     * @return
-     */
-//    public List findCSGroup(String telphone);
+
     /**
      * 根据电话模糊查询并按用户来源进行分组
-     * @param tel
-     * @return
+     * @param telphone
+     * @return 分组数据集合
      */
     public List findCSGroupByTelVague(String telphone);
     /**
@@ -62,13 +58,13 @@ public interface ICustomerDAO extends IGenericDAO<Customer, Integer> {
      * @param telephone
      * @param start
      * @param limit
-     * @return
+     * @return 客户集合
      */
     public List<Customer> findByTelVaguePerPage(String telephone, int start, int limit);
     /**
      * 根据电话模糊查询总记录数
      * @param telephone
-     * @return
+     * @return 客户数量
      */
     public int findByTelVagueCount(String telephone);
 

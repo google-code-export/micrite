@@ -168,7 +168,9 @@ if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
 }
 
 mbLocale = {
-    actionMenu:'操作菜单',          
+    actionMenu:'操作菜单', 
+    closeTabMenu:'关闭标签页',
+    closeOtherTabMenu:'关闭其它标签页',     
     searchButton:'查询',    
     submitButton:'提交',
     closeButton:'关闭',
@@ -178,7 +180,7 @@ mbLocale = {
     unbindButton:'解除绑定',             
     infoMsg:'信息',
     waitingMsg:'数据提交中...',
-    loadingMsg:'数据加载中...',
+    loadingMsg:'加载中...',
     delConfirmMsg:'确定要删除吗？',
     bindConfirmMsg:'确定要绑定？',
     unbindConfirmMsg:'确定要解除绑定？',

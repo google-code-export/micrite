@@ -54,7 +54,7 @@ public class CustomerChartAction extends ActionSupport {
 
     /**
      * 2D柱图
-     * @return
+     * @return "success"
      */
     public String getBarChart(){
         chart = ChartFactory.createBarChart(
@@ -80,7 +80,7 @@ public class CustomerChartAction extends ActionSupport {
     
     /**
      * 2D饼图
-     * @return
+     * @return "success"
      */
     public String getPieChart(){
         chart = ChartFactory.createPieChart(

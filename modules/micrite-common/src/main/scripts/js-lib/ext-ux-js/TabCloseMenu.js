@@ -23,13 +23,13 @@ Ext.ux.TabCloseMenu = function(){
             menu = new Ext.menu.Menu({            
             items: [{
                 id: tabs.id + '-close',
-                text: 'Close Tab',
+                text: mbLocale.closeTabMenu,
                 handler : function(){
                     tabs.remove(ctxItem);
                 }
             },{
                 id: tabs.id + '-close-others',
-                text: 'Close Other Tabs',
+                text: mbLocale.closeOtherTabMenu,
                 handler : function(){
                     tabs.items.each(function(item){
                         if(item.closable && item != ctxItem){
@@ -50,7 +50,7 @@ Ext.ux.TabCloseMenu = function(){
             }
         });
         items.get(tabs.id + '-close-others').setDisabled(disableOthers);
-	e.stopEvent();
+        e.stopEvent();
         menu.showAt(e.getPoint());
     }
 };

@@ -25,7 +25,7 @@ Ext.ux.ProgressBarPager  = Ext.extend(Object, {
  	* @cfg {String} defaultText
 	* <p>The text to display while the store is loading.  Default is 'Loading...'</p>
  	*/
-	defaultText    : 'Loading...',
+	defaultText    : mbLocale.loadingMsg,
     	/**
  	* @cfg {Object} defaultAnimCfg 
  	* <p>A {@link Ext.Fx Ext.Fx} configuration object.  Default is  { duration : 1, easing : 'bounceOut' }.</p>

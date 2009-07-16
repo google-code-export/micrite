@@ -38,14 +38,12 @@ public interface ICustomerService {
     /**
      * 新增客户
      * @param customer 客户实体
-     * @param customerSourceId 客户来源id
      */
     public void add(Customer customer);
 
     /**
      * 修改客户信息
      * @param customer 客户实体
-     * @param customerSourceId 客户来源id
      */
     public void update(Customer customer);
 
@@ -58,13 +56,13 @@ public interface ICustomerService {
    /**
     * 获取用户来源的饼图对象
     * @param telephone
-    * @return
+    * @return PieDataset
     */
     public PieDataset getCustomerSourcePieDataset(String telephone);
     
     /**
      * 获取用户来源的2D柱图对象
-     * @return
+     * @return CategoryDataset
      */
     public CategoryDataset getCustomerSourceBarDataset(String tel);
     /**
@@ -72,18 +70,18 @@ public interface ICustomerService {
      * @param telephone
      * @param start
      * @param limit
-     * @return
+     * @return 客户集合
      */
     public List<Customer> findByTelVaguePerPage(String telephone, int start, int limit);
     /**
      * 删除客户
-     * @param customer
+     * @param customerIds 客户的id数组
      */
     public void delete(int[] customerIds);
     /**
      * 根据电话模糊查询总记录数
      * @param telephone
-     * @return
+     * @return 客户数量
      */
     public int findByTelVagueCount(String telephone);
 

@@ -310,7 +310,9 @@ if(Ext.form.RadioGroup){
 
 //------------------------------------
 mbLocale = {
-    actionMenu:'Action Menu',        
+    actionMenu:'Action Menu', 
+    closeTabMenu:'Close Tab',
+    closeOtherTabMenu:'Close Other Tabs',    
     searchButton:'Search',                
     submitButton:'Save',
     closeButton:'Close',
@@ -320,7 +322,7 @@ mbLocale = {
     unbindButton:'UnBind',             
     infoMsg:'Info',
     waitingMsg:'Saving Data...',
-    loadingMsg:'Loading Data...',
+    loadingMsg:'Loading...',
     delConfirmMsg:'Are you sure want to delete?',
     bindConfirmMsg:'Are you sure want to bind?',
     unbindConfirmMsg:'Are you sure want to unbind?',

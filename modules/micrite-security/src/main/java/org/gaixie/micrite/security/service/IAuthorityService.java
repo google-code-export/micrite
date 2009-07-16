@@ -37,9 +37,7 @@ public interface IAuthorityService {
 
     /**
      * 新增一个授权资源
-     * @param customer 客户实体
-     * @param customerSourceId 客户来源id
-     * @return 成功：true；失败：false
+     * @param authority 授权对象
      */
     public void add(Authority authority);
     

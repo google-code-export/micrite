@@ -51,12 +51,6 @@ public class CustomerDAOImpl extends GenericDAOImpl<Customer, Integer> implement
     	return cs;
     }
 
-//    @SuppressWarnings("unchecked")
-//    public List findCSGroup(){
-//        String sql =
-//            "select count(cs.name),cs.name from Customer  c join c.customerSource cs group by cs.name";
-//        return  getHibernateTemplate().find(sql);
-//    }
     @SuppressWarnings("unchecked")
     public List findCSGroupByTelVague(String tel) {
         String sql =

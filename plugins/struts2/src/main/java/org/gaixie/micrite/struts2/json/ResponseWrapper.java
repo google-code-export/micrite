@@ -35,7 +35,6 @@ import javax.servlet.http.HttpServletResponse;
  * 
  * This class provide a wrapper for an http response
  * 
- * @author hunk
  */
 public class ResponseWrapper {
 	private String contentType = "application/json";
