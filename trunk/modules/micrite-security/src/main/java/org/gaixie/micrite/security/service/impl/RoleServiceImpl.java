@@ -40,8 +40,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.providers.dao.UserCache;
 
 /**
+ * 接口 <code>IRoleService</code> 的实现类。
  * 
- *
  */
 public class RoleServiceImpl implements IRoleService {
 

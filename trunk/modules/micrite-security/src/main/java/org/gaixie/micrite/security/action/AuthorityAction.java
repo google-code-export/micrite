@@ -132,7 +132,7 @@ public class AuthorityAction extends ActionSupport{
     
     /**
      * 查找指定角色的授权
-     * @return
+     * @return "success"
      */
     public String findBindedAuths() {
         
@@ -154,7 +154,7 @@ public class AuthorityAction extends ActionSupport{
 
     /**
      * 将授权绑定角色
-     * @return
+     * @return "success"
      */
     public String bindAuths() {
         authorityService.bindAuths(authIds,roleId);
@@ -165,7 +165,7 @@ public class AuthorityAction extends ActionSupport{
     
     /**
      * 将授权与角色取消绑定
-     * @return
+     * @return "success"
      */
     public String unBindAuths() {
         authorityService.unBindAuths(authIds,roleId);
@@ -184,7 +184,7 @@ public class AuthorityAction extends ActionSupport{
     }
 
     /**
-     * @param result the result to set
+     * @param resultMap the result to set
      */
     public void setResultMap(Map<String, Object> resultMap) {
         this.resultMap = resultMap;

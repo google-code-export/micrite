@@ -102,7 +102,7 @@ public class CustomerAction extends ActionSupport{
     }
     /**
      * 删除客户
-     * @return
+     * @return "success"
      */
     public String delete(){
         customerService.delete(customerIds);
@@ -112,7 +112,7 @@ public class CustomerAction extends ActionSupport{
     }
     /**
      * 获得用户来源
-     * @return
+     * @return "success"
      */
     public String getPartner(){
         customerSource = customerService.findALLCustomerSource();

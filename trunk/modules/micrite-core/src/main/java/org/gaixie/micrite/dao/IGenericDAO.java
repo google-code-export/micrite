@@ -21,19 +21,19 @@ public interface IGenericDAO<T, ID extends Serializable> {
     
     /**
      * Adds a new instance of the object
-     * @param instance the instance to save
+     * @param entity the instance to save
      */
     public void save(T entity);
     
     /**
      * Deletes the object
-     * @param instance the object to delete
+     * @param entity the object to delete
      */
     public void delete(T entity);
     
     /**
      * Updates the information of an existing object
-     * @param instance the instance to update
+     * @param entity the instance to update
      */
     public void update(T entity);
 

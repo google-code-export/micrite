@@ -68,7 +68,18 @@
       <directory>../modules/micrite-security/target/site</directory>
       <outputDirectory>micrite-modules/micrite-security</outputDirectory>
     </fileSet> 
-
+    <fileSet>
+      <directory>../plugins/target/site</directory>
+      <outputDirectory>micrite-plugins</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>../plugins/jfreechart/target/site</directory>
+      <outputDirectory>micrite-plugins/micrite-jfreechart-plugin</outputDirectory>
+    </fileSet> 
+    <fileSet>
+      <directory>../plugins/struts2/target/site</directory>
+      <outputDirectory>micrite-plugins/micrite-struts2-plugin</outputDirectory>
+    </fileSet>         
     <!-- Include the root in the assembly -->
     <fileSet>
       <directory>../target/site</directory>

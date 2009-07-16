@@ -37,7 +37,6 @@ import org.springframework.security.intercept.method.AbstractMethodDefinitionSou
 /**
  * 从 <code>MethodMapFactoryBean</code> 中获取被调用的方法所需要的权限标识符。
  * 
- * @see org.gaixie.micrite.security.filter.MethodMapFactoryBean
  */
 public class DefaultMethodDefinitionSource extends
         AbstractMethodDefinitionSource {

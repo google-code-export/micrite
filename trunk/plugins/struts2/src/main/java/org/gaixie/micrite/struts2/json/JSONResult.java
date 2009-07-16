@@ -41,7 +41,10 @@ import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.Result;
 import com.opensymphony.xwork2.util.ValueStack;
 
-
+/**
+ * 将Action中的对象转化为JSON格式
+ * 
+ */
 public class JSONResult implements Result {
 
     /**

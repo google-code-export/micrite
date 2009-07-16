@@ -33,8 +33,8 @@ import org.gaixie.micrite.security.service.ISecurityInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
+ * 接口 <code>ISecurityInterceptor</code> 的实现类。
  * 
- *
  */
 public class SecurityInterceptorImpl implements ISecurityInterceptor {
 
