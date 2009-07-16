@@ -91,7 +91,8 @@ micrite.security.userList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
             title    : this.bindRoles + ' -- ' +  users[0].get('fullname'),
             autoLoad : {url: 'security/roleSelect.jsp?userId=' + userIds[0], scripts:true},
             width    : 500,
-            height   : 360
+            height   : 360,
+            border   : true            
         });
     },
     deleteUsersFun :function() {
