@@ -71,12 +71,12 @@ public class CustomerServiceImplMock implements ICustomerService {
 		customers.add(customer3);
 	}
 	
-	public void add(Customer customer, Integer customerSourceId) {
+	public void add(Customer customer) {
 		//	根据Id查找customerSource
 		CustomerSource wantedCustomerSource = null;
 		for (CustomerSource customerSource:customerSources)
 		{
-			if (customerSource.getId() == customerSourceId)
+			if (customerSource.getId() == customer.getCustomerSource().getId())
 			{
 				wantedCustomerSource = customerSource;
 			}
@@ -105,12 +105,12 @@ public class CustomerServiceImplMock implements ICustomerService {
 	     	customers.add(customer);
 		}
 	}
-	public void update(Customer customer, Integer customerSourceId) {
+	public void update(Customer customer) {
 		//	根据Id查找customerSource
 		CustomerSource wantedCustomerSource = null;
 		for (CustomerSource customerSource:customerSources)
 		{
-			if (customerSource.getId() == customerSourceId)
+			if (customerSource.getId() == customer.getCustomerSource().getId())
 			{
 				wantedCustomerSource = customerSource;
 			}
@@ -223,11 +223,6 @@ public class CustomerServiceImplMock implements ICustomerService {
         
     }
 
-    public void add(Customer customer, int customerSourceId) {
-        // TODO Auto-generated method stub
-        
-    }
-
     public int findByTelVagueCount(String telephone) {
         // TODO Auto-generated method stub
         return 0;
@@ -244,8 +239,4 @@ public class CustomerServiceImplMock implements ICustomerService {
         return null;
     }
 
-    public void update(Customer customer, int customerSourceId) {
-        // TODO Auto-generated method stub
-        
-    }
 }

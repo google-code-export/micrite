@@ -36,35 +36,24 @@ micrite.crm.customerDetail.FormPanel = function() {
             defaultType: 'textfield',
             autoHeight: true,
             items: [{
-                id:'cid',
-                fieldLabel: this.idText,
-                disabled:true,
-                name: 'id'
-            },{
-                id:'cname',
                 fieldLabel: this.nameText,
-                name: 'name',
+                name: 'customer.name',
                 allowBlank:false
             },{
-                id:'ctelephone',
                 fieldLabel: this.mobileText,
-                name: 'telephone',
+                name: 'customer.telephone',
                 allowBlank:false
             }, new Ext.form.ComboBox({
-                id:'sourceSelect',
-                name:'customerSource',
+                name:'customer.customerSource.id',
                 selectOnFocus:true,
                 valueField:'id',
-                hiddenName:'id',
+                hiddenName:'customer.customerSource.id',
                 displayField:'name',
                 fieldLabel: this.sourceText,
                 emptyText:this.comboEmptyText,
                 editable:false,
-                width: 170,
                 forceSelection:true,
                 triggerAction:'all',
-                lazyInit:false,
-                lazyRender : true,
                 store:store,
                 typeAhead: true
             })]
@@ -79,12 +68,6 @@ micrite.crm.customerDetail.FormPanel = function() {
                         method: 'POST',
                         disabled:true,
                         waitMsg: mbLocale.waitingMsg,
-                        params:{
-                            customerSourceId: Ext.getCmp('sourceSelect').getValue(),
-                            'customer.id': Ext.getCmp('cid').getValue(),
-                            'customer.name': Ext.getCmp('cname').getValue(),
-                            'customer.telephone' : Ext.getCmp('ctelephone').getValue()
-                        },
                         success: function(form, action) {
                                 obj = Ext.util.JSON.decode(action.response.responseText);
                                 showMsg('success', obj.message);                    
@@ -99,8 +82,8 @@ micrite.crm.customerDetail.FormPanel = function() {
                 text: mbLocale.closeButton,
                 scope:this,
                 handler: function(){
-                	Ext.WindowMgr.getActive().close();
-                	}
+                    Ext.WindowMgr.getActive().close();
+                    }
             }]
         }]
     });

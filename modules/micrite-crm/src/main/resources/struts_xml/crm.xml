@@ -14,7 +14,6 @@
 		<action name="findCustomer" class="customerAction" method="findByTelVague">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
-                <param name="excludes">customerSource</param>
             </result>
 		</action>
 		<action name="editCustomer" class="customerAction" method="update">
