@@ -225,7 +225,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 					params:{'customerSourceId':customer.get('customer_source_id'),
 					'customer.name':customer.get('name'),
 					'customer.telephone':customer.get('telephone'),
-					'customer.id':customer.get('id')},
+					'customer.id':customer.id},
 					scope:this,
 					success:function(r,o){
                         this.getStore().commitChanges();

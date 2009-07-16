@@ -139,7 +139,7 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
                     url: this.urlPrefix + '/updateRole.action',
-                    params:{'role.id':role.get('id'),
+                    params:{'role.id':role.id,
                             'role.name':role.get('name'),
                             'role.description':role.get('description')},
                     success:function(r,o){

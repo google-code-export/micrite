@@ -18,7 +18,6 @@ micrite.security.authorityList.SearchPanel = Ext.extend(micrite.ComplexEditorGri
             ]],
             urls: ['/security/findAuthoritiesVague.action'],
             readers : [[
-                {name: 'id'},
                 {name: 'name'},
                 {name: 'value'},
                 {name: 'type'}
@@ -124,7 +123,7 @@ micrite.security.authorityList.SearchPanel = Ext.extend(micrite.ComplexEditorGri
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
                     url: this.urlPrefix + '/updateAuthority.action',
-                    params:{'authority.id':authority.get('id'),
+                    params:{'authority.id':authority.id,
                         'authority.value':authority.get('value')},
                     success:function(r,o){
                         var res = Ext.decode(r.responseText);
