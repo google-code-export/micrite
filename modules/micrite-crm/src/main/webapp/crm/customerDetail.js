@@ -52,6 +52,7 @@ micrite.crm.customerDetail.FormPanel = function() {
                 fieldLabel: this.sourceText,
                 emptyText:this.comboEmptyText,
                 editable:false,
+                allowBlank:false,
                 forceSelection:true,
                 triggerAction:'all',
                 store:store,
