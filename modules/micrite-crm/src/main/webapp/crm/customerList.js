@@ -161,7 +161,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
     
 	getBarChart : function(o,t,id) {
 		var c1 = {id:'customerList.barchar',
-		  title:this.customerSourceBarChart};
+		          title:this.customerSourceBarChart};
 		var c2 = {
             url: this.urlPrefix + '/crm/getCustomerSourceBarChart.action',
             params:{'customer.telephone':this.curFields[0].getRawValue()}
@@ -170,7 +170,8 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	}, //eof getBarChart
 	
 	getPieChart : function() {
-		var c1 = {title:this.customerSourcePieChart};
+		var c1 = {id:'customerList.piechar',
+		          title:this.customerSourcePieChart};
         var c2 = {
             url: this.urlPrefix + '/crm/getCustomerSourcePieChart.action',
             params:{'customer.telephone':this.curFields[0].getRawValue()}
@@ -180,6 +181,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	
 	addCustomer : function() {
 			var win = micrite.util.genWindow({
+	            id       : 'addCustomerWindow',
                 title    : this.newCustomer,
                 autoLoad : {url: this.urlPrefix + '/crm/customerDetail.js',scripts:true},
                 width    : 500,
