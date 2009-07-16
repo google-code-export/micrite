@@ -36,18 +36,18 @@
 <script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/micrite-all.css">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/DateTime.css">
-<script type="text/javascript" src="js-lib/ext-ux-js/DateTime.js"></script>
-<script type="text/javascript" src="js-lib/ext-ux-js/BaseLocale.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/Spinner.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/SpinnerStrategy.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/locale/micrite-base-lang-<%=request.getParameter("request_locale")%>.js"></script>
 <script type="text/javascript" src="crm/locale/micrite-crm-lang-<%=request.getParameter("request_locale")%>.js"></script>
-   
+<script type="text/javascript" src="js-lib/ext-ux-js/util.js"></script>   
 <script>
 	var mainPanel = false;
 </script>
 </head>
 <body>
 <s:hidden id="pageSize" name="pageSize" value="2"></s:hidden>
-<script type="text/javascript" src="js-lib/ext-ux-js/ComplexSearchPanel.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/ComplexGrid.js"></script>
 Customer List -- 
 <a href="index.jsp?moduleName=customerList&request_locale=zh_CN" >中文</a> |
 <a href="index.jsp?moduleName=customerList&request_locale=en" >English</a>
