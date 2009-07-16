@@ -84,15 +84,12 @@ micrite.ComplexGrid = {
     urlPrefix : '/' + document.location.href.split("/")[3],
     initComponent:function() {
  
-		var forceFit = true;
-		if (this.forceFit != undefined && !this.forceFit)
-			forceFit = this.forceFit;
 	    var config = {
 			layout:'fit',
 	        viewConfig:{forceFit:forceFit}
 	    }; // eo config object
         // apply config
-        Ext.apply(this, Ext.apply(this.initialConfig, config));
+        Ext.apply(this, Ext.applyIf(this.initialConfig, config));
         if (this.compSet){
         	Ext.each(this.compSet,this.initCompSet,this);
         	this.previousCompSet = {}; //用于判断bbar上的button是否重新生成
