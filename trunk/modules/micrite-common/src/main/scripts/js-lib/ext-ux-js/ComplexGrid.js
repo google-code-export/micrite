@@ -152,6 +152,7 @@ micrite.ComplexGrid = {
             pageSize : this.pageSize,
             store : this.store,
             displayInfo : true,
+            plugins: new Ext.ux.ProgressBarPager(),
             listeners : {
             	scope : this,
                 render:function(c){
