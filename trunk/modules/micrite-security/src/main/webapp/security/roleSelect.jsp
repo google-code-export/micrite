@@ -10,31 +10,31 @@ micrite.security.roleSelect.SearchPanel = Ext.extend(micrite.ComplexGrid, {
     roleDescription:'Role Description',
 
     initComponent:function() { 
-	    //  查询请求的url
-	    var searchURL = '';
+        //  查询请求的url
+        var searchURL = '';
         if (<%=(request.getParameter("userId") != null)%>) {
             searchURL = '/security/findRolesByUser.action?userId=' + <%=request.getParameter("userId")%>;
         } else {
             searchURL = '/security/findRolesByAuthority.action?authorityId=' + <%=request.getParameter("authorityId")%>;
-        }	    
+        }
     
         var sm = new Ext.grid.CheckboxSelectionModel();
         var config = {
-			compSet:[{url:0,reader:0,columns:0,bbarAction:0}],
-			searchFields :[[
+            compSet:[{url:0,reader:0,columns:0,bbarAction:0}],
+            searchFields :[[
                 this.roleName, {xtype:'textfield', name:'role.name', width:120},
                 '',{xtype:'checkbox',boxLabel:this.onlyBinded, name:'binded'}
-	        ]],
-	        urls: [searchURL],
-	        readers : [[
+            ]],
+            urls: [searchURL],
+            readers : [[
                 {name: 'name'},
                 {name: 'description'}
-	        ]],
+            ]],
             columnsArray: [[
                 {header: this.roleName, width: 100, sortable: true, dataIndex: 'name'},
                 {header: this.roleDescription, width: 180, sortable: true, dataIndex: 'description'},
-	            sm
-	        ]],	 
+                sm
+            ]],
             tbarActions : [{
                 text:this.addRole,
                 iconCls :'add-icon',
@@ -52,7 +52,7 @@ micrite.security.roleSelect.SearchPanel = Ext.extend(micrite.ComplexGrid, {
                 scope:this, 
                 handler:this.unBindRolesFun
             }]],
-            sm:sm	                               
+            sm:sm
         }; // eo config object
         Ext.apply(this, Ext.apply(this.initialConfig, config)); 
         micrite.security.roleSelect.SearchPanel.superclass.initComponent.apply(this, arguments);    
