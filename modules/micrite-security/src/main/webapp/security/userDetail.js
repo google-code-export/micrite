@@ -42,7 +42,7 @@ micrite.security.userDetail.FormPanel = function() {
                 allowBlank:false
             }]
         },{
-        	buttonAlign:'center',
+            buttonAlign:'center',
             buttons: [{
                 text: mbLocale.submitButton,
 		        scope:this,
