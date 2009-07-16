@@ -288,7 +288,7 @@ micrite.ComplexGrid = {
      	}
      },
      genChartWindow : function(c1,c2) {
-     	var win = micrite.util.genWindow(c1);
+    	 var win = micrite.util.genWindow(Ext.apply(c1,{border:true}));
      	if (!win) return;
         Ext.apply(c2,{
         	success:function(r,o){
