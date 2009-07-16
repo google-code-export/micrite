@@ -63,6 +63,7 @@ micrite.util = function() {
              var pbid = Ext.id();
             var win = new Ext.Window(Ext.apply({
                     closable : true,
+                    border   : false,
                     width    : 640,
                     height   : 520,
                     plain    : true,
