@@ -32,7 +32,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -52,9 +51,6 @@ public class Customer {
     private String name;
     
     private String telephone;
-    
-    @Transient
-    private Integer customer_source_id;
     
     @ManyToOne(targetEntity = CustomerSource.class)
     @JoinColumn(name = "customer_source_id")
@@ -85,14 +81,6 @@ public class Customer {
         this.telephone = telephone;
     }
 
-    public Integer getCustomer_source_id() {
-        return customerSource.getId();
-    }
-
-    public void setCustomer_source_id(Integer customer_source_id) {
-        this.customer_source_id = customer_source_id;
-    }
-    
     public CustomerSource getCustomerSource() {
         return customerSource;
     }

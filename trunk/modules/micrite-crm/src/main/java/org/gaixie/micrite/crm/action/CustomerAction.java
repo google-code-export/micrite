@@ -52,7 +52,6 @@ public class CustomerAction extends ActionSupport{
     private List<CustomerSource> customerSource;
     //获取的页面参数
     private Customer customer;
-    private int customerSourceId;
     private int[] customerIds;
     
     //起始索引
@@ -68,7 +67,7 @@ public class CustomerAction extends ActionSupport{
      * @return "success"
      */
     public String add() {
-        customerService.add(customer, customerSourceId);
+        customerService.add(customer);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -95,7 +94,7 @@ public class CustomerAction extends ActionSupport{
      * @return "success"
      */
     public String update() {
-        customerService.update(customer, customerSourceId);
+        customerService.update(customer);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
@@ -139,18 +138,7 @@ public class CustomerAction extends ActionSupport{
     public List<CustomerSource> getCustomerSource() {
         return customerSource;
     }
-    /**
-     * @param customerSourceId the customerSourceId to set
-     */
-    public void setCustomerSourceId(int customerSourceId) {
-        this.customerSourceId = customerSourceId;
-    }
-    /**
-     * @return the customerSourceId
-     */
-    public int getCustomerSourceId() {
-        return customerSourceId;
-    }
+
     /**
      * @param customerSource the customerSource to set
      */

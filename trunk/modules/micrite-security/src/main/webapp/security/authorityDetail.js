@@ -17,10 +17,6 @@ FromPanel = function() {
             defaultType: 'textfield',
             autoHeight: true,
             items: [{
-                name:'authority.id',
-                fieldLabel: this.idText,
-                disabled:true
-            },{
                 name:'authority.name',
                 fieldLabel: this.nameText,
                 allowBlank:false
@@ -32,7 +28,6 @@ FromPanel = function() {
                 //confirmTo:"authority.type",//要比较的另外一个的组件的id
                 allowBlank:false
             },  new Ext.form.ComboBox({
-                id:'authority.type',
             	name:'authority.type',
                 store: new Ext.data.SimpleStore({
                     fields: ['key', 'value'],

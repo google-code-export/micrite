@@ -87,7 +87,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	        readers : [[
 			     {name: 'name'},
 			     {name: 'telephone'},
-			     {name: 'customer_source_id'}
+			     {name: 'customerSource',mapping : 'customerSource.id'}
 	        ]],
 			columnsArray: [[
 		          {
@@ -102,7 +102,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		          },
 		          {
 		          	header: this.colModelSource,
-		          	width: 100, sortable: true, dataIndex: 'customer_source_id',
+		          	width: 100, sortable: true, dataIndex: 'customerSource',
 		          	editor:combo,renderer:comboBoxRenderer(combo)
 		          },
 		          sm
@@ -222,7 +222,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 			if (buttonId == 'yes') {
 				micrite.util.ajaxRequest({
 					url: this.urlPrefix + '/crm/editCustomer.action',
-					params:{'customerSourceId':customer.get('customer_source_id'),
+					params:{'customer.customerSource.id':customer.get('customerSource'),
 					'customer.name':customer.get('name'),
 					'customer.telephone':customer.get('telephone'),
 					'customer.id':customer.id},

@@ -44,20 +44,12 @@ public class CustomerServiceImpl implements ICustomerService {
     @Autowired
     private ICustomerDAO customerDAO;
 
-    public void add(Customer customer, int customerSourceId) {
-        CustomerSource cs = customerDAO.getCustomerSource(customerSourceId);
-        customer.setCustomerSource(cs);
+    public void add(Customer customer) {
         customerDAO.save(customer);
     }
     
-    public void update(Customer c, int customerSourceId) {
-        Customer customer = customerDAO.get(c.getId());
-        CustomerSource cs = customerDAO.getCustomerSource(customerSourceId);
-        
-        customer.setCustomerSource(cs);
-        customer.setName(c.getName());
-        customer.setTelephone(c.getTelephone());
-        customerDAO.update(customer);
+    public void update(Customer c) {
+        customerDAO.update(c);
     }
 
     public List<CustomerSource> findALLCustomerSource() {

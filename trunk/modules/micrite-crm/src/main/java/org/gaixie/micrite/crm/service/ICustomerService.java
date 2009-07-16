@@ -40,14 +40,14 @@ public interface ICustomerService {
      * @param customer 客户实体
      * @param customerSourceId 客户来源id
      */
-    public void add(Customer customer, int customerSourceId);
+    public void add(Customer customer);
 
     /**
      * 修改客户信息
      * @param customer 客户实体
      * @param customerSourceId 客户来源id
      */
-    public void update(Customer customer, int customerSourceId);
+    public void update(Customer customer);
 
     /**
      * 获取客户来源
