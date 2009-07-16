@@ -52,10 +52,12 @@
         
         <!-- ~~~~~~~~~~~~~~~~~~~~ 如果有未处理的exception，转发到exception.jsp ~~~~~~~~~~~~~~~~~~ -->
         <global-results>
-         <result name="unhandledException">/exception.jsp</result>
+            <result name="accessDeniedException">/403.jsp</result>
+            <result name="unhandledException">/exception.jsp</result>
         </global-results>
         
         <global-exception-mappings>
+            <exception-mapping exception="org.springframework.security.AccessDeniedException" result="accessDeniedException"/>
             <exception-mapping exception="java.lang.Exception" result="unhandledException"/>
         </global-exception-mappings>
             
