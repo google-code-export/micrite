@@ -20,7 +20,7 @@ micrite.util = function() {
     };
     
     var callback = function(el,s,r,o){
-        if (Ext.get('session-expired')){
+        if (Ext.get('session-expired')||Ext.get('access-denied')){
             var res = Ext.decode(r.responseText);
             showMsg('failure', res.message);
         }

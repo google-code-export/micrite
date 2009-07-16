@@ -36,7 +36,7 @@ public class AccessDeniedInterceptor implements ThrowsAdvice {
 
     public void afterThrowing(Method method, Object[] args, Object target,
             AccessDeniedException exception) {
-        System.out.println("access denied.....");
+//        System.out.println("access denied.....");
         // TODO 通过DatabaseMethodDefinitionSource拒绝访问后的处理
     }
 }

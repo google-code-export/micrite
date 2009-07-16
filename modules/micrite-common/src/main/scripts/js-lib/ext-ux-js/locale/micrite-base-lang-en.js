@@ -330,5 +330,6 @@ mbLocale = {
     gridMultRowSelectMsg:'You must select at least one row in this grid!',
     updateConfirmMsg:'Are you sure want to update?',
     gridRowEditMsg:'Modify one row please!',
-    sessionExpiredMsg:'Access denied or session expired, please relogin!'
+    sessionExpiredMsg:'Access denied or session expired, please relogin!',
+    accessDeniedMsg:'Access denied, please check your authorities!'
 }

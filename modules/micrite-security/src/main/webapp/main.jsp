@@ -306,6 +306,10 @@ function showMsg(msgType,msg) {
                 icon: Ext.MessageBox.QUESTION
             }); 
             failureMsg = mbLocale.sessionExpiredMsg;
+         // 登录后URL和Method拦截信息国际化,临时方法，spring security 3.0以后可能不用了   
+        }else if(msg.indexOf('(403)')!=-1){
+            Ext.Msg.alert('failure',mbLocale.accessDeniedMsg);
+            failureMsg = mbLocale.accessDeniedMsg;
         }else{
             Ext.Msg.alert('failure',msg);
         }

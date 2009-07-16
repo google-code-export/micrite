@@ -23,4 +23,6 @@
  *
  */
 --%>
-access denied
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+{'message':'(403)Access denied, please <b id="access-denied" > check </b>your authorities!','success':false}
