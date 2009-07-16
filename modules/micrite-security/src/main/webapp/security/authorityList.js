@@ -80,7 +80,8 @@ micrite.security.authorityList.SearchPanel = Ext.extend(micrite.ComplexEditorGri
             title    : this.bindUser+' -- '+authorities[0].get('name'),
             autoLoad : {url: this.urlPrefix + '/security/roleSelect.jsp?authorityId='+authorityIds[0],scripts:true},
             width    : 500,
-            height   : 360
+            height   : 360,
+            border   : true
         });
     },
 

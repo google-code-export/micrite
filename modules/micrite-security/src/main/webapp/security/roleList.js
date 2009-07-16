@@ -83,7 +83,8 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
             title    : this.bindUser+' -- '+roles[0].get('name'),
             autoLoad : {url: this.urlPrefix + '/security/userSelect.jsp?roleId='+roleIds[0],scripts:true},
             width    : 500,
-            height   : 360
+            height   : 360,
+            border   : true
         });
     },
     bindAuthorityFun:function() {
@@ -98,7 +99,8 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
             title    : this.bindAuthority+' -- '+roles[0].get('name'),
             autoLoad : {url: this.urlPrefix + '/security/authoritySelect.jsp?roleId='+roleIds[0],scripts:true},
             width    : 500,
-            height   : 360
+            height   : 360,
+            border   : true            
         });        
     },
     deleteRoleFun:function() {
