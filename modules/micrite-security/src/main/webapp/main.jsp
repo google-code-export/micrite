@@ -44,6 +44,7 @@
 </div>
 <script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base-debug.js"></script>
 <script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/ProgressBarPager.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/CheckboxField.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/Spinner.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/SpinnerStrategy.js"></script>
