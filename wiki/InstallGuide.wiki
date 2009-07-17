@@ -14,7 +14,7 @@ Micrite is a database-driven Java web application. To run it you need Java, a Ja
  * A relational database such as MySQL, Apache Derby or PostgreSQL. Micrite includes database creation scripts for Derby, MySQL, PostgreSQL and MsSQL.
 
 =Download and un-package Micrite=
-Download the Gaixie Micrite release file from http://micrite.gaixie.org and use your favorite ZIP program to unzip the release into a directory on your computer's disk.
+Download the Gaixie Micrite release file from http://code.google.com/p/micrite/downloads/list and use your favorite ZIP program to unzip the release into a directory on your computer's disk.
 
 ==Installation directory layout==
 Once you've unpackaged the files you'll find a directory structure like this:
