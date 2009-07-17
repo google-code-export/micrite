@@ -34,7 +34,7 @@
 	<url>http://sites-by-maven.gaixie.org/micrite/0.x</url>
 	<packaging>pom</packaging>
 
-	<version>0.10-SNAPSHOT</version>
+	<version>0.9.1</version>
 
 	<description>
         Gaixie Micrite, the Java web application base on struts2 and spring.
@@ -46,8 +46,8 @@
 	</organization>
 
 	<scm>
-		<connection>scm:svn:https://micrite.googlecode.com/svn/trunk</connection>
-		<developerConnection>scm:svn:https://micrite.googlecode.com/svn/trunk</developerConnection>
+		<connection>scm:svn:https://micrite.googlecode.com/svn/tags/0.9.1</connection>
+		<developerConnection>scm:svn:https://micrite.googlecode.com/svn/tags/0.9.1</developerConnection>
 	</scm>
 
 	<issueManagement>
@@ -398,30 +398,30 @@
 			<dependency>
 				<groupId>org.gaixie.micrite</groupId>
 				<artifactId>micrite-beans</artifactId>
-				<version>0.10-SNAPSHOT</version>
+				<version>0.9.1</version>
 			</dependency>
 			<!-- 定义了所有公用类-->
 			<dependency>
 				<groupId>org.gaixie.micrite</groupId>
 				<artifactId>micrite-common</artifactId>
-				<version>0.10-SNAPSHOT</version>
+				<version>0.9.1</version>
 			</dependency>
 			<!-- 定义了所有核心类-->
 			<dependency>
 				<groupId>org.gaixie.micrite</groupId>
 				<artifactId>micrite-core</artifactId>
-				<version>0.10-SNAPSHOT</version>
+				<version>0.9.1</version>
 			</dependency>
             <!-- 定义了所有插件类-->
             <dependency>
                 <groupId>org.gaixie.micrite</groupId>
                 <artifactId>micrite-struts2-plugin</artifactId>
-                <version>0.10-SNAPSHOT</version>             
+                <version>0.9.1</version>             
             </dependency>             
             <dependency>
                 <groupId>org.gaixie.micrite</groupId>
                 <artifactId>micrite-jfreechart-plugin</artifactId>
-                <version>0.10-SNAPSHOT</version>
+                <version>0.9.1</version>
             </dependency>
             
 			<dependency>
