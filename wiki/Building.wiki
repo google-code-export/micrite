@@ -36,7 +36,7 @@ If you have an incompatible version the project build will probably fail with a 
 
 == Subversion ==
 
-To fetch the source code for the server, you will need to have a Subversion client version 1.2 (or newer, 1.4 is recommended) installed.
+To fetch the source code for the server, you will need to have a [http://subversion.tigris.org/ Subversion] client version 1.5 (or newer, 1.5 is recommended) installed.
 {{{
 Windows Tip
 
@@ -59,7 +59,17 @@ See http://code.google.com/p/micrite/source/checkout for more detail.
 
 = Preparing to Build for the First Time =
 
-Chances are you will need to increase the heap size for Maven. See http://maven.apache.org/download.html for more detail.
+Chances are you will need to increase the heap size for Maven. 
+
+Add the MAVEN_OPTS environment variable to specify JVM properties, e.g. export MAVEN_OPTS="-Xms256m -Xmx512m" 
+{{{
+Windows Tip
+Add the MAVEN_OPTS environment variable by opening up the system properties (WinKey + Pause) --> "Advanced" tab--> "Environment Variables" button, 
+then adding the MAVEN_OPTS variable in the user variables with the value -Xms256m -Xmx512m .
+}}}
+This environment variable can be used to supply extra options to Maven. 
+
+See http://maven.apache.org/download.html for more detail.
 
 = Building =
 
