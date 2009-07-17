@@ -10,6 +10,7 @@ The purpose of this document is to act as a reference for developers of Micrite.
 
 = Details =
 || *Version* || *Meta data* || *ER Diagram* || *Schema* || *Date* ||
+|| [http://code.google.com/p/micrite/source/browse/tags/v0.9.1 v0.9.1] || no change || no change || no change || 2009-07-07 ||
 || [http://code.google.com/p/micrite/source/browse/tags/v0.9 v0.9] || [http://code.google.com/p/micrite/source/browse/tags/v0.9/src/uml/MicriteERDiagram.erd view] || [http://sites-by-maven.gaixie.org/micrite/0.9/trunk/images/MicriteERDiagram.erd.jpg view] || [http://sites-by-maven.gaixie.org/micrite/0.9/trunk/schema/ view] || 2009-07-03 ||
 || [http://code.google.com/p/micrite/source/browse/tags/v0.6 v0.6] || [http://code.google.com/p/micrite/source/browse/tags/v0.6/src/uml/MicriteERDiagram.erd view] || [http://sites-by-maven.gaixie.org/micrite/0.6/trunk/images/MicriteERDiagram.erd.jpg view] || [http://sites-by-maven.gaixie.org/micrite/0.6/trunk/schema/ view] || 2009-05-20 ||
 || [http://code.google.com/p/micrite/source/browse/tags/v0.4 v0.4] || -- || -- || -- || -- ||
