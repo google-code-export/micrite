@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/* ===========================================================
+ * $Id$
+ * This file is part of Micrite
+ * ===========================================================
+ *
+ * (C) Copyright 2009, by Gaixie.org and Contributors.
+ * 
+ * Project Info:  http://micrite.gaixie.org/
+ *
+ * Micrite is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Micrite is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+-->
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="micrite-security" extends="micrite-default"
+        namespace="/">
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~ LOGIN ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->
+        <action name="loginSuccess" class="loginAction" method="loginSuccess">
+            <result name="success" type="json">
+                <param name="target">loginResult</param>
+            </result>
+
+        </action>
+        <action name="loginFailed" class="loginAction" method="loginFailed">
+            <result name="success" type="json">
+                <param name="target">loginResult</param>
+            </result>
+        </action>
+
+        <action name="loadMenu" class="loginAction" method="loadMenu">
+            <result name="success" type="json">
+                <param name="target">menu</param>
+            </result>
+        </action>
+
+        <action name="login">
+            <result name="success" type="redirect">
+                <param name="location">/login.jsp</param>
+            </result>
+        </action>
+        
+        <action name="main" class="loginAction" method="loadSetting">
+            <result name="success">
+                <param name="location">/main.jsp</param>
+            </result>
+        </action>
+                
+        <!-- ~~~~~~~~~~~~~~~~~~~~ USER ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->    
+        <action name="addUser" class="userAction" method="add">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
+
+        <action name="updateUserInfo" class="userAction" method="updateInfo">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
+
+        <action name="findUsersVague" class="userAction" method="findByFullnameVague">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+                <param name="excludes">roles,authorities,accountNonExpired,accountNonLocked,
+                credentialsNonExpired,cryptpassword,password,plainpassword,settings</param>
+            </result>
+        </action>
+
+        <action name="loadCurrentUser" class="userAction" method="loadCurrentUser">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+                <param name="excludes">roles,authorities,accountNonExpired,accountNonLocked,
+                credentialsNonExpired,cryptpassword,password,plainpassword</param>
+            </result>
+        </action>
+
+        <action name="loadSetting" class="userAction" method="findSettingByName">
+            <result name="success" type="json">
+                <param name="target">settings</param>
+            </result>
+        </action>
+        
+        <action name="deleteUsers" class="userAction" method="delete">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>        
+
+        <action name="enableUsers" class="userAction" method="enableUsers">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>        
+
+        <action name="findBindedUsers" class="userAction" method="findBindedUsers">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+                <param name="excludes">roles,authorities,accountNonExpired,accountNonLocked,
+                credentialsNonExpired,cryptpassword,password,plainpassword,settings</param>
+            </result>
+        </action>        
+
+        <action name="bindUsers" class="userAction" method="bindUsers">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action> 
+
+        <action name="unBindUsers" class="userAction" method="unBindUsers">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action> 
+                                 
+        <!-- ~~~~~~~~~~~~~~~~~~~~ Authority ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->        
+        <action name="saveAuthority" class="authorityAction" method="save">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
+
+        <action name="findBindedAuths" class="authorityAction" method="findBindedAuths">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+                <param name="excludes">roles,rolesString</param>
+            </result>
+        </action>        
+
+        <action name="bindAuths" class="authorityAction" method="bindAuths">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action> 
+
+        <action name="unBindAuths" class="authorityAction" method="unBindAuths">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action> 
+        <action name="findAuthoritiesVague" class="authorityAction" method="findByNameVague">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+                <param name="excludes">roles,rolesString</param>
+            </result>
+        </action>
+
+        <action name="deleteAuthority" class="authorityAction" method="delete">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action> 
+        
+        <action name="updateAuthority" class="authorityAction" method="update">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action> 
+        <!-- ~~~~~~~~~~~~~~~~~~~~ Role ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->   
+        <action name="findRolesVague" class="roleAction" method="findByNameVague">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+                <param name="excludes">authorities,users</param>
+            </result>
+        </action>
+
+        <action name="deleteRoles" class="roleAction" method="delete">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action> 
+
+        <action name="addRole" class="roleAction" method="add">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
+
+        <action name="updateRole" class="roleAction" method="update">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
+        
+        <action name="findRolesByUser" class="roleAction" method="findRolesByUser">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+                <param name="excludes">authorities,users</param>
+            </result>
+        </action>
+
+        <action name="bindRolesToUser" class="roleAction" method="bindRolesToUser">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
+
+        <action name="unBindRolesFromUser" class="roleAction" method="unBindRolesFromUser">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
+        
+        <action name="findRolesByAuthority" class="roleAction" method="findRolesByAuthority">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+                <param name="excludes">authorities,users</param>
+            </result>
+        </action>
+        
+        <action name="bindRolesToAuthority" class="roleAction" method="bindRolesToAuthority">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
+
+        <action name="unBindRolesFromAuthority" class="roleAction" method="unBindRolesFromAuthority">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
+                        
+    </package>
+
+</struts>

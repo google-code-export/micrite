@@ -1,0 +1,140 @@
+<!--
+/* ===========================================================
+ * $Id$
+ * This file is part of Micrite
+ * ===========================================================
+ *
+ * (C) Copyright 2009, by Gaixie.org and Contributors.
+ * 
+ * Project Info:  http://micrite.gaixie.org/
+ *
+ * Micrite is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Micrite is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+--> 
+ 
+<assembly>
+	<id>distribution</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<includeBaseDirectory>true</includeBaseDirectory>
+	<componentDescriptors>
+	  <componentDescriptor>src/main/assembly/micrite-src-assembly.xml</componentDescriptor>
+	</componentDescriptors>
+
+	<fileSets>
+		<fileSet>
+			<directory>..</directory>
+			<outputDirectory></outputDirectory>
+			<includes>
+				<include>README*</include>
+				<include>LICENSE*</include>
+			</includes>
+		</fileSet>	
+        <fileSet>
+            <directory>../modules/micrite-beans/target/classes
+            </directory>
+            <outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+                
+		<fileSet>
+			<directory>../modules/micrite-common/target/classes
+			</directory>
+			<outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
+			<includes>
+				<include>databaseResource-hibernate.xml</include>
+				<include>hibernate.properties</include>
+				<include>log4j.properties</include>
+				<include>struts.properties</include>
+				<include>struts.xml</include>
+                <include>globalmessages*</include>
+			</includes>
+		</fileSet>
+
+		<fileSet>
+			<directory>../modules/micrite-common/target/dbscripts
+			</directory>
+			<outputDirectory>dbscripts</outputDirectory>
+		</fileSet>
+		
+		<fileSet>
+			<directory>../modules/micrite-security/src/main/webapp
+			</directory>
+			<outputDirectory>webapp/micrite/</outputDirectory>
+		</fileSet>
+
+		<fileSet>
+			<directory>../modules/micrite-security/target
+			</directory>
+			<outputDirectory>webapp/micrite/WEB-INF/lib</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+			<excludes>
+				<exclude>*-sources.jar</exclude>
+			</excludes>
+		</fileSet>
+
+		<fileSet>
+			<directory>../modules/micrite-security/target/micrite-security-${project.version}/WEB-INF/lib
+			</directory>
+			<outputDirectory>webapp/micrite/WEB-INF/lib</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+		</fileSet>
+
+
+		<fileSet>
+			<directory>../modules/micrite-security/src/main/resources
+			</directory>
+			<outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>../modules/micrite-crm/target
+			</directory>
+			<outputDirectory>webapp/micrite/WEB-INF/lib</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+			<excludes>
+				<exclude>*-sources.jar</exclude>
+			</excludes>
+
+		</fileSet>
+		<fileSet>
+			<directory>../modules/micrite-crm/src/main/webapp
+			</directory>
+			<outputDirectory>webapp/micrite/</outputDirectory>
+			<includes>
+				<include>crm/**</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>../modules/micrite-crm/src/main/resources
+			</directory>
+			<outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
+			<includes>
+				<include>**/applicationContext*.xml</include>
+				<include>**/struts_xml/*</include>
+                <include>**/crm/*</include>
+			</includes>
+		</fileSet>
+
+	</fileSets>
+</assembly>

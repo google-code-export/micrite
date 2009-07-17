@@ -1,0 +1,59 @@
+.details .x-btn-text {
+    background-image: url(../images/icons/search.png);
+}
+
+.errorMsg {
+	font-size:12px;
+	color:red;
+	text-indent:5px;
+}
+.infoMsg {
+	font-size:12px;
+	color:green;
+	text-indent:5px;
+}
+
+#msg-div em {
+	font-style: italic;
+	color: gray;
+}
+
+.add-icon {
+	background-image: url(../images/icons/add.png) !important;
+}
+.delete-icon {
+	background-image: url(../images/icons/delete.png) !important;
+}
+.cancel-icon {
+	background-image: url(../images/icons/cancel.png) !important;
+}
+.save-icon {
+	background-image: url(../images/icons/save.png) !important;
+}
+.bind-icon {
+	background-image: url(../images/icons/bind.png) !important;
+}
+.unbind-icon {
+	background-image: url(../images/icons/unbind.png) !important;
+}
+.pie-chart-icon {
+	background-image: url(../images/icons/pie-chart.png) !important;
+}
+.bar-chart-icon {
+	background-image: url(../images/icons/bar-chart.png) !important;
+}
+.line-chart-icon {
+	background-image: url(../images/icons/line-chart.png) !important;
+}
+.edit-icon {
+	background-image: url(../images/icons/edit.png) !important;
+}
+.info-icon {
+	background-image: url(../images/icons/info.png) !important;
+}
+.alert-icon {
+	background-image: url(../images/icons/alert.png) !important;
+}
+.other-icon {
+	background-image: url(../images/icons/other.png) !important;
+}
