@@ -82,8 +82,8 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
             id: 'userSelectWindow',
             title    : this.bindUser+' -- '+roles[0].get('name'),
             autoLoad : {url: this.urlPrefix + '/security/userSelect.jsp?roleId='+roleIds[0],scripts:true},
-            width    : 500,
-            height   : 360,
+            width    : 600,
+            height   : 400,
             border   : true
         });
     },
@@ -98,13 +98,17 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
             id: 'authoritySelectWindow',
             title    : this.bindAuthority+' -- '+roles[0].get('name'),
             autoLoad : {url: this.urlPrefix + '/security/authoritySelect.jsp?roleId='+roleIds[0],scripts:true},
-            width    : 500,
-            height   : 360,
+            width    : 600,
+            height   : 400,
             border   : true            
         });        
     },
     deleteRoleFun:function() {
         var roleIds = this.selModel.selections.keys;
+        if (roleIds.length <= 0) {
+            Ext.MessageBox.alert(mbLocale.infoMsg, mbLocale.gridMultRowSelectMsg);
+            return;
+        }        
         var deleteRoles = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
