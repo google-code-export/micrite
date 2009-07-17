@@ -77,16 +77,20 @@ micrite.security.authorityList.SearchPanel = Ext.extend(micrite.ComplexEditorGri
         var authorities = this.selModel.getSelections();
         var win = micrite.util.genWindow({
             id: 'userSelectWindow',
-            title    : this.bindUser+' -- '+authorities[0].get('name'),
+            title    : this.bindRole+' -- '+authorities[0].get('name'),
             autoLoad : {url: this.urlPrefix + '/security/roleSelect.jsp?authorityId='+authorityIds[0],scripts:true},
-            width    : 500,
-            height   : 360,
+            width    : 600,
+            height   : 400,
             border   : true
         });
     },
 
     deleteAuthorityFun:function() {
         var authorityIds = this.selModel.selections.keys;
+        if (authorityIds.length <= 0) {
+            Ext.MessageBox.alert(mbLocale.infoMsg, mbLocale.gridMultRowSelectMsg);
+            return;
+        }             
         var deleteAuthorities = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({

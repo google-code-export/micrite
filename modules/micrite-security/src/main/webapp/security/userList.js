@@ -90,8 +90,8 @@ micrite.security.userList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
             id: 'roleSelectWindow',
             title    : this.bindRoles + ' -- ' +  users[0].get('fullname'),
             autoLoad : {url: 'security/roleSelect.jsp?userId=' + userIds[0], scripts:true},
-            width    : 500,
-            height   : 360,
+            width    : 600,
+            height   : 400,
             border   : true            
         });
     },

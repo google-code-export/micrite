@@ -45,7 +45,7 @@ function userListLocale() {
             fullName:'Full Name',
             email:'Email',
             enabled:'Enabled',
-            bindRoles:'Bind Roles',
+            bindRoles:'Bind Role',
             addUser:'Add User',
             enableUsersButton:'Enable/Disable',
             statusAccordConfMsg:'Please make sure users selected are all enabled or disabled!',
@@ -90,7 +90,7 @@ function authorityListLocale() {
             addAuthority:'Add Authority',
             value:'Value',
             type:'Type',
-            bindRole:'Bind Roles'
+            bindRole:'Bind Role'
         });
     }
 }
