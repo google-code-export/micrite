@@ -100,7 +100,19 @@ micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
 			           	hiddenName:'settings.id',
 			            triggerAction:'all',
 			            fieldLabel:this.skin,
-			            selectOnFocus:true
+			            selectOnFocus:true,
+		        		listeners:{
+			        		scope: this,
+			        		'select':function(field,newValue,oldValue){
+			        		var theme = field.lastSelectionText;
+			        		if ('Gray' == theme){
+			        			theme = 'xtheme-gray-extend.css';
+			        		}else{
+			        			theme = 'xtheme-default.css';
+			        		}
+			        		Ext.util.CSS.swapStyleSheet('theme', 'js-lib/ext-ux-js/resources/css/' + theme);
+			        		}
+		        		}
 			        	})
 			        ]
 	    		},{
