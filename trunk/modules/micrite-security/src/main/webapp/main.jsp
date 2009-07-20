@@ -347,12 +347,15 @@ Ext.onReady(function(){
 </script>
 <script type="text/javascript" src="security/locale/micrite-security-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 <script type="text/javascript" src="crm/locale/micrite-crm-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
-<s:if test="%{skin=='Gray'}" >
-<link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/xtheme-gray-extend.css">
-</s:if>
+
 
 <s:hidden id="pageSize" name="pageSize"></s:hidden>
 <script type="text/javascript" src="js-lib/ext-ux-js/ComplexGrid.js"></script>
 <div id="header"></div>
+<s:if test="%{skin=='Gray'}" >
+<script>
+Ext.util.CSS.swapStyleSheet('theme', 'js-lib/ext-ux-js/resources/css/xtheme-gray-extend.css');
+</script>
+</s:if>
 </body>
 </html>
