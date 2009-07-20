@@ -183,8 +183,7 @@ Ext.ux.LoginWindow = function(config) {
     this.addEvents( {
         'show' : true,
         'reset' : true,
-        'submit' : true,
-        'submitpass' : true
+        'submit' : true
     });
     Ext.ux.LoginWindow.superclass.constructor.call(this, config);
 
@@ -327,7 +326,7 @@ Ext.ux.LoginWindow = function(config) {
     // Dispara o evento "show"
     this._window.on('show', function() {
         this.setlanguage();
-        Ext.getCmp(this.usernameId).focus(false, true);
+       
         this.fireEvent('show', this);
     }, this);
 };
@@ -346,12 +345,6 @@ Ext.extend(Ext.ux.LoginWindow, Ext.util.Observable, {
      * @type {String}
      */
     Passwordtitle : '',
-    /**
-     * Título do fieldset da janela de recuperação de senha
-     *
-     * @type {String}
-     */
-    emailFieldset : '',
     /**
      * Mensagem de espera ao enviar os dados
      *
@@ -389,29 +382,6 @@ Ext.extend(Ext.ux.LoginWindow, Ext.util.Observable, {
      * @type {String}
      */
     usernameVtype : 'alphanum',
-    /**
-     * Título do campo email
-     *
-     * @type {String}
-     */
-    emailLabel : '',
-    /**
-     * Nome do campo email
-     *
-     * @type {String}
-     */
-    emailField : 'email',
-    /**
-     * Validação do campo email
-     *
-     * @type {String}
-     */
-    emailVtype : 'email',
-    /**
-     * Título do campo senha
-     *
-     * @type {String}
-     */
     passwordLabel : '',
     /**
      * Nome do campo senha
@@ -443,12 +413,6 @@ Ext.extend(Ext.ux.LoginWindow, Ext.util.Observable, {
      * @type {String}
      */
     url : '',
-    /**
-     * Url de requisição de recuperação de senha
-     *
-     * @type {String}
-     */
-    emailUrl : '',
     /**
      * Url de destino caso login seja efetivado
      *
@@ -519,6 +483,9 @@ Ext.extend(Ext.ux.LoginWindow, Ext.util.Observable, {
      
     show : function(el) {
         this._window.show(el);
+        (function(){
+            Ext.getCmp(this.usernameId).focus(true,true);
+       }).defer(1000, this);
     },
 
     /**
@@ -612,7 +579,8 @@ Ext.extend(Ext.ux.LoginWindow, Ext.util.Observable, {
         if (Ext.getCmp(this._resetButtonId)) {
             Ext.getCmp(this._resetButtonId).enable();
         }
-        var res = action.result.errorMsg.reason;
+        Ext.getCmp(this.usernameId).focus(true,true);
+        //var res = action.result.errorMsg.reason;
         var html = '<div style="text-align:center;padding-top:10px;color:red;">'+this.errorMsg+'</joker>';
         Ext.select('.x-form-clear-left').each(function(o,g,i){
             if (i==2)
