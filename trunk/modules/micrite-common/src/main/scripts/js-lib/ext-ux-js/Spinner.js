@@ -127,7 +127,7 @@ Ext.extend(Ext.ux.form.Spinner, Ext.form.TriggerField, {
             }
             delete(this.strategy.xtype);
         }
-
+        this.setRawValue(this.strategy.defaultValue);
 		if(this.strategy == undefined){
 			this.strategy = new Ext.ux.form.Spinner.NumberStrategy();
 		}
