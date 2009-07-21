@@ -306,8 +306,6 @@ micrite.ComplexGrid = {
     	   this.genTopField(0);
     	   this.genButtomField(0);
     	   this.previousCompSet = this.compSet[0];
-    	   delete this.tbar;
-    	   
         }
      }
 };
