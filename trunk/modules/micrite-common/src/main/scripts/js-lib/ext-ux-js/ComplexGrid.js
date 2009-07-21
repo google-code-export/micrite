@@ -85,7 +85,8 @@ micrite.ComplexGrid = {
     initComponent:function() {
  
 	    var config = {
-			layout:'fit',
+			layout : 'fit',
+			loadMask : true,
 	        viewConfig:{forceFit:true}
 	    }; // eo config object
         // apply config
@@ -118,7 +119,7 @@ micrite.ComplexGrid = {
 	        });
 	        this.tbar.add([searchMenu,'-']);            
         }
-        //创建分组查询组件
+//        //创建分组查询组件
         if (this.searchFields){
 	        //  查询按钮
 	        var searchButton = {
@@ -132,7 +133,7 @@ micrite.ComplexGrid = {
                 this.searchFields[i] = this.searchFields[i].concat(['-', searchButton]);
             }
         }
-        //创建actionButton
+//        //创建actionButton
         if (this.tbarActions){
         	var a = {
                 text:mbLocale.actionMenu,
@@ -234,7 +235,7 @@ micrite.ComplexGrid = {
 //                }
 //            }
         );
-        return new Ext.grid.ColumnModel([rn].concat(this.columnsArray[this.compSet[i].columns]));
+        return new Ext.grid.ColumnModel(this.columnsArray[this.compSet[i].columns]);
     },
     getStoreById : function(i){
         var store =  new Ext.data.Store({
@@ -250,15 +251,27 @@ micrite.ComplexGrid = {
      },
      startSearch : function() {
             this.store.baseParams = {};
-            var value = null,name = null;
+            var value = null,name = null,temp = null,idx = [];
             for (var i = 0; i < this.curFields.length; i++) {
+            	name = this.curFields[i].getName();
                 if (this.curFields[i].xtype == 'checkbox') {
-                    value = this.curFields[i].checked;   
+                	if (temp != name){
+                		temp = name;
+                		idx = [];
+                	}
+                	if (this.curFields[i].checked){
+                		value = this.curFields[i].getRawValue();
+                		idx[idx.length] = value;
+                		value = idx;
+                		//如果没有指定Value，value值为on
+                		this.store.baseParams[name] = value;
+                	}
                 } else {
                     value = this.curFields[i].getRawValue();
+                    this.store.baseParams[name] = value;
                 }
-                name = this.curFields[i].getName();
-                this.store.baseParams[name] = value;
+                
+              //  this.store.baseParams = {name:value};
             }
             this.store.rejectChanges(); 
             this.store.load({params:{start:0, limit:this.pageSize},callback:function(r,o,s){
@@ -278,7 +291,8 @@ micrite.ComplexGrid = {
             toolbar.prev.setDisabled(true);
             toolbar.next.setDisabled(true);
             toolbar.last.setDisabled(true);
-            toolbar.displayItem.setText('');
+            toolbar.updateInfo();
+            toolbar.displayItem.reset(false);
         },
      reconfigureGrid : function(i){
      	if (this.compSet[i].url != this.previousCompSet.url 
@@ -289,7 +303,7 @@ micrite.ComplexGrid = {
      	}
      },
      genChartWindow : function(c1,c2) {
-    	 var win = micrite.util.genWindow(Ext.apply(c1,{border:true}));
+     	var win = micrite.util.genWindow(Ext.apply(c1,{border:true}));
      	if (!win) return;
         Ext.apply(c2,{
         	success:function(r,o){
