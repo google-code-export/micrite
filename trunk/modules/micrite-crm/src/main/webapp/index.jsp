@@ -40,6 +40,7 @@
 <script type="text/javascript" src="js-lib/ext-ux-js/SpinnerStrategy.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/locale/micrite-base-lang-<%=request.getParameter("request_locale")%>.js"></script>
 <script type="text/javascript" src="crm/locale/micrite-crm-lang-<%=request.getParameter("request_locale")%>.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/ProgressBarPager.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/util.js"></script>   
 <script>
 	var mainPanel = false;
