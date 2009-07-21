@@ -50,6 +50,10 @@ Ext.extend(Ext.ux.form.Spinner.Strategy, Ext.util.Observable, {
 	fixBoundries : function(value){
 		return value;
 		//overwrite
+	},
+	onRender:function(){
+		console.log(11);
+		this.setRawValue(this.defaultValue);
 	}
 	
 });
@@ -112,14 +116,22 @@ Ext.ux.form.Spinner.DateStrategy = function(config){
 Ext.extend(Ext.ux.form.Spinner.DateStrategy, Ext.ux.form.Spinner.Strategy, {
 	defaultValue : new Date(),
 	format : "Y-m-d",
+	width:20,
 	incrementValue : 1,
 	incrementConstant : Date.DAY,
 	alternateIncrementValue : 1,
 	alternateIncrementConstant : Date.MONTH,
 
 	spin : function(field, down, alternate){
-		Ext.ux.form.Spinner.DateStrategy.superclass.spin.call(this);
 
+		Ext.ux.form.Spinner.DateStrategy.superclass.spin.call(this);
+	//	console.dir(field.getEl().dom);
+		var dom = field.getEl().dom;
+		var start = dom.selectionStart;
+		var end = dom.selectionEnd;
+		if (start == 0 && start != end){
+			alternate = true;
+		}
 		var v = field.getRawValue();
 		
 		v = Date.parseDate(v, this.format);
@@ -135,6 +147,7 @@ Ext.extend(Ext.ux.form.Spinner.DateStrategy, Ext.ux.form.Spinner.Strategy, {
 
 		v = this.fixBoundries(v);
 		field.setRawValue(Ext.util.Format.date(v,this.format));
+		field.selectText(start,end);
 	},
 	
 	//private
@@ -166,6 +179,7 @@ Ext.ux.form.Spinner.TimeStrategy = function(config){
 Ext.extend(Ext.ux.form.Spinner.TimeStrategy, Ext.ux.form.Spinner.DateStrategy, {
 	format : "H:i",
 	incrementValue : 1,
+	width:20,
 	incrementConstant : Date.MINUTE,
 	alternateIncrementValue : 1,
 	alternateIncrementConstant : Date.HOUR
