@@ -261,17 +261,18 @@ micrite.ComplexGrid = {
                 	}
                 	if (this.curFields[i].checked){
                 		value = this.curFields[i].getRawValue();
+                		//如果没有指定Value，value值为true
+                		if (this.curFields[i].inputValue == undefined){
+                			value = true;
+                		}
                 		idx[idx.length] = value;
                 		value = idx;
-                		//如果没有指定Value，value值为on
                 		this.store.baseParams[name] = value;
                 	}
                 } else {
                     value = this.curFields[i].getRawValue();
                     this.store.baseParams[name] = value;
                 }
-                
-              //  this.store.baseParams = {name:value};
             }
             this.store.rejectChanges(); 
             this.store.load({params:{start:0, limit:this.pageSize},callback:function(r,o,s){
