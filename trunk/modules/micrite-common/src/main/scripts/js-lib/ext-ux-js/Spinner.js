@@ -35,7 +35,7 @@ Ext.ux.form.Spinner = function(config){
 Ext.extend(Ext.ux.form.Spinner, Ext.form.TriggerField, {
 	triggerClass : 'x-form-spinner-trigger',
 	splitterClass : 'x-form-spinner-splitter',
-
+	width:20,
 	alternateKey : Ext.EventObject.shiftKey,
 	strategy : undefined,
 
@@ -131,6 +131,7 @@ Ext.extend(Ext.ux.form.Spinner, Ext.form.TriggerField, {
 		if(this.strategy == undefined){
 			this.strategy = new Ext.ux.form.Spinner.NumberStrategy();
 		}
+	
 	},
 
 	//private
@@ -300,3 +301,9 @@ Ext.extend(Ext.ux.form.Spinner, Ext.form.TriggerField, {
 });
 
 Ext.reg('uxspinner', Ext.ux.form.Spinner);
+
+Ext.ux.form.SpinnerDate = Ext.extend(Ext.form.DateField,{
+	strategy : undefined
+});
+
+Ext.reg('uxspinnerdate', Ext.ux.form.SpinnerDate);
