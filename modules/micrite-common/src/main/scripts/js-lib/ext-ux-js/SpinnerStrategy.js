@@ -114,7 +114,7 @@ Ext.ux.form.Spinner.DateStrategy = function(config){
 };
 
 Ext.extend(Ext.ux.form.Spinner.DateStrategy, Ext.ux.form.Spinner.Strategy, {
-	defaultValue : new Date(),
+	defaultValue : Ext.util.Format.date(new Date(),this.format),
 	format : "Y-m-d",
 	width:20,
 	incrementValue : 1,
@@ -177,6 +177,7 @@ Ext.ux.form.Spinner.TimeStrategy = function(config){
 };
 
 Ext.extend(Ext.ux.form.Spinner.TimeStrategy, Ext.ux.form.Spinner.DateStrategy, {
+	defaultValue : Ext.util.Format.date(new Date(),'H:i'),
 	format : "H:i",
 	incrementValue : 1,
 	width:20,

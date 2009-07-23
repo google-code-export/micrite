@@ -80,6 +80,7 @@ yourClassName = Ext.extend(micrite.ComplexEditorGrid, {
 **/
 micrite.ComplexGrid = {
     border : false,
+    spinnerDateSuffix : '_time',
     pageSize : parseInt(Ext.getDom('pageSize').value,10),
     urlPrefix : '/' + document.location.href.split("/")[3],
     initComponent:function() {
@@ -200,9 +201,22 @@ micrite.ComplexGrid = {
 	        } else if (item.xtype == 'datefield') {
 	            item = new Ext.form.DateField(item);
 	            this.curFields[this.curFields.length] = item;
-	        } else if (item.xtype == 'uxspinner') {
+	        } else if (item.xtype == 'radio') {
+                item = new Ext.form.Radio(item);
+                this.curFields[this.curFields.length] = item;
+            } else if (item.xtype == 'uxspinner') {
                 item = new Ext.ux.form.Spinner(item);
                 this.curFields[this.curFields.length] = item;
+            } else if (item.xtype == 'uxspinnerdate') {
+            	var time = {
+            		width : 80,
+            		id : item.name + this.spinnerDateSuffix,
+            		strategy : item.strategy
+            	}
+                item = new Ext.form.DateField(item);
+                this.curFields[this.curFields.length] = item;
+                toolbar.add(item);
+                item = new Ext.ux.form.Spinner(time);
             }
             toolbar.add(item);
 	    }
@@ -269,8 +283,12 @@ micrite.ComplexGrid = {
                 		value = idx;
                 		this.store.baseParams[name] = value;
                 	}
+                } else if (this.curFields[i].xtype == 'uxspinnerdate') {
+                	value = this.curFields[i].getRawValue();
+                	value = value + ' ' + Ext.getCmp(this.curFields[i].name + this.spinnerDateSuffix).getRawValue();
+                    this.store.baseParams[name] = value;
                 } else {
-                    value = this.curFields[i].getRawValue();
+                	value = this.curFields[i].getRawValue();
                     this.store.baseParams[name] = value;
                 }
             }
