@@ -406,9 +406,8 @@ Ext.reg('complexgrid', micrite.ComplexGrid);
 Ext.apply(Ext.form.VTypes, {
     daterange : function(val, field) {
         var date = field.parseDate(val);
-
-        if(!date){
-            return;
+        if(!date || !Ext.getCmp(field.startDateField) ){
+            return true;
         }
         if (field.startDateField && (!this.dateRangeMax || (date.getTime() != this.dateRangeMax.getTime()))) {
             var start = Ext.getCmp(field.startDateField);
