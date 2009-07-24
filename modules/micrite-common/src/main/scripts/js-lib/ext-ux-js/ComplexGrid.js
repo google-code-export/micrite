@@ -82,6 +82,9 @@ micrite.ComplexGrid = {
     border : false,
     spinnerDateSuffix : '_time',
     pageSize : parseInt(Ext.getDom('pageSize').value,10),
+    varName : {}, //用于存贮date和time用的临时变量
+    dateErrorMsg : 'This is not a valid date - it must be in the format 2008-01-01',
+    timeErrorMsg : 'This is not a valid time - it must be in the format 22:00',
     urlPrefix : '/' + document.location.href.split("/")[3],
     initComponent:function() {
  
@@ -190,15 +193,29 @@ micrite.ComplexGrid = {
 	     * 使用curFields的长度作为下标，是为了保证数组长度和提交字段数量一致
 	     * 在每个判断下赋值是为了过滤一些非控件的item
 	     */
+	    var dateIndex = true;
+	  
+	    this.varName['startDate'] = Ext.id(); 
+	    this.varName['endDate'] = Ext.id();
+	    
 	    for (var j = 0; j < items.length; j++) {
 	        item = items[j];
 	        if (item.xtype == 'textfield') {
 	            item = new Ext.form.TextField(item);
 	            this.curFields[this.curFields.length] = item;
 	        } else if (item.xtype == 'checkbox') {
+	        	Ext.apply(item,{listeners:{check:function(cb,checked){
+	        		if (!checked){
+		        		Ext.each(Ext.select('[name='+cb.name+']').elements,function(item,index){
+		        			if (item.checked) checked = true;
+		        		});
+		        		if (!checked) cb.el.dom.checked = true;
+	        		}
+	        	}}});
 	            item = new Ext.form.Checkbox(item);
 	            this.curFields[this.curFields.length] = item;
 	        } else if (item.xtype == 'datefield') {
+	        	this.setDateConfig(item);
 	            item = new Ext.form.DateField(item);
 	            this.curFields[this.curFields.length] = item;
 	        } else if (item.xtype == 'radio') {
@@ -213,6 +230,7 @@ micrite.ComplexGrid = {
             		id : item.name + this.spinnerDateSuffix,
             		strategy : item.strategy
             	}
+            	this.setDateConfig(item);
                 item = new Ext.form.DateField(item);
                 this.curFields[this.curFields.length] = item;
                 toolbar.add(item);
@@ -221,6 +239,7 @@ micrite.ComplexGrid = {
             toolbar.add(item);
 	    }
 	    toolbar.doLayout();
+	    this.varName = {};
     },
     genButtomField : function(i){
     	if (this.previousCompSet.bbarAction == this.compSet[i].bbarAction){
@@ -241,15 +260,15 @@ micrite.ComplexGrid = {
     },
     getColumnById : function(i){
         var rn = new Ext.grid.RowNumberer(
-//            {
-//                scope : this,
-//                renderer:function(value, metadata, record, rowIndex) {
-//                    var start = this.store.lastOptions.params.start;
-//                    return  start + 1 + rowIndex;
-//                }
-//            }
+            {
+                scope : this,
+                renderer:function(value, metadata, record, rowIndex) {
+                    //var start = this.store.lastOptions.params.start;
+                    return  1 + rowIndex;
+                }
+            }
         );
-        return new Ext.grid.ColumnModel(this.columnsArray[this.compSet[i].columns]);
+        return new Ext.grid.ColumnModel([rn].concat(this.columnsArray[this.compSet[i].columns]));
     },
     getStoreById : function(i){
         var store =  new Ext.data.Store({
@@ -283,11 +302,26 @@ micrite.ComplexGrid = {
                 		value = idx;
                 		this.store.baseParams[name] = value;
                 	}
-                } else if (this.curFields[i].xtype == 'uxspinnerdate') {
+                } else if (this.curFields[i].xtype == 'radio') {
+                 	if (this.curFields[i].checked){
+                		value = this.curFields[i].getRawValue();
+                		this.store.baseParams[name] = value;
+                	}
+            	 } else if (this.curFields[i].xtype == 'uxspinnerdate') {
+            		if (!this.curFields[i].isValid()){
+            			showMsg('failure',this.dateErrorMsg);
+            			return;
+            		}
                 	value = this.curFields[i].getRawValue();
-                	value = value + ' ' + Ext.getCmp(this.curFields[i].name + this.spinnerDateSuffix).getRawValue();
+                	var time = Ext.getCmp(this.curFields[i].name + this.spinnerDateSuffix);
+                	value = value + ' ' + time.getRawValue();
+                	if (!time.isValid()){
+                		showMsg('failure',this.timeErrorMsg);
+                		return;
+                	}
                     this.store.baseParams[name] = value;
                 } else {
+                	 console.log(this.curFields[i].isValid());
                 	value = this.curFields[i].getRawValue();
                     this.store.baseParams[name] = value;
                 }
@@ -334,6 +368,26 @@ micrite.ComplexGrid = {
         micrite.util.ajaxRequest(c2,this);
         return win;
      },
+     setDateConfig : function(item){
+     	Ext.apply(item,{
+    		format: 'Y-m-d'
+    	});
+     	//加入了一个fieldPosition参数，用于控制日期的范围
+    	if (item.fieldPosition == 'start'){
+        	Ext.apply(item,{
+        		id : this.varName['startDate'],
+        		endDateField : this.varName['endDate'],
+        		vtype : 'daterange'
+        	});
+        }else if (item.fieldPosition == 'end'){
+        	Ext.apply(item,{
+        		id : this.varName['endDate'],
+        		startDateField : this.varName['startDate'],
+        		vtype : 'daterange'
+        	});
+        }
+    	return item;
+     },
      listeners:{
         render:function() {
     	   this.genTopField(0);
@@ -348,4 +402,27 @@ micrite.ComplexGrid = Ext.extend(Ext.grid.GridPanel,micrite.ComplexGrid);
 //eof
 Ext.reg('complexgrid', micrite.ComplexGrid);
 
+
+Ext.apply(Ext.form.VTypes, {
+    daterange : function(val, field) {
+        var date = field.parseDate(val);
+
+        if(!date){
+            return;
+        }
+        if (field.startDateField && (!this.dateRangeMax || (date.getTime() != this.dateRangeMax.getTime()))) {
+            var start = Ext.getCmp(field.startDateField);
+            start.setMaxValue(date);
+            start.validate();
+            this.dateRangeMax = date;
+        } 
+        else if (field.endDateField && (!this.dateRangeMin || (date.getTime() != this.dateRangeMin.getTime()))) {
+            var end = Ext.getCmp(field.endDateField);
+            end.setMinValue(date);
+            end.validate();
+            this.dateRangeMin = date;
+        }
+        return true;
+    }
+});
 

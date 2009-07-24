@@ -36,6 +36,25 @@ Ext.extend(Ext.ux.form.Spinner, Ext.form.TriggerField, {
 	triggerClass : 'x-form-spinner-trigger',
 	splitterClass : 'x-form-spinner-splitter',
 	width:20,
+	format:'H:i',
+    /**
+    * @cfg {String} minText
+    * The error text to display when the date in the cell is before minValue (defaults to
+    * 'The time in this field must be equal to or after {0}').
+    */
+   minText : "The time in this field must be equal to or after {0}",
+   /**
+    * @cfg {String} maxText
+    * The error text to display when the time is after maxValue (defaults to
+    * 'The time in this field must be equal to or before {0}').
+    */
+   maxText : "The time in this field must be equal to or before {0}",
+   /**
+    * @cfg {String} invalidText
+    * The error text to display when the time in the field is invalid (defaults to
+    * '{value} is not a valid time').
+    */
+   invalidText : "{0} is not a valid time",
 	alternateKey : Ext.EventObject.shiftKey,
 	strategy : undefined,
 
@@ -296,7 +315,31 @@ Ext.extend(Ext.ux.form.Spinner, Ext.form.TriggerField, {
 		this.strategy.onSpinDownAlternate(this);
 		this.fireEvent("spin", this);
 		this.fireEvent("spindown", this);
-	}
+	},
+    // inherited docs
+    getValue : function(){
+        var v = Ext.ux.form.Spinner.superclass.getValue.call(this);
+        return this.formatDate(this.parseDate(v)) || '';
+    },
+
+    // inherited docs
+    setValue : function(value){
+        return Ext.ux.form.Spinner.superclass.setValue.call(this, this.formatDate(this.parseDate(value)));
+    },
+
+    // private overrides
+    validateValue : Ext.form.DateField.prototype.validateValue,
+    parseDate : Ext.form.DateField.prototype.parseDate,
+    formatDate : Ext.form.DateField.prototype.formatDate,
+
+    // private
+    beforeBlur : function(){
+        var v = this.parseDate(this.getRawValue());
+        if(v){
+            this.setValue(v.dateFormat(this.format));
+        }
+        Ext.ux.form.Spinner.superclass.beforeBlur.call(this);
+    }
 
 });
 
