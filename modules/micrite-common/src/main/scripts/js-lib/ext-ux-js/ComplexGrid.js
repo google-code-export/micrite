@@ -189,15 +189,13 @@ micrite.ComplexGrid = {
         }
 	    var items = this.searchFields[i];
 	    this.curFields = [];
+	    //为了避免页面id冲突
+	    this.varName['startDate'] = Ext.id(); 
+	    this.varName['endDate'] = Ext.id();
 	    /**
 	     * 使用curFields的长度作为下标，是为了保证数组长度和提交字段数量一致
 	     * 在每个判断下赋值是为了过滤一些非控件的item
 	     */
-	    var dateIndex = true;
-	  
-	    this.varName['startDate'] = Ext.id(); 
-	    this.varName['endDate'] = Ext.id();
-	    
 	    for (var j = 0; j < items.length; j++) {
 	        item = items[j];
 	        if (item.xtype == 'textfield') {
@@ -239,7 +237,6 @@ micrite.ComplexGrid = {
             toolbar.add(item);
 	    }
 	    toolbar.doLayout();
-	    this.varName = {};
     },
     genButtomField : function(i){
     	if (this.previousCompSet.bbarAction == this.compSet[i].bbarAction){
@@ -321,7 +318,10 @@ micrite.ComplexGrid = {
                 	}
                     this.store.baseParams[name] = value;
                 } else {
-                	 console.log(this.curFields[i].isValid());
+                	if (!this.curFields[i].isValid()){
+                		showMsg('failure',this.dateErrorMsg);
+                		return;
+                	}
                 	value = this.curFields[i].getRawValue();
                     this.store.baseParams[name] = value;
                 }
@@ -370,21 +370,35 @@ micrite.ComplexGrid = {
      },
      setDateConfig : function(item){
      	Ext.apply(item,{
-    		format: 'Y-m-d'
+    		format: 'Y-m-d',
+    		first : true
     	});
      	//加入了一个fieldPosition参数，用于控制日期的范围
     	if (item.fieldPosition == 'start'){
+    		this.varName['startDateValue'] =  item.value ? item.value : item.defaultValue;
         	Ext.apply(item,{
         		id : this.varName['startDate'],
+        		defaultValue : this.varName['startDateValue'] ,
         		endDateField : this.varName['endDate'],
         		vtype : 'daterange'
         	});
+        	delete item.value;
         }else if (item.fieldPosition == 'end'){
+        	this.varName['endDateValue'] = item.value ? item.value : item.defaultValue;
         	Ext.apply(item,{
         		id : this.varName['endDate'],
         		startDateField : this.varName['startDate'],
-        		vtype : 'daterange'
+        		defaultValue : this.varName['endDateValue'] ,
+        		vtype : 'daterange',
+        		listeners:{
+        		    scope : this,
+        			render : function(){
+         	    		Ext.getCmp(this.varName['startDate']).setValue(this.varName['startDateValue']);
+         	    		Ext.getCmp(this.varName['endDate']).setValue(this.varName['endDateValue']);
+        			}
+        		}
         	});
+        	delete item.value;
         }
     	return item;
      },
@@ -406,8 +420,8 @@ Ext.reg('complexgrid', micrite.ComplexGrid);
 Ext.apply(Ext.form.VTypes, {
     daterange : function(val, field) {
         var date = field.parseDate(val);
-        if(!date || !Ext.getCmp(field.startDateField) ){
-            return true;
+        if(!date){
+            return;
         }
         if (field.startDateField && (!this.dateRangeMax || (date.getTime() != this.dateRangeMax.getTime()))) {
             var start = Ext.getCmp(field.startDateField);
