@@ -13,9 +13,9 @@ micrite.security.roleSelect.SearchPanel = Ext.extend(micrite.ComplexGrid, {
         //  查询请求的url
         var searchURL = '';
         if (<%=(request.getParameter("userId") != null)%>) {
-            searchURL = '/security/findRolesByUser.action?userId=' + <%=request.getParameter("userId")%>;
+            searchURL = 'findRolesByUser.action?userId=' + <%=request.getParameter("userId")%>;
         } else {
-            searchURL = '/security/findRolesByAuthority.action?authorityId=' + <%=request.getParameter("authorityId")%>;
+            searchURL = 'findRolesByAuthority.action?authorityId=' + <%=request.getParameter("authorityId")%>;
         }
     
         var sm = new Ext.grid.CheckboxSelectionModel();
@@ -61,7 +61,7 @@ micrite.security.roleSelect.SearchPanel = Ext.extend(micrite.ComplexGrid, {
         var win = micrite.util.genWindow({
             id: 'addRoleWindow',
             title    : this.addRole,
-            autoLoad : {url: this.urlPrefix + '/security/roleDetail.js',scripts:true},
+            autoLoad : {url: 'security/roleDetail.js',scripts:true},
             width    : 500,
             height   : 360
         });
@@ -76,15 +76,15 @@ micrite.security.roleSelect.SearchPanel = Ext.extend(micrite.ComplexGrid, {
         //  绑定请求的url
         var bindURL = '';
         if (<%=(request.getParameter("userId") != null)%>) {
-            bindURL = '/bindRolesToUser.action?userId='+<%=request.getParameter("userId")%>;
+            bindURL = 'bindRolesToUser.action?userId='+<%=request.getParameter("userId")%>;
         } else {
-            bindURL = '/bindRolesToAuthority.action?authorityId='+<%=request.getParameter("authorityId")%>;
+            bindURL = 'bindRolesToAuthority.action?authorityId='+<%=request.getParameter("authorityId")%>;
         }
    
         var submitFun = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
-                    url:this.urlPrefix + bindURL,
+                    url:bindURL,
                     params:{'roleIds':roleIds},
                     scope:this,
                     success:Ext.emptyFn,
@@ -112,15 +112,15 @@ micrite.security.roleSelect.SearchPanel = Ext.extend(micrite.ComplexGrid, {
         //  解除绑定请求的url
         var unBindURL = '';
         if (<%=(request.getParameter("userId") != null)%>) {
-            unBindURL = '/unBindRolesFromUser.action?userId='+<%=request.getParameter("userId")%>;
+            unBindURL = 'unBindRolesFromUser.action?userId='+<%=request.getParameter("userId")%>;
         } else {
-            unBindURL = '/unBindRolesFromAuthority.action?authorityId='+<%=request.getParameter("authorityId")%>;
+            unBindURL = 'unBindRolesFromAuthority.action?authorityId='+<%=request.getParameter("authorityId")%>;
         }
    
         var submitFun = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
-                    url:this.urlPrefix + unBindURL,
+                    url:unBindURL,
                     params:{'roleIds':roleIds},
                     scope:this,
                     success:Ext.emptyFn,

@@ -31,7 +31,7 @@ yourClassName = Ext.extend(micrite.ComplexEditorGrid, {
 	             {xtype:'datefield', name:'endTime', width:135}
 	        ]],
 	        查询请求地址，必须声明
-	        urls: ['/crm/findCustomer.action','/crm/findCustomerNew.action'],
+	        urls: ['crm/findCustomer.action','crm/findCustomerNew.action'],
 	        readers : [[
 			     {name: 'id',type:'int'},
 			     {name: 'name'},
@@ -84,7 +84,6 @@ micrite.ComplexGrid = {
     varName : {}, //用于存贮date和time用的临时变量
     dateErrorMsg : 'This is not a valid date - it must be in the format 2008-01-01',
     timeErrorMsg : 'This is not a valid time - it must be in the format 22:00',
-    urlPrefix : '/' + document.location.href.split("/")[3],
     initComponent:function() {
  
 	    var config = {
@@ -272,7 +271,7 @@ micrite.ComplexGrid = {
     getStoreById : function(i){
         var store =  new Ext.data.Store({
             proxy : new Ext.data.HttpProxy(Ext.apply({
-                    	url: this.urlPrefix + this.urls[this.compSet[i].url]
+                    	url: this.urls[this.compSet[i].url]
                     },micrite.util.proxyLoad())),
             reader : new Ext.data.JsonReader({
 	                	totalProperty:'totalCount',
@@ -363,8 +362,7 @@ micrite.ComplexGrid = {
         Ext.apply(c2,{
         	success:function(r,o){
             var obj = Ext.decode(r.responseText);
-                  win.getLayoutTarget().update('<img src = "'+ this.urlPrefix +
-                        '/DisplayChart?filename='+obj.filename+'">');
+                  win.getLayoutTarget().update('<img src = "DisplayChart?filename='+obj.filename+'">');
             }
         });
         micrite.util.ajaxRequest(c2,this);

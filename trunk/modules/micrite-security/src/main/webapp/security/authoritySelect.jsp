@@ -18,7 +18,7 @@ micrite.security.authoritySelect.SearchPanel = Ext.extend(micrite.ComplexGrid, {
 	            this.name, {xtype:'textfield', name:'authority.name', width:120},
 	            '',{xtype:'checkbox',boxLabel:this.onlyBinded, name:'binded'}
 	        ]],
-	        urls: ['/security/findBindedAuths.action?roleId='+<%=request.getParameter("roleId")%>],
+	        urls: ['findBindedAuths.action?roleId='+<%=request.getParameter("roleId")%>],
 	        readers : [[
 	            {name: 'name'},
 	            {name: 'type'},        
@@ -56,7 +56,7 @@ micrite.security.authoritySelect.SearchPanel = Ext.extend(micrite.ComplexGrid, {
         var win = micrite.util.genWindow({
             id: 'addAuthorityWindow',
             title    : this.addAuth,
-            autoLoad : {url: this.urlPrefix + '/security/authorityDetail.js',scripts:true},
+            autoLoad : {url: 'security/authorityDetail.js',scripts:true},
             width    : 500,
             height   : 360
         });
@@ -71,7 +71,7 @@ micrite.security.authoritySelect.SearchPanel = Ext.extend(micrite.ComplexGrid, {
         var bindAuths = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
-                    url:this.urlPrefix + '/bindAuths.action?roleId='+<%=request.getParameter("roleId")%>,
+                    url:'bindAuths.action?roleId='+<%=request.getParameter("roleId")%>,
                     params:{'authIds':ids},                    
                     scope:this,
                     success:Ext.emptyFn,
@@ -98,7 +98,7 @@ micrite.security.authoritySelect.SearchPanel = Ext.extend(micrite.ComplexGrid, {
         var unBindAuths = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
-                    url:this.urlPrefix + '/unBindAuths.action?roleId='+<%=request.getParameter("roleId")%>,
+                    url:'unBindAuths.action?roleId='+<%=request.getParameter("roleId")%>,
                     params:{'authIds':ids},                    
                     scope:this,
                     success:Ext.emptyFn,

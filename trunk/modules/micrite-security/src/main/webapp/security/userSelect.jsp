@@ -18,7 +18,7 @@ micrite.security.userSelect.SearchPanel = Ext.extend(micrite.ComplexGrid, {
 	            this.fullName, {xtype:'textfield', name:'user.fullname', width:120},
 	            '',{xtype:'checkbox',boxLabel:this.onlyBinded, name:'binded'}
 	        ]],
-	        urls: ['/security/findBindedUsers.action?roleId='+<%=request.getParameter("roleId")%>],
+	        urls: ['findBindedUsers.action?roleId='+<%=request.getParameter("roleId")%>],
 	        readers : [[
 	            {name: 'fullname'},
 	            {name: 'emailaddress'},
@@ -56,7 +56,7 @@ micrite.security.userSelect.SearchPanel = Ext.extend(micrite.ComplexGrid, {
         var win = micrite.util.genWindow({
             id: 'addUserWindow',
             title    : this.addUser,
-            autoLoad : {url: this.urlPrefix + '/security/userDetail.js',scripts:true},
+            autoLoad : {url: 'security/userDetail.js',scripts:true},
             width    : 500,
             height   : 360
         });
@@ -71,7 +71,7 @@ micrite.security.userSelect.SearchPanel = Ext.extend(micrite.ComplexGrid, {
         var bindUsers = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
-                    url:this.urlPrefix + '/bindUsers.action?roleId='+<%=request.getParameter("roleId")%>,
+                    url:'bindUsers.action?roleId='+<%=request.getParameter("roleId")%>,
                     params:{'userIds':ids},
                     scope:this,
                     success:Ext.emptyFn,
@@ -98,7 +98,7 @@ micrite.security.userSelect.SearchPanel = Ext.extend(micrite.ComplexGrid, {
         var unBindUsers = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
-                    url:this.urlPrefix + '/unBindUsers.action?roleId='+<%=request.getParameter("roleId")%>,
+                    url:'unBindUsers.action?roleId='+<%=request.getParameter("roleId")%>,
                     params:{'userIds':ids},
                     scope:this,
                     success:Ext.emptyFn,

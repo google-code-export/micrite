@@ -20,7 +20,7 @@ micrite.security.userList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
             searchFields :[[
                 this.userName, {xtype:'textfield', name:'user.fullname', width:120}
             ]],
-            urls: ['/security/findUsersVague.action'],
+            urls: ['findUsersVague.action'],
             readers : [[
                 {name: 'fullname'},
                 {name: 'emailaddress'},
@@ -73,7 +73,7 @@ micrite.security.userList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
         var win = micrite.util.genWindow({
             id: 'addUserWindow',
             title    : this.addUser,
-            autoLoad : {url: this.urlPrefix + '/security/userDetail.js',scripts:true},
+            autoLoad : {url:  'security/userDetail.js',scripts:true},
             width    : 500,
             height   : 360
         });
@@ -104,7 +104,7 @@ micrite.security.userList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
         var submitFun = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
-                    url: this.urlPrefix + '/deleteUsers.action',
+                    url: 'deleteUsers.action',
                     params:{'userIds':userIds},
                     success:function(r,o){
                         var res = Ext.decode(r.responseText);
@@ -142,7 +142,7 @@ micrite.security.userList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
         var submitFun = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
-                    url: this.urlPrefix + '/enableUsers.action',
+                    url: 'enableUsers.action',
                     params:{'userIds':userIds},
                     success:function(r,o){
                         var res = Ext.decode(r.responseText);
@@ -182,7 +182,7 @@ micrite.security.userList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
         var submitFun = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
-                    url: this.urlPrefix + '/updateUserInfo.action',
+                    url: 'updateUserInfo.action',
                     params:{'user.id':user.id,
                             'user.fullname':user.get('fullname'),
                             'user.emailaddress':user.get('emailaddress'),

@@ -40,7 +40,7 @@ micrite.security.roleDetail.FormPanel = function() {
                 handler: function() {
                     // form提交
                     this.getForm().submit({
-                        url: '/' + document.location.href.split("/")[3] + '/addRole.action',
+                        url: 'addRole.action',
                         method: 'POST',
                         disabled:true,
                         waitMsg: mbLocale.waitingMsg,

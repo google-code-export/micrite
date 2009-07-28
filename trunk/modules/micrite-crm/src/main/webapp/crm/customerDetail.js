@@ -8,7 +8,7 @@ micrite.crm.customerDetail.FormPanel = function() {
         autoLoad:true,
         //设定读取的地址
         proxy : new Ext.data.HttpProxy(Ext.apply({
-            url: '/' + document.location.href.split("/")[3] + '/crm/getCustomerPartner.action'
+            url: 'crm/getCustomerPartner.action'
         },micrite.util.proxyLoad())),        
         //设定读取的格式    
         reader: new Ext.data.JsonReader({
@@ -65,7 +65,7 @@ micrite.crm.customerDetail.FormPanel = function() {
                 text: mbLocale.submitButton,
                 handler: function(){
                     Ext.getCmp("customerDetail-form").getForm().submit({
-                        url: '/' + document.location.href.split("/")[3] + '/crm/saveCustomer.action',
+                        url: 'crm/saveCustomer.action',
                         method: 'POST',
                         disabled:true,
                         waitMsg: mbLocale.waitingMsg,
