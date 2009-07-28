@@ -80,7 +80,6 @@ yourClassName = Ext.extend(micrite.ComplexEditorGrid, {
 **/
 micrite.ComplexGrid = {
     border : false,
-    spinnerDateSuffix : '_time',
     pageSize : parseInt(Ext.getDom('pageSize').value,10),
     varName : {}, //用于存贮date和time用的临时变量
     dateErrorMsg : 'This is not a valid date - it must be in the format 2008-01-01',
@@ -225,9 +224,12 @@ micrite.ComplexGrid = {
             } else if (item.xtype == 'uxspinnerdate') {
             	var time = {
             		width : 80,
-            		id : item.name + this.spinnerDateSuffix,
+            		id : item.name + Ext.id(),
             		strategy : item.strategy
             	}
+            	Ext.apply(item,{
+            		timeId : time.id
+            	});
             	this.setDateConfig(item);
                 item = new Ext.form.DateField(item);
                 this.curFields[this.curFields.length] = item;
@@ -310,7 +312,7 @@ micrite.ComplexGrid = {
             			return;
             		}
                 	value = this.curFields[i].getRawValue();
-                	var time = Ext.getCmp(this.curFields[i].name + this.spinnerDateSuffix);
+                	var time = Ext.getCmp(this.curFields[i].timeId);
                 	value = value + ' ' + time.getRawValue();
                 	if (!time.isValid()){
                 		showMsg('failure',this.timeErrorMsg);
