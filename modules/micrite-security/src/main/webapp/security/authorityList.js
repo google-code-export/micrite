@@ -16,7 +16,7 @@ micrite.security.authorityList.SearchPanel = Ext.extend(micrite.ComplexEditorGri
             searchFields :[[
                 this.name, {xtype:'textfield', name:'authority.name', width:180}
             ]],
-            urls: ['/security/findAuthoritiesVague.action'],
+            urls: ['findAuthoritiesVague.action'],
             readers : [[
                 {name: 'name'},
                 {name: 'value'},
@@ -61,7 +61,7 @@ micrite.security.authorityList.SearchPanel = Ext.extend(micrite.ComplexEditorGri
         var win = micrite.util.genWindow({
             id: 'addAuthorityWindow',
             title    : this.addAuthority,
-            autoLoad : {url: this.urlPrefix + '/security/authorityDetail.js',scripts:true},
+            autoLoad : {url: 'security/authorityDetail.js',scripts:true},
             width    : 500,
             height   : 360
         });
@@ -78,7 +78,7 @@ micrite.security.authorityList.SearchPanel = Ext.extend(micrite.ComplexEditorGri
         var win = micrite.util.genWindow({
             id: 'userSelectWindow',
             title    : this.bindRole+' -- '+authorities[0].get('name'),
-            autoLoad : {url: this.urlPrefix + '/security/roleSelect.jsp?authorityId='+authorityIds[0],scripts:true},
+            autoLoad : {url: 'security/roleSelect.jsp?authorityId='+authorityIds[0],scripts:true},
             width    : 600,
             height   : 400,
             border   : true
@@ -94,7 +94,7 @@ micrite.security.authorityList.SearchPanel = Ext.extend(micrite.ComplexEditorGri
         var deleteAuthorities = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
-                    url: this.urlPrefix + '/deleteAuthority.action',
+                    url: 'deleteAuthority.action',
                     params:{'authIds':authorityIds},
                     success:function(r,o){
                         var res = Ext.decode(r.responseText);
@@ -127,7 +127,7 @@ micrite.security.authorityList.SearchPanel = Ext.extend(micrite.ComplexEditorGri
         var updateAuthorities = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
-                    url: this.urlPrefix + '/updateAuthority.action',
+                    url: 'updateAuthority.action',
                     params:{'authority.id':authority.id,
                         'authority.value':authority.get('value')},
                     success:function(r,o){

@@ -68,7 +68,7 @@ micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
 			    	        	  {name:'id', type:'int'},
 			    	        	  {name:'value', type:'int'}
 			            	 ],
-			            	 url:'/' + document.location.href.split("/")[3] + '/loadSetting.action',
+			            	 url:'loadSetting.action',
 			            	 baseParams:{
 			        		 	'settings.name' :'RowsPerPage'
 			            	 }
@@ -88,7 +88,7 @@ micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
 			    	        	  {name:'id', type:'int'},
 			    	        	  {name:'value', type:'string'}
 			            	 ],
-			            	 url:'/' + document.location.href.split("/")[3] + '/loadSetting.action',
+			            	 url:'loadSetting.action',
 			            	 baseParams:{
 			        		 	'settings.name' :'Skin'
 			            	 }
@@ -123,7 +123,7 @@ micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
 	    		        formBind:true,
 	    		        handler:function() {
 	    			    	this.getForm().submit({
-	    			            url: '/' + document.location.href.split("/")[3] + '/updateUserInfo.action',
+	    			            url: 'updateUserInfo.action',
 	    			            method: 'POST',
 	    			            waitMsg: mbLocale.waitingMsg,
 	    			            success: function(form, action) {
@@ -164,7 +164,7 @@ micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
 		onRender:function(){
 	    micrite.security.userSetting.FormPanel.superclass.onRender.apply(this, arguments);
 		this.form.load({
-		        url: '/' + document.location.href.split("/")[3] + '/loadCurrentUser.action',
+		        url: 'loadCurrentUser.action',
 		        success:function(f,a){
 		            Ext.each(a.result.settings,function(o,i){
 		                Ext.getCmp(o.name).setRawValue(o.value);

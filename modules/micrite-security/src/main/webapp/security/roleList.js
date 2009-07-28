@@ -15,7 +15,7 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
             searchFields :[[
                 this.name, {xtype:'textfield', name:'role.name', width:120}
             ]],
-            urls: ['/security/findRolesVague.action'],
+            urls: ['findRolesVague.action'],
             readers : [[
                 {name: 'name'},
                 {name: 'description'}
@@ -65,7 +65,7 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
         var win = micrite.util.genWindow({
             id: 'addRoleWindow',
             title    : this.addRole,
-            autoLoad : {url: this.urlPrefix + '/security/roleDetail.js',scripts:true},
+            autoLoad : {url: 'security/roleDetail.js',scripts:true},
             width    : 500,
             height   : 360
         });
@@ -81,7 +81,7 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
         var win = micrite.util.genWindow({
             id: 'userSelectWindow',
             title    : this.bindUser+' -- '+roles[0].get('name'),
-            autoLoad : {url: this.urlPrefix + '/security/userSelect.jsp?roleId='+roleIds[0],scripts:true},
+            autoLoad : {url: 'security/userSelect.jsp?roleId='+roleIds[0],scripts:true},
             width    : 600,
             height   : 400,
             border   : true
@@ -97,7 +97,7 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
         var win = micrite.util.genWindow({
             id: 'authoritySelectWindow',
             title    : this.bindAuthority+' -- '+roles[0].get('name'),
-            autoLoad : {url: this.urlPrefix + '/security/authoritySelect.jsp?roleId='+roleIds[0],scripts:true},
+            autoLoad : {url: 'security/authoritySelect.jsp?roleId='+roleIds[0],scripts:true},
             width    : 600,
             height   : 400,
             border   : true            
@@ -112,7 +112,7 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
         var deleteRoles = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
-                    url: this.urlPrefix + '/deleteRoles.action',
+                    url: 'deleteRoles.action',
                     params:{'roleIds':roleIds},
                     success:function(r,o){
                         var res = Ext.decode(r.responseText);
@@ -144,7 +144,7 @@ micrite.security.roleList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
         var updateRoles = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
-                    url: this.urlPrefix + '/updateRole.action',
+                    url: 'updateRole.action',
                     params:{'role.id':role.id,
                             'role.name':role.get('name'),
                             'role.description':role.get('description')},

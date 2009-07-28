@@ -51,7 +51,7 @@ micrite.security.userDetail.FormPanel = function() {
     	            // 构建form的提交参数
     	            // form提交
     	            this.getForm().submit({
-    	                url: '/' + document.location.href.split("/")[3] + '/addUser.action',
+    	                url: 'addUser.action',
     	                method: 'POST',
     	                disabled:true,
     	                waitMsg: mbLocale.waitingMsg,

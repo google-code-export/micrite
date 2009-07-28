@@ -18,7 +18,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		id: Ext.id(),    
 		autoLoad:true,
 		//设定读取的地址
-		proxy : new Ext.data.HttpProxy({url: this.urlPrefix + '/crm/getCustomerPartner.action'}),    
+		proxy : new Ext.data.HttpProxy({url: 'crm/getCustomerPartner.action'}),    
 		//设定读取的格式    
 		reader : new Ext.data.JsonReader({    
 			id:"id"
@@ -83,7 +83,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	             'Gw',
 	             {xtype:'checkbox', name:'gw', width:40,height:20}
 	        ]],
-	        urls: ['/crm/findCustomer.action','/crm/findCustomerNew.action'],
+	        urls: ['crm/findCustomer.action','crm/findCustomerNew.action'],
 	        readers : [[
 			     {name: 'name'},
 			     {name: 'telephone'},
@@ -163,7 +163,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		var c1 = {id:'customerList.barchar',
 		          title:this.customerSourceBarChart};
 		var c2 = {
-            url: this.urlPrefix + '/crm/getCustomerSourceBarChart.action',
+            url: 'crm/getCustomerSourceBarChart.action',
             params:{'customer.telephone':this.curFields[0].getRawValue()}
         };
 		var win = this.genChartWindow(c1,c2);
@@ -173,7 +173,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		var c1 = {id:'customerList.piechar',
 		          title:this.customerSourcePieChart};
         var c2 = {
-            url: this.urlPrefix + '/crm/getCustomerSourcePieChart.action',
+            url: 'crm/getCustomerSourcePieChart.action',
             params:{'customer.telephone':this.curFields[0].getRawValue()}
         };
         this.genChartWindow(c1,c2);
@@ -183,7 +183,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 			var win = micrite.util.genWindow({
 	            id       : 'addCustomerWindow',
                 title    : this.newCustomer,
-                autoLoad : {url: this.urlPrefix + '/crm/customerDetail.js',scripts:true},
+                autoLoad : {url: 'crm/customerDetail.js',scripts:true},
                 width    : 500,
                 height   : 360
             });
@@ -194,7 +194,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		var deleteRolesFun = function(buttonId, text, opt) {
 			if (buttonId == 'yes') {
 				micrite.util.ajaxRequest({
-                    url: this.urlPrefix + '/crm/deleteCustomer.action',
+                    url: 'crm/deleteCustomer.action',
                     params:{'customerIds':customerIds},
                     success:function(r,o){
                         this.store.reload();
@@ -223,7 +223,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		var updateRolesFun = function(buttonId, text, opt) {
 			if (buttonId == 'yes') {
 				micrite.util.ajaxRequest({
-					url: this.urlPrefix + '/crm/editCustomer.action',
+					url: 'crm/editCustomer.action',
 					params:{'customer.customerSource.id':customer.get('customerSource'),
 					'customer.name':customer.get('name'),
 					'customer.telephone':customer.get('telephone'),
