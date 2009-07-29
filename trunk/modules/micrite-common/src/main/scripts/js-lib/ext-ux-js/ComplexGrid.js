@@ -200,14 +200,6 @@ micrite.ComplexGrid = {
 	            item = new Ext.form.TextField(item);
 	            this.curFields[this.curFields.length] = item;
 	        } else if (item.xtype == 'checkbox') {
-	        	Ext.apply(item,{listeners:{check:function(cb,checked){
-	        		if (!checked){
-		        		Ext.each(Ext.select('[name='+cb.name+']').elements,function(item,index){
-		        			if (item.checked) checked = true;
-		        		});
-		        		if (!checked) cb.el.dom.checked = true;
-	        		}
-	        	}}});
 	            item = new Ext.form.Checkbox(item);
 	            this.curFields[this.curFields.length] = item;
 	        } else if (item.xtype == 'datefield') {
