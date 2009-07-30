@@ -156,6 +156,7 @@ CREATE TABLE customers (
     id                     $db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
     name                   varchar(255) NOT NULL,
     telephone              varchar(20) NOT NULL,
+    creation_ts            $db.TIMESTAMP_SQL_TYPE NOT NULL,
     customer_source_id     integer NOT NULL
 );
 
