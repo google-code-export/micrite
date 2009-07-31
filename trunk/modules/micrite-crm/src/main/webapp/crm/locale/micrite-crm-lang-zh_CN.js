@@ -13,7 +13,8 @@ function customerListLocale(){
             colModelId:'ID',
             colModelName:'姓名',
             colModelMobile:'手机号',
-            colModelSource:'来源'
+            colModelSource:'来源',
+            colCreation_ts:'创建时间'
         });
     }	
 }
