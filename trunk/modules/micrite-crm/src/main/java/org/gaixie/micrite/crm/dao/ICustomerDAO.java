@@ -24,6 +24,7 @@
 
 package org.gaixie.micrite.crm.dao;
 
+import java.util.Date;
 import java.util.List;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
@@ -67,5 +68,19 @@ public interface ICustomerDAO extends IGenericDAO<Customer, Integer> {
      * @return 客户数量
      */
     public int findByTelVagueCount(String telephone);
+    /**
+     *根据创建日期查询客户
+     * @param createDate
+     * @param start
+     * @param limit
+     * @return
+     */
+    public List<Customer> findByCreateDateSpacingPerPage(Date startDate,Date endDate, int start, int limit);
+    /**
+     * 根据创建日期查询客户总记录数
+     * @param createDate
+     * @return
+     */
+    public int findByCreateDateSpacingCount(Date startDate,Date endDate);
 
 }

@@ -16,6 +16,11 @@
                 <param name="target">resultMap</param>
             </result>
 		</action>
+		<action name="findCustomerByDateSpacing" class="customerAction" method="findByDateSpacing">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+		</action>
 		<action name="editCustomer" class="customerAction" method="update">
             <result name="success" type="json">
                 <param name="target">resultMap</param>

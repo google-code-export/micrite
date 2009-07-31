@@ -24,10 +24,13 @@
 
 package org.gaixie.micrite.crm.action;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.service.ICustomerService;
@@ -53,7 +56,9 @@ public class CustomerAction extends ActionSupport{
     //获取的页面参数
     private Customer customer;
     private int[] customerIds;
-    
+    private Date startDate;
+    private Date endDate;
+   
     //起始索引
     private int start;
     //限制数
@@ -67,13 +72,14 @@ public class CustomerAction extends ActionSupport{
      * @return "success"
      */
     public String add() {
+        customer.setCreation_ts(new Date());
         customerService.add(customer);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;
     }
     /**
-     * 查找客户信息
+     * 电话查找客户信息
      * @return "success"
      */
     public String findByTelVague() {
@@ -84,6 +90,23 @@ public class CustomerAction extends ActionSupport{
         }         
         //  得到分页查询结果
         List<Customer> customers = customerService.findByTelVaguePerPage(customer.getTelephone(), start, limit);
+        resultMap.put("totalCount", totalCount);
+        resultMap.put("success", true);
+        resultMap.put("data", customers);
+        return SUCCESS;
+    }
+    /**
+     * 日期间隔查询客户 
+     * @return
+     */
+    public String findByDateSpacing(){
+        if (totalCount == 0) {
+            //  初次查询时，要从数据库中读取总记录数
+            Integer count = customerService.findByCreateDateSpacingCount(startDate, endDate);
+            setTotalCount(count);
+        }         
+        //  得到分页查询结果
+        List<Customer> customers = customerService.findByCreateDateSpacingPerPage(startDate, endDate, start, limit);
         resultMap.put("totalCount", totalCount);
         resultMap.put("success", true);
         resultMap.put("data", customers);
@@ -175,5 +198,11 @@ public class CustomerAction extends ActionSupport{
     }
     public void setCustomerIds(int[] customerIds) {
         this.customerIds = customerIds;
+    }
+    public void setStartDate(String startDate) throws ParseException {
+        this.startDate = DateUtils.parseDate(startDate + ":00", new String[]{"yyyy-MM-dd hh:mm:ss"});
+    }
+    public void setEndDate(String endDate) throws ParseException {
+        this.endDate = DateUtils.parseDate(endDate + ":00", new String[]{"yyyy-MM-dd hh:mm:ss"});
     }
 }

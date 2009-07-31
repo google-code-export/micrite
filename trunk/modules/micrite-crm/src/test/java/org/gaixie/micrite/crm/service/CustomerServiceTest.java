@@ -23,6 +23,8 @@
  */
 package org.gaixie.micrite.crm.service;
 
+import java.util.Date;
+
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.dao.ICustomerDAO;
@@ -49,6 +51,7 @@ public class CustomerServiceTest extends AbstractTransactionalJUnit4SpringContex
         customer = new Customer();
         customer.setName("tommy");
         customer.setTelephone("1234");
+        customer.setCreation_ts(new Date());
         CustomerSource cs = customerService.findALLCustomerSource().get(0);
         customer.setCustomerSource(cs);
         customerDAO.save(customer);

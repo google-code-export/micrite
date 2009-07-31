@@ -24,6 +24,7 @@
 
 package org.gaixie.micrite.crm.dao.hibernate;
 
+import java.util.Date;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Customer;
@@ -53,9 +54,13 @@ public class CustomerDAOImpl extends GenericDAOImpl<Customer, Integer> implement
 
     @SuppressWarnings("unchecked")
     public List findCSGroupByTelVague(String tel) {
-        String sql =
-            "select count(cs.name),cs.name from Customer  c join c.customerSource cs where telephone like ? group by cs.name";
-        return  getHibernateTemplate().find(sql, "%" + tel + "%");
+        DetachedCriteria criteria = DetachedCriteria.forClass(Customer.class);
+        criteria.createAlias("customerSource", "cs");
+        criteria.setProjection(Projections.projectionList()
+                .add(Projections.count("cs.name"))
+                .add(Projections.groupProperty("cs.name")));
+        criteria.add(Expression.like("telephone", "%"+tel+"%"));
+        return getHibernateTemplate().findByCriteria(criteria);
     }
     @SuppressWarnings("unchecked")
     public List<Customer> findByTelVaguePerPage(String telephone, int start,int limit) {
@@ -66,6 +71,21 @@ public class CustomerDAOImpl extends GenericDAOImpl<Customer, Integer> implement
     public int findByTelVagueCount(String telephone) {
         DetachedCriteria criteria = DetachedCriteria.forClass(Customer.class);
         criteria.add(Expression.like("telephone", "%"+telephone+"%"));
+        criteria.setProjection(Projections.rowCount());
+        return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Customer> findByCreateDateSpacingPerPage(Date startDate,
+            Date endDate, int start, int limit) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(Customer.class);
+        criteria.add(Expression.between("creation_ts", startDate, endDate));
+        return getHibernateTemplate().findByCriteria(criteria,start,limit);
+    }
+
+    public int findByCreateDateSpacingCount(Date startDate,Date endDate) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(Customer.class);
+        criteria.add(Expression.between("creation_ts", startDate, endDate));
         criteria.setProjection(Projections.rowCount());
         return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
     }

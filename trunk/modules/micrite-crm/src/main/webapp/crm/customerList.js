@@ -7,6 +7,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	colModelName : 'Name',
 	colModelMobile : 'Mobile',
 	colModelSource : 'Source',
+	colCreation_ts : 'Create Date',
 	customerSourceChart:'Customer Source Chart',
 	
 	initComponent:function() {
@@ -46,7 +47,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	var config = {
 	        compSet: [
 	             {url:0,reader:0,columns:0,bbarAction:0},
-	             {url:0,reader:0,columns:0,bbarAction:0},
+	             {url:1,reader:0,columns:0,bbarAction:0},
 	             {url:0,reader:0,columns:1}
 	        ],
 			searchMenu : [
@@ -61,14 +62,17 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	              width:120}
 	            ],[
 	             this.searchStartTime,
-	             {xtype:'datefield',
-	              name:'mydate',
-	              width:135},
-	             {xtype:'uxspinner',
-	              name:'mydate',
-	              fieldLabel: 'Time',
-	              strategy: new Ext.ux.form.Spinner.TimeStrategy(),
-	              width:135}
+	             {xtype:'uxspinnerdate',
+	              name:'startDate',
+	              value:new Date(),
+	              fieldPosition:'start',
+	              strategy: new Ext.ux.form.Spinner.TimeStrategy({defaultValue:'00:00'})},
+	             this.searchEndTime,
+	             {xtype:'uxspinnerdate',
+	              name:'endDate',
+	              fieldPosition:'end',
+	              value:new Date(),
+	              strategy: new Ext.ux.form.Spinner.TimeStrategy({defaultValue:'23:59'})}
 	            ],[
 	             this.searchStartTime,
 	             {xtype:'datefield', name:'startTime', width:135},
@@ -83,11 +87,12 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	             'Gw',
 	             {xtype:'checkbox', name:'gw', width:40,height:20}
 	        ]],
-	        urls: ['crm/findCustomer.action','crm/findCustomerNew.action'],
+	        urls: ['crm/findCustomer.action','crm/findCustomerByDateSpacing.action'],
 	        readers : [[
 			     {name: 'name'},
 			     {name: 'telephone'},
-			     {name: 'customerSource',mapping : 'customerSource.id'}
+			     {name: 'customerSource',mapping : 'customerSource.id'},
+			     {name: 'creation_ts',type : 'date',dateFormat : 'time',mapping : 'creation_ts.time'}
 	        ]],
 			columnsArray: [[
 		          {
@@ -104,6 +109,11 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		          	header: this.colModelSource,
 		          	width: 100, sortable: true, dataIndex: 'customerSource',
 		          	editor:combo,renderer:comboBoxRenderer(combo)
+		          },
+		          {
+		          	header: this.colCreation_ts,
+		          	width: 100, sortable: true, dataIndex: 'creation_ts',
+		          	renderer : Ext.util.Format.dateRenderer('Y-m-d H:i:s')
 		          },
 		          sm
 			 ],[
