@@ -24,8 +24,9 @@
 
 package org.gaixie.micrite.beans;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,6 +52,8 @@ public class Customer {
     private String name;
     
     private String telephone;
+    
+    private Date creation_ts;
     
     @ManyToOne(targetEntity = CustomerSource.class)
     @JoinColumn(name = "customer_source_id")
@@ -87,6 +90,13 @@ public class Customer {
 
     public void setCustomerSource(CustomerSource customerSource) {
         this.customerSource = customerSource;
+    }
+    public Date getCreation_ts() {
+        return creation_ts;
+    }
+
+    public void setCreation_ts(Date creation_ts) {
+        this.creation_ts = creation_ts;
     }
 
 }
