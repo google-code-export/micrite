@@ -13,7 +13,8 @@ function customerListLocale(){
     		colModelId:'ID',
             colModelName:'Name',
             colModelMobile:'Cellphone',
-            colModelSource:'Source'
+            colModelSource:'Source',
+            colCreation_ts:'Create Date'
         });
     }	
     if(micrite.crm.customerList.SearchResultGrid) {
