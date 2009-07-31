@@ -24,6 +24,7 @@
 
 package org.gaixie.micrite.crm.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.gaixie.micrite.beans.Customer;
@@ -49,7 +50,11 @@ public class CustomerServiceImpl implements ICustomerService {
     }
     
     public void update(Customer c) {
-        customerDAO.update(c);
+        Customer customer = customerDAO.get(c.getId());
+        customer.setCustomerSource(c.getCustomerSource());
+        customer.setName(c.getName());
+        customer.setTelephone(c.getTelephone());
+        customerDAO.update(customer);
     }
 
     public List<CustomerSource> findALLCustomerSource() {
@@ -98,9 +103,19 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     public void delete(int[] customerIds) {
-        for (int i = 0; i < customerIds.length; i++) {
+        for (int i = 0; i < customerIds.length; i++) { 
             Customer customer = customerDAO.get(customerIds[i]);
             customerDAO.delete(customer);
         }
+    }
+
+    public int findByCreateDateSpacingCount(Date startDate, Date endDate) {
+        return customerDAO.findByCreateDateSpacingCount(startDate, endDate);
+    }
+
+    public List<Customer> findByCreateDateSpacingPerPage(Date startDate,
+            Date endDate, int start, int limit) {
+        List<Customer> list = customerDAO.findByCreateDateSpacingPerPage(startDate, endDate, start, limit);
+        return list;
     }
 }
