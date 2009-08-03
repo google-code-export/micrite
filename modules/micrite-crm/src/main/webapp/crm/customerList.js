@@ -9,6 +9,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	colModelSource : 'Source',
 	colCreation_ts : 'Create Date',
 	customerSourceChart:'Customer Source Chart',
+	comboEmptyText:'ALL',
 	
 	initComponent:function() {
 	//来源下拉框
@@ -20,6 +21,17 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		autoLoad:true,
 		//设定读取的地址
 		proxy : new Ext.data.HttpProxy({url: 'crm/getCustomerPartner.action'}),    
+		//设定读取的格式    
+		reader : new Ext.data.JsonReader({    
+			id:"id"
+		}, RecordDef),
+		remoteSort: true   
+	});
+	var SourceTypestore = new Ext.data.Store({
+		id: Ext.id(),    
+		autoLoad:true,
+		//设定读取的地址
+		proxy : new Ext.data.HttpProxy({url: 'crm/getCustomerPartnerByAll.action'}),    
 		//设定读取的格式    
 		reader : new Ext.data.JsonReader({    
 			id:"id"
@@ -47,13 +59,11 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	var config = {
 	        compSet: [
 	             {url:0,reader:0,columns:0,bbarAction:0},
-	             {url:1,reader:0,columns:0,bbarAction:0},
-	             {url:0,reader:0,columns:1}
+	             {url:1,reader:0,columns:0,bbarAction:0}
 	        ],
 			searchMenu : [
 				 this.searchCondition1,
-				 this.searchCondition2,
-				 this.searchCondition3
+				 this.searchCondition2
 			],
 			searchFields :[[
 	             this.searchCellphone,
@@ -72,21 +82,24 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	              name:'endDate',
 	              fieldPosition:'end',
 	              value:new Date(),
-	              strategy: new Ext.ux.form.Spinner.TimeStrategy({defaultValue:'23:59'})}
-	            ],[
-	             this.searchStartTime,
-	             {xtype:'datefield', name:'startTime', width:135},
-	             this.searchEndTime,
-	             {xtype:'datefield', name:'endTime', width:135},
-	             'Gb',
-	             {xtype:'checkbox', name:'gb', width:40,height:20},
-	             'Gn',
-	             {xtype:'checkbox', name:'gn', width:40,height:20},
-	             'Gi',
-	             {xtype:'checkbox', name:'gi', width:40,eight:20},
-	             'Gw',
-	             {xtype:'checkbox', name:'gw', width:40,height:20}
-	        ]],
+	              strategy: new Ext.ux.form.Spinner.TimeStrategy({defaultValue:'23:59'})},
+	              this.searchCustomerSourceType,
+	              {xtype:'combo',
+	               name:'customer.customerSource.id',
+		           selectOnFocus:true,
+		           valueField:'id',
+		           hiddenName:'customer.customerSource.id',
+		           displayField:'name',
+		           fieldLabel: this.sourceText,
+//		           emptyText:this.comboEmptyText,
+		           editable:false,
+		           allowBlank:false,
+		           forceSelection:true,
+		           triggerAction:'all',
+		           store:SourceTypestore,
+		           value:'0',
+		           typeAhead: true}
+	            ]],
 	        urls: ['crm/findCustomer.action','crm/findCustomerByDateSpacing.action'],
 	        readers : [[
 			     {name: 'name'},
@@ -116,24 +129,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		          	renderer : Ext.util.Format.dateRenderer('Y-m-d H:i:s')
 		          },
 		          sm
-			 ],[
-                  {
-                    header:'col1',
-                    width:100, sortable: true,dataIndex: 'name',
-                    editor:new Ext.form.TextField({allowBlank: false})
-                  },
-                  {
-                    header: 'col2',
-                    width: 100, sortable: true, dataIndex: 'telephone',
-                    editor:new Ext.form.TextField({allowBlank: false})
-                  },
-                  {
-                    header: 'col3',
-                    width: 100, sortable: true, dataIndex: 'customer_source_id',
-                    editor:combo,renderer:comboBoxRenderer(combo)
-                  },
-                  sm
-             ]],
+			 ]],
 	         tbarActions : [{
 	        	 text:this.customerSourceBarChart,
 	        	 iconCls :'bar-chart-icon',

@@ -226,6 +226,9 @@ micrite.ComplexGrid = {
                 this.curFields[this.curFields.length] = item;
                 toolbar.add(item);
                 item = new Ext.ux.form.Spinner(time);
+            }else if(item.xtype == 'combo'){
+            	item = new Ext.form.ComboBox(item);
+	            this.curFields[this.curFields.length] = item;
             }
             toolbar.add(item);
 	    }
@@ -310,7 +313,11 @@ micrite.ComplexGrid = {
                 		return;
                 	}
                     this.store.baseParams[name] = value;
-                } else {
+                }else if(this.curFields[i].xtype == 'combo'){
+                	value = this.curFields[i].getValue();
+            		this.store.baseParams[name] = value;
+                }
+                 else {
                 	if (!this.curFields[i].isValid()){
                 		showMsg('failure',this.dateErrorMsg);
                 		return;

@@ -86,18 +86,18 @@ public interface ICustomerService {
      */
     public int findByTelVagueCount(String telephone);
     /**
-     *根据创建日期查询客户
+     * 日期间隔查及customerSourceType询客户 
      * @param createDate
      * @param start
      * @param limit
      * @return
      */
-    public List<Customer> findByCreateDateSpacingPerPage(Date startDate,Date endDate, int start, int limit);
+    public List<Customer> findByCreateDateSpacingPerPage(Date startDate,Date endDate, int start, int limit,int customerSourceType);
     /**
-     * 根据创建日期查询客户总记录数
+     * 日期间隔查及customerSourceType询客户总记录数
      * @param createDate
      * @return
      */
-    public int findByCreateDateSpacingCount(Date startDate,Date endDate);
+    public int findByCreateDateSpacingCount(Date startDate,Date endDate,int customerSourceType);
 
 }
