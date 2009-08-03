@@ -25,6 +25,8 @@
 package org.gaixie.micrite.crm.action;
 
 import java.text.ParseException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -96,17 +98,17 @@ public class CustomerAction extends ActionSupport{
         return SUCCESS;
     }
     /**
-     * 日期间隔查询客户 
+     * 日期间隔查及customerSourceType询客户 
      * @return
      */
     public String findByDateSpacing(){
         if (totalCount == 0) {
             //  初次查询时，要从数据库中读取总记录数
-            Integer count = customerService.findByCreateDateSpacingCount(startDate, endDate);
+            Integer count = customerService.findByCreateDateSpacingCount(startDate, endDate,customer.getCustomerSource().getId());
             setTotalCount(count);
         }         
         //  得到分页查询结果
-        List<Customer> customers = customerService.findByCreateDateSpacingPerPage(startDate, endDate, start, limit);
+        List<Customer> customers = customerService.findByCreateDateSpacingPerPage(startDate, endDate, start, limit,customer.getCustomerSource().getId());
         resultMap.put("totalCount", totalCount);
         resultMap.put("success", true);
         resultMap.put("data", customers);
@@ -141,7 +143,26 @@ public class CustomerAction extends ActionSupport{
         customerSource = customerService.findALLCustomerSource();
         return SUCCESS;
     }
-    
+    /**
+     * 获得用户来源(含ALL)
+     * @return "success"
+     */
+    public String getPartnerByAll(){
+        customerSource = customerService.findALLCustomerSource();
+        //在结果集中添加ALL
+        CustomerSource tempSource = new CustomerSource();
+        tempSource.setId(0);
+        tempSource.setName("ALL");
+        customerSource.add(tempSource);
+        //按ID排序，把ALL放到List的最前面，用于下拉框显示时ALL在最上面
+        Collections.sort(customerSource, new Comparator<CustomerSource>(){
+            public int compare(CustomerSource arg0, CustomerSource arg1){
+                return arg0.getId().compareTo(arg1.getId());
+            }
+        });
+
+        return SUCCESS;
+    }
     // ~~~~~~~~~~~~~~~~~~~~~~~  Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     /**
      * @return the customer

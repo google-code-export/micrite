@@ -34,7 +34,6 @@ import org.gaixie.micrite.dao.hibernate.GenericDAOImpl;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
  * 客户管理持久化实现，基于hibernate
@@ -77,14 +76,22 @@ public class CustomerDAOImpl extends GenericDAOImpl<Customer, Integer> implement
 
     @SuppressWarnings("unchecked")
     public List<Customer> findByCreateDateSpacingPerPage(Date startDate,
-            Date endDate, int start, int limit) {
+            Date endDate, int start, int limit,int customerSourceType) {
         DetachedCriteria criteria = DetachedCriteria.forClass(Customer.class);
+        criteria.createAlias("customerSource", "cs");
+        if(0!=customerSourceType){
+            criteria.add(Expression.eq("cs.id", customerSourceType));
+        }
         criteria.add(Expression.between("creation_ts", startDate, endDate));
         return getHibernateTemplate().findByCriteria(criteria,start,limit);
     }
 
-    public int findByCreateDateSpacingCount(Date startDate,Date endDate) {
+    public int findByCreateDateSpacingCount(Date startDate,Date endDate,int customerSourceType) {
         DetachedCriteria criteria = DetachedCriteria.forClass(Customer.class);
+        criteria.createAlias("customerSource", "cs");
+        if(0!=customerSourceType){
+            criteria.add(Expression.eq("cs.id", customerSourceType));
+        }
         criteria.add(Expression.between("creation_ts", startDate, endDate));
         criteria.setProjection(Projections.rowCount());
         return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);

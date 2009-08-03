@@ -14,7 +14,8 @@ function customerListLocale(){
             colModelName:'姓名',
             colModelMobile:'手机号',
             colModelSource:'来源',
-            colCreation_ts:'创建时间'
+            colCreation_ts:'创建时间',
+            searchCustomerSourceType:'用户类型'
         });
     }	
 }

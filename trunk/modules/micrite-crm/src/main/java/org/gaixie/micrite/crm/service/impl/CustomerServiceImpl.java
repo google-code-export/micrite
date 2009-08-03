@@ -109,13 +109,13 @@ public class CustomerServiceImpl implements ICustomerService {
         }
     }
 
-    public int findByCreateDateSpacingCount(Date startDate, Date endDate) {
-        return customerDAO.findByCreateDateSpacingCount(startDate, endDate);
+    public int findByCreateDateSpacingCount(Date startDate, Date endDate,int customerSourceType) {
+        return customerDAO.findByCreateDateSpacingCount(startDate, endDate,customerSourceType);
     }
 
     public List<Customer> findByCreateDateSpacingPerPage(Date startDate,
-            Date endDate, int start, int limit) {
-        List<Customer> list = customerDAO.findByCreateDateSpacingPerPage(startDate, endDate, start, limit);
+            Date endDate, int start, int limit,int coustomerSourceType) {
+        List<Customer> list = customerDAO.findByCreateDateSpacingPerPage(startDate, endDate, start, limit,coustomerSourceType);
         return list;
     }
 }

@@ -36,6 +36,11 @@
                 <param name="target">customerSource</param>
             </result>
 		</action>
+		<action name="getCustomerPartnerByAll" class="customerAction" method="getPartnerByAll">
+			<result name="success" type="json">
+                <param name="target">customerSource</param>
+            </result>
+		</action>
         <action name="getCustomerSourceBarChart" class="customerChartAction" method="getBarChart" >
            <result name="success" type="json">
                 <param name="target">resultMap</param>
