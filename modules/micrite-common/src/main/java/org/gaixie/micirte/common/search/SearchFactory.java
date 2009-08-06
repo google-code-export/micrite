@@ -76,7 +76,7 @@ public class SearchFactory {
     }
     
     @SuppressWarnings("unchecked")
-    public static DetachedCriteria generateCriteria(Class entity, SearchBean[] searchBean) throws ParseException{
+    public static DetachedCriteria generateCriteria(Class entity, SearchBean[] searchBean){
         DetachedCriteria criteria = DetachedCriteria.forClass(entity);
         if(searchBean == null || searchBean.length == 0)
             return criteria;
