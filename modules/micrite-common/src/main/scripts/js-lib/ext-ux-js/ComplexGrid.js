@@ -231,9 +231,12 @@ micrite.ComplexGrid = {
             } else if (item.xtype == 'splitbutton') {
                 var cols = this.columnsArray[this.compSet[i].columns];
                 this.advSearchField = {};//这个参数用于取回高级查询的结果
-                Ext.apply(item,{menu:new Ext.ux.gridMenu({cols:cols,advSearchField:this.advSearchField})});             		            
+                Ext.apply(item,{menu:new Ext.ux.menuGrid({cols:cols,advSearchField:this.advSearchField})});             		            
               //  this.curFields[this.curFields.length] = item;
-            } 
+            } else if(item.xtype == 'combo'){
+            	item = new Ext.form.ComboBox(item);
+	            this.curFields[this.curFields.length] = item;
+            }
             toolbar.add(item);
 	    }
 	    toolbar.doLayout();
@@ -448,7 +451,7 @@ Ext.apply(Ext.form.VTypes, {
 
 
 Ext.ns('Ext.ux');
-Ext.ux.gridMenu = Ext.extend(Ext.menu.Menu, {
+Ext.ux.menuGrid = Ext.extend(Ext.menu.Menu, {
     
     enableScrolling : false,
     hideOnClick : false,
@@ -480,7 +483,7 @@ Ext.ux.gridMenu = Ext.extend(Ext.menu.Menu, {
             	advSearchField:this.initialConfig.advSearchField})
         });
         this.picker.purgeListeners();
-        Ext.ux.gridMenu.superclass.initComponent.call(this);
+        Ext.ux.menuGrid.superclass.initComponent.call(this);
     },
 
     onShow : function(){
@@ -488,7 +491,7 @@ Ext.ux.gridMenu = Ext.extend(Ext.menu.Menu, {
         el.setWidth(el.getWidth()); //nasty hack for IE7 strict mode
     }
  });
- Ext.reg('gridmenu',Ext.ux.gridMenu);
+ Ext.reg('menugrid',Ext.ux.menuGrid);
 
  Ext.ux.advanceSearch = Ext.extend(Ext.grid.GridPanel, {
  	constructor: function (config) {
