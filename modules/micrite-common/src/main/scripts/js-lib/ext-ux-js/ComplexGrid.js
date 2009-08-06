@@ -127,8 +127,10 @@ micrite.ComplexGrid = {
 	        var searchButton = {
 	            text:mbLocale.searchButton,
 	            cls:'x-btn-text-icon details',
+	            xtype : this.advSearch?'splitbutton':'button',
 	            scope:this,
-	            handler:this.startSearch
+	            handler:this.startSearch,
+	            arrowHandler : this.advanceSearch
 	        };
             //  向每个查询条件组中加入组件：“查询按钮”
             for (i = 0; i < this.searchFields.length; i++) {
@@ -226,10 +228,12 @@ micrite.ComplexGrid = {
                 this.curFields[this.curFields.length] = item;
                 toolbar.add(item);
                 item = new Ext.ux.form.Spinner(time);
-            }else if(item.xtype == 'combo'){
-            	item = new Ext.form.ComboBox(item);
-	            this.curFields[this.curFields.length] = item;
-            }
+            } else if (item.xtype == 'splitbutton') {
+                var cols = this.columnsArray[this.compSet[i].columns];
+                this.advSearchField = {};//这个参数用于取回高级查询的结果
+                Ext.apply(item,{menu:new Ext.ux.gridMenu({cols:cols,advSearchField:this.advSearchField})});             		            
+              //  this.curFields[this.curFields.length] = item;
+            } 
             toolbar.add(item);
 	    }
 	    toolbar.doLayout();
@@ -276,60 +280,64 @@ micrite.ComplexGrid = {
         return store;
      },
      startSearch : function() {
-            this.store.baseParams = {};
-            var value = null,name = null,temp = null,idx = [];
-            for (var i = 0; i < this.curFields.length; i++) {
-            	name = this.curFields[i].getName();
-                if (this.curFields[i].xtype == 'checkbox') {
-                	if (temp != name){
-                		temp = name;
-                		idx = [];
-                	}
-                	if (this.curFields[i].checked){
-                		value = this.curFields[i].getRawValue();
-                		//如果没有指定Value，value值为true
-                		if (this.curFields[i].inputValue == undefined){
-                			value = true;
-                		}
-                		idx[idx.length] = value;
-                		value = idx;
-                		this.store.baseParams[name] = value;
-                	}
-                } else if (this.curFields[i].xtype == 'radio') {
-                 	if (this.curFields[i].checked){
-                		value = this.curFields[i].getRawValue();
-                		this.store.baseParams[name] = value;
-                	}
-            	 } else if (this.curFields[i].xtype == 'uxspinnerdate') {
-            		if (!this.curFields[i].isValid()){
-            			showMsg('failure',this.dateErrorMsg);
-            			return;
-            		}
-                	value = this.curFields[i].getRawValue();
-                	var time = Ext.getCmp(this.curFields[i].timeId);
-                	value = value + ' ' + time.getRawValue();
-                	if (!time.isValid()){
-                		showMsg('failure',this.timeErrorMsg);
-                		return;
-                	}
-                    this.store.baseParams[name] = value;
-                }else if(this.curFields[i].xtype == 'combo'){
-                	value = this.curFields[i].getValue();
-            		this.store.baseParams[name] = value;
-                }
-                 else {
-                	if (!this.curFields[i].isValid()){
-                		showMsg('failure',this.dateErrorMsg);
-                		return;
-                	}
-                	value = this.curFields[i].getRawValue();
-                    this.store.baseParams[name] = value;
-                }
-            }
+            this.store.baseParams = this.getAllField();
             this.store.rejectChanges(); 
             this.store.load({params:{start:0, limit:this.pageSize},callback:function(r,o,s){
                  // console.log(33);
             }});
+     },
+     advanceSearch : function(b,e){
+    	 //console.log(b.menu);
+     },
+     getAllField : function (){
+    	 var result = {};
+    	 var value = null,name = null,temp = null,idx = [];
+         for (var i = 0; i < this.curFields.length; i++) {
+         	name = this.curFields[i].getName();
+             if (this.curFields[i].xtype == 'checkbox') {
+             	if (temp != name){
+             		temp = name;
+             		idx = [];
+             	}
+             	if (this.curFields[i].checked){
+             		value = this.curFields[i].getRawValue();
+             		//如果没有指定Value，value值为true
+             		if (this.curFields[i].inputValue == undefined){
+             			value = true;
+             		}
+             		idx[idx.length] = value;
+             		value = idx;
+             		result[name] = value;
+             	}
+             } else if (this.curFields[i].xtype == 'radio') {
+              	if (this.curFields[i].checked){
+             		value = this.curFields[i].getRawValue();
+             		result[name] = value;
+             	}
+         	 } else if (this.curFields[i].xtype == 'uxspinnerdate') {
+         		if (!this.curFields[i].isValid()){
+         			showMsg('failure',this.dateErrorMsg);
+         			return;
+         		}
+             	value = this.curFields[i].getRawValue();
+             	var time = Ext.getCmp(this.curFields[i].timeId);
+             	value = value + ' ' + time.getRawValue();
+             	if (!time.isValid()){
+             		showMsg('failure',this.timeErrorMsg);
+             		return;
+             	}
+             	result[name] = value;
+             } else {
+             	if (!this.curFields[i].isValid()){
+             		showMsg('failure',this.dateErrorMsg);
+             		return;
+             	}
+             	value = this.curFields[i].getRawValue();
+             	result[name] = value;
+             }
+         }
+         Ext.apply(result,this.advSearchField);
+         return result;
      },
      initCompSet : function(item,index,allItem) {
         	var defaultCompSet = {url:0,reader:0,columns:0,bbarAction:-1};
@@ -437,4 +445,148 @@ Ext.apply(Ext.form.VTypes, {
         return true;
     }
 });
+
+
+Ext.ns('Ext.ux');
+Ext.ux.gridMenu = Ext.extend(Ext.menu.Menu, {
+    
+    enableScrolling : false,
+    hideOnClick : false,
+    layout:'fit',
+    cls : 'x-date-menu',
+
+    initComponent : function(config){
+       
+        if(this.strict = (Ext.isIE7 && Ext.isStrict)){
+            this.on('show', this.onShow, this, {single: true, delay: 20});
+        }
+        var cols =this.initialConfig.cols;
+        this.cols = [];
+        for (var ci=0;ci<cols.length;ci++){
+        	if (cols[ci]['query']){
+        		this.cols[ci] = [cols[ci]['dataIndex'],cols[ci]['header']];
+        	}
+        }
+        Ext.apply(this, {
+            plain: true,
+            showSeparator: false,
+            items: this.picker = new Ext.ux.advanceSearch({
+                internalRender: this.strict || !Ext.isIE,
+                ctCls: 'x-menu-date-item',
+                border:false,
+                height:300,
+                width:330,
+            	colData:this.cols,
+            	advSearchField:this.initialConfig.advSearchField})
+        });
+        this.picker.purgeListeners();
+        Ext.ux.gridMenu.superclass.initComponent.call(this);
+    },
+
+    onShow : function(){
+        var el = this.picker.getEl();
+        el.setWidth(el.getWidth()); //nasty hack for IE7 strict mode
+    }
+ });
+ Ext.reg('gridmenu',Ext.ux.gridMenu);
+
+ Ext.ux.advanceSearch = Ext.extend(Ext.grid.GridPanel, {
+ 	constructor: function (config) {
+ 		Ext.apply(this, config);
+ 		this.recOrder=[];
+ 		var combo = new Ext.form.ComboBox({
+ 		    triggerAction: 'all',
+ 		    lazyRender:true,
+ 		    width:120,
+ 		    editable :false,
+ 		    mode: 'local',
+ 		    getListParent: function() {
+ 		        return this.el.up('.x-menu');
+ 		    },
+ 		    store: new Ext.data.ArrayStore({
+ 		        fields: [
+ 		            'colId',
+ 		            'coldName'
+ 		        ],
+ 		        data: this.colData
+ 		    }),
+ 		    valueField: 'colId',
+ 		    displayField: 'coldName'
+ 		});
+ 		var textField = new Ext.form.TextField({ width:100});
+ 	    var tbar = new Ext.Toolbar({
+ 	    	items: [
+ 	    	        combo,
+ 	    	        ' = ',
+ 	    	        textField,
+ 	    	        {xtype: 'tbspacer', width: 5},
+ 	    	        {
+ 	    	            text: 'Add',
+ 	    	            scope : this,
+ 	    	            handler : this.onAdd.createDelegate(this,[combo,textField])
+ 	    	        },
+ 	    	        {
+ 	    	            text: 'Delete',
+ 	    	            scope : this,
+ 	    	            handler : this.onDelete.createDelegate(this,[combo,textField])
+ 	    	        }	    	        
+ 	    	    ]
+     	});
+ 	    var reader = new Ext.data.JsonReader({
+ 	        totalProperty: 'total',
+ 	        successProperty: 'success',
+ 	        root: 'data'
+ 	    }, [
+ 	        {name: 'name'},
+ 	        {name: 'value'}
+ 	    ]);
+ 	    var store = new Ext.data.Store({
+ 	        reader: reader,
+ 	        autoSave: true
+ 	    });
+ 		Ext.apply(this, {
+ 			viewConfig: {
+ 				forceFit:true
+ 			},
+ 			tbar : tbar,
+ 			columns: [new Ext.grid.RowNumberer(),
+ 			          {header: "Name",dataIndex: 'name'},
+ 		          {header: "Value",dataIndex: 'value'}],
+ 		    store:store
+ 		});
+ 		Ext.ux.advanceSearch.superclass.constructor.call(this);
+ 	},
+ 	onAdd : function(c,t){
+         var u = new this.store.recordType({
+        	 id:c.value,
+             name : c.getRawValue(),
+             value: t.getRawValue()
+         });
+         if (this.advSearchField[c.value]){
+	         for (var i=0;i<this.recOrder.length;i++){
+	        	 if (this.recOrder[i].data.name==c.getRawValue()){
+	        		 this.recOrder[i] = u;
+	        	 }
+	         }
+         }else{
+        	 this.recOrder[this.recOrder.length] = u;
+         }
+         this.advSearchField[c.value]=t.getRawValue();
+         this.store.removeAll();
+         var tmp = this.recOrder.slice();//拷贝数组
+//         this.store.insert(0, u);
+         this.store.add(tmp.reverse());
+ 	},
+     onDelete : function(c, t) {
+         var index = this.getSelectionModel().getSelected();
+         if (!index) {
+             return false;
+         }
+         this.recOrder.remove(index);
+         delete this.advSearchField[index.data.id];
+         this.store.removeAll();
+         var tmp = this.recOrder.slice();
+         this.store.add(tmp.reverse());
+     }
+ });
 
