@@ -16,7 +16,7 @@ public class SearchFactory {
      * @throws ParseException 
      */
     public static void main(String[] args) throws ParseException {
-        String str = "[{name}{yubo}{like}{string}],[{telephone}{13810770810}{=}{string}],[{createDate}{2009-08-02 00:00}{>=}{date}],[{interface_}{1,2,3}{in}{numeric}]";
+        String str = "[name,yubo,like,string],[telephone,13810770810,=,string],[createDate,2009-08-02 00:00,>=,date],[interface_,1;2;3,in,numeric]";
         String[] detach = detach(str, '[', ']');
         for(String s: detach)
             System.out.println("detach =" + s);
@@ -28,7 +28,7 @@ public class SearchFactory {
 
     /**
      * @param scarchBunch 格式：
-     * [{name}{value}{relation}{type}],[{name}{value}{relation}{type}],[{name}{value}{relation}{type}]
+     * [name,value,relation,type],[name,value,relation,type],[name,value,relation,type]
      * name:    字段名称
      * value:   字段值
      * relation:条件关系，包含：=, <, >, <=, >=, like, in
@@ -41,7 +41,7 @@ public class SearchFactory {
             return null;
         SearchBean[] search = new SearchBean[team.length];
         for(int i = 0; i < team.length; i++){
-            String[] element = detach(team[i], '{', '}');
+            String[] element = StringUtils.split(team[i], ',');
             if(element == null || element.length != 4)
                 throw new ParseException("Unable to parse the string: " + scarchBunch, -1);
             Object value;
@@ -65,7 +65,7 @@ public class SearchFactory {
                     value = "%" + element[1] + "%";
                 }
                 else if(element[2].equals("in")){
-                    value = StringUtils.split(element[1], ',');
+                    value = StringUtils.split(element[1], ';');
                 }
                 else
                     value = element[1];
