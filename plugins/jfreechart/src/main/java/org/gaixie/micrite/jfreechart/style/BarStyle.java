@@ -24,12 +24,14 @@
 package org.gaixie.micrite.jfreechart.style;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Paint;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryLabelPositions;
-import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.CategoryDataset;
 
 /**
  * 柱状图样式
@@ -50,23 +52,33 @@ public class BarStyle {
     }
     
     /**
-     * 柱状图样式，适用于X轴 lable密集的chart
-     * <p>
-     * Y轴数据为整数，X轴的 lable 向上倾斜45度
+     * 柱状图样式：柱状图显示数值，画板底色透明
      * @param chart JFreeChart对象
      */
     public static void styleOne(JFreeChart chart){
-        CategoryPlot plot = (CategoryPlot) chart.getPlot();
-        
-        BarStyle.setBackground(chart);
-                
-        //Y轴设置
-        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        
-        //X轴设置
-        CategoryAxis domainAxis = plot.getDomainAxis();
-        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+        CategoryPlot categoryplot = (CategoryPlot) chart.getPlot();
+        CategoryDataset dca = categoryplot.getDataset();
+        //画板底色
+        chart.setBackgroundPaint(null);
+        if(dca!=null){
+            BarRenderer categoryitemrenderer = (BarRenderer)categoryplot.getRenderer();
+            // 显示每个柱的数值，并修改该数值的字体属性
+            categoryitemrenderer.setBaseItemLabelGenerator(
+                    new StandardCategoryItemLabelGenerator());
+            categoryitemrenderer.setBaseItemLabelFont(
+                    new Font("黑体", Font.PLAIN, 15));
+            categoryitemrenderer.setBaseItemLabelsVisible(true);
+            
+            //循环取色彩
+            for(int i = 0 ;i<dca.getRowCount();i++){
+                int colorIdx = i % colors.length;
+                categoryitemrenderer.setSeriesPaint(i, colors[colorIdx]);
+            }
+        }
+        else{
+            //无数据
+            categoryplot.setNoDataMessage("NO DATA");
+        }
     }
 
     /**
@@ -77,6 +89,25 @@ public class BarStyle {
      */    
     public static void setBackground(JFreeChart chart){
         chart.setBackgroundPaint(null);
-                
-    }    
+    }
+    /**
+     * 色彩方案
+     */
+    public static Paint colors[] = { 
+        Color.decode("#88AACC"), Color.decode("#999933"),
+        Color.decode("#666699"), Color.decode("#CC9933"),
+        Color.decode("#006666"), Color.decode("#3399FF"),
+        Color.decode("#993300"), Color.decode("#AAAA77"),
+        Color.decode("#666666"), Color.decode("#FFCC66"),
+        Color.decode("#6699CC"), Color.decode("#663366"),
+        Color.decode("#9999CC"), Color.decode("#AAAAAA"),
+        Color.decode("#669999"), Color.decode("#BBBB55"),
+        Color.decode("#CC6600"), Color.decode("#9999FF"),
+        Color.decode("#0066CC"), Color.decode("#99CCCC"),
+        Color.decode("#999999"), Color.decode("#FFCC00"),
+        Color.decode("#009999"), Color.decode("#99CC33"),
+        Color.decode("#FF9900"), Color.decode("#999966"),
+        Color.decode("#66CCCC"), Color.decode("#339966"),
+        Color.decode("#CCCC33") 
+    };
 }
