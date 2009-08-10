@@ -12,15 +12,11 @@ public class SearchBean {
     /**
      * 字段值
      */
-    private Object value;
+    private String value;
     /**
      * 条件关系，包含：=, <, >, <=, >=, like, in
      */
-    private String realtion;
-    /**
-     * 字段类型，包含：numeric, string, date, boolean
-     */
-    private String type;
+    private String relation;
 
     
     /**
@@ -29,10 +25,9 @@ public class SearchBean {
      * @param type
      * @param value
      */
-    public SearchBean(String name, Object value, String realtion, String type) {
+    public SearchBean(String name, String value, String relation) {
         this.name = name;
-        this.realtion = realtion;
-        this.type = type;
+        this.relation = relation;
         this.value = value;
     }
     
@@ -40,8 +35,7 @@ public class SearchBean {
         return new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
         .append("name", name)
         .append("value", value)
-        .append("realtion", realtion)
-        .append("type", type).toString();        
+        .append("realtion", relation).toString();        
     }
 
     public String getName() {
@@ -52,27 +46,20 @@ public class SearchBean {
         this.name = name;
     }
 
-    public Object getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(Object value) {
+    public void setValue(String value) {
         this.value = value;
     }
 
-    public String getType() {
-        return type;
+    public String getRelation() {
+        return relation;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setRelation(String relation) {
+        this.relation = relation;
     }
 
-    public String getRealtion() {
-        return realtion;
-    }
-
-    public void setRealtion(String realtion) {
-        this.realtion = realtion;
-    }
 }
