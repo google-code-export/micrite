@@ -122,8 +122,10 @@ micrite.ComplexGrid = {
 	     */
 	    for (var j = 0; j < items.length; j++) {
 	        item = items[j];
-	      	item.realname = item.name;
-        	item.name = radioPrefix + item.name;
+	        if (!item.realname){
+	        	item.realname = item.name;
+	        	item.name = radioPrefix + item.name;
+	        }
 	        if (item.xtype == 'textfield') {
 	            item = new Ext.form.TextField(item);
 	            this.curFields[this.curFields.length] = item;
