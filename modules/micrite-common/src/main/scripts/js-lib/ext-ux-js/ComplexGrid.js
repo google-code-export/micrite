@@ -1,83 +1,4 @@
 Ext.ns('micrite');
-/**
-yourClassName = Ext.extend(micrite.ComplexEditorGrid, {
-	//class本身多语言字符，声明在这里
-	anyName :'ID',
-
-	initComponent:function() { 
-	配置项说明
-	var config = {
-	        基本配置项，必须声明
-			可以是一个空对象，如果有bbarAction必须配置
-			配置项的值，0，1，2...等等代表对应数组的下标
-	        compSet: [
-	             {url:0,reader:0,columns:0,bbarAction:0}
-	        ],
-	        组合查询条件切换菜单，选项
-	           根据需要配置，如果没有多个组合条件，则不需要声明
-			searchMenu : [
-				 this.s1,s2
-			],
-			查询条件，必须声明
-			searchFields :[[
-	             this.searchCellphone,
-	             {xtype:'textfield',
-	              name:'customer.telephone',
-	              width:120}
-	            ],[
-	             this.searchStartTime,
-	             {xtype:'datefield', name:'startTime', width:135},
-	             this.searchEndTime,
-	             {xtype:'datefield', name:'endTime', width:135}
-	        ]],
-	        查询请求地址，必须声明
-	        urls: ['crm/findCustomer.action','crm/findCustomerNew.action'],
-	        readers : [[
-			     {name: 'id',type:'int'},
-			     {name: 'name'},
-			     {name: 'telephone'},
-			     {name: 'customer_source_id'}
-	        ]],
-	        表格字段，必须声明
-			columnsArray: [[
-		          {
-		          	header:this.colModelName,
-		          	width:100, sortable: true,dataIndex: 'name',
-		          	editor:new Ext.form.TextField({allowBlank: false})
-		          },
-		          {
-		          	header: this.colModelMobile,
-		          	width: 100, sortable: true, dataIndex: 'telephone',
-		          	editor:new Ext.form.TextField({allowBlank: false})
-		          },
-		          new Ext.grid.CheckboxSelectionModel()
-	         ]],
-	         表格下方工具栏按钮，选项
-	         tbarActions : [{
-	        	 text:this.customerSourceBarChart,
-	        	 iconCls :'bar-chart-icon',
-	        	 scope:this,
-	        	 handler:this.yourFun
-	         }],
-	         表格上方工具栏最右端菜单，选项
-	         bbarActions:[[{
-	        	 text:mbLocale.deleteButton, 
-	        	 iconCls :'delete-icon',
-	        	 scope:this, 
-	        	 handler:this.yourFun
-	         }]]
-	    }; // eo config object
-		// apply config
-		//以下两行代码必须有
-		Ext.apply(this, Ext.apply(this.initialConfig, config)); 
-		yourClassName.superclass.initComponent.apply(this, arguments);
-	}，
-	//你的handler调用的函数声明在下面
-	yourFun : function() {
-        });
-	} //eof addCustomer
-}); //eo extend	
-**/
 micrite.ComplexGrid = {
     border : false,
     pageSize : parseInt(Ext.getDom('pageSize').value,10),
@@ -85,7 +6,6 @@ micrite.ComplexGrid = {
     dateErrorMsg : 'This is not a valid date - it must be in the format 2008-01-01',
     timeErrorMsg : 'This is not a valid time - it must be in the format 22:00',
     initComponent:function() {
- 
 	    var config = {
 			layout : 'fit',
 			loadMask : true,
@@ -127,10 +47,10 @@ micrite.ComplexGrid = {
 	        var searchButton = {
 	            text:mbLocale.searchButton,
 	            cls:'x-btn-text-icon details',
-	            xtype : this.advSearch?'splitbutton':'button',
+	            xtype : 'button',
 	            scope:this,
-	            handler:this.startSearch,
-	            arrowHandler : this.advanceSearch
+	            searchButton : true,
+	            handler:this.startSearch
 	        };
             //  向每个查询条件组中加入组件：“查询按钮”
             for (i = 0; i < this.searchFields.length; i++) {
@@ -188,16 +108,22 @@ micrite.ComplexGrid = {
             item.destroy();
         }
 	    var items = this.searchFields[i];
+	 
+	    var advSearch = items[0].advSearch;
+	    //console.log(advSearch);
 	    this.curFields = [];
 	    //为了避免页面id冲突
 	    this.varName['startDate'] = Ext.id(); 
 	    this.varName['endDate'] = Ext.id();
+	    var radioPrefix = Ext.id();
 	    /**
 	     * 使用curFields的长度作为下标，是为了保证数组长度和提交字段数量一致
 	     * 在每个判断下赋值是为了过滤一些非控件的item
 	     */
 	    for (var j = 0; j < items.length; j++) {
 	        item = items[j];
+	      	item.realname = item.name;
+        	item.name = radioPrefix + item.name;
 	        if (item.xtype == 'textfield') {
 	            item = new Ext.form.TextField(item);
 	            this.curFields[this.curFields.length] = item;
@@ -215,11 +141,21 @@ micrite.ComplexGrid = {
                 item = new Ext.ux.form.Spinner(item);
                 this.curFields[this.curFields.length] = item;
             } else if (item.xtype == 'uxspinnerdate') {
-            	var time = {
-            		width : 80,
-            		id : item.name + Ext.id(),
-            		strategy : item.strategy
+            	var defalutTime;
+            	if (!item.strategy){
+            		if (item.fieldPosition == 'start'){
+            			defalutTime = {defaultValue:'23:59'};
+            		}else{
+            			defalutTime = {defaultValue:'00:00'};
+            		}
+            	}else{
+            		defalutTime = item.strategy;
             	}
+            	var time = {
+            		width : 60,
+            		id : item.name + Ext.id(),
+            		strategy : new Ext.ux.form.Spinner.TimeStrategy(defalutTime)
+            	};
             	Ext.apply(item,{
             		timeId : time.id
             	});
@@ -228,11 +164,27 @@ micrite.ComplexGrid = {
                 this.curFields[this.curFields.length] = item;
                 toolbar.add(item);
                 item = new Ext.ux.form.Spinner(time);
-            } else if (item.xtype == 'splitbutton') {
-                var cols = this.columnsArray[this.compSet[i].columns];
-                this.advSearchField = {};//这个参数用于取回高级查询的结果
-                Ext.apply(item,{menu:new Ext.ux.menuGrid({cols:cols,advSearchField:this.advSearchField})});             		            
-              //  this.curFields[this.curFields.length] = item;
+            } else if (item.xtype == 'button' || item.xtype == 'splitbutton') {
+            	
+            	if (item.searchButton && advSearch){
+	                var advSearchField = this.advSearchField[this.compSet[i].advField];
+	                this.queryData = {};//这个参数用于取回高级查询的结果
+	                Ext.apply(item,{
+	                	xtype : 'splitbutton',
+	                	menu:{
+		                	cls : 'x-date-menu',
+		                	items:new Ext.ux.advanceSearch({
+		                    	queryData:this.queryData,
+		                    	advSearchField: advSearchField})
+	                	}
+	                });     
+	                if (!Ext.isIE){
+	                	Ext.apply(item.menu,{layout:'fit'});
+	                }
+            	}else{
+            		delete item.menu;
+            		Ext.apply(item,{xtype:'button'});
+            	}
             } else if(item.xtype == 'combo'){
             	item = new Ext.form.ComboBox(item);
 	            this.curFields[this.curFields.length] = item;
@@ -293,10 +245,11 @@ micrite.ComplexGrid = {
     	 //console.log(b.menu);
      },
      getAllField : function (){
+    	 var rt  = '';
     	 var result = {};
     	 var value = null,name = null,temp = null,idx = [];
          for (var i = 0; i < this.curFields.length; i++) {
-         	name = this.curFields[i].getName();
+         	name = this.curFields[i].realname;
              if (this.curFields[i].xtype == 'checkbox') {
              	if (temp != name){
              		temp = name;
@@ -312,10 +265,11 @@ micrite.ComplexGrid = {
              		value = idx;
              		result[name] = value;
              	}
+             	
              } else if (this.curFields[i].xtype == 'radio') {
               	if (this.curFields[i].checked){
              		value = this.curFields[i].getRawValue();
-             		result[name] = value;
+             		rt = rt + '['+ name + ',' + value + ',=],';
              	}
          	 } else if (this.curFields[i].xtype == 'uxspinnerdate') {
          		if (!this.curFields[i].isValid()){
@@ -329,21 +283,45 @@ micrite.ComplexGrid = {
              		showMsg('failure',this.timeErrorMsg);
              		return;
              	}
-             	result[name] = value;
+//        		if(time.getRawValue().length<1){
+//        			time.markInvalid(Ext.form.TextField.prototype.blankText);
+//    	            return;
+//    	        }
+             	if (!temp&&this.curFields[i].expression=='between'){
+             		temp = value;
+             	}else{
+             		temp = temp + ';' + value;
+             		rt = rt + '['+ name + ',' + temp + ','+ this.curFields[i].expression +'],';
+             		temp = null;
+             	}
              } else {
              	if (!this.curFields[i].isValid()){
              		showMsg('failure',this.dateErrorMsg);
              		return;
              	}
              	value = this.curFields[i].getRawValue();
-             	result[name] = value;
+             	rt = rt + '['+ name + ',' + value + ','+ this.curFields[i].expression + '],';
              }
          }
-         Ext.apply(result,this.advSearchField);
-         return result;
+         if (this.queryData){
+	         Ext.iterate(this.queryData,function(item,index,allItems){
+	        	 rt = rt + '['+ this.queryData[item] +'],';
+	         },this);
+         }
+  		if (result){
+	         Ext.iterate(result,function(item,index,allItems){
+	            var checkbox = '';
+	            for (var i=0;i<result[item].length;i++){
+	           	 	checkbox = checkbox + result[item][i]+';';
+	            }
+	            rt = rt + '['+ item + ',' + checkbox + ',in],';
+	         },this);
+
+ 		}
+         return {queryString:rt};
      },
      initCompSet : function(item,index,allItem) {
-        	var defaultCompSet = {url:0,reader:0,columns:0,bbarAction:-1};
+        	var defaultCompSet = {url:0,reader:0,columns:0,bbarAction:-1,advField:0};
         	this.compSet[index] = Ext.apply(defaultCompSet,item);
      },
      resetGrid : function() {
@@ -381,7 +359,7 @@ micrite.ComplexGrid = {
      setDateConfig : function(item){
      	Ext.apply(item,{
     		format: 'Y-m-d',
-    		first : true
+    		width:100
     	});
      	//加入了一个fieldPosition参数，用于控制日期的范围
     	if (item.fieldPosition == 'start'){
@@ -419,12 +397,13 @@ micrite.ComplexGrid = {
     	   this.previousCompSet = this.compSet[0];
         }
      }
-};
+}; //eo extend
 
 micrite.ComplexEditorGrid = Ext.extend(Ext.grid.EditorGridPanel,micrite.ComplexGrid);
 micrite.ComplexGrid = Ext.extend(Ext.grid.GridPanel,micrite.ComplexGrid);
-//eof
 Ext.reg('complexgrid', micrite.ComplexGrid);
+//eof
+
 
 
 Ext.apply(Ext.form.VTypes, {
@@ -451,145 +430,231 @@ Ext.apply(Ext.form.VTypes, {
 
 
 Ext.ns('Ext.ux');
-Ext.ux.menuGrid = Ext.extend(Ext.menu.Menu, {
-    
-    enableScrolling : false,
-    hideOnClick : false,
-    layout:'fit',
-    cls : 'x-date-menu',
 
-    initComponent : function(config){
-       
-        if(this.strict = (Ext.isIE7 && Ext.isStrict)){
-            this.on('show', this.onShow, this, {single: true, delay: 20});
-        }
-        var cols =this.initialConfig.cols;
-        this.cols = [];
-        for (var ci=0;ci<cols.length;ci++){
-        	if (cols[ci]['query']){
-        		this.cols[ci] = [cols[ci]['dataIndex'],cols[ci]['header']];
-        	}
-        }
-        Ext.apply(this, {
-            plain: true,
-            showSeparator: false,
-            items: this.picker = new Ext.ux.advanceSearch({
-                internalRender: this.strict || !Ext.isIE,
-                ctCls: 'x-menu-date-item',
-                border:false,
-                height:300,
-                width:330,
-            	colData:this.cols,
-            	advSearchField:this.initialConfig.advSearchField})
-        });
-        this.picker.purgeListeners();
-        Ext.ux.menuGrid.superclass.initComponent.call(this);
-    },
 
-    onShow : function(){
-        var el = this.picker.getEl();
-        el.setWidth(el.getWidth()); //nasty hack for IE7 strict mode
-    }
- });
- Ext.reg('menugrid',Ext.ux.menuGrid);
-
- Ext.ux.advanceSearch = Ext.extend(Ext.grid.GridPanel, {
- 	constructor: function (config) {
- 		Ext.apply(this, config);
- 		this.recOrder=[];
- 		var combo = new Ext.form.ComboBox({
- 		    triggerAction: 'all',
- 		    lazyRender:true,
- 		    width:120,
- 		    editable :false,
- 		    mode: 'local',
- 		    getListParent: function() {
- 		        return this.el.up('.x-menu');
- 		    },
- 		    store: new Ext.data.ArrayStore({
- 		        fields: [
- 		            'colId',
- 		            'coldName'
- 		        ],
- 		        data: this.colData
- 		    }),
- 		    valueField: 'colId',
- 		    displayField: 'coldName'
- 		});
- 		var textField = new Ext.form.TextField({ width:100});
- 	    var tbar = new Ext.Toolbar({
- 	    	items: [
- 	    	        combo,
- 	    	        ' = ',
- 	    	        textField,
- 	    	        {xtype: 'tbspacer', width: 5},
- 	    	        {
- 	    	            text: 'Add',
- 	    	            scope : this,
- 	    	            handler : this.onAdd.createDelegate(this,[combo,textField])
- 	    	        },
- 	    	        {
- 	    	            text: 'Delete',
- 	    	            scope : this,
- 	    	            handler : this.onDelete.createDelegate(this,[combo,textField])
- 	    	        }	    	        
- 	    	    ]
-     	});
- 	    var reader = new Ext.data.JsonReader({
- 	        totalProperty: 'total',
- 	        successProperty: 'success',
- 	        root: 'data'
- 	    }, [
- 	        {name: 'name'},
- 	        {name: 'value'}
- 	    ]);
- 	    var store = new Ext.data.Store({
- 	        reader: reader,
- 	        autoSave: true
- 	    });
- 		Ext.apply(this, {
- 			viewConfig: {
- 				forceFit:true
- 			},
- 			tbar : tbar,
- 			columns: [new Ext.grid.RowNumberer(),
- 			          {header: "Name",dataIndex: 'name'},
- 		          {header: "Value",dataIndex: 'value'}],
- 		    store:store
- 		});
- 		Ext.ux.advanceSearch.superclass.constructor.call(this);
- 	},
- 	onAdd : function(c,t){
-         var u = new this.store.recordType({
-        	 id:c.value,
-             name : c.getRawValue(),
-             value: t.getRawValue()
-         });
-         if (this.advSearchField[c.value]){
-	         for (var i=0;i<this.recOrder.length;i++){
-	        	 if (this.recOrder[i].data.name==c.getRawValue()){
-	        		 this.recOrder[i] = u;
-	        	 }
-	         }
-         }else{
-        	 this.recOrder[this.recOrder.length] = u;
-         }
-         this.advSearchField[c.value]=t.getRawValue();
-         this.store.removeAll();
-         var tmp = this.recOrder.slice();//拷贝数组
-//         this.store.insert(0, u);
-         this.store.add(tmp.reverse());
- 	},
-     onDelete : function(c, t) {
-         var index = this.getSelectionModel().getSelected();
-         if (!index) {
-             return false;
-         }
-         this.recOrder.remove(index);
-         delete this.advSearchField[index.data.id];
-         this.store.removeAll();
-         var tmp = this.recOrder.slice();
-         this.store.add(tmp.reverse());
-     }
- });
+Ext.ux.advanceSearch = Ext.extend(Ext.grid.GridPanel, {
+	constructor: function (config) {
+		Ext.apply(this, config,{
+			border:false,
+			height:300,
+			width:450,
+			enableHdMenu : false
+		});
+		// 
+		var expCombo = new Ext.form.ComboBox({
+			triggerAction: 'all',
+			lazyRender:true,
+			width:60,
+			editable :false,
+			allowBlank : false,
+			mode: 'local',
+			getListParent: function() {
+				return this.el.up('.x-menu');
+			},
+			store: new Ext.data.ArrayStore({
+				fields: [
+				         'expId',
+				         'expName'
+				         ],
+				         data: []
+			}),
+			valueField: 'expId',
+			displayField: 'expName'
+		});  		
+		var cols = this.advSearchField;
+		var colData = [];
+		for (var ci=0;ci<cols.length;ci++){
+			colData[ci] = [cols[ci]['value'],cols[ci]['name']];
+		}
+	
+		this.recOrder=[];//记录条件插入顺序
+		var nameCombo = new Ext.form.ComboBox({
+			triggerAction: 'all',
+			lazyRender:true,
+			width:120,
+			editable :false,
+			mode: 'local',
+			allowBlank : false,
+			getListParent: function() {
+			return this.el.up('.x-menu');
+		},
+		store: new Ext.data.ArrayStore({
+			fields: [
+			         'colId',
+			         'coldName'
+			         ],
+			         data: colData
+		}),
+		valueField: 'colId',
+		displayField: 'coldName',
+		listeners:{
+			scope: this,
+			'select':this.onChangeCol.createDelegate(this,[expCombo],true)
+		}
+		});
+	    var tbspacer = {xtype: 'tbspacer', width: 3};
+		var tbar = new Ext.Toolbar({
+			items: [
+			    nameCombo,tbspacer,expCombo,tbspacer,tbspacer,
+		        {
+		        	text: 'Add',
+		        	scope : this,
+		        	handler : this.onAdd.createDelegate(this,[nameCombo,expCombo])
+		        },
+		        '->',
+		        {
+		        	text: 'Delete',
+		        	scope : this,
+		        	handler : this.onDelete
+		        }	    	        
+			]   	    
+		});
+		var reader = new Ext.data.JsonReader({
+			totalProperty: 'total',
+			successProperty: 'success',
+			root: 'data'
+		}, [
+		    {name: 'name'},
+		    {name: 'expression'},
+		    {name: 'value'}
+		    ]);
+		var store = new Ext.data.Store({
+			reader: reader,
+			autoSave: true
+		});
+		Ext.apply(this, {
+			viewConfig: {
+			forceFit:true
+		},
+		tbar : tbar,
+		columns: [new Ext.grid.RowNumberer(),
+		          {header: Ext.grid.PropertyColumnModel.prototype.nameText,dataIndex: 'name'},
+		          {header: "Expression",dataIndex: 'expression'},
+		          {header:Ext.grid.PropertyColumnModel.prototype.valueText,dataIndex: 'value'}],
+		          store:store
+		});
+		Ext.ux.advanceSearch.superclass.constructor.call(this);
+	},
+	onAdd : function(c,e){
+		var items = this.getTopToolbar().items;
+		if (!c.isValid() || !e.isValid()){
+			return;
+		}
+		if (!items.itemAt(4).isValid()){
+			return;
+		}
+		var value = items.itemAt(4).getRawValue();
+		if (items.length > 9){
+			if(items.itemAt(6).getRawValue().length<1){
+				items.itemAt(6).markInvalid(Ext.form.TextField.prototype.blankText);
+				return;
+			}
+			if (!items.itemAt(6).isValid()){
+				return;
+			}
+			value = value + ' ' + items.itemAt(6).getRawValue();
+		}
+	
+		var u = new this.store.recordType({
+			id:c.value,
+			name : c.getRawValue(),
+			expression : e.getRawValue(),
+			value: value
+		});
+		if (this.queryData[c.value]){
+			for (var i=0;i<this.recOrder.length;i++){
+				if (this.recOrder[i].data.name==c.getRawValue()){
+					this.recOrder[i] = u;
+				}
+			}
+		}else{
+			this.recOrder[this.recOrder.length] = u;
+		}
+		// [name,yubo,like]
+		this.queryData[c.value]= [c.value,value,e.getRawValue()];
+		this.store.removeAll();
+		var tmp = this.recOrder.slice();//拷贝数组
+		this.store.add(tmp.reverse());
+	},
+	onDelete : function(o, t) {
+		var index = this.getSelectionModel().getSelected();
+		if (!index) {
+			return false;
+		}
+		this.recOrder.remove(index);
+		delete this.queryData[index.data.id];
+		this.store.removeAll();
+		var tmp = this.recOrder.slice();
+		this.store.add(tmp.reverse());
+	},
+	onChangeCol : function(c,r,num,expCombo){
+		expCombo.clearValue();
+		expCombo.getStore().removeAll();
+		var toolbar = this.getTopToolbar();
+		while (toolbar.items.length > 8) {
+			var item = toolbar.items.itemAt(toolbar.items.length-5);
+			toolbar.items.remove(item);
+			item.destroy();
+		}
+		item = this.advSearchField[num];
+		var items,expSet;
+		if (item.xtype == 'textfield'){
+			items = {
+					xtype : 'textfield',
+					width : 100
+			};
+			expSet = [[0,'='],[1,'like']];
+		} else if (item.xtype == 'datefield'){
+			items = {
+					xtype : 'datefield',
+					width : 100,
+					format: 'Y-m-d',
+					menu : new Ext.menu.DateMenu({
+						hideOnClick: false,
+						allowOtherMenus :true
+					})
+			};
+			expSet = [[0,'='],[1,'>='],[3,'<=']];
+		} else if (item.xtype == 'combo'){
+			items = {
+					xtype : 'combo',
+					width : 100,
+					allowBlank : false
+			};
+			expSet = [[0,'in']];
+		} else if (item.xtype == 'numberfield'){
+			items = {
+					xtype : 'numberfield',
+					width : 100,
+					allowBlank : false
+			};
+			expSet = [[0,'='],[1,'>'],[2,'>='],[3,'<'],[4,'<=']];
+		} else if (item.xtype == 'uxspinnerdate'){
+			var time = new Ext.ux.form.Spinner({
+				width : 80,
+				strategy : new Ext.ux.form.Spinner.TimeStrategy()
+			});
+			items = [{
+				xtype : 'datefield',
+				width : 100,
+				allowBlank : false,
+				value:new Date(),
+				format: 'Y-m-d',
+				menu : new Ext.menu.DateMenu({
+					hideOnClick: false,
+					allowOtherMenus :true
+				})
+			},{xtype: 'tbspacer', width: 3},time];
+			expSet = [[0,'='],[1,'>='],[3,'<=']];
+		}
+		if (item.xtype != 'uxspinnerdate'){
+			if (item.config){
+				Ext.apply(items,item.config);
+			}
+		}
+		expCombo.getStore().loadData(expSet);
+		toolbar.insertButton(4,items);
+		toolbar.doLayout();
+	}
+});
 
