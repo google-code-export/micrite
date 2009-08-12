@@ -1,9 +1,11 @@
 package org.gaixie.micirte.common.search;
 
+import java.awt.image.RasterFormatException;
 import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import ognl.OgnlOps;
 
@@ -13,21 +15,6 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 
 public class SearchFactory {
-    
-    /**
-     * @param args
-     * @throws ParseException 
-     */
-    public static void main(String[] args) throws ParseException {
-        String str = "[name,yubo,like],[telephone,13810770810,=],[createDate,2009-08-02 00:00,>=],[interface_,1;2;3,in]";
-        String[] detach = detach(str, '[', ']');
-        for(String s: detach)
-            System.out.println("detach =" + s);
-        System.out.println("--------------------------");
-        SearchBean[] search = getSearchTeam(str);
-        for(SearchBean s: search)
-            System.out.println("search =" + s.toString());
-    }
 
     /**
      * @param scarchBunch 格式：
@@ -38,7 +25,7 @@ public class SearchFactory {
      * type:    字段类型，包含：numeric, string, date, boolean
      * @return
      */
-    public static SearchBean[] getSearchTeam(String scarchBunch) throws ParseException{
+    public static SearchBean[] getSearchTeam(String scarchBunch){
         String[] team = detach(scarchBunch, '[', ']');
         if(team== null)
             return null;
@@ -46,22 +33,26 @@ public class SearchFactory {
         for(int i = 0; i < team.length; i++){
             String[] element = StringUtils.split(team[i], ',');
             if(element == null || element.length != 3)
-                throw new ParseException("Unable to parse the string: " + scarchBunch, -1);
+                throw new RasterFormatException("Unable to parse the string: " + scarchBunch);
             search[i] = new SearchBean(element[0], element[1], element[2]);
         }
         return search;
     }
     
     @SuppressWarnings("unchecked")
-    public static DetachedCriteria generateCriteria(Class entity, SearchBean[] searchBean) throws NoSuchFieldException, ParseException{
+    public static DetachedCriteria generateCriteria(Class entity, SearchBean[] searchBean) {
         DetachedCriteria criteria = DetachedCriteria.forClass(entity);
         if(searchBean == null || searchBean.length == 0)
             return criteria;
         Object value = null;
         for(int i = 0; i < searchBean.length; i++){
-            Field field = entity.getDeclaredField(searchBean[i].getName());
-            Class type = field.getType();
-            value = convertValue(type, searchBean[i].getValue(), searchBean[i].getRelation());
+            try {
+                Field field = entity.getDeclaredField(searchBean[i].getName());
+                Class type = field.getType();
+                value = convertValue(type, searchBean[i].getValue(), searchBean[i].getRelation());
+            } catch (NoSuchFieldException e) {
+                throw new NoSuchElementException("no such this element");
+            }
             if(searchBean[i].getRelation().equals("="))
                 criteria.add(Expression.eq(searchBean[i].getName(), value));
             else if(searchBean[i].getRelation().equals("<"))
@@ -84,7 +75,7 @@ public class SearchFactory {
     }
     
     @SuppressWarnings("unchecked")
-    private static Object convertValue(Class type, String value, String relation) throws ParseException{
+    private static Object convertValue(Class type, String value, String relation){
         Object object;
         if(relation.equals("between")){
             List list = new ArrayList();
@@ -98,8 +89,14 @@ public class SearchFactory {
                     betValue[1] += " 23:59:59";
                 else
                     betValue[1] += ":59";
-                list.add(DateUtils.parseDate(betValue[0], new String[] { "yyyy-MM-dd hh:mm:ss" }));
-                list.add(DateUtils.parseDate(betValue[1], new String[] { "yyyy-MM-dd hh:mm:ss" }));
+                try {
+                    list.add(DateUtils.parseDate(betValue[0],
+                            new String[] { "yyyy-MM-dd hh:mm:ss" }));
+                    list.add(DateUtils.parseDate(betValue[1],
+                            new String[] { "yyyy-MM-dd hh:mm:ss" }));
+                } catch (Exception e) {
+                    throw new RasterFormatException("Unable to parse the Date");
+                }
             }
             else{
                 list.add(OgnlOps.convertValue(betValue[0], type));
@@ -131,7 +128,11 @@ public class SearchFactory {
                     else
                         value += ":00";
                 }
-                object = DateUtils.parseDate(value, new String[] { "yyyy-MM-dd hh:mm:ss" });
+                try {
+                    object = DateUtils.parseDate(value, new String[] { "yyyy-MM-dd hh:mm:ss" });
+                } catch (ParseException e) {
+                    throw new RasterFormatException("Unable to parse the Date");
+                }
             }
             else
                 object = OgnlOps.convertValue(value, type);
@@ -139,13 +140,13 @@ public class SearchFactory {
         return object;
     }
     
-    private static String[] detach(String str, char left, char right) throws ParseException{
+    private static String[] detach(String str, char left, char right){
         String string = str;
         if(string == null)
             return null;
         List<String> list = new ArrayList<String>();
         if(StringUtils.indexOf(string, left) == -1 || StringUtils.indexOf(string, right) == -1)
-            throw new ParseException("Unable to parse the string: " + string, -1);
+            throw new RasterFormatException("Unable to parse the string: " + string);
         while(StringUtils.indexOf(string, left) >= 0 && StringUtils.indexOf(string, right) >= 0){
             int il = StringUtils.indexOf(string, left);
             int ir = StringUtils.indexOf(string, right);
@@ -157,6 +158,21 @@ public class SearchFactory {
             string = StringUtils.substring(string, ir + 1);
         }
         return list.toArray(new String[list.size()]);
+    }
+    
+    /**
+     * @param args
+     * @throws ParseException 
+     */
+    public static void main(String[] args) {
+        String str = "[name,yubo,like],[telephone,13810770810,=],[createDate,2009-08-02 00:00,>=],[interface_,1;2;3,in]";
+        String[] detach = detach(str, '[', ']');
+        for(String s: detach)
+            System.out.println("detach =" + s);
+        System.out.println("--------------------------");
+        SearchBean[] search = getSearchTeam(str);
+        for(SearchBean s: search)
+            System.out.println("search =" + s.toString());
     }
 
 }
