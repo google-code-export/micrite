@@ -1,6 +1,5 @@
 package org.gaixie.micrite.action;
 
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +71,7 @@ public class GenericAction extends ActionSupport {
         return queryBean;
     }
 
-    public void setQueryString(String queryString) throws ParseException {
+    public void setQueryString(String queryString){
         this.queryBean = SearchFactory.getSearchTeam(queryString);
     }
 
