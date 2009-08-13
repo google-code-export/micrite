@@ -120,7 +120,7 @@ micrite.ComplexGrid = {
 	     * 使用curFields的长度作为下标，是为了保证数组长度和提交字段数量一致
 	     * 在每个判断下赋值是为了过滤一些非控件的item
 	     */
-	    for (var j = 0; j < items.length; j++) {
+        for (var j = 0; j < items.length; j++) {
 	        item = items[j];
 	        if (!item.realname){
 	        	item.realname = item.name;
@@ -253,17 +253,17 @@ micrite.ComplexGrid = {
      advanceSearch : function(b,e){
     	 //todo
      },
-     getAllField : function (){
-    	 var rt  = '';
-    	 var checkboxResult = {};
-    	 var result = {};
-    	 var value = null,name = null,temp = null,idx = [];
-         for (var i = 0; i < this.curFields.length; i++) {
-         	name = this.curFields[i].realname;
-             if (this.curFields[i].xtype == 'checkbox') {
-             	if (temp != name){
+    getAllField : function (){
+		var rt  = ''; // 高级查询返回该字符串
+		var checkboxResult = {}; //复选框值串
+		var result = {}; //普通查询返回该字符串
+		var value = null,name = null,temp = null,cbValues = [];
+		for (var i = 0; i < this.curFields.length; i++) {
+            name = this.curFields[i].realname;
+            if (this.curFields[i].xtype == 'checkbox') {
+                if (temp != name){
              		temp = name;
-             		idx = [];
+             		cbValues = [];
              	}
              	if (this.curFields[i].checked){
              		value = this.curFields[i].getRawValue();
@@ -271,24 +271,24 @@ micrite.ComplexGrid = {
              		if (this.curFields[i].inputValue === undefined){
              			value = true;
              		}
-             		idx[idx.length] = value;
-             		value = idx;
+             		cbValues[cbValues.length] = value;
+             		value = cbValues;
              		checkboxResult[name] = value;
-             		result[name] = value;
              	}
-             	
+             	result[name] = value;
              } else if (this.curFields[i].xtype == 'radio') {
               	if (this.curFields[i].checked){
              		value = this.curFields[i].getRawValue();
              		rt = rt + '['+ name + ',' + value + ',=],';
-             		result[name] = value;
+             		
              	}
+             	result[name] = value;
          	 } else if (this.curFields[i].xtype == 'combo') {
-              	if (this.curFields[i].checked){
-             		value = this.curFields[i].getValue();
+         	 	value = this.curFields[i].getValue();
+              	if (value == 0 || value){
              		rt = rt + '['+ name + ',' + value + ',=],';
-             		result[name] = value;
              	}
+             	result[name] = value;
          	 } else if (this.curFields[i].xtype == 'uxspinnerdate') {
          		if (!this.curFields[i].isValid()){
          			showMsg('failure',this.dateErrorMsg);
@@ -309,7 +309,7 @@ micrite.ComplexGrid = {
              	
              	if (!temp&&this.curFields[i].expression=='between'){
              		temp = value;
-             	}else{
+             	}else if (temp){
              		temp = temp + ';' + value;
              		rt = rt + '['+ name + ',' + temp + ','+ this.curFields[i].expression +'],';
              		temp = null;
@@ -320,8 +320,10 @@ micrite.ComplexGrid = {
              		showMsg('failure',this.dateErrorMsg);
              		return;
              	}
-             	value = this.curFields[i].getRawValue();
-             	rt = rt + '['+ name + ',' + value + ','+ this.curFields[i].expression + '],';
+             	value = this.curFields[i].getRawValue().trim();
+             	if (value){
+	             	rt = rt + '['+ name + ',' + value + ','+ this.curFields[i].expression + '],';
+             	}
              	result[name] = value;
              }
          }
@@ -453,14 +455,12 @@ Ext.apply(Ext.form.VTypes, {
         if(!date){
             return;
         }
-        if (field.startDateField  && 
-        		(!this.dateRangeMax || (date.getTime() != this.dateRangeMax.getTime()))) {
+        if (field.startDateField) {
             var start = Ext.getCmp(field.startDateField);
             start.setMaxValue(date);
            // start.validate();
             this.dateRangeMax = date;
-        } else if (field.endDateField  && 
-        		(!this.dateRangeMax || (date.getTime() != this.dateRangeMax.getTime()))) {
+        } else if (field.endDateField) {
             var end = Ext.getCmp(field.endDateField);
             end.setMinValue(date);
            // end.validate();
