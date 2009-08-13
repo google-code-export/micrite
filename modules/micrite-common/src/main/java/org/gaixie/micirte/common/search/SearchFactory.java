@@ -142,7 +142,7 @@ public class SearchFactory {
     
     private static String[] detach(String str, char left, char right){
         String string = str;
-        if(string == null)
+        if(string == null || string.equals(""))
             return null;
         List<String> list = new ArrayList<String>();
         if(StringUtils.indexOf(string, left) == -1 || StringUtils.indexOf(string, right) == -1)
