@@ -2,7 +2,6 @@ Ext.ns('micrite');
 micrite.ComplexGrid = {
     border : false,
     pageSize : parseInt(Ext.getDom('pageSize').value,10),
-    varName : {}, //用于存贮date和time用的临时变量
     dateErrorMsg : 'This is not a valid date - it must be in the format 2008-01-01',
     timeErrorMsg : 'This is not a valid time - it must be in the format 22:00',
     initComponent:function() {
@@ -113,8 +112,9 @@ micrite.ComplexGrid = {
 	   
 	    this.curFields = [];
 	    //为了避免页面id冲突
-	    this.varName.startDate = Ext.id(); 
-	    this.varName.endDate = Ext.id();
+	    var varName = {};
+	    varName.startDate = Ext.id(); 
+	    varName.endDate = Ext.id();
 	    var radioPrefix = Ext.id();
 	    /**
 	     * 使用curFields的长度作为下标，是为了保证数组长度和提交字段数量一致
@@ -140,7 +140,7 @@ micrite.ComplexGrid = {
 	            item = new Ext.form.Checkbox(item);
 	            this.curFields[this.curFields.length] = item;
 	        } else if (item.xtype == 'datefield') {
-	        	this.setDateConfig(item);
+	        	this.setDateConfig(item,varName);
 	            item = new Ext.form.DateField(item);
 	            this.curFields[this.curFields.length] = item;
 	        } else if (item.xtype == 'radio') {
@@ -168,7 +168,7 @@ micrite.ComplexGrid = {
             	Ext.apply(item,{
             		timeId : time.id
             	});
-            	this.setDateConfig(item);
+            	this.setDateConfig(item,varName);
                 item = new Ext.form.DateField(item);
                 this.curFields[this.curFields.length] = item;
                 toolbar.add(item);
@@ -385,33 +385,33 @@ micrite.ComplexGrid = {
         micrite.util.ajaxRequest(c2,this);
         return win;
      },
-     setDateConfig : function(item){
+     setDateConfig : function(item,varName){
      	Ext.apply(item,{
     		format: 'Y-m-d',
     		width:100
     	});
      	//加入了一个fieldPosition参数，用于控制日期的范围
     	if (item.fieldPosition == 'start'){
-    		this.varName.startDateValue =  item.value ? item.value : item.defaultValue;
+    		varName.startDateValue =  item.value ? item.value : item.defaultValue;
         	Ext.apply(item,{
-        		id : this.varName.startDate,
-        		defaultValue : this.varName.startDateValue ,
-        		endDateField : this.varName.endDate,
+        		id : varName.startDate,
+        		defaultValue : varName.startDateValue ,
+        		endDateField : varName.endDate,
         		vtype : 'daterange'
         	});
         	delete item.value;
         }else if (item.fieldPosition == 'end'){
-        	this.varName.endDateValue = item.value ? item.value : item.defaultValue;
+        	varName.endDateValue = item.value ? item.value : item.defaultValue;
         	Ext.apply(item,{
-        		id : this.varName.endDate,
-        		startDateField : this.varName.startDate,
-        		defaultValue : this.varName.endDateValue ,
+        		id : varName.endDate,
+        		startDateField : varName.startDate,
+        		defaultValue : varName.endDateValue ,
         		vtype : 'daterange',
         		listeners:{
         		    scope : this,
         			render : function(){
-         	    		Ext.getCmp(this.varName.startDate).setValue(this.varName.startDateValue);
-         	    		Ext.getCmp(this.varName.endDate).setValue(this.varName.endDateValue);
+         	    		Ext.getCmp(varName.startDate).setValue(varName.startDateValue);
+         	    		Ext.getCmp(varName.endDate).setValue(varName.endDateValue);
         			}
         		}
         	});
@@ -453,16 +453,17 @@ Ext.apply(Ext.form.VTypes, {
         if(!date){
             return;
         }
-        if (field.startDateField && (!this.dateRangeMax || (date.getTime() != this.dateRangeMax.getTime()))) {
+        if (field.startDateField  && 
+        		(!this.dateRangeMax || (date.getTime() != this.dateRangeMax.getTime()))) {
             var start = Ext.getCmp(field.startDateField);
             start.setMaxValue(date);
-            start.validate();
+           // start.validate();
             this.dateRangeMax = date;
-        } 
-        else if (field.endDateField && (!this.dateRangeMin || (date.getTime() != this.dateRangeMin.getTime()))) {
+        } else if (field.endDateField  && 
+        		(!this.dateRangeMax || (date.getTime() != this.dateRangeMax.getTime()))) {
             var end = Ext.getCmp(field.endDateField);
             end.setMinValue(date);
-            end.validate();
+           // end.validate();
             this.dateRangeMin = date;
         }
         return true;
