@@ -110,11 +110,11 @@ micrite.ComplexGrid = {
 	    var items = this.searchFields[i];
 	 
 	    var advSearch = items[0].advSearch;
-	    //console.log(advSearch);
+	   
 	    this.curFields = [];
 	    //为了避免页面id冲突
-	    this.varName['startDate'] = Ext.id(); 
-	    this.varName['endDate'] = Ext.id();
+	    this.varName.startDate = Ext.id(); 
+	    this.varName.endDate = Ext.id();
 	    var radioPrefix = Ext.id();
 	    /**
 	     * 使用curFields的长度作为下标，是为了保证数组长度和提交字段数量一致
@@ -130,6 +130,13 @@ micrite.ComplexGrid = {
 	            item = new Ext.form.TextField(item);
 	            this.curFields[this.curFields.length] = item;
 	        } else if (item.xtype == 'checkbox') {
+	        	if (item.forceSelection){
+		        	Ext.apply(item,{
+		        		listeners:{
+		        			check:this.checkboxCheck
+			        	}
+		        	});
+	        	}
 	            item = new Ext.form.Checkbox(item);
 	            this.curFields[this.curFields.length] = item;
 	        } else if (item.xtype == 'datefield') {
@@ -146,9 +153,9 @@ micrite.ComplexGrid = {
             	var defalutTime;
             	if (!item.strategy){
             		if (item.fieldPosition == 'start'){
-            			defalutTime = {defaultValue:'23:59'};
-            		}else{
             			defalutTime = {defaultValue:'00:00'};
+            		}else{
+            			defalutTime = {defaultValue:'23:59'};
             		}
             	}else{
             		defalutTime = item.strategy;
@@ -240,14 +247,15 @@ micrite.ComplexGrid = {
             this.store.baseParams = this.getAllField();
             this.store.rejectChanges(); 
             this.store.load({params:{start:0, limit:this.pageSize},callback:function(r,o,s){
-                 // console.log(33);
+                 // todo
             }});
      },
      advanceSearch : function(b,e){
-    	 //console.log(b.menu);
+    	 //todo
      },
      getAllField : function (){
     	 var rt  = '';
+    	 var checkboxResult = {};
     	 var result = {};
     	 var value = null,name = null,temp = null,idx = [];
          for (var i = 0; i < this.curFields.length; i++) {
@@ -260,11 +268,12 @@ micrite.ComplexGrid = {
              	if (this.curFields[i].checked){
              		value = this.curFields[i].getRawValue();
              		//如果没有指定Value，value值为true
-             		if (this.curFields[i].inputValue == undefined){
+             		if (this.curFields[i].inputValue === undefined){
              			value = true;
              		}
              		idx[idx.length] = value;
              		value = idx;
+             		checkboxResult[name] = value;
              		result[name] = value;
              	}
              	
@@ -272,6 +281,13 @@ micrite.ComplexGrid = {
               	if (this.curFields[i].checked){
              		value = this.curFields[i].getRawValue();
              		rt = rt + '['+ name + ',' + value + ',=],';
+             		result[name] = value;
+             	}
+         	 } else if (this.curFields[i].xtype == 'combo') {
+              	if (this.curFields[i].checked){
+             		value = this.curFields[i].getValue();
+             		rt = rt + '['+ name + ',' + value + ',=],';
+             		result[name] = value;
              	}
          	 } else if (this.curFields[i].xtype == 'uxspinnerdate') {
          		if (!this.curFields[i].isValid()){
@@ -285,10 +301,12 @@ micrite.ComplexGrid = {
              		showMsg('failure',this.timeErrorMsg);
              		return;
              	}
+             	//判断时间框为空
 //        		if(time.getRawValue().length<1){
 //        			time.markInvalid(Ext.form.TextField.prototype.blankText);
 //    	            return;
 //    	        }
+             	
              	if (!temp&&this.curFields[i].expression=='between'){
              		temp = value;
              	}else{
@@ -296,6 +314,7 @@ micrite.ComplexGrid = {
              		rt = rt + '['+ name + ',' + temp + ','+ this.curFields[i].expression +'],';
              		temp = null;
              	}
+             	result[name] = value;
              } else {
              	if (!this.curFields[i].isValid()){
              		showMsg('failure',this.dateErrorMsg);
@@ -303,24 +322,30 @@ micrite.ComplexGrid = {
              	}
              	value = this.curFields[i].getRawValue();
              	rt = rt + '['+ name + ',' + value + ','+ this.curFields[i].expression + '],';
+             	result[name] = value;
              }
          }
+       
          if (this.queryData){
 	         Ext.iterate(this.queryData,function(item,index,allItems){
 	        	 rt = rt + '['+ this.queryData[item] +'],';
 	         },this);
          }
-  		if (result){
-	         Ext.iterate(result,function(item,index,allItems){
+  		if (checkboxResult){
+	         Ext.iterate(checkboxResult,function(item,index,allItems){
 	            var checkbox = '';
-	            for (var i=0;i<result[item].length;i++){
-	           	 	checkbox = checkbox + result[item][i]+';';
+	            for (var i=0;i<checkboxResult[item].length;i++){
+	           	 	checkbox = checkbox + checkboxResult[item][i]+';';
 	            }
 	            rt = rt + '['+ item + ',' + checkbox + ',in],';
 	         },this);
 
  		}
-         return {queryString:rt};
+  		//this.searchBean 是否使用searchbean
+  		if (this.searchBean || this.queryData){
+  			return {queryString:rt}
+  		}
+         return result;
      },
      initCompSet : function(item,index,allItem) {
         	var defaultCompSet = {url:0,reader:0,columns:0,bbarAction:-1,advField:0};
@@ -339,8 +364,8 @@ micrite.ComplexGrid = {
             toolbar.displayItem.reset(false);
         },
      reconfigureGrid : function(i){
-     	if (this.compSet[i].url != this.previousCompSet.url 
-     	  || this.compSet[i].columns  != this.previousCompSet.columns){
+     	if (this.compSet[i].url != this.previousCompSet.url ||
+     	    this.compSet[i].columns  != this.previousCompSet.columns){
      		 var store = this.getStoreById(i);
              this.reconfigure(store,this.getColumnById(i));
              this.getBottomToolbar().bind(store);
@@ -348,7 +373,9 @@ micrite.ComplexGrid = {
      },
      genChartWindow : function(c1,c2) {
      	var win = micrite.util.genWindow(Ext.apply(c1,{border:true}));
-     	if (!win) return;
+     	if (!win){
+     		return false;
+     	}
         Ext.apply(c2,{
         	success:function(r,o){
             var obj = Ext.decode(r.responseText);
@@ -365,26 +392,26 @@ micrite.ComplexGrid = {
     	});
      	//加入了一个fieldPosition参数，用于控制日期的范围
     	if (item.fieldPosition == 'start'){
-    		this.varName['startDateValue'] =  item.value ? item.value : item.defaultValue;
+    		this.varName.startDateValue =  item.value ? item.value : item.defaultValue;
         	Ext.apply(item,{
-        		id : this.varName['startDate'],
-        		defaultValue : this.varName['startDateValue'] ,
-        		endDateField : this.varName['endDate'],
+        		id : this.varName.startDate,
+        		defaultValue : this.varName.startDateValue ,
+        		endDateField : this.varName.endDate,
         		vtype : 'daterange'
         	});
         	delete item.value;
         }else if (item.fieldPosition == 'end'){
-        	this.varName['endDateValue'] = item.value ? item.value : item.defaultValue;
+        	this.varName.endDateValue = item.value ? item.value : item.defaultValue;
         	Ext.apply(item,{
-        		id : this.varName['endDate'],
-        		startDateField : this.varName['startDate'],
-        		defaultValue : this.varName['endDateValue'] ,
+        		id : this.varName.endDate,
+        		startDateField : this.varName.startDate,
+        		defaultValue : this.varName.endDateValue ,
         		vtype : 'daterange',
         		listeners:{
         		    scope : this,
         			render : function(){
-         	    		Ext.getCmp(this.varName['startDate']).setValue(this.varName['startDateValue']);
-         	    		Ext.getCmp(this.varName['endDate']).setValue(this.varName['endDateValue']);
+         	    		Ext.getCmp(this.varName.startDate).setValue(this.varName.startDateValue);
+         	    		Ext.getCmp(this.varName.endDate).setValue(this.varName.endDateValue);
         			}
         		}
         	});
@@ -392,6 +419,18 @@ micrite.ComplexGrid = {
         }
     	return item;
      },
+     checkboxCheck:function(cb,checked){
+ 		if (!checked){
+    		Ext.each(Ext.select('[name='+cb.name+']').elements,function(item,index){
+    			if (item.checked){
+    				checked = true;
+    			}
+    		});
+    		if (!checked){
+    			cb.el.dom.checked = true;
+    		}
+		}
+	},
      listeners:{
         render:function() {
     	   this.genTopField(0);
@@ -466,7 +505,7 @@ Ext.ux.advanceSearch = Ext.extend(Ext.grid.GridPanel, {
 		var cols = this.advSearchField;
 		var colData = [];
 		for (var ci=0;ci<cols.length;ci++){
-			colData[ci] = [cols[ci]['value'],cols[ci]['name']];
+			colData[ci] = [cols[ci].value,cols[ci].name];
 		}
 	
 		this.recOrder=[];//记录条件插入顺序
