@@ -58,13 +58,15 @@ micrite.ComplexGrid = {
         }
 //        //创建actionButton
         if (this.tbarActions){
-        	var a = {
-                text:mbLocale.actionMenu,
-                menu:{xtype:'menu', items:this.tbarActions}
-        	};
         	//  向每个查询条件组中加入组件：“动作按钮”
 	        for (i = 0; i < this.searchFields.length; i++) {
-	            this.searchFields[i] = this.searchFields[i].concat(['->', a]);
+	        	if (this.compSet[i].tbarAction > -1){
+	        		var tbarAction = {
+	                    text:mbLocale.actionMenu,
+	                    menu:{xtype:'menu', items:this.tbarActions[this.compSet[i].tbarAction]}
+                    };
+                    this.searchFields[i] = this.searchFields[i].concat(['->', tbarAction]);
+	        	}
 	        }
         }
         this.colModel = this.getColumnById(0);
@@ -88,6 +90,7 @@ micrite.ComplexGrid = {
     switchGroup : function(o,t){
         var menuBtn = this.getTopToolbar().items.first();
         if (menuBtn.value != o.value){
+        	this.queryData = undefined;
             menuBtn.setText(o.text);
             menuBtn.value = o.value;
             this.genTopField(o.value);
@@ -350,7 +353,7 @@ micrite.ComplexGrid = {
          return result;
      },
      initCompSet : function(item,index,allItem) {
-        	var defaultCompSet = {url:0,reader:0,columns:0,bbarAction:-1,advField:0};
+        	var defaultCompSet = {url:0,reader:0,columns:0,bbarAction:-1,tbarAction:0,advField:0};
         	this.compSet[index] = Ext.apply(defaultCompSet,item);
      },
      resetGrid : function() {
@@ -381,7 +384,7 @@ micrite.ComplexGrid = {
         Ext.apply(c2,{
         	success:function(r,o){
             var obj = Ext.decode(r.responseText);
-                  win.getLayoutTarget().update('<img src = "DisplayChart?filename='+obj.filename+'">');
+                  win.getLayoutTarget().update(obj.map+'<img src = "DisplayChart?filename='+obj.filename+'" usemap="#'+obj.mapName+'">');
             }
         });
         micrite.util.ajaxRequest(c2,this);

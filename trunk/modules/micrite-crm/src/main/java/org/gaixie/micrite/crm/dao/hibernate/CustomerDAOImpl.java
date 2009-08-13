@@ -27,6 +27,8 @@ package org.gaixie.micrite.crm.dao.hibernate;
 import java.util.Date;
 import java.util.List;
 
+import org.gaixie.micirte.common.search.SearchBean;
+import org.gaixie.micirte.common.search.SearchFactory;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.dao.ICustomerDAO;
@@ -47,29 +49,26 @@ public class CustomerDAOImpl extends GenericDAOImpl<Customer, Integer> implement
     
     @SuppressWarnings("unchecked")
 	public List<CustomerSource> findAllCustomerSource() {
-    	List<CustomerSource> cs = getHibernateTemplate().find("from CustomerSource e");
-    	return cs;
+    	DetachedCriteria criteria = DetachedCriteria.forClass(CustomerSource.class);
+    	return getHibernateTemplate().findByCriteria(criteria);
     }
 
     @SuppressWarnings("unchecked")
-    public List findCSGroupByTelVague(String tel) {
-        DetachedCriteria criteria = DetachedCriteria.forClass(Customer.class);
+    public List findCSGroupByTelVague(SearchBean[] queryBean) {
+        DetachedCriteria criteria = SearchFactory.generateCriteria(Customer.class, queryBean);
         criteria.createAlias("customerSource", "cs");
         criteria.setProjection(Projections.projectionList()
                 .add(Projections.count("cs.name"))
                 .add(Projections.groupProperty("cs.name")));
-        criteria.add(Expression.like("telephone", "%"+tel+"%"));
         return getHibernateTemplate().findByCriteria(criteria);
     }
     @SuppressWarnings("unchecked")
-    public List<Customer> findByTelVaguePerPage(String telephone, int start,int limit) {
-        DetachedCriteria criteria = DetachedCriteria.forClass(Customer.class);
-        criteria.add(Expression.like("telephone", "%"+telephone+"%"));
+    public List<Customer> advancedFindByPerPage(SearchBean[] queryBean, int start,int limit){
+        DetachedCriteria criteria = SearchFactory.generateCriteria(Customer.class, queryBean);
         return getHibernateTemplate().findByCriteria(criteria,start,limit); 
     }
-    public int findByTelVagueCount(String telephone) {
-        DetachedCriteria criteria = DetachedCriteria.forClass(Customer.class);
-        criteria.add(Expression.like("telephone", "%"+telephone+"%"));
+    public int advancedFindCount(SearchBean[] queryBean) {
+        DetachedCriteria criteria = SearchFactory.generateCriteria(Customer.class, queryBean);
         criteria.setProjection(Projections.rowCount());
         return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
     }

@@ -26,6 +26,8 @@ package org.gaixie.micrite.crm.dao;
 
 import java.util.Date;
 import java.util.List;
+
+import org.gaixie.micirte.common.search.SearchBean;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.dao.IGenericDAO;
@@ -49,27 +51,27 @@ public interface ICustomerDAO extends IGenericDAO<Customer, Integer> {
 
 
     /**
-     * 根据电话模糊查询并按用户来源进行分组
+     * 高级查询并按用户来源进行分组
      * @param telphone
      * @return 分组数据集合
      */
-    public List findCSGroupByTelVague(String telphone);
+    public List findCSGroupByTelVague(SearchBean[] queryBean);
     /**
-     * 分页查询客户
+     * 高级查询客户
      * @param telephone
      * @param start
      * @param limit
      * @return 客户集合
      */
-    public List<Customer> findByTelVaguePerPage(String telephone, int start, int limit);
+    public List<Customer> advancedFindByPerPage(SearchBean[] queryBean, int start, int limit);
     /**
-     * 根据电话模糊查询总记录数
+     * 高级查询客户总记录数
      * @param telephone
      * @return 客户数量
      */
-    public int findByTelVagueCount(String telephone);
+    public int advancedFindCount(SearchBean[] queryBean);
     /**
-     *根据创建日期查询客户
+     *根据创建日期及customerSourceType普通查询客户
      * @param createDate
      * @param start
      * @param limit
@@ -77,7 +79,7 @@ public interface ICustomerDAO extends IGenericDAO<Customer, Integer> {
      */
     public List<Customer> findByCreateDateSpacingPerPage(Date startDate,Date endDate, int start, int limit,int customerSourceType);
     /**
-     * 根据创建日期查询客户总记录数
+     * 根据创建日期及customerSourceType普通查询客户总记录数
      * @param createDate
      * @return
      */
