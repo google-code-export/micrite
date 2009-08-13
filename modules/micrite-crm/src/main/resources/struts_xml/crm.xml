@@ -11,7 +11,7 @@
                 <param name="target">resultMap</param>
             </result>
 		</action>
-		<action name="findCustomer" class="customerAction" method="findByTelVague">
+		<action name="findCustomer" class="customerAction" method="advancedFind">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
             </result>
@@ -47,6 +47,11 @@
             </result>
         </action>
         <action name="getCustomerSourcePieChart" class="customerChartAction" method="getPieChart" >
+             <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
+        <action name="getCustomerSourceLineChart" class="customerChartAction" method="getLineChart" >
              <result name="success" type="json">
                 <param name="target">resultMap</param>
             </result>

@@ -27,6 +27,7 @@ package org.gaixie.micrite.crm.service;
 import java.util.Date;
 import java.util.List;
 
+import org.gaixie.micirte.common.search.SearchBean;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.jfree.data.category.CategoryDataset;
@@ -55,38 +56,38 @@ public interface ICustomerService {
     public List<CustomerSource> findALLCustomerSource();
     
    /**
-    * 获取用户来源的饼图对象
+    * 高级查询获取用户来源的饼图对象
     * @param telephone
     * @return PieDataset
     */
-    public PieDataset getCustomerSourcePieDataset(String telephone);
+    public PieDataset getCustomerSourcePieDataset(SearchBean[] queryBean);
     
     /**
-     * 获取用户来源的2D柱图对象
+     * 高级查询获取用户来源的2D柱图对象
      * @return CategoryDataset
      */
-    public CategoryDataset getCustomerSourceBarDataset(String tel);
+    public CategoryDataset getCustomerSourceBarDataset(SearchBean[] queryBean);
     /**
-     * 根据电话分页模糊查询客户
+     * 高级查询客户
      * @param telephone
      * @param start
      * @param limit
      * @return 客户集合
      */
-    public List<Customer> findByTelVaguePerPage(String telephone, int start, int limit);
+    public List<Customer> advancedFindByPerPage(SearchBean[] queryBean, int start, int limit);
+    /**
+     * 高级查询客户总记录数
+     * @param telephone
+     * @return 客户数量
+     */
+    public int advancedFindCount(SearchBean[] queryBean);
     /**
      * 删除客户
      * @param customerIds 客户的id数组
      */
     public void delete(int[] customerIds);
     /**
-     * 根据电话模糊查询总记录数
-     * @param telephone
-     * @return 客户数量
-     */
-    public int findByTelVagueCount(String telephone);
-    /**
-     * 日期间隔查及customerSourceType询客户 
+     * 日期间隔查及customerSourceType普通询客户 
      * @param createDate
      * @param start
      * @param limit
@@ -94,7 +95,7 @@ public interface ICustomerService {
      */
     public List<Customer> findByCreateDateSpacingPerPage(Date startDate,Date endDate, int start, int limit,int customerSourceType);
     /**
-     * 日期间隔查及customerSourceType询客户总记录数
+     * 日期间隔及customerSourceType普通查询客户总记录数
      * @param createDate
      * @return
      */

@@ -27,6 +27,7 @@ package org.gaixie.micrite.crm.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.gaixie.micirte.common.search.SearchBean;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.dao.ICustomerDAO;
@@ -40,7 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 客户管理功能实现
  * @see org.gaixie.micrite.crm.service.ICustomerService
  */
-public class CustomerServiceImpl implements ICustomerService {
+public class CustomerServiceImpl implements ICustomerService { 
 
     @Autowired
     private ICustomerDAO customerDAO;
@@ -63,13 +64,13 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     
-    public CategoryDataset getCustomerSourceBarDataset(String tel) {
-        List list = customerDAO.findCSGroupByTelVague(tel);
+    public CategoryDataset getCustomerSourceBarDataset(SearchBean[] queryBean){
+        List list = customerDAO.findCSGroupByTelVague(queryBean);
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         if (list != null && list.size() != 0) {
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
-                dataset.setValue(Integer.parseInt(obj[0].toString()),"",obj[1].toString());
+                dataset.setValue(Integer.parseInt(obj[0].toString()),obj[1].toString(),"");
             }
         } else {
             return null;
@@ -77,8 +78,8 @@ public class CustomerServiceImpl implements ICustomerService {
         return dataset;
     }
     
-    public PieDataset getCustomerSourcePieDataset(String telphone) {
-        List list = customerDAO.findCSGroupByTelVague(telphone);
+    public PieDataset getCustomerSourcePieDataset(SearchBean[] queryBean){
+        List list = customerDAO.findCSGroupByTelVague(queryBean);
         DefaultPieDataset dataset = new DefaultPieDataset();
         if (list != null && list.size() != 0) {
             for (int i = 0; i < list.size(); i++) {
@@ -92,14 +93,14 @@ public class CustomerServiceImpl implements ICustomerService {
         
     }
 
-    public List<Customer> findByTelVaguePerPage(String telephone, int start,
-            int limit) {
-        List<Customer> list = customerDAO.findByTelVaguePerPage(telephone,start,limit);
+    public List<Customer> advancedFindByPerPage(SearchBean[] queryBean, int start,
+            int limit){
+        List<Customer> list = customerDAO.advancedFindByPerPage(queryBean,start,limit);
         return list;
     }
 
-    public int findByTelVagueCount(String telephone) {
-        return customerDAO.findByTelVagueCount(telephone); 
+    public int advancedFindCount(SearchBean[] queryBean){
+        return customerDAO.advancedFindCount(queryBean); 
     }
 
     public void delete(int[] customerIds) {

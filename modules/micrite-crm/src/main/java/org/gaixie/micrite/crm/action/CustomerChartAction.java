@@ -25,26 +25,38 @@
 package org.gaixie.micrite.crm.action;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.gaixie.micrite.action.GenericAction;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.crm.service.ICustomerService;
 import org.gaixie.micrite.jfreechart.style.BarStyle;
+import org.gaixie.micrite.jfreechart.style.LineStyle;
 import org.gaixie.micrite.jfreechart.style.PieStyle;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.entity.StandardEntityCollection;
+import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.servlet.ServletUtilities;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.general.PieDataset;
+import org.jfree.data.time.Hour;
+import org.jfree.data.time.Minute;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.xy.XYDataset;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.opensymphony.xwork2.ActionSupport;
 /**
  * 用户来源图形报表
  */
-public class CustomerChartAction extends ActionSupport {
+public class CustomerChartAction extends GenericAction {
     private static final long serialVersionUID = -8118104364113464883L;
     @Autowired
     private ICustomerService customerService;
@@ -57,21 +69,29 @@ public class CustomerChartAction extends ActionSupport {
      * @return "success"
      */
     public String getBarChart(){
+        CategoryDataset dca = customerService.getCustomerSourceBarDataset(this.getQueryBean());
         chart = ChartFactory.createBarChart(
                     getText("customer.source.chart.bar.title"), 
                     getText("customer.source.chart.bar.y"), 
                     getText("customer.source.chart.bar.x"),
-                    customerService.getCustomerSourceBarDataset(customer.getTelephone()), 
+                    dca, 
                     PlotOrientation.VERTICAL,
-                    false, false, false);
-        BarStyle.styleDefault(chart);
+                    true, false, false);
+        BarStyle.styleOne(chart);
+        //生成tooltip
+        CategoryPlot categoryplot = (CategoryPlot) chart.getPlot();
+        categoryplot.getRenderer().setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("{0}={2}",new DecimalFormat()));
         StandardEntityCollection entityCollection = new StandardEntityCollection();
         ChartRenderingInfo info = new ChartRenderingInfo(entityCollection);
         String filename = "";
         try {
             filename = ServletUtilities.saveChartAsPNG(chart, 600, 450, info, null);
+            String mapName = "map"+new Date();
+            String mapInfo = ChartUtilities.getImageMap(mapName, info);
             resultMap.put("success", true);
             resultMap.put("filename", filename);
+            resultMap.put("map", mapInfo);
+            resultMap.put("mapName", mapName);
         } catch (IOException e) {
             resultMap.put("success", false);
         }
@@ -83,26 +103,77 @@ public class CustomerChartAction extends ActionSupport {
      * @return "success"
      */
     public String getPieChart(){
+        PieDataset pd = customerService.getCustomerSourcePieDataset(this.getQueryBean());
         chart = ChartFactory.createPieChart(
                     getText("customer.source.chart.pie.title"),
-                    customerService.getCustomerSourcePieDataset(customer.getTelephone()),
-                    false,
+                    pd,
+                    true,
                     true,
                     false);
-        PieStyle.styleDefault(chart);
+        PieStyle.styleOne(chart);
+        //生成tooltip
         StandardEntityCollection entityCollection = new StandardEntityCollection();
         ChartRenderingInfo info = new ChartRenderingInfo(entityCollection);
         String filename = "";
         try {
             filename = ServletUtilities.saveChartAsPNG(chart, 600, 450, info, null);
+            String mapName = "map"+new Date();
+            String mapInfo = ChartUtilities.getImageMap(mapName, info);
             resultMap.put("success", true);
             resultMap.put("filename", filename);
+            resultMap.put("map", mapInfo);
+            resultMap.put("mapName", mapName);
         } catch (IOException e) {
             resultMap.put("success", false);
         }
         return SUCCESS ;
     }
-    
+    /**
+     * 测试折线图
+     * @return
+     */
+    public String getLineChart(){
+        chart = ChartFactory.createTimeSeriesChart("Time Series Demo 10",
+                "Time", 
+                "Value",
+                createDataset(),
+                true,
+                true,
+                false);
+        LineStyle.styleONe(chart);
+        StandardEntityCollection entityCollection = new StandardEntityCollection();
+        ChartRenderingInfo info = new ChartRenderingInfo(entityCollection);
+        String filename = "";
+        try {
+            filename = ServletUtilities.saveChartAsPNG(chart, 600, 450, info, null);
+            String mapName = "map"+new Date();
+            String mapInfo = ChartUtilities.getImageMap(mapName, info);
+            resultMap.put("success", true);
+            resultMap.put("filename", filename);
+            resultMap.put("map", mapInfo);
+            resultMap.put("mapName", mapName);
+        } catch (IOException e) {
+            resultMap.put("success", false);
+        }
+        return SUCCESS ;
+    }
+    /**
+     * 折线图测试数据
+     * @return
+     */
+    private static XYDataset createDataset()
+    {
+        TimeSeries timeseries = new TimeSeries("Per Minute Data", org.jfree.data.time.Minute.class);
+        Hour hour = new Hour();
+        timeseries.add(new Minute(1, hour), 10.199999999999999D);
+        timeseries.add(new Minute(3, hour), 17.300000000000001D);
+        timeseries.add(new Minute(9, hour), 14.6D);
+        timeseries.add(new Minute(11, hour), 11.9D);
+        timeseries.add(new Minute(15, hour), 13.5D);
+        timeseries.add(new Minute(19, hour), 10.9D);
+        TimeSeriesCollection timeseriescollection = new TimeSeriesCollection(timeseries);
+        return timeseriescollection;
+    }
     
     public JFreeChart getChart() {
         return chart;
@@ -122,6 +193,5 @@ public class CustomerChartAction extends ActionSupport {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
 
 }

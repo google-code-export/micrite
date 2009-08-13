@@ -28,31 +28,25 @@ import java.text.ParseException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.gaixie.micrite.action.GenericAction;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.opensymphony.xwork2.ActionSupport;
 
 /**
  * CustomerAction用来响应用户对Customer基本信息维护时的操作，并调用相关的Service。
  * <p>
  * 通过调用相关的Service类，完成对Customer基本信息的增加，删除，修改，查询。
  */
-public class CustomerAction extends ActionSupport{ 
+public class CustomerAction extends GenericAction{ 
 	private static final long serialVersionUID = 3072131320220662398L;
 
 	@Autowired
 	private ICustomerService customerService;
-
-    //以Map格式存放操作的结果，然后由struts2-json插件转换为json对象
-    private Map<String,Object> resultMap = new HashMap<String,Object>();
 
     private List<CustomerSource> customerSource;
     //获取的页面参数
@@ -60,13 +54,6 @@ public class CustomerAction extends ActionSupport{
     private int[] customerIds;
     private Date startDate;
     private Date endDate;
-   
-    //起始索引
-    private int start;
-    //限制数
-    private int limit;
-    //记录总数（分页中改变页码时，会传递该参数过来）
-    private int totalCount;
 
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     /**
@@ -76,42 +63,38 @@ public class CustomerAction extends ActionSupport{
     public String add() {
         customer.setCreation_ts(new Date());
         customerService.add(customer);
-        resultMap.put("message", getText("save.success"));
-        resultMap.put("success", true);
+        this.getResultMap().put("message", getText("save.success"));
+        this.getResultMap().put("success", true);
         return SUCCESS;
     }
     /**
-     * 电话查找客户信息
+     * 高级查询客户信息
      * @return "success"
      */
-    public String findByTelVague() {
-        if (totalCount == 0) {
+    public String advancedFind(){
+        if (isFirstSearch()) {
             //  初次查询时，要从数据库中读取总记录数
-            Integer count = customerService.findByTelVagueCount(customer.getTelephone());
+            Integer count = customerService.advancedFindCount(getQueryBean());
             setTotalCount(count);
         }         
         //  得到分页查询结果
-        List<Customer> customers = customerService.findByTelVaguePerPage(customer.getTelephone(), start, limit);
-        resultMap.put("totalCount", totalCount);
-        resultMap.put("success", true);
-        resultMap.put("data", customers);
+        List<Customer> customers = customerService.advancedFindByPerPage(getQueryBean(), this.getStart(), this.getLimit());
+        this.putResultList(customers);
         return SUCCESS;
     }
     /**
-     * 日期间隔查及customerSourceType询客户 
+     * 日期间隔及customerSourceType普通查询客户 
      * @return
      */
     public String findByDateSpacing(){
-        if (totalCount == 0) {
+        if (isFirstSearch()) {
             //  初次查询时，要从数据库中读取总记录数
             Integer count = customerService.findByCreateDateSpacingCount(startDate, endDate,customer.getCustomerSource().getId());
             setTotalCount(count);
         }         
         //  得到分页查询结果
-        List<Customer> customers = customerService.findByCreateDateSpacingPerPage(startDate, endDate, start, limit,customer.getCustomerSource().getId());
-        resultMap.put("totalCount", totalCount);
-        resultMap.put("success", true);
-        resultMap.put("data", customers);
+        List<Customer> customers = customerService.findByCreateDateSpacingPerPage(startDate, endDate, this.getStart(), this.getLimit(),customer.getCustomerSource().getId());
+        this.putResultList(customers);
         return SUCCESS;
     }
     /**
@@ -120,8 +103,8 @@ public class CustomerAction extends ActionSupport{
      */
     public String update() {
         customerService.update(customer);
-        resultMap.put("message", getText("save.success"));
-        resultMap.put("success", true);
+        this.getResultMap().put("message", getText("save.success"));
+        this.getResultMap().put("success", true);
         return SUCCESS;
         
     }
@@ -131,9 +114,10 @@ public class CustomerAction extends ActionSupport{
      */
     public String delete(){
         customerService.delete(customerIds);
-        resultMap.put("message", getText("delete.success"));
-        resultMap.put("success", true);
+        this.getResultMap().put("message", getText("delete.success"));
+        this.getResultMap().put("success", true);
         return SUCCESS;
+        
     }
     /**
      * 获得用户来源
@@ -188,31 +172,6 @@ public class CustomerAction extends ActionSupport{
      */
     public void setCustomerSource(List<CustomerSource> customerSource) {
         this.customerSource = customerSource;
-    }
-    public int getStart() {
-        return start;
-    }
-    public void setStart(int start) {
-        this.start = start;
-    }
-    public int getLimit() {
-        return limit;
-    }
-    public void setLimit(int limit) {
-        this.limit = limit;
-    }
-    public int getTotalCount() {
-        return totalCount;
-    }
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
-
-    public Map<String, Object> getResultMap() {
-        return resultMap;
-    }
-    public void setResultMap(Map<String, Object> resultMap) {
-        this.resultMap = resultMap;
     }
     public int[] getCustomerIds() {
         return customerIds;

@@ -57,18 +57,24 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	
 	var sm = new Ext.grid.CheckboxSelectionModel();
 	var config = {
+			advSearchField : [[
+						          {name:'Name',value:'name',xtype:'textfield'},
+						          {name:'Creation_ts',value:'creation_ts',xtype:'uxspinnerdate'}
+						      ]],	  
 	        compSet: [
 	             {url:0,reader:0,columns:0,bbarAction:0},
-	             {url:1,reader:0,columns:0,bbarAction:0}
+	             {url:1,reader:0,columns:0,bbarAction:0,tbarAction:-1}
 	        ],
 			searchMenu : [
 				 this.searchCondition1,
 				 this.searchCondition2
 			],
 			searchFields :[[
+				 {advSearch:true},
 	             this.searchCellphone,
 	             {xtype:'textfield',
-	              name:'customer.telephone',
+	              name:'telephone',
+	              expression:'like',
 	              width:120}
 	            ],[
 	             this.searchStartTime,
@@ -130,7 +136,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		          },
 		          sm
 			 ]],
-	         tbarActions : [{
+	         tbarActions : [[{
 	        	 text:this.customerSourceBarChart,
 	        	 iconCls :'bar-chart-icon',
 	        	 scope:this,
@@ -141,11 +147,16 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	        	 scope:this,
 	        	 handler:this.getPieChart
 	         },{
+	        	 text:'Line Chart',
+	        	 iconCls :'line-chart-icon',
+	        	 scope:this,
+	        	 handler:this.getLineChart
+	         },{
 	        	 text:this.newCustomer,
 	        	 iconCls :'add-icon',
 	        	 scope:this,
 	        	 handler:this.addCustomer
-	         }],
+	         }]],
 	         bbarActions:[[{
 	        	 text:mbLocale.deleteButton, 
 	        	 iconCls :'delete-icon',
@@ -170,7 +181,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		          title:this.customerSourceBarChart};
 		var c2 = {
             url: 'crm/getCustomerSourceBarChart.action',
-            params:{'customer.telephone':this.curFields[0].getRawValue()}
+            params:this.getAllField()
         };
 		var win = this.genChartWindow(c1,c2);
 	}, //eof getBarChart
@@ -180,7 +191,17 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		          title:this.customerSourcePieChart};
         var c2 = {
             url: 'crm/getCustomerSourcePieChart.action',
-            params:{'customer.telephone':this.curFields[0].getRawValue()}
+            params:this.getAllField()
+        };
+        this.genChartWindow(c1,c2);
+	}, //eof getPieChart
+	
+	getLineChart : function() {
+		var c1 = {id:'customerList.linechar',
+		          title:this.customerSourcePieChart};
+        var c2 = {
+            url: 'crm/getCustomerSourceLineChart.action',
+            params:this.getAllField()
         };
         this.genChartWindow(c1,c2);
 	}, //eof getPieChart
