@@ -58,8 +58,8 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	var sm = new Ext.grid.CheckboxSelectionModel();
 	var config = {
 			advSearchField : [[
-						          {name:'Name',value:'name',xtype:'textfield'},
-						          {name:'Creation_ts',value:'creation_ts',xtype:'uxspinnerdate'}
+						          {name:this.colModelName,value:'name',xtype:'textfield'},
+						          {name:this.colCreation_ts,value:'creation_ts',xtype:'uxspinnerdate'}
 						      ]],	  
 	        compSet: [
 	             {url:0,reader:0,columns:0,bbarAction:0},
