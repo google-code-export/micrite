@@ -25,6 +25,7 @@ package org.gaixie.micrite.crm.service;
 
 import java.util.Date;
 
+import org.gaixie.micirte.common.search.SearchBean;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.dao.ICustomerDAO;
@@ -46,6 +47,8 @@ public class CustomerServiceTest extends AbstractTransactionalJUnit4SpringContex
    
     private Customer customer;
     
+    private SearchBean[] searchBean = new SearchBean[1];
+    
     @Before //准备测试数据
     public void prepareTestData() {
         customer = new Customer();
@@ -55,15 +58,16 @@ public class CustomerServiceTest extends AbstractTransactionalJUnit4SpringContex
         CustomerSource cs = customerService.findALLCustomerSource().get(0);
         customer.setCustomerSource(cs);
         customerDAO.save(customer);
+        //封装高级查询测试数据
+        searchBean[0] = new SearchBean ("telephone",customer.getTelephone(),"=");
     }
-   
+    
     @Test
-    public void findByTelVagueCount(){
-//        String tel = customer.getTelephone();
-//        int before = customerService.findByTelVagueCount(tel);
-//        customer.setTelephone("5678");
-//        customerDAO.update(customer);
-//        int after = customerService.findByTelVagueCount(tel);
-//        Assert.assertEquals(1, before - after); 
+    public void advancedFindCount(){
+        int before = customerService.advancedFindCount(searchBean);
+        customer.setTelephone("5678");
+        customerDAO.update(customer);
+        int after = customerService.advancedFindCount(searchBean);
+        Assert.assertEquals(1, before - after);
     }
 }
