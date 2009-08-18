@@ -24,12 +24,6 @@
 
 package org.gaixie.micrite.crm.action;
 
-import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.gaixie.micrite.action.GenericAction;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.crm.service.ICustomerService;
@@ -37,14 +31,8 @@ import org.gaixie.micrite.jfreechart.style.BarStyle;
 import org.gaixie.micrite.jfreechart.style.LineStyle;
 import org.gaixie.micrite.jfreechart.style.PieStyle;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartRenderingInfo;
-import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.entity.StandardEntityCollection;
-import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.servlet.ServletUtilities;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.time.Hour;
@@ -61,7 +49,7 @@ public class CustomerChartAction extends GenericAction {
     @Autowired
     private ICustomerService customerService;
     private JFreeChart chart;
-    private Map<String,Object> resultMap = new HashMap<String,Object>();
+//    private Map<String,Object> resultMap = new HashMap<String,Object>();
     private Customer customer;
 
     /**
@@ -78,23 +66,7 @@ public class CustomerChartAction extends GenericAction {
                     PlotOrientation.VERTICAL,
                     true, false, false);
         BarStyle.styleOne(chart);
-        //生成tooltip
-        CategoryPlot categoryplot = (CategoryPlot) chart.getPlot();
-        categoryplot.getRenderer().setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("{0}={2}",new DecimalFormat()));
-        StandardEntityCollection entityCollection = new StandardEntityCollection();
-        ChartRenderingInfo info = new ChartRenderingInfo(entityCollection);
-        String filename = "";
-        try {
-            filename = ServletUtilities.saveChartAsPNG(chart, 600, 450, info, null);
-            String mapName = "map"+new Date();
-            String mapInfo = ChartUtilities.getImageMap(mapName, info);
-            resultMap.put("success", true);
-            resultMap.put("filename", filename);
-            resultMap.put("map", mapInfo);
-            resultMap.put("mapName", mapName);
-        } catch (IOException e) {
-            resultMap.put("success", false);
-        }
+        this.putChartResultList(chart);
         return SUCCESS ;
     }
     
@@ -111,21 +83,7 @@ public class CustomerChartAction extends GenericAction {
                     true,
                     false);
         PieStyle.styleOne(chart);
-        //生成tooltip
-        StandardEntityCollection entityCollection = new StandardEntityCollection();
-        ChartRenderingInfo info = new ChartRenderingInfo(entityCollection);
-        String filename = "";
-        try {
-            filename = ServletUtilities.saveChartAsPNG(chart, 600, 450, info, null);
-            String mapName = "map"+new Date();
-            String mapInfo = ChartUtilities.getImageMap(mapName, info);
-            resultMap.put("success", true);
-            resultMap.put("filename", filename);
-            resultMap.put("map", mapInfo);
-            resultMap.put("mapName", mapName);
-        } catch (IOException e) {
-            resultMap.put("success", false);
-        }
+        this.putChartResultList(chart);
         return SUCCESS ;
     }
     /**
@@ -141,20 +99,7 @@ public class CustomerChartAction extends GenericAction {
                 true,
                 false);
         LineStyle.styleONe(chart);
-        StandardEntityCollection entityCollection = new StandardEntityCollection();
-        ChartRenderingInfo info = new ChartRenderingInfo(entityCollection);
-        String filename = "";
-        try {
-            filename = ServletUtilities.saveChartAsPNG(chart, 600, 450, info, null);
-            String mapName = "map"+new Date();
-            String mapInfo = ChartUtilities.getImageMap(mapName, info);
-            resultMap.put("success", true);
-            resultMap.put("filename", filename);
-            resultMap.put("map", mapInfo);
-            resultMap.put("mapName", mapName);
-        } catch (IOException e) {
-            resultMap.put("success", false);
-        }
+        this.putChartResultList(chart);
         return SUCCESS ;
     }
     /**
@@ -177,13 +122,6 @@ public class CustomerChartAction extends GenericAction {
     
     public JFreeChart getChart() {
         return chart;
-    }
-    public Map<String, Object> getResultMap() {
-        return resultMap;
-    }
-
-    public void setResultMap(Map<String, Object> resultMap) {
-        this.resultMap = resultMap;
     }
 
     public Customer getCustomer() {
