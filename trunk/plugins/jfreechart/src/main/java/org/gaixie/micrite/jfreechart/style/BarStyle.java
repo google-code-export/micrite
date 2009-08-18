@@ -26,9 +26,11 @@ package org.gaixie.micrite.jfreechart.style;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Paint;
+import java.text.DecimalFormat;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.CategoryDataset;
@@ -68,7 +70,8 @@ public class BarStyle {
             categoryitemrenderer.setBaseItemLabelFont(
                     new Font("黑体", Font.PLAIN, 15));
             categoryitemrenderer.setBaseItemLabelsVisible(true);
-            
+            //tooltip
+            categoryplot.getRenderer().setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("{0}={2}",new DecimalFormat()));
             //循环取色彩
             for(int i = 0 ;i<dca.getRowCount();i++){
                 int colorIdx = i % colors.length;
