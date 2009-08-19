@@ -8,6 +8,7 @@ This document is generated automatically by the [http://amateras.sourceforge.jp/
 
 The purpose of this document is to act as a reference for developers of Micrite.
 
+<br><br> 
 = Details =
 [http://sites-by-maven.gaixie.org/micrite/0.9/trunk/schema/ Schema Documentation]
 [http://sites-by-maven.gaixie.org/micrite/0.9/trunk/images/MicriteERDiagram.erd.jpg ER Diagram] ( for Micrite v0.9 ~ ) 

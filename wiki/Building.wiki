@@ -9,7 +9,8 @@ Micrite trees that use the same basic build tooling include:
 
   * [http://code.google.com/p/micrite/source/browse/#svn/trunk svn/trunk]
   * [http://code.google.com/p/micrite/source/browse/#svn/tags svn/tags/v0.x]
-
+  
+<br><br>
 = Prerequisites =
 == Java Developer Kit (JDK) ==
 
@@ -50,6 +51,7 @@ In order to change the m2 local repository go to %USERPROFILE%\.m2 and edit or c
 </settings>
 }}}
 
+<br><br>
 = Checkout Micrite =
 
 {{{
@@ -57,6 +59,7 @@ svn checkout http://micrite.googlecode.com/svn/trunk/ micrite-read-only
 }}}
 See http://code.google.com/p/micrite/source/checkout for more detail.
 
+<br><br>
 = Preparing to Build for the First Time =
 
 Chances are you will need to increase the heap size for Maven. 
@@ -71,6 +74,7 @@ This environment variable can be used to supply extra options to Maven.
 
 See http://maven.apache.org/download.html for more detail.
 
+<br><br>
 = Building =
 
 To build all changes incrementally, from project root directory run:
@@ -84,6 +88,7 @@ To perform clean builds, which are sometimes needed after some changes to the so
 mvn clean install
 }}}
 
+<br><br>
 = Testing the Assembly =
 
 Once you have build micrite fully, which will produce a war archive from the assemblies modules, 

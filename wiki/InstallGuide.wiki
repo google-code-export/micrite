@@ -5,6 +5,7 @@
 This document describes how to install the Gaixie Micrite software. <br>
 It explains what you need to install first, how to download Micrite, how to configure Micrite and how to install it to your existing java application server and relation database.
 
+<br><br> 
 =Ready?=
 First, let's make sure you have everything you need to install and run Micrite.
 
@@ -13,6 +14,7 @@ Micrite is a database-driven Java web application. To run it you need Java, a Ja
  * A Java aplication server, or more specifically a Servlet container that supports the Servlet 2.4 API. Hereinafter, we'll just call this your server. The Micrite community tends to use and is best able to answer questions about Tomcat 5.5, Tomcat 6.0.
  * A relational database such as MySQL, Apache Derby or PostgreSQL. Micrite includes database creation scripts for Derby, MySQL, PostgreSQL and MsSQL.
 
+<br><br> 
 =Download and un-package Micrite=
 Download the Gaixie Micrite release file from http://code.google.com/p/micrite/downloads/list and use your favorite ZIP program to unzip the release into a directory on your computer's disk.
 
@@ -37,6 +39,7 @@ For example, here's how you'd package it up as a WAR:
 % jar cvf ../micrite.war *
 }}}
 
+<br><br> 
 =Prepare your database for Micrite=
 Before you can install Micrite you'll probably need to some work to prepare your database for Micrite.
 
@@ -103,6 +106,7 @@ micrite_db>\i {project_home}/dbscripts/postgresql/createdb.sql
 ==Check your JDBC driver setup==
 Make sure that you have the correct JDBC driver installed in your server. Usually, this is as simple as downloading the JDBC driver jar(s) and placing it (or them) into your server's classpath. For example, on Tomcat 5.5 you place them in common/lib, on Tomcat 6.0 in lib.
 
+<br><br> 
 =Configure Micrite==
 Here is how to configure database connection for Micrite.
  # Find your _*WEB-INF/classes/databaseResource-hibernate.xml*_ file and open it in a text editor.
@@ -123,6 +127,7 @@ hibernate.dialect org.hibernate.dialect.DerbyDialect
 #hibernate.dialect org.hibernate.dialect.PostgreSQLDialect
 }}}
 
+<br><br> 
 =Deploy Micrite=
 
 Use your server's administration console to deploy the Micrite web application.
@@ -142,9 +147,10 @@ Just select micrite.war file to deploy.
 Once Micrite is deployed, you'll see that it's listed among the other applications. There's a _*/micrite*_ link to Micrite itself and there are options to start, stop, reload and undeploy.<br>
 If Micrite doesn't start-up, look for the problem in the logs. You can find them in Tomcat's logs directory. The Tomcat log file is catalina.out.
 
+<br><br> 
 =Getting started with Micrite=
 Visit http://localhost:8080/micrite with following default account.<br>
 || *Username* || *Password* || *Role* ||
 || admin || 123456 || ROLE_ADMIN ||
-|| user || 123456 || ROLE_CRM_USER ||
-|| bitorb || 123456 || ROLE_USER ||
+|| bitorb || 123456 || ROLE_USER_LEADER ||
+|| user || 123456 || ROLE_USER ||

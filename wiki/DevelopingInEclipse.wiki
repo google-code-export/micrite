@@ -4,10 +4,12 @@
 = Introduction =
 The following instructions will enable you to get Micrite into the Eclipse 3.4 workspace as an eclipse project. You will be able use eclipse to make code changes and run Unit tests. For purposes of this discussion the development OS is Windows. Please adjust these instructions for your environment.
 
+<br><br> 
 = Prerequisites =
 
 Install the software required for [Building Building Gaixie Micrite] and follow the instructions to build Geronimo.
 
+<br><br> 
 = Creating Eclipse Projects =
 You could import all subprojects in the workspace. But a more efficient way is to import only the modules that you want to work on.
 
@@ -23,6 +25,7 @@ mvn -o eclipse:eclipse
 == Working with multiple modules ==
 We have no the feature at this time. 
 
+<br><br> 
 = Firing up Eclipse =
 
  * Import the project(s) to eclipse workspace using:
@@ -79,6 +82,7 @@ Click on "Edit". Under Indentation select Tab policy as "space only". Enter a ne
  */
  }}}
 
+<br><br> 
 = Other Useful Information =
 If you plan on contributing code or patches to the project please configure your subversion client :
 

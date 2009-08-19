@@ -7,6 +7,7 @@ This page describes the standards used for Micrite code (java, xml, whatever). C
 
 In addition, check the wiki for details on [DevelopingInEclipse].
 
+<br><br>
 = Indentation =
 == Java ==
 Lets follow Sun's coding standard rules which are pretty common in Java.
@@ -84,7 +85,8 @@ public class Foo {
 == Javascripts ==
  * Use 4 characters.
  * *No tabs* please!
- 
+
+<br><br> 
 = Classes and Interfaces =
  * Sun's naming guidelines states.
  Class names should be nouns, in mixed case with the first letter of each internal word capitalized. Try to keep your class names simple and descriptive. Use whole words - avoid acronyms and abbreviations (unless the abbreviation is much more widely used than the long form, such as URL or HTML). 
@@ -100,9 +102,11 @@ public class Foo {
  }}} 
  This convention aids code readability by making interface names more readily recognizable.
 
+<br><br>
 = Exceptions =
 The names of exception classes (subclasses of Exception) should follow the common practice of ending in "Exception". 
 
+<br><br>
 = Imports =
  * Should be fully qualified e.g. 
 {{{
@@ -112,6 +116,7 @@ import java.util.*
 }}}
  * Should be sorted alphabetically, with java, then javax packages listed first, and then other packages sorted by package name.
 
+<br><br>
 = JavaDoc =
 [http://java.sun.com/j2se/javadoc/writingapispecs/index.html Sun's Requirements for Writing Java API Specifications] deals with required semantic content of documentation comments for API specifications for the Java platform. Micrite APIs should follow these conventions.
 
@@ -132,9 +137,13 @@ import java.util.*
   * Implements a method in IPath.
   */
  }}}
- to alert the reader that the contract for the method is described in the named interface. This reduces the amount of method contract duplication---a serious maintenance headache---without compromising readability of the code. 
+ to alert the reader that the contract for the method is described in the named interface. This reduces the amount of method contract duplication---a serious maintenance headache---without compromising readability of the code.
+ 
+ <br><br> 
 = Unit Test Cases =
 Use the naming scheme {{{ *Test.java }}} for unit tests.
+
+<br><br>
 = Logging =
 Use Log4j rather than others.
  * The TRACE Level designates finer-grained informational events than the DEBUG
