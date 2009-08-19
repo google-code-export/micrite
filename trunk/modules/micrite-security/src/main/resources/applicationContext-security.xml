@@ -105,6 +105,7 @@
         </property>
     </bean>
 
+ 
     <!-- ~~~~~~~~~~~~~~~~~~~~ SECURITY URL INTERCEPTOR DEFINITIONS ~~~~~~~~~~~~~~~~~~~ -->
     <bean id="urlSecurityInterceptor" class="org.gaixie.micrite.security.filter.FilterSecurityInterceptor">
         <sec:custom-filter before="FILTER_SECURITY_INTERCEPTOR" />
@@ -115,7 +116,8 @@
     <!-- ~~~~~~~~~~~~~~~~~~~~ SECURITY METHOD INTERCEPTOR DEFINITIONS ~~~~~~~~~~~~~~~~~~~ -->      
     <bean id="methodSecurityInterceptor" class="org.gaixie.micrite.security.filter.MethodSecurityInterceptor">
         <property name="authenticationManager" ref="authenticationManager" />
-        <property name="accessDecisionManager" ref="accessDecisionManager" />
+        <property name="accessDecisionManager" ref="businessAccessDecisionManager"/>
+        <property name="afterInvocationManager" ref="afterInvocationManager"/>   
     </bean>
 
     <!-- 使用Spring AOP，当访问所有service包下以Service结尾的类的任何方法时，任何方法时，
@@ -131,5 +133,103 @@
 
     <bean id="accessDeniedInterceptor"
         class="org.gaixie.micrite.security.filter.AccessDeniedInterceptor" />
-            
+    
+    
+     <!-- ~~~~~~~~~~~============== ACL intercepter ==============~~~~~~~~~~~~ -->
+    <!-- An access decision manager used by the business objects -->
+    <bean id="businessAccessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
+        <property name="allowIfAllAbstainDecisions" value="false"/>
+        <property name="decisionVoters">
+            <list>
+                    <bean class="org.springframework.security.vote.RoleVoter">
+                        <property name="rolePrefix" value="" />
+                    </bean>
+                    <!-- An access decision voter that reads ACL_OBJECT_READ configuration settings -->
+                    <bean id="aclObjectReadVoter" class="org.springframework.security.vote.AclEntryVoter">
+                        <constructor-arg ref="securityMutableAclService"/>
+                        <constructor-arg value="ACL_OBJECT_READ"/>
+                        <constructor-arg>
+                            <list>
+                                <ref local="administrationPermission"/>
+                                <ref local="readPermission"/>
+                            </list>
+                        </constructor-arg>
+                        <property name="processDomainObjectClass" value="org.gaixie.micrite.beans.AbstractSecureObject"/>
+                    </bean>
+            </list>
+        </property>
+    </bean>
+  
+    <!-- ACL permission masks used by this application -->
+    <bean id="administrationPermission"
+          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField" value="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION"/>
+    </bean>
+    <bean id="readPermission"
+          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField" value="org.springframework.security.acls.domain.BasePermission.READ"/>
+    </bean>
+    <bean id="writePermission"
+          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField" value="org.springframework.security.acls.domain.BasePermission.WRITE"/>
+    </bean>
+    <bean id="deletePermission"
+          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField" value="org.springframework.security.acls.domain.BasePermission.DELETE"/>
+    </bean>
+ 
+
+    <bean id="aclAuthorizationStrategy" class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
+        <constructor-arg>
+        <list>
+            <bean class="org.springframework.security.GrantedAuthorityImpl">
+                <constructor-arg value="ROLE_ADMIN"/>
+            </bean>
+            <bean class="org.springframework.security.GrantedAuthorityImpl">
+                <constructor-arg value="ROLE_ADMIN"/>
+            </bean>
+            <bean class="org.springframework.security.GrantedAuthorityImpl">
+                <constructor-arg value="ROLE_ADMIN"/>
+            </bean>
+        </list>
+        </constructor-arg>
+    </bean>    
+    
+    <bean id="auditLogger" class="org.springframework.security.acls.domain.ConsoleAuditLogger"/>
+     
+    <!-- ============== "AFTER INTERCEPTION" AUTHORIZATION DEFINITIONS =========== -->
+
+    <bean id="afterInvocationManager"
+          class="org.springframework.security.afterinvocation.AfterInvocationProviderManager">
+        <property name="providers">
+            <list>
+                <ref local="afterAclRead"/>
+                <ref local="afterAclCollectionRead"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Processes AFTER_ACL_COLLECTION_READ configuration settings -->
+    <bean id="afterAclCollectionRead"
+          class="org.springframework.security.afterinvocation.AclEntryAfterInvocationCollectionFilteringProvider">
+        <constructor-arg ref="securityMutableAclService"/>
+        <constructor-arg>
+            <list>
+                <ref local="administrationPermission"/>
+                <ref local="readPermission"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Processes AFTER_ACL_READ configuration settings -->
+    <bean id="afterAclRead" class="org.springframework.security.afterinvocation.AclEntryAfterInvocationProvider">
+    <!--<bean id="afterAclRead" class="com.denksoft.springstarter.util.security.CustomAclEntryAfterInvocationProvider">-->
+        <constructor-arg ref="securityMutableAclService"/>
+        <constructor-arg>
+            <list>
+                <ref local="administrationPermission"/>
+                <ref local="readPermission"/>
+            </list>
+        </constructor-arg>
+    </bean>
 </beans>

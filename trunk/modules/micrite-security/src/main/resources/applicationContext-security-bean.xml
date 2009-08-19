@@ -39,8 +39,12 @@
     <bean id="userService"  class="org.gaixie.micrite.security.service.impl.UserServiceImpl" />
     <bean id="authorityService"  class="org.gaixie.micrite.security.service.impl.AuthorityServiceImpl" />
     <bean id="roleService"  class="org.gaixie.micrite.security.service.impl.RoleServiceImpl" />
+     
     <bean id="securityInterceptorService"  class="org.gaixie.micrite.security.service.impl.SecurityInterceptorImpl" />
-    
+
+    <bean id="securityAclService"  class="org.gaixie.micrite.security.service.impl.AclServiceImpl" />
+    <bean id="securityMutableAclService"  class="org.gaixie.micrite.security.service.impl.MutableAclServiceImpl" />
+            
     <bean id="userDAO" class="org.gaixie.micrite.security.dao.hibernate.UserDAOImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
@@ -54,4 +58,16 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
     
+    <bean id="aclSidDAO" class="org.gaixie.micrite.security.dao.hibernate.AclSidDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="aclEntryDAO" class="org.gaixie.micrite.security.dao.hibernate.AclEntryDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="aclClassDAO" class="org.gaixie.micrite.security.dao.hibernate.AclClassDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="aclObjectIdentityDAO" class="org.gaixie.micrite.security.dao.hibernate.AclObjectIdentityDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>                
 </beans>
