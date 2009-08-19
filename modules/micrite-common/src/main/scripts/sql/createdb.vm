@@ -25,9 +25,9 @@ ALTER TABLE userbase ADD CONSTRAINT userbase_loginname_uq UNIQUE ( loginname );
 
 #addAutoIncrement("userbase")
 
-insert  into userbase(fullname,loginname,cryptpassword,enabled) values ('管理员','admin','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
-insert  into userbase(fullname,loginname,cryptpassword,enabled) values ('bitorb','bitorb','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
-insert  into userbase(fullname,loginname,cryptpassword,enabled) values ('一般用户','user','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
+insert  into userbase(fullname,loginname,cryptpassword,enabled) values ('administrator','admin','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
+insert  into userbase(fullname,loginname,cryptpassword,enabled) values ('Tommy Wang','bitorb','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
+insert  into userbase(fullname,loginname,cryptpassword,enabled) values ('Maven Yu','user','e10adc3949ba59abbe56e057f20f883e',$db.BOOLEAN_TRUE);
 
 -- ------------------------------------------------------
 -- description: 此角色的详细描述
@@ -41,9 +41,9 @@ ALTER TABLE roles ADD CONSTRAINT roles_name_uq UNIQUE ( name );
 #addAutoIncrement("roles")
 
 insert  into roles(name,description) values ('ROLE_ADMIN','系统管理员，拥有全部模块权限');
-insert  into roles(name,description) values ('ROLE_USER','基本用户，登录后没有任何权限的用户');
-insert  into roles(name,description) values ('ROLE_CRM_USER','CRM用户，登录后可以只读CRM模块');
-
+insert  into roles(name,description) values ('ROLE_USER_LEADER','高级用户，对ROLE_USER有管理权限');
+insert  into roles(name,description) values ('ROLE_USER','基本用户，无管理权限');
+insert  into roles(name,description) values ('AFTER_ACL_COLLECTION_READ','ACL拦截');
 
 CREATE TABLE user_role_map (
     user_id              integer NOT NULL,
@@ -54,7 +54,9 @@ ALTER TABLE user_role_map ADD CONSTRAINT user_role_map_user_id_uq UNIQUE ( user_
 insert  into user_role_map(user_id,role_id) values (1,1);
 insert  into user_role_map(user_id,role_id) values (2,2);
 insert  into user_role_map(user_id,role_id) values (3,3);
-
+insert  into user_role_map(user_id,role_id) values (1,4);
+insert  into user_role_map(user_id,role_id) values (2,4);
+insert  into user_role_map(user_id,role_id) values (3,4);
 -- ------------------------------------------------------
 -- type: 资源类型. URL=权限的控制类型为URL，METHOD=对方法进行拦截验证，MENU=控制模块入口在菜单的显式
 -- value: 对应于 type的具体的值，如:/** 表示可以访问所有URL
@@ -73,6 +75,7 @@ insert  into authorities(name,type,value) values ('/Security Modules/User List',
 insert  into authorities(name,type,value) values ('/Security Modules/Authority List','URL','/security/authorityList.js*');
 insert  into authorities(name,type,value) values ('/Security Modules/Role List','URL','/security/roleList.js*');
 insert  into authorities(name,type,value) values ('/CRM Modules/Customer List','URL','/crm/customerList.js*');
+
 insert  into authorities(name,type,value) values ('CRM Modules/Customer Detail','URL','/crm/customerDetail.js*');
 insert  into authorities(name,type,value) values ('User Detail','URL','/security/userDetail.js*');
 insert  into authorities(name,type,value) values ('User Select','URL','/security/userSelect.js*');
@@ -80,8 +83,8 @@ insert  into authorities(name,type,value) values ('Authority Detail','URL','/sec
 insert  into authorities(name,type,value) values ('Authority Select','URL','/security/authoritySelect.js*');
 insert  into authorities(name,type,value) values ('Role Detail','URL','/security/roleDetail.js*');
 insert  into authorities(name,type,value) values ('Role Select','URL','/security/roleSelect.js*');
--- insert  into authorities(name,type,value) values ('Security Detail Add Method Filter','METHOD','* org.gaixie.micrite.crm.service.ICustomerService.add(..)');
 
+insert  into authorities(name,type,value) values ('Role List Search Method Filter','METHOD','* org.gaixie.micrite.security.service.IRoleService.*PerPage(..)');
 
 CREATE TABLE role_authority_map (
     role_id                integer NOT NULL,
@@ -103,14 +106,23 @@ insert  into role_authority_map(role_id,authority_id) values (1,11);
 insert  into role_authority_map(role_id,authority_id) values (1,12);
 
 insert  into role_authority_map(role_id,authority_id) values (2,1);
+insert  into role_authority_map(role_id,authority_id) values (2,2);
+insert  into role_authority_map(role_id,authority_id) values (2,3);
+insert  into role_authority_map(role_id,authority_id) values (2,4);
 insert  into role_authority_map(role_id,authority_id) values (2,5);
 insert  into role_authority_map(role_id,authority_id) values (2,6);
+insert  into role_authority_map(role_id,authority_id) values (2,7);
+insert  into role_authority_map(role_id,authority_id) values (2,8);
+insert  into role_authority_map(role_id,authority_id) values (2,9);
+insert  into role_authority_map(role_id,authority_id) values (2,10);
+insert  into role_authority_map(role_id,authority_id) values (2,11);
+insert  into role_authority_map(role_id,authority_id) values (2,12);
 
 insert  into role_authority_map(role_id,authority_id) values (3,1);
-insert  into role_authority_map(role_id,authority_id) values (3,2);
-insert  into role_authority_map(role_id,authority_id) values (3,3);
-insert  into role_authority_map(role_id,authority_id) values (3,4);
 insert  into role_authority_map(role_id,authority_id) values (3,5);
+insert  into role_authority_map(role_id,authority_id) values (3,6);
+
+insert  into role_authority_map(role_id,authority_id) values (4,13);
 
 -- ------------------------------------------------------
 -- sortindex: 用于对配置可选值在显示的时候进行排序。
@@ -138,6 +150,94 @@ CREATE TABLE user_setting_map(
   setting_id               integer NOT NULL
 );
 ALTER TABLE user_setting_map ADD CONSTRAINT usm_user_id_setting_id_uq UNIQUE ( user_id,setting_id );
+
+-- -----------------------------------------------------
+-- principal: 匹配类型 1=按用户名，0=按角色
+CREATE TABLE acl_sid (
+    id                     $db.AUTO_BIG_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
+    principal              $db.BOOLEAN_SQL_TYPE_TRUE NOT NULL,
+    sid                    varchar(100) NOT NULL
+);
+ALTER TABLE acl_sid ADD CONSTRAINT acl_sid_uq UNIQUE ( principal,sid );
+
+#addAutoIncrement("acl_sid")
+
+insert into acl_sid(principal,sid) values ($db.BOOLEAN_FALSE,'ROLE_ADMIN');
+insert into acl_sid(principal,sid) values ($db.BOOLEAN_FALSE,'ROLE_USER_LEADER');
+insert into acl_sid(principal,sid) values ($db.BOOLEAN_FALSE,'ROLE_USER');
+
+-- -----------------------------------------------------
+--
+CREATE TABLE acl_class (
+    id                     $db.AUTO_BIG_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
+    class                  varchar(100) NOT NULL
+);
+ALTER TABLE acl_class ADD CONSTRAINT acl_class_uq UNIQUE ( class );
+
+#addAutoIncrement("acl_class")
+
+insert into acl_class(class) values ('org.gaixie.micrite.beans.Role');
+
+-- ------------------------------------------------------
+--
+CREATE TABLE acl_object_identity (
+    id                     $db.AUTO_BIG_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
+    object_id_class        $db.BIGINT_SQL_TYPE NOT NULL,
+    object_id_identity     $db.BIGINT_SQL_TYPE NOT NULL,
+    parent_object          $db.BIGINT_SQL_TYPE,
+    owner_sid              $db.BIGINT_SQL_TYPE, 
+    entries_inheriting     $db.BOOLEAN_SQL_TYPE_TRUE NOT NULL      
+);
+ALTER TABLE acl_object_identity ADD CONSTRAINT acl_object_identity_uq UNIQUE ( object_id_class,object_id_identity );
+
+ALTER TABLE acl_object_identity ADD CONSTRAINT aoi_parent_object_fk FOREIGN KEY (parent_object)
+    REFERENCES acl_object_identity (id);
+
+ALTER TABLE acl_object_identity ADD CONSTRAINT aoi_object_id_class_fk FOREIGN KEY (object_id_class)
+    REFERENCES acl_class (id);
+
+ALTER TABLE acl_object_identity ADD CONSTRAINT aoi_owner_sid_class_fk FOREIGN KEY (owner_sid)
+    REFERENCES acl_sid (id);
+
+insert into acl_object_identity(object_id_class,object_id_identity,owner_sid,entries_inheriting) 
+values (1,1,1,$db.BOOLEAN_TRUE);
+insert into acl_object_identity(object_id_class,object_id_identity,owner_sid,entries_inheriting) 
+values (1,2,1,$db.BOOLEAN_TRUE);
+insert into acl_object_identity(object_id_class,object_id_identity,owner_sid,entries_inheriting) 
+values (1,3,1,$db.BOOLEAN_TRUE);
+insert into acl_object_identity(object_id_class,object_id_identity,owner_sid,entries_inheriting) 
+values (1,4,1,$db.BOOLEAN_TRUE);
+            
+-- ------------------------------------------------------
+--
+CREATE TABLE acl_entry (
+    id                     $db.AUTO_BIG_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
+    acl_object_identity    $db.BIGINT_SQL_TYPE NOT NULL,
+    ace_order              integer NOT NULL,
+    sid                    $db.BIGINT_SQL_TYPE NOT NULL,
+    mask                   integer NOT NULL, 
+    granting               $db.BOOLEAN_SQL_TYPE_TRUE NOT NULL,
+    audit_success          $db.BOOLEAN_SQL_TYPE_TRUE NOT NULL,
+    audit_failure          $db.BOOLEAN_SQL_TYPE_TRUE NOT NULL              
+);
+ALTER TABLE acl_entry ADD CONSTRAINT acl_entry_uq UNIQUE ( acl_object_identity,ace_order );
+
+ALTER TABLE acl_entry ADD CONSTRAINT ae_acl_object_identity_fk FOREIGN KEY (acl_object_identity)
+    REFERENCES acl_object_identity (id);
+
+ALTER TABLE acl_entry ADD CONSTRAINT aoi_sid_fk FOREIGN KEY (sid)
+    REFERENCES acl_sid (id);
+
+insert into acl_entry(acl_object_identity,ace_order,sid,mask,granting,audit_success,audit_failure) 
+values (1,1,1,16,$db.BOOLEAN_TRUE,$db.BOOLEAN_FALSE,$db.BOOLEAN_FALSE);
+insert into acl_entry(acl_object_identity,ace_order,sid,mask,granting,audit_success,audit_failure) 
+values (2,1,1,16,$db.BOOLEAN_TRUE,$db.BOOLEAN_FALSE,$db.BOOLEAN_FALSE);  
+insert into acl_entry(acl_object_identity,ace_order,sid,mask,granting,audit_success,audit_failure) 
+values (3,1,1,16,$db.BOOLEAN_TRUE,$db.BOOLEAN_FALSE,$db.BOOLEAN_FALSE); 
+insert into acl_entry(acl_object_identity,ace_order,sid,mask,granting,audit_success,audit_failure) 
+values (3,2,2,16,$db.BOOLEAN_TRUE,$db.BOOLEAN_FALSE,$db.BOOLEAN_FALSE); 
+insert into acl_entry(acl_object_identity,ace_order,sid,mask,granting,audit_success,audit_failure) 
+values (4,1,1,16,$db.BOOLEAN_TRUE,$db.BOOLEAN_FALSE,$db.BOOLEAN_FALSE);  
 
 -- ------------------------------------------------------
 -- name: 客户的来源，如 陌生拜访，亲友

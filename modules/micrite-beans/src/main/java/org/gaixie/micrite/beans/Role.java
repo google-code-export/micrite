@@ -24,6 +24,7 @@
 
 package org.gaixie.micrite.beans;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -45,7 +46,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "roles")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Role {
+public class Role extends AbstractSecureObject implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

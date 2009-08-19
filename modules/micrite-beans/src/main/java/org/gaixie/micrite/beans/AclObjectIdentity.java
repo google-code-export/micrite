@@ -24,9 +24,9 @@
 
 package org.gaixie.micrite.beans;
 
-import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,65 +39,81 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * Micrite应用的一个客户。
+ * ACL实现用的实体类。
  */
 @Entity
-@Table(name = "customers")
+@Table(name = "acl_object_identity")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Customer extends AbstractSecureObject implements Serializable {
+public class AclObjectIdentity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private long id;
     
-    private String name;
-    
-    private String telephone;
-    
-    private Date creation_ts;
-    
-    @ManyToOne(targetEntity = CustomerSource.class)
-    @JoinColumn(name = "customer_source_id")
-    private CustomerSource customerSource;
+    @ManyToOne(targetEntity = AclClass.class)
+    @JoinColumn(name = "object_id_class", nullable = false)
+    private AclClass aclClass;
 
+    @Column(name = "object_id_identity", nullable = false)
+    private long objectId;
+
+    @ManyToOne(targetEntity = AclObjectIdentity.class)
+    @JoinColumn(name = "parent_object")
+    private AclObjectIdentity parentAclObject;
+    
+    @ManyToOne(targetEntity = AclSid.class)
+    @JoinColumn(name = "owner_sid")
+    private AclSid aclSid;
+    
+    @Column(name = "entries_inheriting", nullable = false)
+    private boolean inheriting;
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//     
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public AclClass getAclClass() {
+        return aclClass;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAclClass(AclClass aclClass) {
+        this.aclClass = aclClass;
+    }
+    
+    public long getObjectId() {
+        return objectId;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public void setObjectId(long objectId) {
+        this.objectId = objectId;
+    }  
+    
+    public AclObjectIdentity getParentAclObject() {
+        return parentAclObject;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setParentAclObject(AclObjectIdentity parentAclObject) {
+        this.parentAclObject = parentAclObject;
+    }      
+    
+    public AclSid getAclSid() {
+        return aclSid;
     }
 
-    public CustomerSource getCustomerSource() {
-        return customerSource;
+    public void setAclSid(AclSid aclSid) {
+        this.aclSid = aclSid;
+    }    
+    
+    public boolean isInheriting() {
+        return inheriting;
     }
-
-    public void setCustomerSource(CustomerSource customerSource) {
-        this.customerSource = customerSource;
-    }
-    public Date getCreation_ts() {
-        return creation_ts;
-    }
-
-    public void setCreation_ts(Date creation_ts) {
-        this.creation_ts = creation_ts;
-    }
-
+    
+    public void setInheriting(boolean inheriting) {
+        this.inheriting = inheriting;
+    }    
 }

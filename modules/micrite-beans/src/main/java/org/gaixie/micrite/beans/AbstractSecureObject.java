@@ -21,51 +21,22 @@
  * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
- 
+
+
 package org.gaixie.micrite.beans;
 
-import java.io.Serializable;
-import java.util.Set;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 /**
- * Micrite的一个客户来源。
+ * 用于将实体bean进行ACL安全控制的抽象类。
  */
-@Entity
-@Table(name = "customer_source")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class CustomerSource extends AbstractSecureObject implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public abstract class AbstractSecureObject {
+
     private Integer id;
 
-    private String name;
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//     
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

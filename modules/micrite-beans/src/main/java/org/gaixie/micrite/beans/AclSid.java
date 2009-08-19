@@ -21,83 +21,58 @@
  * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
+ 
 package org.gaixie.micrite.beans;
 
-import java.io.Serializable;
-import java.util.Date;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * Micrite应用的一个客户。
+ * ACL实现用的实体类。
  */
 @Entity
-@Table(name = "customers")
+@Table(name = "acl_sid")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Customer extends AbstractSecureObject implements Serializable {
-
+public class AclSid {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private long id;
+
+    @Column(name = "principal", nullable = false)
+    private boolean principal;
     
-    private String name;
-    
-    private String telephone;
-    
-    private Date creation_ts;
-    
-    @ManyToOne(targetEntity = CustomerSource.class)
-    @JoinColumn(name = "customer_source_id")
-    private CustomerSource customerSource;
+    @Column(name = "sid", nullable = false)
+    private String sid;
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//     
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public boolean isPrincipal() {
+        return principal;
+    }
+    
+    public void setPrincipal(boolean principal) {
+        this.principal = principal;
+    }
+    
+    public String getSid() {
+        return sid;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSid(String sid) {
+        this.sid = sid;
     }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public CustomerSource getCustomerSource() {
-        return customerSource;
-    }
-
-    public void setCustomerSource(CustomerSource customerSource) {
-        this.customerSource = customerSource;
-    }
-    public Date getCreation_ts() {
-        return creation_ts;
-    }
-
-    public void setCreation_ts(Date creation_ts) {
-        this.creation_ts = creation_ts;
-    }
-
 }
