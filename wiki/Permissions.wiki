@@ -1,7 +1,5 @@
 #summary 如何配置和使用micrite的权限.
-#labels Phase-Deploy
-<wiki:toc max_depth="2" />
-=Introduction=
+= Introduction =
 本文当主要描述如何在micrite中进行权限配置。
 
 micrite希望借助SS(spring security)强大的安全控制，尽可能的解决大型项目中复杂多变的权限需求。micrite授权方式主要包括：
@@ -11,8 +9,8 @@ micrite希望借助SS(spring security)强大的安全控制，尽可能的解决
  * ACL : 对特定的数据进行保护。
 
 上面的4中授权方式的侧重点和用途各不相同，Menu和URL可以通过界面被用户很容易的使用，Method和ACL则需要了解micrite的代码和数据结构才能掌握。
-
-=权限的要素=
+= Details =
+== Elements ==
 micrite的权限逻辑通过建立用户(user)、角色(role)和授权资源(Authority)之间的关系来体现。
 
 所有的授权都针对角色(只有ACL可以对用户，后面会详细介绍)，这意味着，如果一个用户帮定(bind)到一个角色，哪他就拥有了角色上的所有授权资源(Authority)，同样，如果一个
@@ -28,21 +26,43 @@ User,Role,Authority三者之间的关系都为多对多的关系，并且可以�
                               \ (bind)
                       (unbind) \
                                 ----> Authority
-}}}                              
-
+}}}
 micrite提供灵活的前台页面供用户进行bind/unbind操作：
-
 || 帮定\解除帮定 || *到多个User* || *到多个Role* || *到多个Authority* ||
 || *将一个User* ||N/A||1. 菜单进入User List<br>2. 选定User<br>3. 点击Bind Role按钮<br>4. 在弹出的窗口中选择要操作的Role<br>5. 点击Bind或Unbind按钮||N/A||
 || *将一个Role* ||1. 菜单进入 Role List<br>2. 选定Role<br>3. 点击Bind User按钮<br>4. 在弹出的窗口中选择要操作的User<br>5. 点击Bind或Unbind按钮||N/A||1. 菜单进入 Role List<br>2. 选定Role<br>3. 点击Bind Authority按钮<br>3. 在弹出的窗口中选择要操作的Authority<br>3. 点击Bind或Unbind按钮||
 || *将一个Authority* ||N/A||1. 菜单进入 Authority List<br>2. 选定Authority<br>3. 点击Bind Role按钮<br>4. 在弹出的窗口中选择要操作的Role<br>5. 点击Bind或Unbind按钮||N/A||     
-                          
-=Menu导航=
-micrite的系统菜单控制着用户可以访问的入口模块。
 
-=URL保护=
-=Method保护=
-=ACL=
-=参考文档=
-[http://server.denksoft.com/wordpress/?page_id=5 A Spring Security ACL tutorial for PostgreSQL]<br>
-[http://www.family168.com/tutorial/springsecurity/html/domain-acls.html Spring Security的领域对象安全(ACLs)]
+
+
+                          
+== Menu ==
+micrite的系统菜单控制着用户可以访问的入口模块。它本质上也是一个URL，数据存储在 authorities 表，类型(type)为URL。如果你通过后台查询所有的menu数据：
+{{{
+select * from authorities where type='URL' and name like '/%'
+}}}
+会看到如下结果：
+|| *ID* || *NAME* || *TYPE* || *VALUE* ||
+|| 2 || /Security Modules/User List || URL || /security/userList.js* ||
+|| 3 || /Security Modules/Authority List || URL || /security/authorityList.js* ||
+|| 4 || /Security Modules/Role List      || URL || /security/roleList.js* ||
+|| 5 || /CRM Modules/Customer List       || URL || /crm/customerList.js* ||
+
+*NAME：* micrite约定如果name字段以 '/' 开头，即是一个受保护的URL，有时一个菜单数据。最后一个 '/' 只有的字符串为菜单上最终显式的名称(叶子节点)，两个 '/' 之间的字符串都是菜单的中间节点。<br>
+*TYPE：* 所有的菜单都是一个受保护的URL。<br>
+*VALUE：* 模块文件的路径，末尾的 '＊' 用来解决一些带参数的URL加载，如：'/security/userSelect.jsp?roleId=1' 。<br>
+
+所以，如果要为菜单上新增一个模块，需要下面几个步骤：
+ # 进入 Authority List模块
+ # Toolbar上的Action Menu菜单，点击 Add Authority
+ # 填写name(注意要以'/'开头), value, 选择Type为URL
+ # 保存
+ # 为新增的菜单bind到相应的Role，否则无法生效(见Elements小节)。
+ # 重新登录，就可以看到新的菜单
+ 
+== URL ==
+== Method ==
+== ACL ==
+= Reference =
+ *[http://server.denksoft.com/wordpress/?page_id=5 A Spring Security ACL tutorial for PostgreSQL]<br>
+ *[http://www.family168.com/tutorial/springsecurity/html/domain-acls.html Spring Security的领域对象安全(ACLs)]
