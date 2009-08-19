@@ -2,9 +2,12 @@ package org.gaixie.micrite.jfreechart.style;
 
 import java.awt.Color;
 import java.awt.Paint;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardXYItemLabelGenerator;
+import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
@@ -20,7 +23,7 @@ public class LineStyle {
     public static void styleDefault(JFreeChart chart){
         LineStyle.setBackground(chart);
     }
-    public static void styleONe(JFreeChart chart){
+    public static void styleOne(JFreeChart chart){
         XYPlot xyplot = (XYPlot)chart.getPlot();
         XYDataset xyd = xyplot.getDataset();
         //画板底色
@@ -33,6 +36,8 @@ public class LineStyle {
             xylineandshaperenderer.setBaseItemLabelGenerator(new StandardXYItemLabelGenerator());
             xylineandshaperenderer.setBaseItemLabelsVisible(true);
             xyplot.setRenderer(xylineandshaperenderer);
+            //tooltip
+//            xyplot.getRenderer().setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"),new DecimalFormat()));
             //循环取色彩
             for(int i = 0 ;i<xyd.getSeriesCount();i++){
                 int colorIdx = i % colors.length;
