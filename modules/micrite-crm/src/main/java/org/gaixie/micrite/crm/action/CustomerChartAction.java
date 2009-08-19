@@ -98,7 +98,7 @@ public class CustomerChartAction extends GenericAction {
                 true,
                 true,
                 false);
-        LineStyle.styleONe(chart);
+        LineStyle.styleOne(chart);
         this.putChartResultList(chart);
         return SUCCESS ;
     }
