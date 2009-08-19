@@ -24,7 +24,6 @@
 package org.gaixie.micrite.jfreechart.style;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Paint;
 import java.text.DecimalFormat;
 
@@ -67,8 +66,8 @@ public class BarStyle {
             // 显示每个柱的数值，并修改该数值的字体属性
             categoryitemrenderer.setBaseItemLabelGenerator(
                     new StandardCategoryItemLabelGenerator());
-            categoryitemrenderer.setBaseItemLabelFont(
-                    new Font("黑体", Font.PLAIN, 15));
+//            categoryitemrenderer.setBaseItemLabelFont(
+//                    new Font("黑体", Font.PLAIN, 15));
             categoryitemrenderer.setBaseItemLabelsVisible(true);
             //tooltip
             categoryplot.getRenderer().setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("{0}={2}",new DecimalFormat()));
