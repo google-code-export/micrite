@@ -100,6 +100,20 @@ select * from AUTHORITIES where TYPE='METHOD'
 添加一个Method和URL的添加方法没有区别，唯一不同的是需要了解aspectj表达式语法，否则可能导致Web Server无法启动的严重错误。
 <br><br>
 = ACL =
+ACL的实现，也需要Spring AOP进行服务层方法的拦截，拦截后处理流程如下：
+{{{
+# 验证方法是否被保护---->
+#       \             \ 否
+#        \             \
+#         \ 是            ----> 放行该方法
+#          \
+#           ---->，判断是否ACL---->
+#                      \          \否
+#                       \          \
+#                        \是          ----> 执行其它验证流程(如Method保护验证)
+#                         \
+#                          ----> 判断ACL的控制类型
+}}}
 为micrite配置ACL目前还没有界面，需要通过数据库客户端工具插入相应的数据。
 <br><br>
 = Reference =
