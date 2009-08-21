@@ -1,24 +1,19 @@
-#summary 如何配置和使用micrite的权限.
+#summary 如何配置和使用micrite的权限。
+#labels Phase-Deploy
+<wiki:toc max_depth="2" />
 = Introduction =
-本文当主要描述如何在micrite中设置权限，对于涉及到SS(Spring Security)的相关功能，可以参考：
- * [http://static.springsource.org/spring-security/site/docs/2.0.x/reference/springsecurity.html Spring Security Reference Documentation] | [http://www.family168.com/tutorial/springsecurity/html/springsecurity.html 中文参考文档]
+本文档作为 micrite 用户手册的一部分，主要描述如何设置权限，有关开发，实现方面的内容，请参考文档中给出的外部连接。：
 
-micrite希望借助SS(spring security)强大的安全控制，尽可能的解决大型项目中复杂多变的权限需求。micrite授权方式主要包括：
- * Menu: 控制入口模块。
- * URL : 对指定的URL资源进行保护。
- * Method : 对指定的方法进行保护。
- * ACL : 对特定的数据进行保护。
-
-上面的4中授权方式的侧重点和用途各不相同，Menu和URL可以通过界面被用户很容易的使用，Method和ACL则需要了解micrite的代码和数据结构才能掌握。
+micrite 希望借助 SS(spring security) 强大的安全控制，尽可能的解决大型项目中复杂多变的权限需求。 
 
 <br><br>
 = Elements =
-micrite的权限逻辑通过建立用户(user)、角色(role)和授权资源(Authority)之间的关系来体现。
+micrite 的权限逻辑由*用户 ( User )*、*角色 ( Role )*和*授权资源 ( Authority )* 之间的关系来体现。
 
-所有的授权都针对角色(只有ACL可以对用户，后面会详细介绍)，这意味着，如果一个用户帮定(bind)到一个角色，哪他就拥有了角色上的所有授权资源(Authority)，<br>
-同样，如果一个用户与角色解除帮定(unbind)，哪他就失去了此角色所拥有的所有权限。
+所有的授权都针对角色 (只有 ACL 可以对用户) ，这意味着，如果一个用户 *绑定 ( bind )* 到一个角色，哪他就拥有了角色上的所有授权资源 ( Authority )，<br>
+同样，如果一个用户与角色 *绑除帮定 ( unbind )* ，哪他就失去了此角色所拥有的所有权限。
 
-User,Role,Authority三者之间的关系都为多对多的关系，并且可以互操作，如下图：
+User,Role,Authority三者之间的关系为多对多的关系，并且可以互操作，如下图：
 
 {{{
 # User <----
@@ -29,50 +24,89 @@ User,Role,Authority三者之间的关系都为多对多的关系，并且可以�
 #                     (unbind) \
 #                               ----> Authority
 }}}
-micrite提供灵活的前台页面供用户进行bind/unbind操作：
-|| 帮定\解除帮定 || *到多个User* || *到多个Role* || *到多个Authority* ||
-|| *将一个User* ||N/A||1. 菜单进入User List<br>2. 选定User<br>3. 点击Bind Role按钮<br>4. 在弹出的窗口中选择要操作的Role<br>5. 点击Bind或Unbind按钮||N/A||
-|| *将一个Role* ||1. 菜单进入 Role List<br>2. 选定Role<br>3. 点击Bind User按钮<br>4. 在弹出的窗口中选择要操作的User<br>5. 点击Bind或Unbind按钮||N/A||1. 菜单进入 Role List<br>2. 选定Role<br>3. 点击Bind Authority按钮<br>3. 在弹出的窗口中选择要操作的Authority<br>3. 点击Bind或Unbind按钮||
-|| *将一个Authority* ||N/A||1. 菜单进入 Authority List<br>2. 选定Authority<br>3. 点击Bind Role按钮<br>4. 在弹出的窗口中选择要操作的Role<br>5. 点击Bind或Unbind按钮||N/A||     
+micrite 提供灵活的前台页面供用户进行 bind/unbind 操作：
+|| bind\unbind || *to many Users* || *to many Roles* || *to many Authorities* ||
+|| *from one User* ||N/A||1. 菜单进入 User List<br>2. 选定 User<br>3. 点击 Bind Role 按钮<br>4. 在弹出的窗口中选择要操作的 Role<br>5. 点击 Bind 或 Unbind 按钮||N/A||
+|| *from one Role* ||1. 菜单进入 Role List<br>2. 选定 Role<br>3. 点击 Bind User 按钮<br>4. 在弹出的窗口中选择要操作的 User<br>5. 点击 Bind 或 Unbind 按钮||N/A||1. 菜单进入 Role List<br>2. 选定 Role<br>3. 点击 Bind Authority 按钮<br>3. 在弹出的窗口中选择要操作的 Authority <br>3. 点击 Bind 或 Unbind 按钮||
+|| *from one Authority* ||N/A||1. 菜单进入 Authority List<br>2. 选定 Authority<br>3. 点击 Bind Role 按钮<br>4. 在弹出的窗口中选择要操作的 Role<br>5. 点击 Bind 或 Unbind 按钮||N/A||     
 
 
 <br><br>
-= Menu =
-micrite的系统菜单控制着用户可以访问的入口模块。它本质上也是一个URL，数据存储在 authorities 表，类型(type)为URL。如果你通过后台查询所有的menu数据：
+= Type =
+micrite 提供４中权限控制途径：
+ * Menu : 控制入口模块。
+ * URL Interceptor : 对指定的URL资源进行保护。
+ * Method Interceptor : 对指定的方法进行保护。
+ * Access Control List : 对特定的数据进行保护。
+
+上面的4中授权方式的侧重点和用途各不相同，Menu 和 URL 可以通过界面被用户很容易的使用， Method 和 ACL 则需要了解 micrite 的代码和数据结构才能掌握。
+
+<br>
+== Menu ==
+micrite 的系统菜单控制着用户可以访问的入口模块。它本质上也是一个 URL，数据存储在 authorities 表，类型 ( TYPE ) 为 URL。<br>
+如果从数据库客户端执行下面 SQL 语句：
 {{{
 select * from authorities where type='URL' and name like '/%'
 }}}
-会看到如下结果：
+会得到如下系统默认保护的 URL：
 || *ID* || *NAME* || *TYPE* || *VALUE* ||
 || 2 || /Security Modules/User List || URL || /security/userList.js`*` ||
 || 3 || /Security Modules/Authority List || URL || /security/authorityList.js`*` ||
 || 4 || /Security Modules/Role List      || URL || /security/roleList.js`*` ||
 || 5 || /CRM Modules/Customer List       || URL || /crm/customerList.js`*` ||
 
- * NAME：micrite约定如果name字段以 '/' 开头，即是一个受保护的URL，又是一个菜单数据。最后一个 '/' 之后的字符串为菜单上最终显式的名称(叶子节点)，<br>两个 '/' 之间的字符串都是菜单的中间节点。<br>
- * TYPE：所有的菜单都是一个受保护的URL。<br>
- * VALUE：模块文件的路径，末尾的 `*` 用来解决一些带参数的URL加载，如：'/security/userSelect.jsp?roleId=1' 。<br>
+ * NAME：micrite 约定如果 name 字段以 *' / '* 开头，即是一个受保护的 URL ，又是一个菜单数据。最后一个 *' / '* 之后的字符串为菜单上最终显式的名称(叶子节点)， 两个 *' / '* 之间的字符串都是菜单的中间节点。
+ * TYPE：所有的菜单都是一个受保护的 URL 。
+ * VALUE：模块文件的路径，末尾的 `*` 用来解决一些带参数的URL加载，如：'/security/userSelect.jsp?roleId=1' 。
 
 所以，如果要为菜单上新增一个模块，需要下面几个步骤：
- # 进入 Authority List模块
- # Toolbar上的Action Menu菜单，点击 Add Authority
- # 填写name(注意要以'/'开头), value, 选择Type为URL
+ # 进入 Authority List 模块
+ # Toolbar 上的 Action Menu 菜单，点击 Add Authority
+ # 填写 name (注意要以*' / '*开头) , value, 选择 Type 为 URL 
  # 保存
- # 为新增的菜单bind到相应的Role，否则无法生效(见Elements小节)。
+ # 为新增的菜单 bind 到相应的 Role ，否则无法生效(见 Elements 小节)。
  # 重新登录，就可以看到新的菜单
 
-<br><br>
-= URL =
-普通URL保护的目的是为了防止他人以非法的方式获取、甚至修改数据。
+<br>
+== URL Interceptor ==
+普通 URL 保护的目的是为了防止他人以非法的方式获取、甚至修改数据。<br>
+例如 Authority 的第一条资源 (ID=1 ,Name='All', VALUE=`/**`) 表示所有的URL都被保护，系统默认将它被绑定到所有角色，这样非登录用户将不能访问 micrite 的任何 URL。
+
+URL可以保护包括目录、图片、action等任何来自客户端请求的地址。
+
+增加一个URL的操作方法和为菜单新增一个模块相同，注意不要在 Name 的第一个字符用 *' / '*。
+
+<br>
+== Method Interceptor ==
+我们通过方法拦截来实现不同角色可以有不同的操作，也就是说一个方法只能有指定的角色才能调用。
+
+例如 micrite 初始设置：除了 *管理员组 ( ROLE_ADMIN )* 可以修改权限，*普通用户 ( ROLE_USER )* 只能浏览权限。 ROLE_ADMIN 可以通过系统界面随时修改当前权限。
+
+如果从数据库客户端执行下面 SQL 语句
+{{{
+select * from AUTHORITIES where TYPE='METHOD'
+}}}
+
+会得到如下系统默认保护的方法：
 || *ID* || *NAME* || *TYPE* || *VALUE* ||
-|| 1 || All || URL || `/**` ||
-|| 6 || Get User Statistics Chart       || URL || /security/addUser.action`*` ||
+|| 6 || Role List Search Method protect          || METHOD || `*` org.gaixie.micrite.security.service.IRoleService.`*`PerPage(..) ||
+|| 7 || Role Bind Method protect                 || METHOD || `*` org.gaixie.micrite.security.service.I`*`Service.`*`bind`*`(..) ||
+|| 8 || Role unBind Method protect               || METHOD || `*` org.gaixie.micrite.security.service.I`*`Service.`*`unBind`*`(..) ||
+|| 9 || add action of security module protect    || METHOD || `*` org.gaixie.micrite.security.service.I`*`Service.add`*`(..) ||
+||10 || update action of security module protect || METHOD || `*` org.gaixie.micrite.security.service.I`*`Service.update`*`(..) ||
+||11 || delete action of security module protect || METHOD || `*` org.gaixie.micrite.security.service.I`*`Service.delete`*`(..) ||
+||12 || update me method protect                 || METHOD || `*` org.gaixie.micrite.security.service.IUserService.updateMe(..) ||
 
-系统默认保护所有的Url资源(ID=1)，如要限制特定角色才能增加用户，可以增加一个资源(ID=6)，并帮定到该角色，操作的方法和为菜单新增一个模块相同，<br>注意不要在Name的第一个字符用 '/'。
+基于方法的授权资源 Type 为 METHOD， value 需要满足 aspectj 表达式，简单说明它们的作用：<br>
+ ID=6 : 保护 IRoleService 接口类所有以 PerPage 结尾的方法，并忽略方法的参数。(被默认绑定到所有角色)。<br>
+ ID=7,8,9,10,11 : 保护所有 Security 包下数据更新的方法，并忽略方法的参数。(被默认绑定到 ROLE_ADMIN )。<br>
+ ID=12 : 保护 IRoleService 接口类的 updateMe 方法，并忽略方法的参数。(被默认绑定到所有角色)。<br>
 
-<br><br>
-= Method =
-micrite使用Spring AOP拦截所有服务层方法(所有service包下以Service结尾的类的任何方法)，同时按下面流程进行处理：
+通过将上边保护的方法绑定到相应的角色，micrite 实现了前面提到的安全策略，ROLE_USER 下的用户除了可以修改自己的用户信息，不能作任何数据更新的操作。
+
+有关aspectj表达式语法，可参见：[http://static.springsource.org/spring/docs/2.0.x/reference/aop.html Spring AOP的Reference]。
+
+micrite 使用 Spring AOP 拦截所有服务层方法 (所有 service包下以 Service结尾的类的任何方法)，同时按下面流程进行处理：
 {{{
 # 验证方法是否被保护---->
 #       \             \ 否
@@ -87,35 +121,45 @@ micrite使用Spring AOP拦截所有服务层方法(所有service包下以Service
 #                          ----> 禁止执行该方法，给出无权限访问的提示信息
 }}}
 
-按照下面语句从数据库查询系统默认的方法拦截资源
-{{{
-select * from AUTHORITIES where TYPE='METHOD'
-}}}
+添加一个 Method 和 URL 的添加方法没有区别，注意 aspectj 表达式语法，不合法的表达式可能导致 Web Server*无法启动*的严重错误。
 
-得到结果如下：
-|| *ID* || *NAME* || *TYPE* || *VALUE* ||
-||13|| Role List Search Method Filter|| METHOD|| `* org.gaixie.micrite.security.service.IRoleService.*PerPage(..)`||
-通过上面的记录(ID=13)，可以发现，基于方法的授权资源Type为METHOD，value需要满足aspectj 表达式，可参照[http://static.springsource.org/spring/docs/2.0.x/reference/aop.html Spring AOP的Reference]。
+<br>
+== Access Control List ==
+作为一个示例，micrite 只对 Role 对象应用了 ACL ( Access Control List )，如果想保护更多的对象实例，需要对代码进行少量的修改，详见：。
 
-添加一个Method和URL的添加方法没有区别，唯一不同的是需要了解aspectj表达式语法，否则可能导致Web Server无法启动的严重错误。
-<br><br>
-= ACL =
-ACL的实现，也需要Spring AOP进行服务层方法的拦截，拦截后处理流程如下：
+要了解 ACL 的功能，最简单的方法就是分别用系统初始的两个用户登录，查询 Role List，会发现：admin 用户可以看到所有的 Role，<br>
+而 user 只能看到自己所在的 Role (即ROLE_USER)。
+
+当你新增一个 Role，例如：ROLE_SALES，那么除了 ROLE_SALES 角色下的用户，其它人都无法读取此角色（ROLE_ADMIN出外）。<br>
+这样，micrite 就实现了每个用户可以浏览自己拥有的权限，管理员可以维护所有角色的权限。
+
+目前 micrite 中 ACL 服务的处理流程如下：
 {{{
 # 验证方法是否被保护---->
 #       \             \ 否
 #        \             \
 #         \ 是            ----> 放行该方法
 #          \
-#           ---->，判断是否ACL---->
-#                      \          \否
-#                       \          \
-#                        \是          ----> 执行其它验证流程(如Method保护验证)
+#           ---->，判断User是否有权限---->
+#                      \               \否
+#                       \               \
+#                        \是               ----> 禁止执行该方法，给出无权限访问的提示信息
 #                         \
-#                          ----> 判断ACL的控制类型
+#                          ----> 执行方法并获的对象实例集合---->是否调用ACL服务---->
+#                                                                 \           \否
+#                                                                  \           \
+#                                                                   \是           ---->返回全部结果集
+#                                                                    \
+#                                                                     ---->根据ACL配置，返回有访问权限的结果集
 }}}
-为micrite配置ACL目前还没有界面，需要通过数据库客户端工具插入相应的数据。
+
+通过将 *afterInvocationManager* 加入到方法拦截后的处理链(见 applicationContext-security.xml 文件)，实现了方法调用后的ACL对象结果集过滤。<br>
+注意 afterAclCollectionRead 需要一个名为 *AFTER_ACL_COLLECTION_READ* 的角色来配合它进行结果集过滤，角色 AFTER_ACL_COLLECTION_READ 需要<br>
+绑定一个被保护的方法（ID=6 见Method小节），如果返回的是Role对象实例结果集，ACL服务会进行过滤处理。所以不要修改或者删除此角色。<br>
+
+ACL 在项目中的应用，需要明确的权限划分，否则很有可能日后出现权限混乱、难以维护、效率下降的问题，关于这方面的讨论，参见：。
+
 <br><br>
 = Reference =
- * [http://server.denksoft.com/wordpress/?page_id=5 A Spring Security ACL tutorial for PostgreSQL]<br>
- * [http://www.family168.com/tutorial/springsecurity/html/domain-acls.html Spring Security的领域对象安全(ACLs)]
+ * [http://static.springsource.org/spring-security/site/docs/2.0.x/reference/springsecurity.html Spring Security Reference Documentation] | [http://www.family168.com/tutorial/springsecurity/html/springsecurity.html Spring Security中文参考文档]
+ * [http://server.denksoft.com/wordpress/?page_id=5 A Spring Security ACL tutorial for PostgreSQL 一个基于 PostgreSQL 实现的 ACL 示例]<br>
