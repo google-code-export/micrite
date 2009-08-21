@@ -1,5 +1,5 @@
 #summary 如何编译生成Micrite
-#labels Phase-Implementation,Phase-Deploy,Featured
+#labels Featured,Phase-Implementation
 <wiki:toc max_depth="2" />
 = Introduction =
 此文档介绍如何从源代码编译生成Micrite.
