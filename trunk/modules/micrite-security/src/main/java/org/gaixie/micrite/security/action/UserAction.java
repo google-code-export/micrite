@@ -99,10 +99,10 @@ public class UserAction extends ActionSupport {
      * 
      * @return "success"
      */
-    public String updateInfo() {
+    public String updateMe() {
     	user.setSettings(settings);
         try {
-            userService.updateInfo(user);
+            userService.updateMe(user);
             resultMap.put("message", getText("save.success"));
             resultMap.put("success", true);
         } catch (SecurityException e) {
@@ -113,6 +113,24 @@ public class UserAction extends ActionSupport {
         return SUCCESS;
     }
 
+    /**
+     * 通过用户列表修改用户信息。
+     * 
+     * @return "success"
+     */
+    public String update() {
+        try {
+            userService.update(user);
+            resultMap.put("message", getText("save.success"));
+            resultMap.put("success", true);
+        } catch (SecurityException e) {
+            resultMap.put("message", getText(e.getMessage()));
+            resultMap.put("success", false);
+            logger.error(getText(e.getMessage()));
+        }
+        return SUCCESS;
+    }
+    
     /**
      * 加载当前用户
      * 
@@ -178,8 +196,8 @@ public class UserAction extends ActionSupport {
      * 
      * @return "success"
      */
-    public String enableUsers() {
-        userService.enableUsers(userIds);
+    public String updateStatus() {
+        userService.updateStatus(userIds);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);
         return SUCCESS;

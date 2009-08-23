@@ -112,7 +112,6 @@ public class AclServiceImpl implements AclService {
     @SuppressWarnings("unchecked")
     public Map readAclsById(ObjectIdentity[] objects, Sid[] sids)
             throws NotFoundException {
-
         final Map acls = new HashMap(); 
         for (ObjectIdentity object :objects){
             // 根据访问的Object取的相应的acl
@@ -126,11 +125,12 @@ public class AclServiceImpl implements AclService {
             // 如果访问的对象没有初始化acl，需要创建一个零时的acl，但aces为空，
             // spring security似乎没有对acl为空做判断
             if(aclObjectIdentity==null){
-                AclImpl acl = new AclImpl(object, 0, 
-                        aclAuthorizationStrategy, auditLogger, 
-                        null, null, false, new PrincipalSid("admin"));
-                acls.put(object, acl); 
-                continue;
+                throw new NotFoundException("Could not found specified aclObjectIdentity.");
+//                AclImpl acl = new AclImpl(object, 0, 
+//                        aclAuthorizationStrategy, auditLogger, 
+//                        null, null, false, new GrantedAuthoritySid("ROLE_ADMIN"));
+//                acls.put(object, acl); 
+//                continue;
             }
             AclSid aclOwnerSid = aclObjectIdentity.getAclSid();
             Sid owner;

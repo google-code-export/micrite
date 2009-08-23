@@ -36,7 +36,13 @@ import org.gaixie.micrite.security.filter.FilterSecurityInterceptor;
 import org.gaixie.micrite.security.filter.MethodSecurityInterceptor;
 import org.gaixie.micrite.security.SecurityException;
 import org.gaixie.micrite.security.service.IRoleService;
+import org.gaixie.micrite.security.service.ISecurityAclService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.acls.MutableAclService;
+import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.security.acls.objectidentity.ObjectIdentity;
+import org.springframework.security.acls.objectidentity.ObjectIdentityImpl;
+import org.springframework.security.acls.sid.GrantedAuthoritySid;
 import org.springframework.security.providers.dao.UserCache;
 
 /**
@@ -54,6 +60,9 @@ public class RoleServiceImpl implements IRoleService {
     @Autowired
     private UserCache userCache;
     
+    @Autowired
+    private ISecurityAclService securityAclService;
+    
     public List<Role> findByNameVaguePerPage(String name, int start, int limit) {
         return roleDAO.findByNameVaguePerPage(name, start, limit);
     }
@@ -62,7 +71,7 @@ public class RoleServiceImpl implements IRoleService {
         return roleDAO.findByNameVagueCount(name);
     }    
     
-    public void delete(int[] roleIds) throws SecurityException {
+    public void deleteRoles(int[] roleIds) throws SecurityException {
         for (int i = 0; i < roleIds.length; i++) {
             int roleId = roleIds[i];
             if(userDAO.findByRoleIdCount(roleId)>0) {
@@ -72,8 +81,15 @@ public class RoleServiceImpl implements IRoleService {
                 throw new SecurityException("error.role.delete.authNotEmptyInRole");
             }  
             Role role = roleDAO.get(roleId);
-            roleDAO.delete(role);
+            delete(role);
         }
+    }
+    
+    public void delete(Role role) {
+        roleDAO.delete(role);
+        // Delete the ACL information as well
+        ObjectIdentity oid = new ObjectIdentityImpl(Role.class, (long)role.getId());
+        securityAclService.deleteAcl(oid, false);
     }
     
     public void add(Role role) throws SecurityException {
@@ -81,6 +97,11 @@ public class RoleServiceImpl implements IRoleService {
             throw new SecurityException("error.role.add.roleNameInUse");
         }        
         roleDAO.save(role);
+        // 默认和ROLE_ADMIN可以管理，
+        // 同角色只读(需要在update或者delete的时候硬编码获取 ace.getMask()，弊大于利，不实现此功能)
+//        securityAclService.addPermission(role, BasePermission.ADMINISTRATION, Role.class);
+        securityAclService.addPermission(role, new GrantedAuthoritySid(role.getName()),BasePermission.READ, Role.class);        
+        securityAclService.addPermission(role, new GrantedAuthoritySid("ROLE_ADMIN"),BasePermission.ADMINISTRATION, Role.class);
     }
     
     public boolean isExistedByRolename(String rolename) {

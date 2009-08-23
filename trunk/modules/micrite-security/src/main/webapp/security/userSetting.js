@@ -41,7 +41,8 @@ micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
 		            },{
 		                fieldLabel: this.userName,
 		                name: 'user.loginname',
-		                allowBlank:false
+		                allowBlank:false,
+		                disabled:true
 		            }, {
 		                fieldLabel: this.password,
 		                name: 'user.plainpassword',
@@ -123,7 +124,7 @@ micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
 	    		        formBind:true,
 	    		        handler:function() {
 	    			    	this.getForm().submit({
-	    			            url: 'updateUserInfo.action',
+	    			            url: 'updateMe.action',
 	    			            method: 'POST',
 	    			            waitMsg: mbLocale.waitingMsg,
 	    			            success: function(form, action) {

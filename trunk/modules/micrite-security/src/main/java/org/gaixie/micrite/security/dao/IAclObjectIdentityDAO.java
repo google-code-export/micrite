@@ -38,5 +38,13 @@ import org.springframework.security.acls.sid.Sid;
  */
 public interface IAclObjectIdentityDAO extends IGenericDAO<AclObjectIdentity, Long>{
 
+    /**
+     * 根据受保护的对象名称id和对象实例Id获得AclObjectIdentity对象。
+     * 
+     * @see org.gaixie.micrite.beans.AclObjectIdentity
+     * @param objectIdClass AclClass Id属性
+     * @param objectIdIdentity 象实例Id，例如Role对象(USER_ADMIN)的Id为1
+     * @return AclObjectIdentity对象
+     */  
     AclObjectIdentity findByObjectId(long objectIdClass, long objectIdIdentity);
 }

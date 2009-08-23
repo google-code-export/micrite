@@ -35,6 +35,22 @@ import org.gaixie.micrite.dao.IGenericDAO;
  */
 public interface IAclEntryDAO extends IGenericDAO<AclEntry, Long>{
 
-    List<AclEntry> findByIdentityId(long aclObjectIdentity);
+    /**
+     * 根据aclObjectId查询ACE集合。
+     * 
+     * @see org.gaixie.micrite.beans.AclEntry
+     * @param aclObjectIdentity acl Id
+     * @return <code>AclEntry</code>对象列表
+     */
+    public List<AclEntry> findByIdentityId(long aclObjectIdentity);
+
+    /**
+     * 根据aclObjectId批量删除ACE。
+     * 
+     * @see org.gaixie.micrite.beans.AclEntry
+     * @param aclObjectIdentity acl Id
+     * @return 删除行数 
+     */    
+    public int deleteByIdentityId(long aclObjectId);
 
 }

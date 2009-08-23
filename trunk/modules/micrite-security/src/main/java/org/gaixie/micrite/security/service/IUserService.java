@@ -53,7 +53,7 @@ public interface IUserService {
     public boolean isExistedByUsername(String username);
 
     /**
-     * 修改用户信息。
+     * 修改用户自身信息。
      * 密码不为空字串时才修改密码。
      * 
      * @param user 用户对象,可更新属性包括, 用户id,newFullname 新名称,
@@ -61,8 +61,15 @@ public interface IUserService {
      * user对象包括一个setting对象
      * @throws SecurityException 
      */
-    public void updateInfo(User user) throws SecurityException;
+    public void updateMe(User user) throws SecurityException;
 
+    /**
+     * 修改用户信息
+     * @param user 用户对象
+     * @throws SecurityException 
+     */
+    public void update(User user) throws SecurityException;
+    
     /**
      * 根据用户名查询用户的总数（模糊查询）。
      * 
@@ -108,7 +115,7 @@ public interface IUserService {
      * 
      * @param userIds 用户id数组
      */
-    public void enableUsers(int[] userIds);
+    public void updateStatus(int[] userIds);
 
     /**
      * 根据角色查询用户对象集合

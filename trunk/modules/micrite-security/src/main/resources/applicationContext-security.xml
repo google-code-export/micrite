@@ -90,6 +90,9 @@
                 
 
     <!-- ~~~~~~~~~~~~~~~~~~~~ AUTHORIZATION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->
+    <!-- An access decision voter that reads ROLE_* configuration settings -->
+    <bean id="roleVoter" class="org.springframework.security.vote.RoleVoter">
+    </bean>        
     <!--
         经过投票机制来决定是否可以访问某一资源
         allowIfAllAbstainDecisions为false时如果有一个或以上的decisionVoters投票通过,则授权通过
@@ -98,9 +101,7 @@
         <property name="allowIfAllAbstainDecisions" value="false"/>
         <property name="decisionVoters">
             <list>
-                <bean class="org.springframework.security.vote.RoleVoter">
-                    <property name="rolePrefix" value="" />
-                </bean>
+                <ref local="roleVoter"/>
             </list>
         </property>
     </bean>
@@ -116,7 +117,7 @@
     <!-- ~~~~~~~~~~~~~~~~~~~~ SECURITY METHOD INTERCEPTOR DEFINITIONS ~~~~~~~~~~~~~~~~~~~ -->      
     <bean id="methodSecurityInterceptor" class="org.gaixie.micrite.security.filter.MethodSecurityInterceptor">
         <property name="authenticationManager" ref="authenticationManager" />
-        <property name="accessDecisionManager" ref="businessAccessDecisionManager"/>
+        <property name="accessDecisionManager" ref="accessDecisionManager"/>
         <property name="afterInvocationManager" ref="afterInvocationManager"/>   
     </bean>
 
@@ -136,30 +137,6 @@
     
     
      <!-- ~~~~~~~~~~~============== ACL intercepter ==============~~~~~~~~~~~~ -->
-    <!-- An access decision manager used by the business objects -->
-    <bean id="businessAccessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
-        <property name="allowIfAllAbstainDecisions" value="false"/>
-        <property name="decisionVoters">
-            <list>
-                    <bean class="org.springframework.security.vote.RoleVoter">
-                        <property name="rolePrefix" value="" />
-                    </bean>
-                    <!-- An access decision voter that reads ACL_OBJECT_READ configuration settings -->
-                    <bean id="aclObjectReadVoter" class="org.springframework.security.vote.AclEntryVoter">
-                        <constructor-arg ref="securityMutableAclService"/>
-                        <constructor-arg value="ACL_OBJECT_READ"/>
-                        <constructor-arg>
-                            <list>
-                                <ref local="administrationPermission"/>
-                                <ref local="readPermission"/>
-                            </list>
-                        </constructor-arg>
-                        <property name="processDomainObjectClass" value="org.gaixie.micrite.beans.AbstractSecureObject"/>
-                    </bean>
-            </list>
-        </property>
-    </bean>
-  
     <!-- ACL permission masks used by this application -->
     <bean id="administrationPermission"
           class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
@@ -198,7 +175,8 @@
     <bean id="auditLogger" class="org.springframework.security.acls.domain.ConsoleAuditLogger"/>
      
     <!-- ============== "AFTER INTERCEPTION" AUTHORIZATION DEFINITIONS =========== -->
-
+    <!-- afterInvocationManager被加入到methodSecurityInterceptor处理链中
+          一旦拦截的方法通过了accessDecisionManager，立刻进行方法调用后的结果集处理 -->
     <bean id="afterInvocationManager"
           class="org.springframework.security.afterinvocation.AfterInvocationProviderManager">
         <property name="providers">
@@ -210,6 +188,8 @@
     </bean>
 
     <!-- Processes AFTER_ACL_COLLECTION_READ configuration settings -->
+    <!-- AFTER_ACL_COLLECTION_READ为系统默认初始化的角色名，不允许修改，
+          所有绑定到此角色上的方法都会对调用后返回的结果集进行ACL过滤 -->
     <bean id="afterAclCollectionRead"
           class="org.springframework.security.afterinvocation.AclEntryAfterInvocationCollectionFilteringProvider">
         <constructor-arg ref="securityMutableAclService"/>

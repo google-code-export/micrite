@@ -101,7 +101,7 @@ public class RoleAction extends ActionSupport {
      */    
     public String delete() {
         try {
-            roleService.delete(roleIds);
+            roleService.deleteRoles(roleIds);
             resultMap.put("message", getText("delete.success"));
             resultMap.put("success", true);
         } catch(SecurityException e) {
