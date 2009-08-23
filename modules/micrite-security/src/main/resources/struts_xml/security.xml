@@ -70,12 +70,18 @@
             </result>
         </action>
 
-        <action name="updateUserInfo" class="userAction" method="updateInfo">
+        <action name="updateMe" class="userAction" method="updateMe">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
             </result>
         </action>
 
+        <action name="updateUser" class="userAction" method="update">
+            <result name="success" type="json">
+                <param name="target">resultMap</param>
+            </result>
+        </action>
+        
         <action name="findUsersVague" class="userAction" method="findByFullnameVague">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
@@ -104,7 +110,7 @@
             </result>
         </action>        
 
-        <action name="enableUsers" class="userAction" method="enableUsers">
+        <action name="enableUsers" class="userAction" method="updateStatus">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
             </result>
@@ -131,7 +137,7 @@
         </action> 
                                  
         <!-- ~~~~~~~~~~~~~~~~~~~~ Authority ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->        
-        <action name="saveAuthority" class="authorityAction" method="save">
+        <action name="addAuthority" class="authorityAction" method="add">
             <result name="success" type="json">
                 <param name="target">resultMap</param>
             </result>

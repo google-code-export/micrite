@@ -32,5 +32,15 @@ import org.gaixie.micrite.dao.IGenericDAO;
  * 
  */
 public interface IAclSidDAO extends IGenericDAO<AclSid, Long>{
-    
+
+    /**
+     * 根据sid和principal获得AclSid对象。
+     * 
+     * @see org.gaixie.micrite.beans.AclSid
+     * @param sid 可能是用户名，也可能是角色名
+     * @param principal 如果为true:sid为用户名，false:sid为角色名
+     * @return AclSid对象
+     */  
+    public AclSid findBySid(String sid, boolean principal);
+
 }

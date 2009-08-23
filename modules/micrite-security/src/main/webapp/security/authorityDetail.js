@@ -54,7 +54,7 @@ FromPanel = function() {
 //	                var params = { 'roleIdBunch': this.getForm().findField('authority_role').getValue() };      
 	                // form提交
 	                this.getForm().submit({
-	                    url: 'saveAuthority.action',
+	                    url: 'addAuthority.action',
 	                    method: 'POST',
 	                    disabled:true,
 	                    waitMsg: mbLocale.waitingMsg,

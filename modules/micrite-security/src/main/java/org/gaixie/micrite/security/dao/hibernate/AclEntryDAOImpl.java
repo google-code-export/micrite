@@ -50,4 +50,11 @@ public class AclEntryDAOImpl extends GenericDAOImpl<AclEntry, Long>  implements 
         return getHibernateTemplate().findByCriteria(criteria);
     }
 
+    /* (non-Javadoc)
+     * @see org.gaixie.micrite.security.dao.IAclEntryDAO#deleteByIdentityId(long)
+     */
+    public int deleteByIdentityId(long aclObjectId) {
+        return getHibernateTemplate().bulkUpdate("delete AclEntry acl where acl.aclObject.id = ?",aclObjectId);
+        
+    }    
 }

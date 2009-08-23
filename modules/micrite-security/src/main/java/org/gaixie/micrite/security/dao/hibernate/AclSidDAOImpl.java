@@ -39,4 +39,19 @@ import org.hibernate.criterion.Projections;
  */
 public class AclSidDAOImpl extends GenericDAOImpl<AclSid, Long>  implements IAclSidDAO {
 
+    /* (non-Javadoc)
+     * @see org.gaixie.micrite.security.dao.IAclSidDAO#findBySid(java.lang.String, boolean)
+     */
+    @SuppressWarnings("unchecked")
+    public AclSid findBySid(String sid, boolean principal) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(AclSid.class);
+        criteria.add(Expression.eq("sid", sid))
+                .add(Expression.eq("principal", principal));
+
+        List<AclSid> list = getHibernateTemplate().findByCriteria(criteria);
+        if (!list.isEmpty()) {
+            return list.get(0);
+        }
+        return null;
+    }    
 }

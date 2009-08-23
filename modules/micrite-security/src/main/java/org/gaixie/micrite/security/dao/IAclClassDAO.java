@@ -37,6 +37,13 @@ import org.springframework.security.acls.sid.Sid;
  * 
  */
 public interface IAclClassDAO extends IGenericDAO<AclClass, Long>{
-    
-    AclClass findByClass(String cls);
+
+    /**
+     * 根据class name获得AclClass对象。
+     * 
+     * @see org.gaixie.micrite.beans.AclClass
+     * @param cls class name 例如 org.gaixie.micrite.beans.Role
+     * @return AclClass对象
+     */   
+    public AclClass findByClass(String cls);
 }

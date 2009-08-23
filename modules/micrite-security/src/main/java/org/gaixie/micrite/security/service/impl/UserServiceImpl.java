@@ -106,16 +106,15 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         return false;
     }
     
-    public void updateInfo(User u) throws SecurityException {
+    public void updateMe(User u) throws SecurityException {
         //  取出用户
         User user = userDAO.get(u.getId());
         
-        //  如果修改了用户名，则校验新用户名在系统是否存在
-        if (!u.getUsername().equals(user.getUsername())) {
-            if(isExistedByUsername(u.getUsername())) {
-                throw new SecurityException("error.user.add.userNameInUse");
-            } 
-        }    
+        // 不允许修改用户名，原因如下：
+        // 如果修改了用户名，需要重新刷新SecurityContext的认证信息，
+        // 但通过loadUserByUsername方法，使用老用户名已经无法获得UserDetails实例(loadUserByUsername需要取数据库)。
+        // 而且acl_sid表可能会保存username，用于acl验证(Principal为true)，说明security的机制是要求username不可修改
+        
 
         //  从cache中删除修改的修改前的User对象
         if (userCache != null) {
@@ -124,7 +123,6 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         
         // 修改用户
         user.setFullname(u.getFullname());
-        user.setLoginname(u.getUsername());
         user.setEmailaddress(u.getEmailaddress());
         //  密码为非空字符串，才修改密码
         if (!"".equals(user.getPlainpassword())&&user.getPlainpassword()!=null) {
@@ -138,25 +136,42 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             //判断是否需要更新setting,如果选项和缺省值一致,则不更新
             for (Setting s:u.getSettings()){
             	Setting setting = settingDAO.get(s.getId());
-    //        	if (setting.getSortindex() != 0)
             		list.add(setting);
             }
             user.setSettings(list);
         }
         
-        //  持久化修改
+        //  需要在事物完成之前做持久化，否则随后执行的createNewAuthentication()方法访问数据库无法取到修改的新用户
         userDAO.update(user);
         
-        String username = user.getLoginname();
+        Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(currentAuthentication));
+    }
+    
+    public void update(User u) throws SecurityException {
+        //  取出用户
+        User user = userDAO.get(u.getId());
+ 
+        // 不能修改用户名，原因见updateMe()方法内注释
+        //  从cache中删除修改的修改前的User对象
+        if (userCache != null) {
+            userCache.removeUserFromCache(user.getUsername());
+        }
+        
+        // 修改用户
+        user.setFullname(u.getFullname());
+        user.setEmailaddress(u.getEmailaddress());
+        
+        //  需要在事物完成之前做持久化，否则随后执行的createNewAuthentication()方法访问数据库无法取到修改的新用户
+        userDAO.update(user);
         
         Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
         //  如果修改的是当前登陆用户，则要重新设置SecurityContext中认证用户
-        if (username.equals(currentAuthentication.getName())) {
+        if (user.getUsername().equals(currentAuthentication.getName())) {
             SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(currentAuthentication));
         }
         
-    }
-    
+    }    
     private Authentication createNewAuthentication(Authentication currentAuth) {
         UserDetails user = loadUserByUsername(currentAuth.getName());
 
@@ -199,7 +214,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         }
     }
     
-    public void enableUsers(int[] userIds) {
+    public void updateStatus(int[] userIds) {
         for (int i = 0; i < userIds.length; i++) {
             User user = userDAO.get(userIds[i]);
             user.setEnabled(!user.isEnabled());

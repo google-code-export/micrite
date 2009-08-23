@@ -52,11 +52,18 @@ public interface IRoleService {
     public int findByNameVagueCount(String name);
 
     /**
-     * 删除角色。
+     * 批量删除角色。
      * 
      * @param roleIds 角色id数组
      */      
-    public void delete(int[] roleIds) throws SecurityException;
+    public void deleteRoles(int[] roleIds) throws SecurityException;
+
+    /**
+     * 删除角色。
+     * 
+     * @param role 角色
+     */      
+    public void delete(Role role);
     
     /**
      * 增加新角色。

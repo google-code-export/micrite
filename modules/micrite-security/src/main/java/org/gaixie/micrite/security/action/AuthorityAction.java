@@ -69,10 +69,10 @@ public class AuthorityAction extends ActionSupport{
     
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     /**
-     * 保存授权信息
+     * 新增授权信息
      * @return "success"
      */
-    public String save() {
+    public String add() {
         authorityService.add(authority);
         resultMap.put("message", getText("save.success"));
         resultMap.put("success", true);

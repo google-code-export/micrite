@@ -32,8 +32,8 @@ micrite.security.userList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
                  editor: new Ext.form.TextField({allowBlank: false})},
                 {header: this.email, width: 180, sortable: true, dataIndex: 'emailaddress',
                  editor: new Ext.form.TextField({})},
-                {header: this.userName, width: 90, sortable: true, dataIndex: 'loginname',
-                 editor: new Ext.form.TextField({allowBlank: false})},
+                {header: this.userName, width: 90, sortable: true, dataIndex: 'loginname'},
+                // 状态不用下拉框，便于批量操作
                 {header: this.enabled, width: 70, sortable: true, dataIndex: 'enabled'},
                 sm
             ]],
@@ -182,7 +182,7 @@ micrite.security.userList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
         var submitFun = function(buttonId, text, opt) {
             if (buttonId == 'yes') {
                 micrite.util.ajaxRequest({
-                    url: 'updateUserInfo.action',
+                    url: 'updateUser.action',
                     params:{'user.id':user.id,
                             'user.fullname':user.get('fullname'),
                             'user.emailaddress':user.get('emailaddress'),
