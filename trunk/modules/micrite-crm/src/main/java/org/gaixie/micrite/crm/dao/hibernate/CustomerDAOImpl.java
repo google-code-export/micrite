@@ -27,8 +27,8 @@ package org.gaixie.micrite.crm.dao.hibernate;
 import java.util.Date;
 import java.util.List;
 
-import org.gaixie.micirte.common.search.SearchBean;
-import org.gaixie.micirte.common.search.SearchFactory;
+import org.gaixie.micrite.common.search.SearchBean;
+import org.gaixie.micrite.common.search.SearchFactory;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.dao.ICustomerDAO;
