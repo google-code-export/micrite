@@ -27,7 +27,7 @@ package org.gaixie.micrite.crm.service;
 import java.util.Date;
 import java.util.List;
 
-import org.gaixie.micirte.common.search.SearchBean;
+import org.gaixie.micrite.common.search.SearchBean;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.jfree.data.category.CategoryDataset;

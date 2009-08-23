@@ -1,4 +1,4 @@
-package org.gaixie.micirte.common.search;
+package org.gaixie.micrite.common.search;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;

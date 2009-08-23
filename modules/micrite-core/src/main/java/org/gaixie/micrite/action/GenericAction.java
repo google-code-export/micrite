@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.gaixie.micirte.common.search.SearchBean;
-import org.gaixie.micirte.common.search.SearchFactory;
+import org.gaixie.micrite.common.search.SearchBean;
+import org.gaixie.micrite.common.search.SearchFactory;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
