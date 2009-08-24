@@ -451,19 +451,26 @@
 				<module>plugins</module>			
 				<module>modules</module>
 				<!-- <module>testsuite</module> -->
-				<module>assemblies</module>
+                <module>assemblies</module>                
 			</modules>
 		</profile>
 
+        <!-- mvn clean install -P modules -->
 		<profile>
-			<id>all</id>
-
+			<id>modules</id>
 			<modules>
 				<module>modules</module>
-				<module>testsuite</module>
-				<module>assemblies</module>
 			</modules>
 		</profile>
+        
+        <!-- mvn clean install -P plugins -->
+        <profile>
+            <id>plugins</id>
+            <modules>
+                <module>plugins</module>
+            </modules>
+        </profile>
+                
 	</profiles>
 
 	<build>

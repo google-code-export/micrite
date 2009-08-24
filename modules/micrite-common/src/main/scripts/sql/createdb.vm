@@ -42,7 +42,7 @@ ALTER TABLE roles ADD CONSTRAINT roles_name_uq UNIQUE ( name );
 -- 着三个角色为系统默认角色，不要修改此脚本，甚至是名称
 insert  into roles(name,description) values ('ROLE_ADMIN','系统管理员，拥有全部模块权限');
 insert  into roles(name,description) values ('ROLE_USER','基本用户，无管理权限');
-insert  into roles(name,description) values ('AFTER_ACL_COLLECTION_READ','拦截的方法，并对调用后返回结果集进行ACL过滤');
+insert  into roles(name,description) values ('AFTER_ACL_COLLECTION_READ','如果此角色有绑定的方法，会对方法调用后返回的结果集进行ACL过滤');
 
 CREATE TABLE user_role_map (
     user_id              integer NOT NULL,
