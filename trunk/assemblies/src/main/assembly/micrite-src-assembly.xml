@@ -31,26 +31,29 @@
 			<directory>
 				../modules/micrite-beans/src/main/java/org/gaixie/micrite/beans
 			</directory>
-			<outputDirectory>src/org/gaixie/micrite/beans
-			</outputDirectory>
+			<outputDirectory>src/org/gaixie/micrite/beans</outputDirectory>
 		</fileSet>
 
 
 		<fileSet>
 			<directory>
-				../modules/micrite-common/src/main/java/org/gaixie/micrite/commons
+				../modules/micrite-common/src/main/java/org/gaixie/micrite/common
 			</directory>
-			<outputDirectory>src/org/gaixie/micrite/commons
-			</outputDirectory>
+			<outputDirectory>src/org/gaixie/micrite/common</outputDirectory>
 		</fileSet>
 
-
+        <fileSet>
+            <directory>
+                ../modules/micrite-core/src/main/java/org/gaixie/micrite
+            </directory>
+            <outputDirectory>src/org/gaixie/micrite</outputDirectory>
+        </fileSet>
+        
 		<fileSet>
 			<directory>
 				../modules/micrite-crm/src/main/java/org/gaixie/micrite/crm
 			</directory>
-			<outputDirectory>src/org/gaixie/micrite/crm
-			</outputDirectory>
+			<outputDirectory>src/org/gaixie/micrite/crm</outputDirectory>
 		</fileSet>
 
 
@@ -58,9 +61,22 @@
 			<directory>
 				../modules/micrite-security/src/main/java/org/gaixie/micrite/security
 			</directory>
-			<outputDirectory>src/org/gaixie/micrite/security
-			</outputDirectory>
+			<outputDirectory>src/org/gaixie/micrite/security</outputDirectory>
 		</fileSet>
+        
+        <fileSet>
+            <directory>
+                ../plugins/jfreechart/src/main/java/org/gaixie/micrite/jfreechart
+            </directory>
+            <outputDirectory>src/org/gaixie/micrite/jfreechart</outputDirectory>
+        </fileSet>
+        
+        <fileSet>
+            <directory>
+                ../plugins/struts2/src/main/java/org/gaixie/micrite/struts2
+            </directory>
+            <outputDirectory>src/org/gaixie/micrite/struts2</outputDirectory>
+        </fileSet>                  
 	</fileSets>
 </component>
 

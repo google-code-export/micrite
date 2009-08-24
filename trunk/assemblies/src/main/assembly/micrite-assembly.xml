@@ -48,6 +48,7 @@
             </directory>
             <outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
             <includes>
+                <include>org/gaixie/micrite/beans/**</include>            
                 <include>*.xml</include>
             </includes>
         </fileSet>
@@ -57,15 +58,21 @@
 			</directory>
 			<outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
 			<includes>
-				<include>databaseResource-hibernate.xml</include>
-				<include>hibernate.properties</include>
-				<include>log4j.properties</include>
-				<include>struts.properties</include>
-				<include>struts.xml</include>
-                <include>globalmessages*</include>
+                <include>org/gaixie/micrite/common/**</include> 
+				<include>*.xml</include>
+				<include>*.properties</include>
 			</includes>
 		</fileSet>
 
+        <fileSet>
+            <directory>../modules/micrite-core/target/classes
+            </directory>
+            <outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
+            <includes>
+                <include>org/gaixie/micrite/**</include>            
+            </includes>
+        </fileSet>
+        
 		<fileSet>
 			<directory>../modules/micrite-common/target/dbscripts
 			</directory>
@@ -79,24 +86,21 @@
 		</fileSet>
 
 		<fileSet>
-			<directory>../modules/micrite-security/target
+			<directory>../modules/micrite-security/target/classes
 			</directory>
-			<outputDirectory>webapp/micrite/WEB-INF/lib</outputDirectory>
-			<includes>
-				<include>*.jar</include>
-			</includes>
-			<excludes>
-				<exclude>*-sources.jar</exclude>
-			</excludes>
+			<outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
+            <includes>
+                <include>org/gaixie/micrite/security/**</include>            
+            </includes>
 		</fileSet>
 
 		<fileSet>
 			<directory>../modules/micrite-security/target/micrite-security-${project.version}/WEB-INF/lib
 			</directory>
 			<outputDirectory>webapp/micrite/WEB-INF/lib</outputDirectory>
-			<includes>
-				<include>*.jar</include>
-			</includes>
+			<excludes>
+				<exclude>micrite*.jar</exclude>
+			</excludes>
 		</fileSet>
 
 
@@ -104,19 +108,20 @@
 			<directory>../modules/micrite-security/src/main/resources
 			</directory>
 			<outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
-		</fileSet>
-		<fileSet>
-			<directory>../modules/micrite-crm/target
-			</directory>
-			<outputDirectory>webapp/micrite/WEB-INF/lib</outputDirectory>
 			<includes>
-				<include>*.jar</include>
-			</includes>
-			<excludes>
-				<exclude>*-sources.jar</exclude>
-			</excludes>
-
+				<include>**/*.xml</include>
+			</includes>           
 		</fileSet>
+        
+		<fileSet>
+			<directory>../modules/micrite-crm/target/classes
+			</directory>
+			<outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
+            <includes>
+                <include>org/gaixie/micrite/crm/**</include>            
+            </includes>
+		</fileSet>
+        
 		<fileSet>
 			<directory>../modules/micrite-crm/src/main/webapp
 			</directory>
@@ -125,16 +130,33 @@
 				<include>crm/**</include>
 			</includes>
 		</fileSet>
+        
 		<fileSet>
 			<directory>../modules/micrite-crm/src/main/resources
 			</directory>
 			<outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
 			<includes>
-				<include>**/applicationContext*.xml</include>
-				<include>**/struts_xml/*</include>
-                <include>**/crm/*</include>
+				<include>**/*.xml</include>
 			</includes>
 		</fileSet>
 
+        <fileSet>
+            <directory>../plugins/jfreechart/target/classes
+            </directory>
+            <outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
+            <includes>
+                <include>org/gaixie/micrite/jfreechart/**</include>            
+            </includes>
+        </fileSet>
+        
+        <fileSet>
+            <directory>../plugins/struts2/target/classes
+            </directory>
+            <outputDirectory>webapp/micrite/WEB-INF/classes</outputDirectory>
+            <includes>
+                <include>org/gaixie/micrite/struts2/**</include>            
+                <include>*.xml</include>             
+            </includes>
+        </fileSet>        
 	</fileSets>
 </assembly>
