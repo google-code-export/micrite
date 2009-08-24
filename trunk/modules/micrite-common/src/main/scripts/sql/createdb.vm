@@ -184,6 +184,8 @@ ALTER TABLE acl_object_identity ADD CONSTRAINT aoi_object_id_class_fk FOREIGN KE
 ALTER TABLE acl_object_identity ADD CONSTRAINT aoi_owner_sid_class_fk FOREIGN KEY (owner_sid)
     REFERENCES acl_sid (id);
 
+#addAutoIncrement("acl_object_identity")
+
 insert into acl_object_identity(object_id_class,object_id_identity,owner_sid,entries_inheriting) 
 values (1,1,1,$db.BOOLEAN_TRUE);
 insert into acl_object_identity(object_id_class,object_id_identity,owner_sid,entries_inheriting) 
@@ -210,6 +212,8 @@ ALTER TABLE acl_entry ADD CONSTRAINT ae_acl_object_identity_fk FOREIGN KEY (acl_
 
 ALTER TABLE acl_entry ADD CONSTRAINT aoi_sid_fk FOREIGN KEY (sid)
     REFERENCES acl_sid (id);
+
+#addAutoIncrement("acl_entry")
 
 insert into acl_entry(acl_object_identity,ace_order,sid,mask,granting,audit_success,audit_failure) 
 values (1,1,1,16,$db.BOOLEAN_TRUE,$db.BOOLEAN_FALSE,$db.BOOLEAN_FALSE);

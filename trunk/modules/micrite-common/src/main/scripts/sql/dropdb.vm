@@ -10,6 +10,10 @@ DON'T RUN THIS, IT'S NOT A DATABASE DROP SCRIPT!!!
 #dropAutoIncrement("roles")
 #dropAutoIncrement("authorities")
 #dropAutoIncrement("setting")
+#dropAutoIncrement("acl_sid")
+#dropAutoIncrement("acl_class")
+#dropAutoIncrement("acl_object_identity")
+#dropAutoIncrement("acl_entry")
 #dropAutoIncrement("customer_source")
 #dropAutoIncrement("customers")
 
@@ -21,6 +25,12 @@ DROP TABLE user_setting_map;
 
 -- drop non-associated tables
 DROP TABLE customer_source;
+
+-- drop acl tables
+DROP TABLE acl_entry;
+DROP TABLE acl_object_identity;
+DROP TABLE acl_class;
+DROP TABLE acl_sid;
 
 -- drop core tables
 DROP TABLE roles;

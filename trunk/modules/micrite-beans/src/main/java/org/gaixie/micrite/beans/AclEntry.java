@@ -37,7 +37,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * ACL实现用的实体类。
+ * ACL授予者权限。
  */
 @Entity
 @Table(name = "acl_entry")
