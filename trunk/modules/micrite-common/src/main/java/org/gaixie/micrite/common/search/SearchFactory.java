@@ -26,8 +26,10 @@ package org.gaixie.micrite.common.search;
 
 import java.awt.image.RasterFormatException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -68,6 +70,24 @@ public class SearchFactory {
         return search;
     }
     
+    /**
+     * 取得查询的月份
+     * @param searchBean
+     * @return 0～12，0表示格式错误或没有日期条件
+     */
+    public static int getSearchMonth(SearchBean[] searchBean){
+        if(searchBean == null || searchBean.length == 0)
+            return 0;
+        Date date;
+        for(int i = 0; i < searchBean.length; i++){
+        	date = checkDate(StringUtils.split(searchBean[i].getValue(), ";")[0]);
+        	if(date == null)
+        		continue;
+        	return date.getMonth() + 1;
+        }
+    	return 0;
+    }
+    
     @SuppressWarnings("unchecked")
     public static DetachedCriteria generateCriteria(Class entity, SearchBean[] searchBean) {
         DetachedCriteria criteria = DetachedCriteria.forClass(entity);
@@ -75,13 +95,18 @@ public class SearchFactory {
             return criteria;
         Object value = null;
         for(int i = 0; i < searchBean.length; i++){
+        	Field field;
             try {
-                Field field = entity.getDeclaredField(searchBean[i].getName());
-                Class type = field.getType();
-                value = convertValue(type, searchBean[i].getValue(), searchBean[i].getRelation());
+                field = entity.getDeclaredField(searchBean[i].getName());
             } catch (NoSuchFieldException e) {
-                throw new NoSuchElementException("no such this element");
+            	try {
+					field = entity.getSuperclass().getDeclaredField(searchBean[i].getName());
+				} catch (NoSuchFieldException e1) {
+	                throw new NoSuchElementException("no such this element");
+				}
             }
+            Class type = field.getType();
+            value = convertValue(type, searchBean[i].getValue(), searchBean[i].getRelation());
             if(searchBean[i].getRelation().equals("="))
                 criteria.add(Expression.eq(searchBean[i].getName(), value));
             else if(searchBean[i].getRelation().equals("<"))
@@ -189,19 +214,35 @@ public class SearchFactory {
         return list.toArray(new String[list.size()]);
     }
     
+	/**
+	 * 检验输入是否为正确的日期格式(不含秒的任何情况),严格要求日期正确性,格式:yyyy-MM-dd HH:mm
+	 * 
+	 * @param sourceDate
+	 * @return
+	 */
+	private static Date checkDate(String sourceDate) {
+		if (sourceDate == null) {
+			return null;
+		}
+		try {
+			Date date = DateUtils.parseDate(sourceDate, new String[] {
+					"yyyy-MM-dd hh:mm:ss", "yyyy-MM-dd hh:mm", "yyyy-MM-dd" });
+			return date;
+		} catch (ParseException e) {
+		}
+		return null;
+	}
+    
     /**
      * @param args
      * @throws ParseException 
      */
     public static void main(String[] args) {
-        String str = "[name,yubo,like],[telephone,13810770810,=],[createDate,2009-08-02 00:00,>=],[interface_,1;2;3,in]";
-        String[] detach = detach(str, '[', ']');
-        for(String s: detach)
-            System.out.println("detach =" + s);
-        System.out.println("--------------------------");
+        String str = "[name,yubo,like],[telephone,13810770810,=],[createDate,2009-8-02 00:00,>=],[interface_,1;2;3,in]";
         SearchBean[] search = getSearchTeam(str);
         for(SearchBean s: search)
             System.out.println("search =" + s.toString());
+        System.out.println(getSearchMonth(search));
     }
 
 }
