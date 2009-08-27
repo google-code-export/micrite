@@ -2,7 +2,7 @@
 #labels Phase-Deploy
 <wiki:toc max_depth="2" />
 = Introduction =
-本文档作为 micrite 用户手册的一部分，主要描述如何设置权限，有关开发，实现方面的内容，请参考文档中给出的外部连接。：
+本文档作为 micrite 用户手册的一部分，主要描述如何设置权限，对有关关开发，实现方面的内容不做讨论。
 
 micrite 希望借助 SS(spring security) 强大的安全控制，尽可能的解决大型项目中复杂多变的权限需求。 
 
@@ -157,9 +157,11 @@ micrite 使用 Spring AOP 拦截所有服务层方法 (所有 service包下以 S
 注意 afterAclCollectionRead 需要一个名为 *AFTER_ACL_COLLECTION_READ* 的角色来配合它进行结果集过滤，角色 AFTER_ACL_COLLECTION_READ 需要<br>
 绑定一个被保护的方法（ID=6 见Method小节），如果返回的是Role对象实例结果集，ACL服务会进行过滤处理。所以不要修改或者删除此角色。<br>
 
-ACL 在项目中的应用，需要明确的权限划分，否则很有可能日后出现权限混乱、难以维护、效率下降的问题，关于这方面的讨论，参见：。
+ACL 在项目中的应用，需要明确的权限划分，否则很有可能日后出现权限混乱、难以维护、效率下降的问题。
 
 <br><br>
 = Reference =
- * [http://static.springsource.org/spring-security/site/docs/2.0.x/reference/springsecurity.html Spring Security Reference Documentation] | [http://www.family168.com/tutorial/springsecurity/html/springsecurity.html Spring Security中文参考文档]
- * [http://server.denksoft.com/wordpress/?page_id=5 A Spring Security ACL tutorial for PostgreSQL 一个基于 PostgreSQL 实现的 ACL 示例]<br>
+ * [http://blogs.gaixie.org/tommy/?p=18 Hibernate implementation of Spring Security ACL]
+ * [http://static.springsource.org/spring-security/site/docs/2.0.x/reference/springsecurity.html Spring Security Reference Documentation] 
+ * [http://www.family168.com/tutorial/springsecurity/html/springsecurity.html Spring Security中文参考文档]
+ * [http://server.denksoft.com/wordpress/?page_id=5 A Spring Security ACL tutorial for PostgreSQL]<br>

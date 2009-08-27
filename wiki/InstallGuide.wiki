@@ -46,6 +46,7 @@ Before you can install Micrite you'll probably need to some work to prepare your
 You need some place to put the Micrite tables. Some folks call this a table-space, but we refer to it as a database.<br>
 You need to create a database for Micrite, or get your database administrator to do it for you. And second, you need to have a JDBC driver installed for you database of choice.
 
+*Note: If you want take a glance at micrite, you can use hsqldb in memory, just skip to [http://code.google.com/p/micrite/wiki/InstallGuide#Deploy_Micrite Deploy Micrite]* 
 ==Create a database for Micrite==
 If you're luck enough to have your own database administrator, ask them to setup a database for Micrite. When they are done, ask them to provide you with this information, you'll need it later:
  * Username and password for connecting to database
@@ -63,7 +64,7 @@ gaixie-micrite-x.x> java -cp webapp/micrite/WEB-INF/lib/derbytools-10.4.2.0.jar;
 }}}
   # Connect Derby ,create database and tables:
 {{{ 
-ij> connect 'jdbc:derby:micrite_db;create=true;user=micrite;password=micrite';
+ij> connect 'jdbc:derby:micritedb;create=true;user=micrite;password=micrite';
 ij> run 'dbscripts/derby/createdb.sql';
 ij> exit;
 }}}
@@ -74,7 +75,7 @@ gaixie-micrite-x.x
   |--LICENSE.txt
   |--src
   |--dbscripts
-  |--micrite_db
+  |--micritedb
   |--webapp
        |--micrite
 }}}
@@ -83,24 +84,24 @@ gaixie-micrite-x.x
 {{{
 $ mysql -u root -p
 password: *****
-mysql> create database micrite_db;
-mysql> grant all on micrite_db.* to micrite@'%' identified by 'micrite';
-mysql> use micrite_db;
+mysql> create database micritedb;
+mysql> grant all on micritedb.* to micrite@'%' identified by 'micrite';
+mysql> use micritedb;
 mysql> source {project_home}/dbscripts/mysql/createdb.sql
 }}}
 
  * PostgreSQL like this:
 {{{
-$createdb -h localhost -p 5432 --encoding=utf8 -U postgres micrite_db
+$createdb -h localhost -p 5432 --encoding=utf8 -U postgres micritedb
 # login database use postgresql admin account
 $ psql -h localhost -p 5432 -U postgres
 postgres>CREATE USER micrite_user WITH PASSWORD 'yourpassowrd';
-postgres>ALTER DATABASE micrite_db OWNER TO micrite_user;
+postgres>ALTER DATABASE micritedb OWNER TO micrite_user;
 postgres>\q
 #relogin as micrite_user
-$ psql -h localhost -p 5432 -U micrite_user micrite_db
+$ psql -h localhost -p 5432 -U micrite_user micritedb
 # execute script file
-micrite_db>\i {project_home}/dbscripts/postgresql/createdb.sql
+micritedb>\i {project_home}/dbscripts/postgresql/createdb.sql
 }}}
 
 ==Check your JDBC driver setup==
@@ -113,7 +114,7 @@ Here is how to configure database connection for Micrite.
  # Search the beans with ids *dataSource* and change the value field of the following property.
 {{{
 <property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver"/>
-<property name="url" value="jdbc:derby:{ProjectHome}/micrite_db" />
+<property name="url" value="jdbc:derby:{ProjectHome}/micritedb" />
 <property name="username" value="micrite" />
 <property name="password" value="micrite" />
 }}}
@@ -152,5 +153,4 @@ If Micrite doesn't start-up, look for the problem in the logs. You can find them
 Visit http://localhost:8080/micrite with following default account.<br>
 || *Username* || *Password* || *Role* ||
 || admin || 123456 || ROLE_ADMIN ||
-|| bitorb || 123456 || ROLE_USER_LEADER ||
 || user || 123456 || ROLE_USER ||

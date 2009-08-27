@@ -8,10 +8,13 @@ This document is generated automatically by the [http://amateras.sourceforge.jp/
 
 The purpose of this document is to act as a reference for developers of Micrite.
 
+= Latest =
+<a href="http://www.flickr.com/photos/41219728@N05/3861370991/" title="MicriteERDiagram.erd by bitorb, on Flickr"><img src="http://farm3.static.flickr.com/2655/3861370991_0d336a38ef_m.jpg" width="240" height="195" alt="MicriteERDiagram.erd" /></a>
+[http://sites-by-maven.gaixie.org/micrite/0.11/trunk/schema/ Schema Documentation] ( for Micrite v0.11 ~ )
 <br><br> 
-= Details =
+= History =
 [http://sites-by-maven.gaixie.org/micrite/0.9/trunk/schema/ Schema Documentation]
-[http://sites-by-maven.gaixie.org/micrite/0.9/trunk/images/MicriteERDiagram.erd.jpg ER Diagram] ( for Micrite v0.9 ~ ) 
+[http://sites-by-maven.gaixie.org/micrite/0.9/trunk/images/MicriteERDiagram.erd.jpg ER Diagram] ( for Micrite v0.9 ~ v0.9.1) 
 
 [http://sites-by-maven.gaixie.org/micrite/0.6/trunk/schema/ Schema Documentation] 
 [http://sites-by-maven.gaixie.org/micrite/0.6/trunk/images/MicriteERDiagram.erd.jpg ER Diagram] ( for Micrite v0.1 ~ v0.6 )
