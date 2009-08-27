@@ -6,17 +6,6 @@ DON'T RUN THIS, IT'S NOT A DATABASE DROP SCRIPT!!!
 
 -- Run this script to drop the Micrite database tables in your database.
 
-#dropAutoIncrement("userbase")
-#dropAutoIncrement("roles")
-#dropAutoIncrement("authorities")
-#dropAutoIncrement("setting")
-#dropAutoIncrement("acl_sid")
-#dropAutoIncrement("acl_class")
-#dropAutoIncrement("acl_object_identity")
-#dropAutoIncrement("acl_entry")
-#dropAutoIncrement("customer_source")
-#dropAutoIncrement("customers")
-
 -- drop tables with foreign key
 DROP TABLE role_authority_map;
 DROP TABLE user_role_map;
