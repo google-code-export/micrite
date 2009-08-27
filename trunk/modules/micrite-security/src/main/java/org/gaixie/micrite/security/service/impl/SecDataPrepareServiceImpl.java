@@ -24,27 +24,24 @@
 
 package org.gaixie.micrite.security.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-import org.gaixie.micrite.beans.User;
-import org.gaixie.micrite.beans.Role;
-import org.gaixie.micrite.beans.Authority;
-import org.gaixie.micrite.beans.Setting;
-import org.gaixie.micrite.beans.AclSid;
 import org.gaixie.micrite.beans.AclClass;
-import org.gaixie.micrite.beans.AclObjectIdentity;
 import org.gaixie.micrite.beans.AclEntry;
-import org.gaixie.micrite.security.dao.IUserDAO;
-import org.gaixie.micrite.security.dao.IRoleDAO;
-import org.gaixie.micrite.security.dao.IAuthorityDAO;
-import org.gaixie.micrite.security.dao.ISettingDAO;
-import org.gaixie.micrite.security.dao.IAclSidDAO;
+import org.gaixie.micrite.beans.AclObjectIdentity;
+import org.gaixie.micrite.beans.AclSid;
+import org.gaixie.micrite.beans.Authority;
+import org.gaixie.micrite.beans.Role;
+import org.gaixie.micrite.beans.Setting;
+import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.dao.IAclClassDAO;
-import org.gaixie.micrite.security.dao.IAclObjectIdentityDAO;
 import org.gaixie.micrite.security.dao.IAclEntryDAO;
+import org.gaixie.micrite.security.dao.IAclObjectIdentityDAO;
+import org.gaixie.micrite.security.dao.IAclSidDAO;
+import org.gaixie.micrite.security.dao.IAuthorityDAO;
+import org.gaixie.micrite.security.dao.IRoleDAO;
+import org.gaixie.micrite.security.dao.ISettingDAO;
+import org.gaixie.micrite.security.dao.IUserDAO;
 import org.gaixie.micrite.security.filter.FilterSecurityInterceptor;
 import org.gaixie.micrite.security.filter.MethodSecurityInterceptor;
 import org.gaixie.micrite.security.service.ISecDataPrepareService;
@@ -73,6 +70,7 @@ public class SecDataPrepareServiceImpl implements ISecDataPrepareService {
     @Autowired
     private IAclEntryDAO aclEntryDAO;
     
+    @SuppressWarnings("serial")
     public void initDataForRun() {
         if(authorityDAO.get(1)!=null) return;
         
@@ -143,11 +141,7 @@ public class SecDataPrepareServiceImpl implements ISecDataPrepareService {
         authority.setRoles(new HashSet<Role>(){{add(roleAdmin);}});
         authorityDAO.save(authority);
         
-        authority = new Authority("Role unBind Method protect","METHOD","* org.gaixie.micrite.security.service.I*Service.*bind*(..)");
-        authority.setRoles(new HashSet<Role>(){{add(roleAdmin);}});
-        authorityDAO.save(authority);
-        
-        authority = new Authority("Role Bind Method protect","METHOD","* org.gaixie.micrite.security.service.I*Service.*unBind*(..)");
+        authority = new Authority("Role unBind Method protect","METHOD","* org.gaixie.micrite.security.service.I*Service.*unBind*(..)");
         authority.setRoles(new HashSet<Role>(){{add(roleAdmin);}});
         authorityDAO.save(authority);
         

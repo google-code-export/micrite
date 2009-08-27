@@ -1,26 +1,4 @@
 #**
-Special macro to add auto increment for oracle
-**#
-#macro(addAutoIncrement $table)
-#if ($db.DBTYPE == "ORACLE")
-CREATE sequence ${table}_seq;
-CREATE OR REPLACE trigger trg_${table} before insert on $table for each row 
-BEGIN select ${table}_seq.nextval into :new.id from dual; END; 
-/
-#end    
-#end
-
-#**
-Special macro to drop auto increment for oracle
-**#
-#macro(dropAutoIncrement $table)
-#if ($db.DBTYPE == "ORACLE")
-DROP sequence ${table}_seq;
-DROP trigger trg_${table};
-#end    
-#end
-
-#**
 Special macro to add table column with default null
 **#
 #macro(addColumnNull $table $column $type)

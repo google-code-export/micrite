@@ -23,8 +23,6 @@ CREATE TABLE userbase (
 );
 ALTER TABLE userbase ADD CONSTRAINT userbase_loginname_uq UNIQUE ( loginname );
 
-#addAutoIncrement("userbase")
-
 -- ------------------------------------------------------
 -- description: 此角色的详细描述
 CREATE TABLE roles (
@@ -34,8 +32,7 @@ CREATE TABLE roles (
 );
 ALTER TABLE roles ADD CONSTRAINT roles_name_uq UNIQUE ( name );
 
-#addAutoIncrement("roles")
-
+-- ------------------------------------------------------
 CREATE TABLE user_role_map (
     user_id              integer NOT NULL,
     role_id              integer NOT NULL
@@ -53,8 +50,7 @@ CREATE TABLE authorities (
 );
 ALTER TABLE authorities ADD CONSTRAINT authorities_value_uq UNIQUE ( type,value );
 
-#addAutoIncrement("authorities")
-
+-- ------------------------------------------------------
 CREATE TABLE role_authority_map (
     role_id                integer NOT NULL,
     authority_id           integer NOT NULL
@@ -74,8 +70,6 @@ CREATE TABLE setting(
 ALTER TABLE setting ADD CONSTRAINT setting_name_sortindex_uq UNIQUE ( name,sortindex );
 ALTER TABLE setting ADD CONSTRAINT setting_name_value_uq UNIQUE ( name,value );
 
-#addAutoIncrement("setting")
-
 -- ------------------------------------------------------
 CREATE TABLE user_setting_map(
   user_id                  integer NOT NULL,
@@ -92,20 +86,14 @@ CREATE TABLE acl_sid (
 );
 ALTER TABLE acl_sid ADD CONSTRAINT acl_sid_uq UNIQUE ( principal,sid );
 
-#addAutoIncrement("acl_sid")
-
 -- -----------------------------------------------------
---
 CREATE TABLE acl_class (
     id                     $db.AUTO_BIG_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
     class                  varchar(100) NOT NULL
 );
 ALTER TABLE acl_class ADD CONSTRAINT acl_class_uq UNIQUE ( class );
 
-#addAutoIncrement("acl_class")
-
 -- ------------------------------------------------------
---
 CREATE TABLE acl_object_identity (
     id                     $db.AUTO_BIG_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
     object_id_class        $db.BIGINT_SQL_TYPE NOT NULL,
@@ -124,8 +112,6 @@ ALTER TABLE acl_object_identity ADD CONSTRAINT aoi_object_id_class_fk FOREIGN KE
 
 ALTER TABLE acl_object_identity ADD CONSTRAINT aoi_owner_sid_class_fk FOREIGN KEY (owner_sid)
     REFERENCES acl_sid (id);
-
-#addAutoIncrement("acl_object_identity")
 
 -- ------------------------------------------------------
 --
@@ -147,8 +133,6 @@ ALTER TABLE acl_entry ADD CONSTRAINT ae_acl_object_identity_fk FOREIGN KEY (acl_
 ALTER TABLE acl_entry ADD CONSTRAINT aoi_sid_fk FOREIGN KEY (sid)
     REFERENCES acl_sid (id);
 
-#addAutoIncrement("acl_entry")
-
 -- ------------------------------------------------------
 -- name: 客户的来源，如 陌生拜访，亲友
 CREATE TABLE customer_source (
@@ -157,11 +141,7 @@ CREATE TABLE customer_source (
 );
 ALTER TABLE customer_source ADD CONSTRAINT customer_source_name_uq UNIQUE ( name );
 
-#addAutoIncrement("customer_source")
-
-insert  into customer_source(name) values('Unfamiliar Visit');
-insert  into customer_source(name) values('Familiar'); 
-
+-- ------------------------------------------------------
 CREATE TABLE customers (
     id                     $db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
     name                   varchar(255) NOT NULL,
@@ -169,8 +149,6 @@ CREATE TABLE customers (
     creation_ts            $db.TIMESTAMP_SQL_TYPE NOT NULL,
     customer_source_id     integer NOT NULL
 );
-
-#addAutoIncrement("customers")
 
 ALTER TABLE role_authority_map ADD CONSTRAINT rrmap_role_id_fk FOREIGN KEY (role_id)
     REFERENCES roles (id);
