@@ -30,11 +30,14 @@
     xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+    <bean id="securityDataPrepare" class="org.gaixie.micrite.security.data.SecurityDataPrepare" />
+
     <bean id="loginAction" class="org.gaixie.micrite.security.action.LoginAction" scope="prototype"/>
     <bean id="userAction" class="org.gaixie.micrite.security.action.UserAction" scope="prototype"/>
     <bean id="authorityAction" class="org.gaixie.micrite.security.action.AuthorityAction"  scope="prototype" />
     <bean id="roleAction" class="org.gaixie.micrite.security.action.RoleAction"  scope="prototype" />
 
+    <bean id="secDataPrepareService" class="org.gaixie.micrite.security.service.impl.SecDataPrepareServiceImpl" />
     <bean id="loginService" class="org.gaixie.micrite.security.service.impl.LoginServiceImpl" />
     <bean id="userService"  class="org.gaixie.micrite.security.service.impl.UserServiceImpl" />
     <bean id="authorityService"  class="org.gaixie.micrite.security.service.impl.AuthorityServiceImpl" />

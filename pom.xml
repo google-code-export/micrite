@@ -131,6 +131,12 @@
         <spring.security.version>2.0.5.RELEASE</spring.security.version>
 		<jstl.version>1.1.2</jstl.version>
 
+        <jdbc.database>hsqldb</jdbc.database>
+        <jdbc.driver>org.hsqldb.jdbcDriver</jdbc.driver>
+        <jdbc.url>jdbc:hsqldb:mem:micrite_db</jdbc.url>
+        <jdbc.username>sa</jdbc.username>
+        <jdbc.password></jdbc.password>  
+        
 		<!-- Common plan properties -->
 		<PlanServerHostname>0.0.0.0</PlanServerHostname>
 		<PlanHTTPPort>8080</PlanHTTPPort>
@@ -181,6 +187,11 @@
                 <version>10.4.2.0</version>
                 <scope>runtime</scope>              
             </dependency>
+            <dependency>
+                <groupId>hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>1.8.0.7</version>
+            </dependency>             
             <dependency>
                 <groupId>postgresql</groupId>
                 <artifactId>postgresql</artifactId>
@@ -543,7 +554,6 @@
 									<exclude>applicationContext*.xml</exclude>
 									<exclude>struts.xml</exclude>
 									<exclude>struts_xml/**</exclude>
-									<exclude>databaseResource-hibernate.xml</exclude>
 									<exclude>hibernate.properties</exclude>
                                     <exclude>struts.properties</exclude>
                                     <exclude>log4j.properties</exclude>
@@ -623,21 +633,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
 					<version>2.1</version>
-					<executions>
-						<execution>
-							<id>copy-dependencies</id>
-							<phase>generate-resources</phase>
-							<goals>
-								<goal>copy-dependencies</goal>
-							</goals>
-							<configuration>
-								<outputDirectory>${project.build.directory}/lib</outputDirectory>
-								<overWriteReleases>false</overWriteReleases>
-								<overWriteSnapshots>false</overWriteSnapshots>
-								<overWriteIfNewer>true</overWriteIfNewer>
-							</configuration>
-						</execution>
-					</executions>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -657,12 +652,13 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
+                    <version>2.1</version>                    
 					<executions>
 						<execution>
 							<id>attach-source</id>
 							<phase>verify</phase>					
 							<goals>
-								<goal>jar</goal>
+								<goal>jar-no-fork</goal>
 							</goals>
 						</execution>
 					</executions>

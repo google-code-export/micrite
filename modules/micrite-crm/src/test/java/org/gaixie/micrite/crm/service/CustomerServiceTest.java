@@ -29,6 +29,7 @@ import org.gaixie.micrite.common.search.SearchBean;
 import org.gaixie.micrite.beans.Customer;
 import org.gaixie.micrite.beans.CustomerSource;
 import org.gaixie.micrite.crm.dao.ICustomerDAO;
+import org.gaixie.micrite.crm.dao.ICustomerSourceDAO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,16 +37,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
-@ContextConfiguration(locations={"classpath:applicationContext-crm-bean.xml","classpath:databaseResource-hibernate.xml"})
+@ContextConfiguration(locations={"classpath:applicationContext-crm-bean.xml","classpath:applicationContext.xml"})
 public class CustomerServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Autowired
     private ICustomerService customerService;
-   
+
     @Autowired
     private ICustomerDAO customerDAO;
-   
+
+    @Autowired
+    private ICustomerSourceDAO customerSourceDAO;
+    
     private Customer customer;
+    private CustomerSource cs;
     
     private SearchBean[] searchBean = new SearchBean[1];
     
@@ -53,9 +58,9 @@ public class CustomerServiceTest extends AbstractTransactionalJUnit4SpringContex
     public void prepareTestData() {
         customer = new Customer();
         customer.setName("tommy");
-        customer.setTelephone("1234");
+        customer.setTelephone("139000000");
         customer.setCreation_ts(new Date());
-        CustomerSource cs = customerService.findALLCustomerSource().get(0);
+        cs = customerSourceDAO.get(1);
         customer.setCustomerSource(cs);
         customerDAO.save(customer);
         //封装高级查询测试数据

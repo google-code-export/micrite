@@ -47,11 +47,23 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class CustomerSource extends AbstractSecureObject implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
     private String name;
 
+    /**
+     * No-arg constructor for JavaBean tools
+     */
+    public CustomerSource() {}
+    
+    /**
+     * Full constructor
+     */
+    public CustomerSource(String name) {
+        this.name = name;
+    }
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//     
     public Integer getId() {
         return id;

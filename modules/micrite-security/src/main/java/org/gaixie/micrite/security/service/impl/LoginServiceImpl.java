@@ -69,8 +69,13 @@ public class LoginServiceImpl implements ILoginService {
                      */
                     if ("allModulesRoot".equals(node)) {
                         tmp = auth.getName();
-                    } else if (StringUtils.indexOf(auth.getName(), node) >= 0) {
-                        tmp = StringUtils.substringAfter(auth.getName(), node);
+                    /*
+                     * 拼上"/"是为了解决下面数据导致的菜单异常
+                     * /HTTP/HTTP POST   
+                     * /MMS/HTTP MT/HTTP MT Top20 Cell  
+                     */                        
+                    } else if (StringUtils.indexOf(auth.getName(), node+"/") >= 0) {
+                        tmp = StringUtils.substringAfter(auth.getName(), node+"/");
                     } else
                         continue;
 

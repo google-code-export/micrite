@@ -25,9 +25,6 @@ ALTER TABLE userbase ADD CONSTRAINT userbase_loginname_uq UNIQUE ( loginname );
 
 #addAutoIncrement("userbase")
 
-insert  into userbase(fullname,loginname,cryptpassword,emailaddress,enabled) values ('Administrator','admin','e10adc3949ba59abbe56e057f20f883e','administrator@micrite.org',$db.BOOLEAN_TRUE);
-insert  into userbase(fullname,loginname,cryptpassword,emailaddress,enabled) values ('Tommy Wang','user','e10adc3949ba59abbe56e057f20f883e','tommywang@micrite.org',$db.BOOLEAN_TRUE);
-
 -- ------------------------------------------------------
 -- description: 此角色的详细描述
 CREATE TABLE roles (
@@ -39,19 +36,11 @@ ALTER TABLE roles ADD CONSTRAINT roles_name_uq UNIQUE ( name );
 
 #addAutoIncrement("roles")
 
--- 着三个角色为系统默认角色，不要修改此脚本，甚至是名称
-insert  into roles(name,description) values ('ROLE_ADMIN','系统管理员，拥有全部模块权限');
-insert  into roles(name,description) values ('ROLE_USER','基本用户，无管理权限');
-insert  into roles(name,description) values ('AFTER_ACL_COLLECTION_READ','如果此角色有绑定的方法，会对方法调用后返回的结果集进行ACL过滤');
-
 CREATE TABLE user_role_map (
     user_id              integer NOT NULL,
     role_id              integer NOT NULL
 );
 ALTER TABLE user_role_map ADD CONSTRAINT user_role_map_user_id_uq UNIQUE ( user_id,role_id );
-
-insert  into user_role_map(user_id,role_id) values (1,1);
-insert  into user_role_map(user_id,role_id) values (2,2);
 
 -- ------------------------------------------------------
 -- type: 资源类型. URL=权限的控制类型为URL，METHOD=对方法进行拦截验证，MENU=控制模块入口在菜单的显式
@@ -66,49 +55,11 @@ ALTER TABLE authorities ADD CONSTRAINT authorities_value_uq UNIQUE ( type,value 
 
 #addAutoIncrement("authorities")
 
-insert  into authorities(name,type,value) values ('All URL','URL','/**');
-insert  into authorities(name,type,value) values ('/Security Modules/User List','URL','/security/userList.js*');
-insert  into authorities(name,type,value) values ('/Security Modules/Authority List','URL','/security/authorityList.js*');
-insert  into authorities(name,type,value) values ('/Security Modules/Role List','URL','/security/roleList.js*');
-insert  into authorities(name,type,value) values ('/CRM Modules/Customer List','URL','/crm/customerList.js*');
-
-insert  into authorities(name,type,value) values ('Role List Search Method protect','METHOD','* org.gaixie.micrite.security.service.IRoleService.*PerPage(..)');
-insert  into authorities(name,type,value) values ('Role Bind Method protect','METHOD','* org.gaixie.micrite.security.service.I*Service.*bind*(..)');
-insert  into authorities(name,type,value) values ('Role unBind Method protect','METHOD','* org.gaixie.micrite.security.service.I*Service.*unBind*(..)');
-
-insert  into authorities(name,type,value) values ('add action of security module protect','METHOD','* org.gaixie.micrite.security.service.I*Service.add*(..)');
-insert  into authorities(name,type,value) values ('update action of security module protect','METHOD','* org.gaixie.micrite.security.service.I*Service.update*(..)');
-insert  into authorities(name,type,value) values ('delete action of security module protect','METHOD','* org.gaixie.micrite.security.service.I*Service.delete*(..)');
-insert  into authorities(name,type,value) values ('update me method protect','METHOD','* org.gaixie.micrite.security.service.IUserService.updateMe(..)');
-
 CREATE TABLE role_authority_map (
     role_id                integer NOT NULL,
     authority_id           integer NOT NULL
 );
 ALTER TABLE role_authority_map ADD CONSTRAINT role_authority_map_role_id_uq UNIQUE ( role_id,authority_id );
-
-insert  into role_authority_map(role_id,authority_id) values (1,1);
-insert  into role_authority_map(role_id,authority_id) values (1,2);
-insert  into role_authority_map(role_id,authority_id) values (1,3);
-insert  into role_authority_map(role_id,authority_id) values (1,4);
-insert  into role_authority_map(role_id,authority_id) values (1,5);
-insert  into role_authority_map(role_id,authority_id) values (1,6);
-insert  into role_authority_map(role_id,authority_id) values (1,7);
-insert  into role_authority_map(role_id,authority_id) values (1,8);
-insert  into role_authority_map(role_id,authority_id) values (1,9);
-insert  into role_authority_map(role_id,authority_id) values (1,10);
-insert  into role_authority_map(role_id,authority_id) values (1,11);
-insert  into role_authority_map(role_id,authority_id) values (1,12);
-
-insert  into role_authority_map(role_id,authority_id) values (2,1);
-insert  into role_authority_map(role_id,authority_id) values (2,2);
-insert  into role_authority_map(role_id,authority_id) values (2,3);
-insert  into role_authority_map(role_id,authority_id) values (2,4);
-insert  into role_authority_map(role_id,authority_id) values (2,5);
-insert  into role_authority_map(role_id,authority_id) values (2,6);
-insert  into role_authority_map(role_id,authority_id) values (2,12);
-
-insert  into role_authority_map(role_id,authority_id) values (3,6);
 
 -- ------------------------------------------------------
 -- sortindex: 用于对配置可选值在显示的时候进行排序。
@@ -124,11 +75,6 @@ ALTER TABLE setting ADD CONSTRAINT setting_name_sortindex_uq UNIQUE ( name,sorti
 ALTER TABLE setting ADD CONSTRAINT setting_name_value_uq UNIQUE ( name,value );
 
 #addAutoIncrement("setting")
-
-insert  into setting(name,value,sortindex) values ('RowsPerPage','20',0);
-insert  into setting(name,value,sortindex) values ('RowsPerPage','100',1);
-insert  into setting(name,value,sortindex) values ('Skin','Blue',0);
-insert  into setting(name,value,sortindex) values ('Skin','Gray',1);
 
 -- ------------------------------------------------------
 CREATE TABLE user_setting_map(
@@ -148,9 +94,6 @@ ALTER TABLE acl_sid ADD CONSTRAINT acl_sid_uq UNIQUE ( principal,sid );
 
 #addAutoIncrement("acl_sid")
 
-insert into acl_sid(principal,sid) values ($db.BOOLEAN_FALSE,'ROLE_ADMIN');
-insert into acl_sid(principal,sid) values ($db.BOOLEAN_FALSE,'ROLE_USER');
-
 -- -----------------------------------------------------
 --
 CREATE TABLE acl_class (
@@ -160,8 +103,6 @@ CREATE TABLE acl_class (
 ALTER TABLE acl_class ADD CONSTRAINT acl_class_uq UNIQUE ( class );
 
 #addAutoIncrement("acl_class")
-
-insert into acl_class(class) values ('org.gaixie.micrite.beans.Role');
 
 -- ------------------------------------------------------
 --
@@ -186,13 +127,6 @@ ALTER TABLE acl_object_identity ADD CONSTRAINT aoi_owner_sid_class_fk FOREIGN KE
 
 #addAutoIncrement("acl_object_identity")
 
-insert into acl_object_identity(object_id_class,object_id_identity,owner_sid,entries_inheriting) 
-values (1,1,1,$db.BOOLEAN_TRUE);
-insert into acl_object_identity(object_id_class,object_id_identity,owner_sid,entries_inheriting) 
-values (1,2,1,$db.BOOLEAN_TRUE);
-insert into acl_object_identity(object_id_class,object_id_identity,owner_sid,entries_inheriting) 
-values (1,3,1,$db.BOOLEAN_TRUE);
-            
 -- ------------------------------------------------------
 --
 CREATE TABLE acl_entry (
@@ -214,15 +148,6 @@ ALTER TABLE acl_entry ADD CONSTRAINT aoi_sid_fk FOREIGN KEY (sid)
     REFERENCES acl_sid (id);
 
 #addAutoIncrement("acl_entry")
-
-insert into acl_entry(acl_object_identity,ace_order,sid,mask,granting,audit_success,audit_failure) 
-values (1,1,1,16,$db.BOOLEAN_TRUE,$db.BOOLEAN_FALSE,$db.BOOLEAN_FALSE);
-insert into acl_entry(acl_object_identity,ace_order,sid,mask,granting,audit_success,audit_failure) 
-values (2,1,1,16,$db.BOOLEAN_TRUE,$db.BOOLEAN_FALSE,$db.BOOLEAN_FALSE);  
-insert into acl_entry(acl_object_identity,ace_order,sid,mask,granting,audit_success,audit_failure) 
-values (2,2,2,16,$db.BOOLEAN_TRUE,$db.BOOLEAN_FALSE,$db.BOOLEAN_FALSE); 
-insert into acl_entry(acl_object_identity,ace_order,sid,mask,granting,audit_success,audit_failure) 
-values (3,1,1,16,$db.BOOLEAN_TRUE,$db.BOOLEAN_FALSE,$db.BOOLEAN_FALSE); 
 
 -- ------------------------------------------------------
 -- name: 客户的来源，如 陌生拜访，亲友

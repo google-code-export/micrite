@@ -45,7 +45,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 public class AclEntry {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private long id;
     
     @ManyToOne(targetEntity = AclObjectIdentity.class)
@@ -70,6 +70,28 @@ public class AclEntry {
     
     @Column(name = "audit_failure", nullable = false)
     private boolean auditFailure;    
+    
+    /**
+     * No-arg constructor for JavaBean tools.
+     */
+    public AclEntry() {
+        
+    }
+
+    /**
+     * Full constructor
+     */
+    public AclEntry(AclObjectIdentity aclObject,Integer aceOrder,AclSid aclSid,
+            Integer mask,boolean granting,boolean auditSuccess,boolean auditFailure) {
+        this.aclObject = aclObject;
+        this.aceOrder = aceOrder;
+        this.aclSid = aclSid;
+        this.mask = mask;
+        this.granting = granting;    
+        this.auditSuccess = auditSuccess;    
+        this.auditFailure = auditFailure;            
+    }  
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//     
     public long getId() {
         return id;

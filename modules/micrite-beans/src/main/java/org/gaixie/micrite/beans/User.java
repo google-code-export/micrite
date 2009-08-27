@@ -58,7 +58,7 @@ public class User implements UserDetails {
     private static final long serialVersionUID = 8026813053768023527L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
     
     private String fullname;
@@ -78,6 +78,7 @@ public class User implements UserDetails {
     @JoinTable(name = "user_setting_map", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "setting_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Setting> settings;
+
     /**
      * No-arg constructor for JavaBean tools.
      */
@@ -85,6 +86,17 @@ public class User implements UserDetails {
         
     }
 
+    /**
+     * Simple constructor
+     */
+    public User(String fullname,String loginname,String cryptpassword,String emailaddress,boolean enabled) {
+        this.fullname = fullname;
+        this.loginname = loginname;     
+        this.cryptpassword = cryptpassword;  
+        this.emailaddress = emailaddress;  
+        this.enabled = enabled;  
+    }
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~ 实现 UserDetails Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     /**
      * 这里的Authorities指的是Spring Security的权限标识符，这里对应 <code>Role</code>。

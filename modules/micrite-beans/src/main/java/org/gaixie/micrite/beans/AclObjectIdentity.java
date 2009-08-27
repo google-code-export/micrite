@@ -47,7 +47,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 public class AclObjectIdentity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private long id;
     
     @ManyToOne(targetEntity = AclClass.class)
@@ -68,6 +68,22 @@ public class AclObjectIdentity {
     @Column(name = "entries_inheriting", nullable = false)
     private boolean inheriting;
     
+    /**
+     * No-arg constructor for JavaBean tools.
+     */
+    public AclObjectIdentity() {
+        
+    }
+
+    /**
+     * Simple constructor
+     */
+    public AclObjectIdentity(AclClass aclClass,long objectId, AclSid aclSid,boolean inheriting) {
+        this.aclClass = aclClass;
+        this.objectId = objectId;
+        this.aclSid = aclSid;
+        this.inheriting = inheriting;           
+    }    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//     
     public long getId() {
         return id;

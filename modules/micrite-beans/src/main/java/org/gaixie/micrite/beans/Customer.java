@@ -47,7 +47,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 public class Customer extends AbstractSecureObject implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
     
     private String name;
@@ -60,6 +60,21 @@ public class Customer extends AbstractSecureObject implements Serializable {
     @JoinColumn(name = "customer_source_id")
     private CustomerSource customerSource;
 
+    /**
+     * No-arg constructor for JavaBean tools
+     */
+    public Customer() {}
+    
+    /**
+     * Full constructor
+     */
+    public Customer(String name,String telephone,Date creation_ts,CustomerSource customerSource) {
+        this.name = name;
+        this.telephone = telephone;
+        this.creation_ts = creation_ts;
+        this.customerSource = customerSource;        
+    }
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//     
     public Integer getId() {
         return id;

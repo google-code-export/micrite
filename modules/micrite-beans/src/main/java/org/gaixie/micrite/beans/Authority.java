@@ -52,7 +52,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 public class Authority {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
     private String name;
@@ -73,6 +73,15 @@ public class Authority {
 
     }
 
+    /**
+     * Simple constructor
+     */
+    public Authority(String name,String type,String value) {
+        this.name = name;
+        this.type = type;     
+        this.value = value;  
+    }    
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
     public Integer getId() {
         return id;

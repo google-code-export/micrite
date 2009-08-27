@@ -42,7 +42,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class AclSid {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private long id;
 
     @Column(name = "principal", nullable = false)
@@ -51,6 +51,21 @@ public class AclSid {
     @Column(name = "sid", nullable = false)
     private String sid;
 
+    /**
+     * No-arg constructor for JavaBean tools.
+     */
+    public AclSid() {
+        
+    }
+
+    /**
+     * Full constructor
+     */
+    public AclSid(boolean principal, String sid) {
+        this.principal = principal;
+        this.sid = sid;     
+    }
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//     
     public long getId() {
         return id;
