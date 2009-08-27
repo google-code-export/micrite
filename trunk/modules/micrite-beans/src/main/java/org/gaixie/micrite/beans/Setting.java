@@ -40,16 +40,33 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "setting")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Setting {
-	
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 	private String name;
 	private String value;
 	private int sortindex;
 	private boolean enabled;
     
+    /**
+     * No-arg constructor for JavaBean tools.
+     */
+    public Setting() {
+
+    }
+    
+    /**
+     * Full constructor
+     */
+    public Setting(String name,String value,int sortindex,boolean enabled) {
+        this.name = name;
+        this.value = value;     
+        this.sortindex = sortindex;  
+        this.enabled = enabled; 
+    }  
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//    
 	public Integer getId() {
 		return id;
 	}

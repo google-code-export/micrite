@@ -49,7 +49,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 public class Role extends AbstractSecureObject implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
     
     private String name;
@@ -67,6 +67,14 @@ public class Role extends AbstractSecureObject implements Serializable {
      */
     public Role() {
         
+    }
+    
+    /**
+     * Simple constructor
+     */
+    public Role(String name,String description) {
+        this.name = name;
+        this.description = description;        
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//     

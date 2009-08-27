@@ -169,6 +169,10 @@
             <artifactId>derbytools</artifactId>
         </dependency>
         <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+        </dependency>          
+        <dependency>
             <groupId>postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
@@ -305,8 +309,8 @@
             <resource>
                 <directory>target/classes</directory>
                 <includes>
-                    <include>databaseResource-hibernate.xml</include>
-                    <include>hibernate.properties</include>
+                    <include>applicationContext.xml</include>
+                    <include>application.properties</include>
                     <include>log4j.properties</include>
                     <include>struts.properties</include>
                     <include>struts.xml</include>

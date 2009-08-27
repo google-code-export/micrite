@@ -42,12 +42,26 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class AclClass {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private long id;
 
     @Column(name = "class", nullable = false)
     private String cls;
 
+    /**
+     * No-arg constructor for JavaBean tools.
+     */
+    public AclClass() {
+        
+    }
+
+    /**
+     * Full constructor
+     */
+    public AclClass(String cls) {
+        this.cls = cls;
+    }
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Accessor Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//     
     public long getId() {
         return id;

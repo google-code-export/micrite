@@ -137,8 +137,9 @@ msgPanel = function(){
        // 显式调用父类构造器    
  msgPanel.superclass.constructor.call(this, {
      id:'msg-panel',
-   //  region:'center',
-     layout:'fit',
+     region:'south',
+     //layout:'fit',
+     height:140,
      border:false,
      title:this.messageText,
      split:true,
@@ -157,8 +158,8 @@ MenuTreePanel = function() {
     // 显式调用父类构造器    
     MenuTreePanel.superclass.constructor.call(this, {
         id:'module-tree',
-       // region:'north',
-        layout:'fit',
+        region:'center',
+        //layout:'fit',
         border:false,
         floatable: false,
         title:this.navPanelText,
@@ -228,7 +229,7 @@ NavPanel = function() {
    NavPanel.superclass.constructor.call(this, {
         id:'nav-panel',
         region:'west',
-        layout:'anchor',
+        layout:'border',
         margins:'0 0 5 5',
         cmargins:'0 5 5 5',
         split:true,

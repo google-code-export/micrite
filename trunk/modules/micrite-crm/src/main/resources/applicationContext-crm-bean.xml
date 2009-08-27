@@ -30,11 +30,18 @@
     xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+    <bean id="CRMDataPrepare" class="org.gaixie.micrite.crm.data.CRMDataPrepare" />
+
     <bean id="customerAction" class="org.gaixie.micrite.crm.action.CustomerAction" scope="prototype" />
     <bean id="customerChartAction" class="org.gaixie.micrite.crm.action.CustomerChartAction" scope="prototype" />    
 	<bean id="customerService" class="org.gaixie.micrite.crm.service.impl.CustomerServiceImpl" />
+    <bean id="CRMDataPrepareService" class="org.gaixie.micrite.crm.service.impl.CRMDataPrepareServiceImpl" />
 
 	<bean id="customerDAO" class="org.gaixie.micrite.crm.dao.hibernate.CustomerDAOImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
+    
+    <bean id="customerSourceDAO" class="org.gaixie.micrite.crm.dao.hibernate.CustomerSourceDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>    
 </beans>
