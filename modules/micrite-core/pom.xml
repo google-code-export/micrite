@@ -32,7 +32,7 @@
     <parent>
         <groupId>org.gaixie.micrite</groupId>
         <artifactId>micrite-modules</artifactId>
-        <version>0.11</version>
+        <version>0.12-SNAPSHOT</version>
     </parent>
 
 	<groupId>org.gaixie.micrite</groupId>
@@ -52,7 +52,7 @@
         <dependency>
             <groupId>org.gaixie.micrite</groupId>
             <artifactId>micrite-common</artifactId>
-            <version>0.11</version>             
+            <version>0.12-SNAPSHOT</version>             
         </dependency> 
         <!-- JFreeChart -->
 		<dependency>
