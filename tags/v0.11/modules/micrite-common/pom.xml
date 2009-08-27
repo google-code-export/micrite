@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/* ===========================================================
+ * $Id$
+ * This file is part of Micrite
+ * ===========================================================
+ *
+ * (C) Copyright 2009, by Gaixie.org and Contributors.
+ * 
+ * Project Info:  http://micrite.gaixie.org/
+ *
+ * Micrite is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Micrite is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Micrite.  If not, see <http://www.gnu.org/licenses />.
+ *
+ */
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.gaixie.micrite</groupId>
+        <artifactId>micrite-modules</artifactId>
+        <version>0.11</version>
+    </parent>
+
+    <groupId>org.gaixie.micrite</groupId>
+    <artifactId>micrite-common</artifactId>
+    <name>Micrite Modules :: Common</name>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>        
+        <!-- Java Transactions -->
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+        </dependency>
+
+        <!-- Hibernate EntityManager-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.transaction</groupId>
+                    <artifactId>jta</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Struts 2 -->
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-core</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>        
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>process-dbscripts</id>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <property name="compile_classpath" refid="maven.compile.classpath" />
+                                <property name="build.dbscripts" value="${project.build.directory}/dbscripts" />
+                                <mkdir dir="${build.dbscripts}" />
+
+                                <!--
+                                    need a directory for each db to exist before generation can
+                                    happen
+                                -->
+                                <mkdir dir="${build.dbscripts}/derby" />
+                                <mkdir dir="${build.dbscripts}/hsqldb" />                                
+                                <mkdir dir="${build.dbscripts}/mssql" />
+                                <mkdir dir="${build.dbscripts}/mysql" />
+                                <mkdir dir="${build.dbscripts}/oracle" />
+                                <mkdir dir="${build.dbscripts}/postgresql" />
+
+                                <path id="texen.path">
+                                    <pathelement path="${compile_classpath}" />
+                                    <pathelement location="${project.basedir}/src/main/scripts/sql/" />
+                                    <pathelement location="${project.basedir}/src/main/scripts/sql/database" />
+                                </path>
+                                <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask" classpathref="texen.path" />
+
+                                <texen controlTemplate="control.vm" contextProperties="${project.basedir}/src/main/scripts/sql/dbscripts.properties" useClasspath="true" inputEncoding="UTF-8" outputEncoding="UTF-8" outputDirectory="${build.dbscripts}" outputFile="README.txt" />
+
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

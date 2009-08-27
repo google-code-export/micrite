@@ -1,0 +1,28 @@
+#** 
+dropdb.vm: Velocity template that generates vendor-specific database scripts 
+
+DON'T RUN THIS, IT'S NOT A DATABASE DROP SCRIPT!!!
+**#
+
+-- Run this script to drop the Micrite database tables in your database.
+
+-- drop tables with foreign key
+DROP TABLE role_authority_map;
+DROP TABLE user_role_map;
+DROP TABLE customers;
+DROP TABLE user_setting_map;
+
+-- drop non-associated tables
+DROP TABLE customer_source;
+
+-- drop acl tables
+DROP TABLE acl_entry;
+DROP TABLE acl_object_identity;
+DROP TABLE acl_class;
+DROP TABLE acl_sid;
+
+-- drop core tables
+DROP TABLE roles;
+DROP TABLE userbase;
+DROP TABLE authorities;
+DROP TABLE setting;

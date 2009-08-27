@@ -1,0 +1,82 @@
+<!--
+/* ===========================================================
+ * $Id$
+ * This file is part of Micrite
+ * ===========================================================
+ *
+ * (C) Copyright 2009, by Gaixie.org and Contributors.
+ * 
+ * Project Info:  http://micrite.gaixie.org/
+ *
+ * Micrite is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Micrite is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Micrite.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+-->
+
+<component>
+
+	<fileSets>
+		<fileSet>
+			<directory>
+				../modules/micrite-beans/src/main/java/org/gaixie/micrite/beans
+			</directory>
+			<outputDirectory>src/org/gaixie/micrite/beans</outputDirectory>
+		</fileSet>
+
+
+		<fileSet>
+			<directory>
+				../modules/micrite-common/src/main/java/org/gaixie/micrite/common
+			</directory>
+			<outputDirectory>src/org/gaixie/micrite/common</outputDirectory>
+		</fileSet>
+
+        <fileSet>
+            <directory>
+                ../modules/micrite-core/src/main/java/org/gaixie/micrite
+            </directory>
+            <outputDirectory>src/org/gaixie/micrite</outputDirectory>
+        </fileSet>
+        
+		<fileSet>
+			<directory>
+				../modules/micrite-crm/src/main/java/org/gaixie/micrite/crm
+			</directory>
+			<outputDirectory>src/org/gaixie/micrite/crm</outputDirectory>
+		</fileSet>
+
+
+		<fileSet>
+			<directory>
+				../modules/micrite-security/src/main/java/org/gaixie/micrite/security
+			</directory>
+			<outputDirectory>src/org/gaixie/micrite/security</outputDirectory>
+		</fileSet>
+        
+        <fileSet>
+            <directory>
+                ../plugins/jfreechart/src/main/java/org/gaixie/micrite/jfreechart
+            </directory>
+            <outputDirectory>src/org/gaixie/micrite/jfreechart</outputDirectory>
+        </fileSet>
+        
+        <fileSet>
+            <directory>
+                ../plugins/struts2/src/main/java/org/gaixie/micrite/struts2
+            </directory>
+            <outputDirectory>src/org/gaixie/micrite/struts2</outputDirectory>
+        </fileSet>                  
+	</fileSets>
+</component>
+
