@@ -46,7 +46,7 @@ Before you can install Micrite you'll probably need to some work to prepare your
 You need some place to put the Micrite tables. Some folks call this a table-space, but we refer to it as a database.<br>
 You need to create a database for Micrite, or get your database administrator to do it for you. And second, you need to have a JDBC driver installed for you database of choice.
 
-*Note: If you want take a glance at micrite, you can use hsqldb in memory, just skip to [http://code.google.com/p/micrite/wiki/InstallGuide#Deploy_Micrite Deploy Micrite]* 
+*Note: If you want take a glance at micrite v0.11 or higher, you can use hsqldb in memory, just skip to [http://code.google.com/p/micrite/wiki/InstallGuide#Deploy_Micrite Deploy Micrite]* 
 ==Create a database for Micrite==
 If you're luck enough to have your own database administrator, ask them to setup a database for Micrite. When they are done, ask them to provide you with this information, you'll need it later:
  * Username and password for connecting to database
