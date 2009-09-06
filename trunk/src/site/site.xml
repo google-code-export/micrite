@@ -43,13 +43,13 @@
     </bannerLeft>
     <bannerRight>
         <name>Micrite</name>
-        <src>http://sites-by-maven.gaixie.org/micrite/images/micrite-logo.jpg</src>
+        <src>http://micrite.gaixie.org/images/micrite-logo.jpg</src>
         <href>http://micrite.gaixie.org/</href>
     </bannerRight>    
   <body>
     <links>
         <item name="Gaixie" href="http://www.gaixie.org/"/>
-        <item name="Micrite" href="http://sites-by-maven.gaixie.org/micrite/stable"/>
+        <item name="Micrite" href="http://micrite.gaixie.org/"/>
     </links>
     
     <menu ref="reports" name="Reports"/> 
