@@ -31,7 +31,7 @@
 	<groupId>org.gaixie.micrite</groupId>
 	<artifactId>micrite-parent</artifactId>
 	<name>Micrite</name>
-	<url>http://sites-by-maven.gaixie.org/micrite/0.x</url>
+	<url>http://micrite.gaixie.org/</url>
 	<packaging>pom</packaging>
 
 	<version>0.12-SNAPSHOT</version>
@@ -42,7 +42,7 @@
 
 	<organization>
 		<name>The Gaixie Micrite development community</name>
-		<url>http://micrite.gaixie.org/</url>
+		<url>http://code.google.com/p/micrite/people/list</url>
 	</organization>
 
 	<scm>
@@ -70,19 +70,19 @@
 	-->
 	<distributionManagement>
         <repository>
-            <id>sites-by-maven.gaixie.org</id>
+            <id>repos.gaixie.org</id>
             <name>Gaixie Maven Release Repository</name>
-            <url>scp://sites-by-maven.gaixie.org/var/www/sites-by-maven/repos/m2-release</url>
+            <url>scp://repos.gaixie.org/var/www/repos/m2-release</url>
         </repository>
 
         <snapshotRepository>
-            <id>sites-by-maven.gaixie.org</id>
+            <id>repos.gaixie.org</id>
             <name>Gaixie Maven Repository (Snapshots and Test Builds)</name>
-            <url>scp://sites-by-maven.gaixie.org/var/www/sites-by-maven/repos/m2-snapshot</url>
+            <url>scp://repos.gaixie.org/var/www/repos/m2-snapshot</url>
         </snapshotRepository>	        
 		<site>
-			<id>sites-by-maven.gaixie.org</id>
-			<url>scp://sites-by-maven.gaixie.org/var/www/sites-by-maven/micrite/0.11</url>
+			<id>micrite.gaixie.org</id>
+			<url>scp://micrite.gaixie.org/var/www/micrite/0.12-SNAPSHOT</url>
 		</site>
 	</distributionManagement>
 
@@ -131,12 +131,6 @@
         <spring.security.version>2.0.5.RELEASE</spring.security.version>
 		<jstl.version>1.1.2</jstl.version>
 
-        <jdbc.database>hsqldb</jdbc.database>
-        <jdbc.driver>org.hsqldb.jdbcDriver</jdbc.driver>
-        <jdbc.url>jdbc:hsqldb:mem:micrite_db</jdbc.url>
-        <jdbc.username>sa</jdbc.username>
-        <jdbc.password />  
-        
 		<!-- Common plan properties -->
 		<PlanServerHostname>0.0.0.0</PlanServerHostname>
 		<PlanHTTPPort>8080</PlanHTTPPort>
