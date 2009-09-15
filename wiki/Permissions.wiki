@@ -161,7 +161,7 @@ ACL 在项目中的应用，需要明确的权限划分，否则很有可能日�
 
 <br><br>
 = Reference =
- * [http://blogs.gaixie.org/tommy/?p=18 Hibernate implementation of Spring Security ACL]
+ * [http://blogs.gaixie.org/tommy/?p=7 Hibernate implementation of Spring Security ACL]
  * [http://static.springsource.org/spring-security/site/docs/2.0.x/reference/springsecurity.html Spring Security Reference Documentation] 
  * [http://www.family168.com/tutorial/springsecurity/html/springsecurity.html Spring Security中文参考文档]
  * [http://server.denksoft.com/wordpress/?page_id=5 A Spring Security ACL tutorial for PostgreSQL]<br>
