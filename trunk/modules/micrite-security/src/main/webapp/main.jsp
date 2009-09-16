@@ -45,13 +45,10 @@
 <script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base-debug.js"></script>
 <script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/CheckboxField.js"></script>
-<script type="text/javascript" src="js-lib/ext-ux-js/Spinner.js"></script>
-<script type="text/javascript" src="js-lib/ext-ux-js/SpinnerStrategy.js"></script>
+<script type="text/javascript" src="js-lib/ext-ux-js/ux-all.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/locale/micrite-base-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
-<script type="text/javascript" src="js-lib/ext-ux-js/ProgressBarPager.js"></script>
-<script type="text/javascript" src="js-lib/ext-ux-js/TabCloseMenu.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/util.js"></script>
-<link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/Spinner.css">
+<link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/ux-all.css">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/micrite-all.css">
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/CheckboxField.css">
 <style type="text/css">
@@ -271,20 +268,20 @@ MainPanel = function() {
 micrite.security.framework.MainPanel=Ext.extend(MainPanel, Ext.TabPanel, {
     centerPanelText:'Center Panel',
     loadModule : function(href,tabTitle){
-	    var tab;
-	    if(!(tab = this.getItem(tabTitle))){
-	        var autoLoad = micrite.util.autoLoad({url: href,scripts:true});
-	        tab = new Ext.Panel({
-	            id: tabTitle,
-	            title: tabTitle,
-	            closable:true,
-	            autoLoad: autoLoad,
-	            layout:"fit",
-	            border:false
-	        });
-	        this.add(tab);
-	    }
-	    this.setActiveTab(tab);
+        var tab;
+        if(!(tab = this.getItem(tabTitle))){
+            var autoLoad = micrite.util.autoLoad({url: href,scripts:true});
+            tab = new Ext.Panel({
+                id: tabTitle,
+                title: tabTitle,
+                closable:true,
+                autoLoad: autoLoad,
+                layout:"fit",
+                border:false
+            });
+            this.add(tab);
+        }
+        this.setActiveTab(tab);
     }
 });
 
