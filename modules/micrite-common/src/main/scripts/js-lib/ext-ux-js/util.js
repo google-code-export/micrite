@@ -90,3 +90,123 @@ micrite.util = function() {
         }
      };
 }();
+
+
+/**
+ * @class Ext.ux.TimeSpinner
+ * @extends Ext.util.Observable
+ * Creates a TimeSpinner control utilized by Ext.ux.form.TimeSpinnerField
+ */
+Ext.ux.TimeSpinner = Ext.extend(Ext.ux.Spinner, {
+    incrementValue: 1,
+    alternateIncrementValue: 1,
+    defaultValue: new Date(),
+    format : 'H:i',
+    constructor: function(config){
+        Ext.ux.TimeSpinner.superclass.constructor.call(this, config);
+        Ext.apply(this, config);
+    },
+    spin: function(down, alternate){
+        var v = this.field.getRawValue();
+        v = Date.parseDate(v, this.format);
+        var incr = (alternate == true) ? this.alternateIncrementValue : this.incrementValue;
+        var dir = (down == true) ? dir = -1 : dir = 1;
+        var dtconst = (alternate == true) ? Date.HOUR : Date.MINUTE;
+        v = (v) ? v.add(dtconst, dir*incr) : this.defaultValue;
+        v = this.fixBoundries(v);
+        v = Ext.util.Format.date(v,this.format),
+        this.field.setRawValue(v);
+    },
+
+    fixBoundries: function(value){
+        var dt = value;
+        var min = (typeof this.minValue == 'string') ? Date.parseDate(this.minValue, this.format) : this.minValue ;
+        var max = (typeof this.maxValue == 'string') ? Date.parseDate(this.maxValue, this.format) : this.maxValue ;
+
+        if(this.minValue != undefined && dt < min){
+            dt = min;
+        }
+        if(this.maxValue != undefined && dt > max){
+            dt = max;
+        }
+
+        return dt;
+    }
+});
+
+//backwards compat
+Ext.form.TimeSpinner = Ext.ux.TimeSpinner;
+
+
+/*!
+ * Ext JS Library 3.0.0
+ * Copyright(c) 2006-2009 Ext JS, LLC
+ * licensing@extjs.com
+ * http://www.extjs.com/license
+ */
+Ext.ns('Ext.ux.form');
+
+/**
+ * @class Ext.ux.form.SpinnerField
+ * @extends Ext.form.NumberField
+ * Creates a field utilizing Ext.ux.Spinner
+ * @xtype spinnerfield
+ */
+Ext.ux.form.TimeSpinnerField = Ext.extend(Ext.form.DateField, {
+    deferHeight: true,
+    autoSize: Ext.emptyFn,
+    format:'H:i',
+    onBlur: Ext.emptyFn,
+    adjustSize: Ext.BoxComponent.prototype.adjustSize,
+
+	constructor: function(config) {
+		var spinnerConfig = Ext.copyTo({}, config, 'incrementValue,alternateIncrementValue,accelerate,defaultValue,triggerClass,splitterClass');
+
+		var spl = this.spinner = new Ext.ux.TimeSpinner(spinnerConfig);
+
+		var plugins = config.plugins
+			? (Ext.isArray(config.plugins)
+				? config.plugins.push(spl)
+				: [config.plugins, spl])
+			: spl;
+
+		Ext.ux.form.TimeSpinnerField.superclass.constructor.call(this, Ext.apply(config, {plugins: plugins}));
+	},
+
+    onShow: function(){
+        if (this.wrap) {
+            this.wrap.dom.style.display = '';
+            this.wrap.dom.style.visibility = 'visible';
+        }
+    },
+
+    onHide: function(){
+        this.wrap.dom.style.display = 'none';
+    },
+
+    // private
+    getResizeEl: function(){
+        return this.wrap;
+    },
+
+    // private
+    getPositionEl: function(){
+        return this.wrap;
+    },
+
+    // private
+    alignErrorIcon: function(){
+        if (this.wrap) {
+            this.errorIcon.alignTo(this.wrap, 'tl-tr', [2, 0]);
+        }
+    },
+
+    validateBlur: function(){
+        return true;
+    }
+});
+
+Ext.reg('timespinnerfield', Ext.ux.form.TimeSpinnerField);
+
+//backwards compat
+Ext.form.TimeSpinnerField = Ext.ux.form.TimeSpinnerField;
