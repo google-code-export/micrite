@@ -163,11 +163,11 @@ public class SecDataPrepareServiceImpl implements ISecDataPrepareService {
         
         //insert  into userbase(fullname,loginname,cryptpassword,emailaddress,enabled) values ('Administrator','admin','e10adc3949ba59abbe56e057f20f883e','administrator@micrite.org',1);
         //insert  into userbase(fullname,loginname,cryptpassword,emailaddress,enabled) values ('Tommy Wang','user','e10adc3949ba59abbe56e057f20f883e','tommywang@micrite.org',1);
-        User user = new User("Administrator","admin","e10adc3949ba59abbe56e057f20f883e","administrator@micrite.org",true);
+        User user = new User("Administrator","admin","e10adc3949ba59abbe56e057f20f883e","test1.micrite@gmail.com",true);
         user.setRoles(new HashSet<Role>(){{add(roleAdmin);}});
         userDAO.save(user);
         
-        user = new User("Tommy Wang","user","e10adc3949ba59abbe56e057f20f883e","tommywang@micrite.org",true);
+        user = new User("Tommy Wang","user","e10adc3949ba59abbe56e057f20f883e","micritetest2@163.com",true);
         user.setRoles(new HashSet<Role>(){{add(roleUser);}});
         userDAO.save(user);
         

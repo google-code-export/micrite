@@ -121,38 +121,45 @@
               </list>
          </property>
      </bean>
-<!--
-    <bean id="exporter" class="org.springframework.jmx.export.MBeanExporter" lazy-init="false">
-        <property name="assembler" ref="assembler"/>
-        <property name="namingStrategy" ref="namingStrategy"/>
-        <property name="autodetect" value="true"/>
-        <property name="beans">
-           <map>
-              <entry key="org.hibernate:name=Statistics"  value-ref="hibernateMBean"/>
-           </map>
-        </property>
-    </bean>
 
-    <bean id="hibernateMBean" class="org.hibernate.jmx.StatisticsService">
-       <property name="sessionFactory" ref="sessionFactory"/>
-       <property name="statisticsEnabled" value="true"/>
-    </bean>
-
-    <bean id="jmxAttributeSource"
-          class="org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource"/>
--->
-    <!-- will create management interface using annotation metadata 
-    <bean id="assembler"
-          class="org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler">
-        <property name="attributeSource" ref="jmxAttributeSource"/>
-    </bean>
-    -->
-    <!-- will pick up the ObjectName from the annotation 
-    <bean id="namingStrategy"
-          class="org.springframework.jmx.export.naming.MetadataNamingStrategy">
-        <property name="attributeSource" ref="jmxAttributeSource"/>
-    </bean>
-    -->
     <!-- BeanPostProcessor detect @Autowired flag to inject -->   
-    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>     
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>   
+
+    <!-- noreply.micrite@gmail.com is an accout for test, 
+         Please dont change the password and dont let it become a spam account!
+         noreply.micrite@gmail.com 只是一个用来测试邮件通知功能的帐号，
+          请不要修改它的密码，已及不要通过它来测试大批量邮件发送，以免帐号被google删除。
+          如果要进行邮件群发测试，最好自己注册一个新的邮件帐号!
+    -->      
+    <bean id="mailSender"
+            class= "org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com" />
+        <property name="port" value="465" />
+        <property name="protocol" value="smtps" />
+        <property name="username" value="noreply.micrite@gmail.com" />
+        <property name="password" value="noreply123" />
+        <property name="javaMailProperties">
+            <props>
+                <!--  采用 smpts协议  -->
+                <prop key="mail.smtps.auth">true</prop>
+                <!--  采用 tls加密方式  -->
+                <prop key="mail.smtps.starttls.enable">true</prop>
+                <prop key="mail.smtps.debug">true</prop>
+            </props>
+        </property>
+        
+        <!-- mail.163.com setting    
+        <property name="host" value="smtp.163.com" />  
+        <property name="port" value="25" />  
+        <property name="username" value="xxxx@163.com" />  
+        <property name="password" value="xxxxx" />  
+        <property name="javaMailProperties">  
+         <props>  
+             <prop key="mail.smtp.auth">true</prop>  
+         </props>  
+        </property> 
+        -->         
+    </bean>
+    
+    <bean id="emailService" class="org.gaixie.micrite.service.impl.EmailServiceImpl" />     
 </beans>

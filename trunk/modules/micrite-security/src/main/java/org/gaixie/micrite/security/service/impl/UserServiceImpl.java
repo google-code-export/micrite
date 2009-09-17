@@ -36,6 +36,8 @@ import org.gaixie.micrite.security.dao.IRoleDAO;
 import org.gaixie.micrite.security.dao.ISettingDAO;
 import org.gaixie.micrite.security.dao.IUserDAO;
 import org.gaixie.micrite.security.service.IUserService;
+import org.gaixie.micrite.service.IEmailService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.Authentication;
@@ -60,6 +62,9 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Autowired
     private ISettingDAO settingDAO;    
 
+    @Autowired
+    private IEmailService emailService;
+    
     //  用于对明文密码加密
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -96,6 +101,9 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         user.setCryptpassword(cryptpassword);
         user.setEnabled(true);
         userDAO.save(user);
+        emailService.sendEmail(null,user.getEmailaddress(), "New Account create Confirmation",
+                "Dear " + user.getFullname() + " "
+                + ", A new account for "+user.getEmailaddress()+" has been created. ");        
     }
 
     public boolean isExistedByUsername(String username) {
@@ -146,6 +154,10 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         
         Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
         SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(currentAuthentication));
+        
+        emailService.sendEmail(null,user.getEmailaddress(), "Account Settings Change Confirmation",
+                "Dear " + user.getFullname() + " "
+                + ", your Account Settings have been modified. ");
     }
     
     public void update(User u) throws SecurityException {
@@ -170,6 +182,10 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         if (user.getUsername().equals(currentAuthentication.getName())) {
             SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(currentAuthentication));
         }
+        
+        emailService.sendEmail(null,user.getEmailaddress(), "帐户修改确认",
+                "尊敬的 " + user.getFullname() + " "
+                + ", 您的帐户信息已经被修改. ");
         
     }    
     private Authentication createNewAuthentication(Authentication currentAuth) {
@@ -211,6 +227,10 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         for (int i = 0; i < userIds.length; i++) {
             User user = userDAO.get(userIds[i]);
             userDAO.delete(user);
+            
+            emailService.sendEmail(null,user.getEmailaddress(), "Account delete Confirmation",
+                    "Dear " + user.getFullname() + " "
+                    + ", your Account has been deleted. ");
         }
     }
     
