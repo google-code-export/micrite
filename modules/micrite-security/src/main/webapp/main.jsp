@@ -45,7 +45,8 @@
 <script type="text/javascript" src="js-lib/ext-js/adapter/ext/ext-base-debug.js"></script>
 <script type="text/javascript" src="js-lib/ext-js/ext-all-debug.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/CheckboxField.js"></script>
-<script type="text/javascript" src="js-lib/ext-ux-js/ux-all.js"></script>
+<!-- 这是一个官方插件包，未压缩版本大家可以从官方zip包中examples/ux目录中找到，方便debug -->
+<script type="text/javascript" src="js-lib/ext-ux-js/ux-all.js" ></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/locale/micrite-base-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/util.js"></script>
 <link rel="stylesheet" type="text/css" href="js-lib/ext-ux-js/resources/css/ux-all.css">
