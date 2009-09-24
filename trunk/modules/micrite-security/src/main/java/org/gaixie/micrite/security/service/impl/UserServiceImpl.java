@@ -25,15 +25,20 @@
 package org.gaixie.micrite.security.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.Setting;
+import org.gaixie.micrite.beans.Token;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.security.SecurityException;
 import org.gaixie.micrite.security.dao.IRoleDAO;
 import org.gaixie.micrite.security.dao.ISettingDAO;
+import org.gaixie.micrite.security.dao.ITokenDAO;
 import org.gaixie.micrite.security.dao.IUserDAO;
 import org.gaixie.micrite.security.service.IUserService;
 import org.gaixie.micrite.service.IEmailService;
@@ -61,6 +66,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     private IRoleDAO roleDAO;
     @Autowired
     private ISettingDAO settingDAO;    
+    @Autowired
+    private ITokenDAO tokenDAO;    
 
     @Autowired
     private IEmailService emailService;
@@ -101,9 +108,15 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         user.setCryptpassword(cryptpassword);
         user.setEnabled(true);
         userDAO.save(user);
-        emailService.sendEmail(null,user.getEmailaddress(), "New Account create Confirmation",
-                "Dear " + user.getFullname() + " "
-                + ", A new account for "+user.getEmailaddress()+" has been created. ");        
+        
+        String emailText =  "Dear " + user.getFullname() + ": \r\n"+
+                            "A new account for "+user.getLoginname() +" has been created. \r\n"+
+                            "\r\n"+                               
+                            "This is an automatically generated message. Replies are not monitored or answered. \r\n"+
+                            "\r\n"+     
+                            "Sincerely \r\n"+
+                            "The Micrite Support Team";        
+        emailService.sendEmail(null,user.getEmailaddress(), "New Account create Confirmation",emailText);        
     }
 
     public boolean isExistedByUsername(String username) {
@@ -155,9 +168,15 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
         SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(currentAuthentication));
         
-        emailService.sendEmail(null,user.getEmailaddress(), "Account Settings Change Confirmation",
-                "Dear " + user.getFullname() + " "
-                + ", your Account Settings have been modified. ");
+        String emailText =  "Dear " + user.getFullname() + ": \r\n"+
+                            "Your Account Settings have been modified. \r\n"+
+                            "\r\n"+                               
+                            "This is an automatically generated message. Replies are not monitored or answered. \r\n"+
+                            "\r\n"+     
+                            "Sincerely \r\n"+
+                            "The Micrite Support Team";
+        
+        emailService.sendEmail(null,user.getEmailaddress(), "Account Settings Change Confirmation",emailText);
     }
     
     public void update(User u) throws SecurityException {
@@ -183,9 +202,15 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(currentAuthentication));
         }
         
-        emailService.sendEmail(null,user.getEmailaddress(), "帐户修改确认",
-                "尊敬的 " + user.getFullname() + " "
-                + ", 您的帐户信息已经被修改. ");
+        String emailText =  "Dear " + user.getFullname() + ": \r\n"+
+                            "Your Account Settings have been modified. \r\n"+
+                            "\r\n"+                               
+                            "This is an automatically generated message. Replies are not monitored or answered. \r\n"+
+                            "\r\n"+     
+                            "Sincerely \r\n"+
+                            "The Micrite Support Team";
+        
+        emailService.sendEmail(null,user.getEmailaddress(), "Account Settings Change Confirmation",emailText);
         
     }    
     private Authentication createNewAuthentication(Authentication currentAuth) {
@@ -228,9 +253,14 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             User user = userDAO.get(userIds[i]);
             userDAO.delete(user);
             
-            emailService.sendEmail(null,user.getEmailaddress(), "Account delete Confirmation",
-                    "Dear " + user.getFullname() + " "
-                    + ", your Account has been deleted. ");
+            String emailText =  "Dear " + user.getFullname() + ": \r\n"+
+                                "Your Account has been deleted. \r\n"+
+                                "\r\n"+                               
+                                "This is an automatically generated message. Replies are not monitored or answered. \r\n"+
+                                "\r\n"+     
+                                "Sincerely \r\n"+
+                                "The Micrite Support Team";
+            emailService.sendEmail(null,user.getEmailaddress(), "Account delete Confirmation",emailText);
         }
     }
     
@@ -281,4 +311,77 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             }
         }
     }      
+    
+    public void forgotPasswordStepOne(String username, String baseUrl, String locale) throws SecurityException {
+        User user = userDAO.findByUsername(username);
+
+        if (user == null) {
+            throw new SecurityException("forgotPassword.step1.usernameNotFound");
+        }
+        
+        Random randomGenerator = new Random();
+        long randomLong = randomGenerator.nextLong();
+        
+        Date date = new Date();  
+        Calendar calendar = Calendar.getInstance();  
+        calendar.setTime(date);  
+        calendar.add(calendar.DAY_OF_MONTH, +1);  
+        date = calendar.getTime(); 
+        
+        String key = passwordEncoder.encodePassword(Long.toString(randomLong) + date + username, null);
+        String actionUrl = baseUrl +"forgotPasswordStepTwo.action?key="+key+"&request_locale="+locale;
+        String emailText =  "Dear " + user.getFullname() + ": \r\n"+
+                            "We've received a password reset request for "+user.getLoginname() +" .\r\n"+
+                            "To initiate the process, please click the following link: \r\n"+
+                            "\r\n"+
+                            actionUrl+" \r\n"+
+                            "\r\n"+
+                            "If clicking the link above does not work, copy and paste the URL in \r\n"+
+                            "a new browser window instead. The URL will expire in 24 hours for security \r\n"+
+                            "reasons. \r\n"+
+                            "\r\n"+                           
+                            "Please disregard this message if you did not make a password reset request. \r\n"+
+                            "\r\n"+                               
+                            "This is an automatically generated message. Replies are not monitored or answered. \r\n"+
+                            "\r\n"+     
+                            "Sincerely \r\n"+
+                            "The Micrite Support Team";
+        
+        emailService.sendEmail(null,user.getEmailaddress(), "Reset Password Assistance",emailText);
+        
+        Token token = new Token(key,"password",date,user);
+        tokenDAO.save(token);
+
+    }
+    
+    public User findByTokenKey(String key) throws SecurityException {
+        Token token = tokenDAO.findByKey(key);
+        
+        if (token == null) 
+            throw new SecurityException("forgotPassword.step2.tokenNotAvailable");
+        
+        Date date = new Date(); 
+        if(date.after(token.getExpiration_ts()))
+            throw new SecurityException("forgotPassword.step2.tokenNotAvailable");
+        
+        return token.getUser();
+        
+    }
+    
+    public void forgotPasswordStepTwo(String key, String password) throws SecurityException{
+        User user = findByTokenKey(key);
+        
+        //  从cache中删除修改的修改前的User对象
+        if (userCache != null) {
+            userCache.removeUserFromCache(user.getUsername());
+        }
+        
+        //  密码为非空字符串，才修改密码
+        if (!"".equals(password)) {
+            String cryptpassword = passwordEncoder.encodePassword(password, null);
+            user.setCryptpassword(cryptpassword);
+        }
+        
+        userDAO.update(user);
+    }
 }

@@ -60,7 +60,10 @@
     <bean id="settingDAO" class="org.gaixie.micrite.security.dao.hibernate.SettingDAOImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-    
+    <bean id="tokenDAO" class="org.gaixie.micrite.security.dao.hibernate.TokenDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+        
     <bean id="aclSidDAO" class="org.gaixie.micrite.security.dao.hibernate.AclSidDAOImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>

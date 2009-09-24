@@ -62,8 +62,19 @@
                 <param name="location">/main.jsp</param>
             </result>
         </action>
-                
+
         <!-- ~~~~~~~~~~~~~~~~~~~~ USER ACTION DEFINITIONS ~~~~~~~~~~~~~~~~~~ -->    
+        <action name="forgotPasswordStepOne" class="userAction" method="forgotPasswordStepOne">
+            <result name="success">
+                <param name="location">/forgotPassword.jsp</param>
+            </result>
+        </action>
+        <action name="forgotPasswordStepTwo" class="userAction" method="forgotPasswordStepTwo">
+            <result name="success">
+                <param name="location">/forgotPassword.jsp</param>
+            </result>
+        </action>
+                
         <action name="addUser" class="userAction" method="add">
             <result name="success" type="json">
                 <param name="target">resultMap</param>

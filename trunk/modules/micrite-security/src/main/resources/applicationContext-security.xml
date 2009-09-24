@@ -43,6 +43,7 @@
         <sec:intercept-url pattern="/*/locale/**" filters="none" />
         <sec:intercept-url pattern="/login*" filters="none" />
         <sec:intercept-url pattern="/expire.jsp" filters="none" />
+        <sec:intercept-url pattern="/forgotPassword*" filters="none" /> 
         <sec:intercept-url pattern="/security/images/**" filters="none" />
         <sec:intercept-url pattern="/js-lib/**" filters="none" />
         <sec:form-login login-page="/expire.jsp" authentication-failure-url="/loginFailed.action" default-target-url="/loginSuccess.action"  />
