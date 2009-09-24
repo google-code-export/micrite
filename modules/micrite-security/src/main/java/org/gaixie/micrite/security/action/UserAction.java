@@ -33,7 +33,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.gaixie.micrite.beans.Setting;
 import org.gaixie.micrite.beans.User;
-import org.gaixie.micrite.service.IEmailService;
 import org.gaixie.micrite.security.SecurityException;
 import org.gaixie.micrite.security.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
