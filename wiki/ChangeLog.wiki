@@ -3,7 +3,7 @@
 
 === In development ===
 
-  * 增加系统自动邮件通知功能，基于Spring的JavaMailSender
+  * 增加系统自动邮件通知功能，基于Spring的`JavaMailSender`
   * 忘记密码时，通过邮件进行密码重置
 
 === v0.11 ===
