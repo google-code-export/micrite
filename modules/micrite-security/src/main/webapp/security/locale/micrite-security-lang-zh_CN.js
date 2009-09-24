@@ -72,13 +72,15 @@ function userSettingLocale(){
         	fullName : '真实姓名',
             email : '电子邮件',
             userName: '用户名',
-            password: '密码',
-            passwordRepeat: '再次输入密码',
+            password: '新密码',
+            passwordRepeat: '再次输入新密码',
         	userInformation:'用户个人信息',
         	settings: '个性化设置',
         	skin : '界面样式',
         	rowsPerPage : '每页行数',
         	confirmPassword: '两次输入的密码不匹配'
+        	passwordInfo: '密码',
+            oldPassword: '当前密码'
         });
     }    
 }
