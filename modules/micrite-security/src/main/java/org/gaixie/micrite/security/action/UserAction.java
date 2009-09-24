@@ -79,7 +79,8 @@ public class UserAction extends ActionSupport {
     
     private String username;
     private String key;  
-    private String password; 
+    private String password;
+    private String repassword; 
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//
     
     /**
@@ -90,7 +91,7 @@ public class UserAction extends ActionSupport {
         // 初次进入忘记密码页面，给出相关提示
         if(username == null){
             resultMap.put("message", getText("forgotPassword.step1.description"));
-            resultMap.put("success", true);
+            resultMap.put("showForm", true);
         }else{
             try {
                 String baseUrl = StringUtils.substringBefore(
@@ -98,10 +99,10 @@ public class UserAction extends ActionSupport {
                         "forgotPasswordStepOne.action");
                 userService.forgotPasswordStepOne(username,baseUrl,getLocale().toString());
                 resultMap.put("message", getText("forgotPassword.step1.successful"));
-                resultMap.put("success", true);
+                resultMap.put("showForm", false);
             } catch (SecurityException e) {
                 resultMap.put("message", getText(e.getMessage()));
-                resultMap.put("success", false);
+                resultMap.put("showForm", true);
                 logger.error(getText(e.getMessage()));
             }
         }
@@ -118,20 +119,28 @@ public class UserAction extends ActionSupport {
             try {
                 User cUser = userService.findByTokenKey(key);
                 resultMap.put("message", getText("forgotPassword.step2.description",new String[]{cUser.getFullname()}));
-                resultMap.put("success", true);
+                resultMap.put("showForm", true);
             } catch (SecurityException e) {
                 resultMap.put("message", getText(e.getMessage()));
-                resultMap.put("success", false);
+                resultMap.put("showForm", false);
                 logger.error(getText(e.getMessage()));
             }
         }else{
             try {
-                userService.forgotPasswordStepTwo(key,password);
-                resultMap.put("message", getText("forgotPassword.step2.successful"));
-                resultMap.put("success", true);
+                if(password.trim().length()<1){  
+                    resultMap.put("message", getText("forgotPassword.step2.passwordIsNull"));
+                    resultMap.put("showForm", true);
+                }else if(!password.equals(repassword)){  
+                    resultMap.put("message", getText("forgotPassword.step2.passwordNotMatch"));
+                    resultMap.put("showForm", true);
+                }else{  
+                    userService.forgotPasswordStepTwo(key,password);
+                    resultMap.put("message", getText("forgotPassword.step2.successful"));
+                    resultMap.put("showForm", false);
+                }
             } catch (SecurityException e) {
                 resultMap.put("message", getText(e.getMessage()));
-                resultMap.put("success", false);
+                resultMap.put("showForm", true);
                 logger.error(getText(e.getMessage()));
             }
         }
@@ -382,5 +391,13 @@ public class UserAction extends ActionSupport {
     
     public String getPassword() {
         return password;
-    }     
+    }    
+    
+    public void setRepassword(String repassword) {
+        this.repassword = repassword;
+    }  
+    
+    public String getRepassword() {
+        return repassword;
+    }      
 }
