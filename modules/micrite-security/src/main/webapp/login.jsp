@@ -209,7 +209,7 @@ Ext.ux.LoginWindow = function(config) {
         labelAlign : 'left',
         style : 'padding-left:10px;',
         defaults : {
-            width : 290
+            width : 300
         },
         baseParams : {
             task : 'login'
@@ -291,7 +291,7 @@ Ext.ux.LoginWindow = function(config) {
         });
     }
     this._window = new Ext.Window( {
-        width : 409,
+        width : 420,
         height : 280,
         closable : false,
         shadow : false,
