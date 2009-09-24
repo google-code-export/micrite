@@ -146,8 +146,13 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         user.setFullname(u.getFullname());
         user.setEmailaddress(u.getEmailaddress());
         //  密码为非空字符串，才修改密码
-        if (!"".equals(user.getPlainpassword())&&user.getPlainpassword()!=null) {
-            String cryptpassword = passwordEncoder.encodePassword(user.getPlainpassword(), null);
+        if (!"".equals(u.getPlainpassword()) && u.getPlainpassword() != null) {
+        	// 校验老密码（修改密码时要求输入老密码来确认身份）
+			if (!passwordEncoder.isPasswordValid(user.getCryptpassword(), u.getOldPlainpassword(), null)) {
+				throw new SecurityException("error.user.update.oldPasswordNotCorrect");
+			}
+
+            String cryptpassword = passwordEncoder.encodePassword(u.getPlainpassword(), null);
             user.setCryptpassword(cryptpassword);
         }
         

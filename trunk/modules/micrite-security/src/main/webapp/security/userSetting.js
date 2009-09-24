@@ -7,13 +7,15 @@ micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
 	fullName : 'Full Name',
     email : 'E-mail',
     userName: 'User Name',
-    password: 'Password',
-    passwordRepeat: 'Password Repeat',
+    password: 'New Password',
+    passwordRepeat: 'Re-enter new password',
 	userInformation:'User Information',
 	settings: 'Settings',
 	skin : 'Skin',
 	rowsPerPage : 'Rows Per Page',
 	confirmPassword: 'Passwords do not match',
+	passwordInfo: 'Password',
+    oldPassword: 'Current Password',
 	initComponent:function() {
 	    var config = {
 	    	labelWidth: 150,
@@ -43,6 +45,19 @@ micrite.security.userSetting.FormPanel =  Ext.extend(Ext.form.FormPanel, {
 		                name: 'user.loginname',
 		                allowBlank:false,
 		                disabled:true
+		            }
+		        ]
+		    },{
+	        	xtype:'fieldset',
+	        	title: this.passwordInfo,
+	        	collapsible: true,
+		        autoHeight:true,
+		        defaults: {width: 210},
+		        defaultType: 'textfield',
+		        items :[{
+		                fieldLabel: this.oldPassword,
+		                name: 'user.oldPlainpassword',
+		                inputType: 'password'
 		            }, {
 		                fieldLabel: this.password,
 		                name: 'user.plainpassword',

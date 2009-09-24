@@ -66,6 +66,8 @@ public class User implements UserDetails {
     private String cryptpassword;
     @Transient
     private String plainpassword;
+    @Transient
+    private String oldPlainpassword;
     private String emailaddress;
     private boolean enabled;
     
@@ -189,7 +191,15 @@ public class User implements UserDetails {
         this.plainpassword = plainpassword;
     }
 
-    public String getEmailaddress() {
+    public String getOldPlainpassword() {
+		return oldPlainpassword;
+	}
+
+	public void setOldPlainpassword(String oldPlainpassword) {
+		this.oldPlainpassword = oldPlainpassword;
+	}
+
+	public String getEmailaddress() {
         return emailaddress;
     }
 
