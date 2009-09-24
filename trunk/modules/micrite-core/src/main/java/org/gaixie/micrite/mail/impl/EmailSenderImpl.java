@@ -22,14 +22,14 @@
  *
  */
 
-package org.gaixie.micrite.service.impl;
+package org.gaixie.micrite.mail.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
 
-import org.gaixie.micrite.service.IEmailService;
+import org.gaixie.micrite.mail.IEmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -38,10 +38,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.MailException;
 
 /**
- * 接口 <code>IEmailService</code> 的实现类。
+ * 接口 <code>IEmailSender</code> 的实现类。
  * 
  */
-public class EmailServiceImpl implements IEmailService { 
+public class EmailSenderImpl implements IEmailSender { 
     @Autowired
     private JavaMailSender mailSender;
     

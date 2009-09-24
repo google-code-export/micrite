@@ -22,7 +22,7 @@
  *
  */
 
-package org.gaixie.micrite.service;
+package org.gaixie.micrite.mail;
 
 import java.util.List;
 import java.util.Map;
@@ -31,7 +31,7 @@ import java.util.Map;
  * 邮件服务接口，为系统提供邮件通知功能
  * 
  */
-public interface IEmailService {
+public interface IEmailSender {
     
     /**
      * 发送邮件至多个接收者

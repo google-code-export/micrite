@@ -41,7 +41,7 @@ import org.gaixie.micrite.security.dao.ISettingDAO;
 import org.gaixie.micrite.security.dao.ITokenDAO;
 import org.gaixie.micrite.security.dao.IUserDAO;
 import org.gaixie.micrite.security.service.IUserService;
-import org.gaixie.micrite.service.IEmailService;
+import org.gaixie.micrite.mail.IEmailSender;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -70,7 +70,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     private ITokenDAO tokenDAO;    
 
     @Autowired
-    private IEmailService emailService;
+    private IEmailSender emailSender;
     
     //  用于对明文密码加密
     @Autowired
@@ -116,7 +116,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
                             "\r\n"+     
                             "Sincerely \r\n"+
                             "The Micrite Support Team";        
-        emailService.sendEmail(null,user.getEmailaddress(), "New Account create Confirmation",emailText);        
+        emailSender.sendEmail(null,user.getEmailaddress(), "New Account create Confirmation",emailText);        
     }
 
     public boolean isExistedByUsername(String username) {
@@ -181,7 +181,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
                             "Sincerely \r\n"+
                             "The Micrite Support Team";
         
-        emailService.sendEmail(null,user.getEmailaddress(), "Account Settings Change Confirmation",emailText);
+        emailSender.sendEmail(null,user.getEmailaddress(), "Account Settings Change Confirmation",emailText);
     }
     
     public void update(User u) throws SecurityException {
@@ -215,7 +215,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
                             "Sincerely \r\n"+
                             "The Micrite Support Team";
         
-        emailService.sendEmail(null,user.getEmailaddress(), "Account Settings Change Confirmation",emailText);
+        emailSender.sendEmail(null,user.getEmailaddress(), "Account Settings Change Confirmation",emailText);
         
     }    
     private Authentication createNewAuthentication(Authentication currentAuth) {
@@ -265,7 +265,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
                                 "\r\n"+     
                                 "Sincerely \r\n"+
                                 "The Micrite Support Team";
-            emailService.sendEmail(null,user.getEmailaddress(), "Account delete Confirmation",emailText);
+            emailSender.sendEmail(null,user.getEmailaddress(), "Account delete Confirmation",emailText);
         }
     }
     
@@ -352,7 +352,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
                             "Sincerely \r\n"+
                             "The Micrite Support Team";
         
-        emailService.sendEmail(null,user.getEmailaddress(), "Reset Password Assistance",emailText);
+        emailSender.sendEmail(null,user.getEmailaddress(), "Reset Password Assistance",emailText);
         
         Token token = new Token(key,"password",date,user);
         tokenDAO.save(token);
