@@ -38,8 +38,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.MailException;
 
 /**
- * 接口 <code>IEmailSender</code> 的实现类。
- * 
+ * 接口 <code>IEmailSender</code> 的实现类，基于Spring的<code>JavaMailSender</code>。
  */
 public class EmailSenderImpl implements IEmailSender { 
     @Autowired
