@@ -151,4 +151,31 @@ public interface IUserService {
      */    
     public void unBindUsers(int[] userIds, int roleId);
     
+    /**
+     * 重置密码流程第一步，验证用户名，发送token key到用户邮箱
+     * 
+     * @param username 登录用户名
+     * @param baseUrl Base URL ，例如 http://localhost:8080
+     * @param locale 用户当前使用的Locale
+     * @throws SecurityException 没有匹配的用户名时抛出
+     */    
+    public void forgotPasswordStepOne(String username, String baseUrl, String locale) throws SecurityException;
+    
+    /**
+     * 根据token key得到对应的用户。
+     * 
+     * @param tokenKey Token对象的key
+     * @return 用户
+     */
+    public User findByTokenKey(String tokenKey) throws SecurityException;
+    
+    /**
+     * 重置密码流程第二步，验证token key有效性，保存新密码
+     * 
+     * @param key 用来获得token对象
+     * @param password 新密码
+     * @throws SecurityException 公用的Exception
+     */    
+    public void forgotPasswordStepTwo(String key, String password) throws SecurityException;
+    
 }

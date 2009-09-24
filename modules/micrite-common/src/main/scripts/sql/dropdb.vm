@@ -22,6 +22,7 @@ DROP TABLE acl_class;
 DROP TABLE acl_sid;
 
 -- drop core tables
+DROP TABLE tokens;
 DROP TABLE roles;
 DROP TABLE userbase;
 DROP TABLE authorities;

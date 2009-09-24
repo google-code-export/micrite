@@ -1,4 +1,4 @@
-﻿<%--
+﻿﻿<%--
 /* ===========================================================
  * $Id$
  * This file is part of Micrite
@@ -179,7 +179,7 @@ Ext.ux.LoginWindow = function(config) {
             + "/close.gif') !important}";
 
     Ext.util.CSS.createStyleSheet(css, this._cssId);
-    // Eventos do LoginWindow
+   
     this.addEvents( {
         'show' : true,
         'reset' : true,
@@ -187,16 +187,15 @@ Ext.ux.LoginWindow = function(config) {
     });
     Ext.ux.LoginWindow.superclass.constructor.call(this, config);
 
-    //Painel topo (Logotipo do sistema)
     this._logoPanel = new Ext.Panel( {
         baseCls : 'x-plain',
         id : 'login-logo',
         region : 'center'
     });
-    // Seta id para o elementos
     this.usernameId = Ext.id();
     this.passwordId = Ext.id();
     this.languageId = Ext.id();
+    this.rememberMeId = Ext.id();
     this._loginButtonId = Ext.id();
     this._resetButtonId = Ext.id();
     this._formPanel = new Ext.form.FormPanel( {
@@ -206,22 +205,14 @@ Ext.ux.LoginWindow = function(config) {
         baseCls : 'x-plain',
         id : 'login-form',
         waitMsgTarget : true,
-        labelWidth : 80,
+        labelWidth : 70,
+        labelAlign : 'left',
+        style : 'padding-left:10px;',
         defaults : {
-            width : 300
+            width : 290
         },
         baseParams : {
             task : 'login'
-        },
-        listeners : {
-            'actioncomplete' : {
-                fn : this.onSuccess,
-                scope : this
-            },
-            'actionfailed' : {
-                fn : this.onFailure,
-                scope : this
-            }
         },
         height : 110,
         items : [
@@ -265,14 +256,13 @@ Ext.ux.LoginWindow = function(config) {
                     triggerAction : 'all',
                     editable : false,
                     mode : 'local'
-                } ]
+                }]
     });
     Ext.getCmp(this.languageId).on('select', function() {
         this.defaultLanguage = Ext.getCmp(this.languageId).getValue(); //var lang = this.defaultLanguage;   
             this.setlanguage();
         }, this);
 
-    // Botões padrões
     var buttons = [ {
         id : this._loginButtonId,
         text : this.loginButton,
@@ -282,12 +272,10 @@ Ext.ux.LoginWindow = function(config) {
     } ];
     var keys = [ {
         key : [ 10, 13 ],
-        //Tecla ENTER
         handler : this.submit,
         scope : this
     } ];
 
-    //Testa se o botão que reseta o formulário existe
     if (typeof this.resetButton == 'string') {
         buttons.push( {
             id : this._resetButtonId,
@@ -298,212 +286,91 @@ Ext.ux.LoginWindow = function(config) {
         });
         keys.push( {
             key : [ 27 ],
-            //Tecla ESC
             handler : this.reset,
             scope : this
         });
     }
-    //Cria a janela principal de login
     this._window = new Ext.Window( {
-        width : 429,
+        width : 409,
         height : 280,
         closable : false,
+        shadow : false,
+        draggable : false,
+        forceLayout: true,
         resizable : false,
-        draggable : true,
+        draggable : false,
         modal : this.modal,
         iconCls : 'ux-auth-header-icon',
         title : this.title,
         layout : 'border',
-        bodyStyle : 'padding:5px;',
         buttons : buttons,
         buttonAlign : 'center',
         keys : keys,
+        footerCfg: {
+            cls: 'x-panel-footer' ,       // same as the Default class
+            html: '<div id="forgotIt" style="position:absolute;right:20px;padding-top:22px"><a href="forgotPasswordStepOne.action?request_locale=en">forgot password?</a></div>'
+        },
+        footerStyle : 'font-size:11px;text-align:right;',
         plain : false,
+        onEsc : function(){
+            this.center();
+        },
         items : [ this._logoPanel, this._formPanel ]
     });
 
-    //Seta foco no campo username quando a janela principal é exibida
-    // Dispara o evento "show"
     this._window.on('show', function() {
         this.setlanguage();
-       
         this.fireEvent('show', this);
-    }, this);
+    }, this);    
 };
 
 // Extende a classe Ext.util.Observable
 Ext.extend(Ext.ux.LoginWindow, Ext.util.Observable, {
-    /**
-     * Título da janela principal
-     *
-     * @type {String}
-     */
     title : '',
-    /**
-     * Título da janela de recuperação de senha
-     *
-     * @type {String}
-     */
     Passwordtitle : '',
-    /**
-     * Mensagem de espera ao enviar os dados
-     *
-     * @type {String}
-     */
     waitMessage : '',
-    /**
-     * Texto do botão de login
-     *
-     * @type {String}
-     */
-    //loginButton : Ext.lang.us.login,
     loginButton : '',
-    /**
-     * Texto do botão de recuperação de senha
-     *
-     * @type {String}
-     */
     resetButton : '',
-    /**
-     * Título do campo usuário
-     *
-     * @type {String}
-     */
     usernameLabel : '',
-    /**
-     * Nome do campo usuário
-     *
-     * @type {String}
-     */
     usernameField : 'j_username',
-    /**
-     * Validação do campo usuário
-     *
-     * @type {String}
-     */
     usernameVtype : 'alphanum',
     passwordLabel : '',
-    /**
-     * Nome do campo senha
-     *
-     * @type {String}
-     */
     passwordField : 'j_password',
-    /**
-     * Validação do campo senha
-     *
-     * @type {String}
-     */
     passwordVtype : 'alphanum',
-    /**
-     * Nome do combo idioma
-     *
-     * @type {String}
-     */
     languageField : 'lang',
-    /**
-     * Título do iconcombobox idioma
-     *
-     * @type {String}
-     */
     languageLabel : '',
-    /**
-     * Url de requisição de login
-     *
-     * @type {String}
-     */
     url : '',
-    /**
-     * Url de destino caso login seja efetivado
-     *
-     * @type {String}
-     */
     locationUrl : '',
-    /**
-     * Diretório das imagens
-     *
-     * @type {String}
-     */
     basePath : 'img',
-    /**
-     * Logotipo do sistema (Banner)
-     *
-     * @type {String}
-     */
     winBanner : '',
-    /**
-     * Cor de fundo do formulário
-     *
-     * @type {String}
-     */
     formBgcolor : '',
-    /**
-     * Método de envio do formulário
-     *
-     * @type {String}
-     */
     method : 'post',
-    /**
-     * Abrir janela modal
-     *
-     * @type {Bool}
-     */
     modal : false,
-    /**
-     * Identificador do CSS
-     *
-     * @type {String}
-     */
     _cssId : 'ux-LoginWindow-css',
-    /**
-     * Painel topo (Logotipo do sistema)
-     *
-     * @type {Ext.Panel}
-     */
     _logoPanel : null,
-    /**
-     * Painel do formulário
-     *
-     * @type {Ext.form.FormPanel}
-     */
     _formPanel : null,
-    /**
-     * Objeto da janela principal
-     *
-     * @type {Ext.Window}
-     */
     _window : null,
-    /**
-     * Objeto da janela de recuperação de senha
-     *
-     * @type {Ext.Window}
-     */
-
      errorMsg : null,
-     
     show : function(el) {
         this._window.show(el);
         (function(){
             Ext.getCmp(this.usernameId).focus(true,true);
        }).defer(1000, this);
+        var html = '<div id="errMsg" style="text-align:center;padding-top:0px;color:red;"></div>';
+        Ext.select('.x-form-clear-left').each(function(o,g,i){
+            if (i==2)
+            o.insertSibling(html,'after')
+        });
     },
 
-    /**
-     * Limpa o formulário
-     */
     reset : function() {
         if (this.fireEvent('reset', this)) {
             Ext.getDom(this.usernameId).value = '';
             Ext.getDom(this.passwordId).value = '';
+            Ext.get('errMsg').update('');
         }
     },
-    /**
-     * Idioma padrão do formulário
-     */
     defaultLanguage : 'en',
-    /**
-     * Seleciona o idioma
-     */
     setlanguage : function() {
         Ext.override(Ext.form.Field, {
             setFieldLabel : function(text) {
@@ -512,6 +379,14 @@ Ext.extend(Ext.ux.LoginWindow, Ext.util.Observable, {
                             '.x-form-item-label').update(text);
                 } else {
                     this.fieldLabel = text;
+                }
+            },
+            setBoxLabel : function(text) {
+                if (this.rendered) {
+                    this.el.up('.x-form-item', 10, true).child(
+                            '.x-form-cb-label').update(text);
+                } else {
+                    this.boxLabel = text;
                 }
             }
         });
@@ -522,7 +397,8 @@ Ext.extend(Ext.ux.LoginWindow, Ext.util.Observable, {
             Ext.getCmp(this.usernameId).setFieldLabel('用户名:');
             Ext.getCmp(this.passwordId).setFieldLabel('密码:');
             Ext.getCmp(this.languageId).setFieldLabel('语言:');
-            this.errorMsg = '用户名或者密码不正确.'
+            Ext.get('forgotIt').update('<a href="forgotPasswordStepOne.action?request_locale=' + Ext.getCmp(this.languageId).getValue()+'">忘记密码?</a>');
+            this.errorMsg = '用户名或者密码不正确.';
             this.waitMessage = '发送数据中...';
         } else if (this.defaultLanguage == 'en') {
             this._window.setTitle('Authentication');
@@ -531,20 +407,18 @@ Ext.extend(Ext.ux.LoginWindow, Ext.util.Observable, {
             Ext.getCmp(this.usernameId).setFieldLabel('Username:');
             Ext.getCmp(this.passwordId).setFieldLabel('Password:');
             Ext.getCmp(this.languageId).setFieldLabel('Language:');
-            this.errorMsg = 'The username or password you entered is incorrect.'
+            Ext.get('forgotIt').update('<a href="forgotPasswordStepOne.action?request_locale=' + Ext.getCmp(this.languageId).getValue()+'">forgot password?</a>');
+            this.errorMsg = 'The username or password you entered is incorrect.';
             this.waitMessage = 'Sending data...';
         }
     },
 
-    /**
-     * Envia a requisição de login
-     */
     submit : function() {
         var form = this._formPanel.getForm();
 
         if (form.isValid()) {
             if (this.fireEvent('submit', this, form.getValues())) {
-                form.submit( {
+                form.submit({
                     url : this.url,
                     method : this.method,
                     waitMsg : this.waitMessage,
@@ -556,24 +430,12 @@ Ext.extend(Ext.ux.LoginWindow, Ext.util.Observable, {
         }
     },
 
-    /**
-     * Se receber sucesso
-     *
-     * @param {Ext.form.BasicForm} form
-     * @param {Ext.form.Action} action
-     */
     onSuccess : function(form, action) {
         if (action && action.result) {
             var lang = '?request_locale=' + Ext.getCmp(this.languageId).getValue();
             window.location = this.locationUrl+lang;
         }
     },
-    /**
-     * Se receber falha
-     *
-     * @param {Ext.form.BasicForm} form
-     * @param {Ext.form.Action} action
-     */
     onFailure : function(form, action) { // enable buttons
         Ext.getCmp(this._loginButtonId).enable();
         if (Ext.getCmp(this._resetButtonId)) {
@@ -581,18 +443,14 @@ Ext.extend(Ext.ux.LoginWindow, Ext.util.Observable, {
         }
         Ext.getCmp(this.usernameId).focus(true,true);
         //var res = action.result.errorMsg.reason;
-        var html = '<div style="text-align:center;padding-top:10px;color:red;">'+this.errorMsg+'</joker>';
-        Ext.select('.x-form-clear-left').each(function(o,g,i){
-            if (i==2)
-            o.insertSibling(html,'after')
-        })
+        Ext.get('errMsg').update(this.errorMsg);
     }
 });
 
 Ext.onReady( function() {
     Ext.QuickTips.init();
     var LoginWindow = new Ext.ux.LoginWindow( {
-        modal : true,
+        modal : false,
         //formBgcolor:'#f0edce',
         defaultLanguage : 'en',
         basePath : 'security/images/framework/',
@@ -601,6 +459,7 @@ Ext.onReady( function() {
         locationUrl : 'main.action'
     });
     LoginWindow.show();
+  //  LoginWindow._window.setPosition(100,100);
 });
 </script>
 </head>

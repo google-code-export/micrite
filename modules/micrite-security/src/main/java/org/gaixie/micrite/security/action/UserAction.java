@@ -28,7 +28,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.struts2.ServletActionContext;
 import org.gaixie.micrite.beans.Setting;
 import org.gaixie.micrite.beans.User;
 import org.gaixie.micrite.service.IEmailService;
@@ -76,7 +78,66 @@ public class UserAction extends ActionSupport {
     // user setting
     private List<Setting> settings;
     
+    private String username;
+    private String key;  
+    private String password; 
     // ~~~~~~~~~~~~~~~~~~~~~~~  Action Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~//
+    
+    /**
+     * 忘记密码第一步
+     * @return "success"
+     */
+    public String forgotPasswordStepOne() {
+        // 初次进入忘记密码页面，给出相关提示
+        if(username == null){
+            resultMap.put("message", getText("forgotPassword.step1.description"));
+            resultMap.put("success", true);
+        }else{
+            try {
+                String baseUrl = StringUtils.substringBefore(
+                        ServletActionContext.getRequest().getRequestURL().toString(),
+                        "forgotPasswordStepOne.action");
+                userService.forgotPasswordStepOne(username,baseUrl,getLocale().toString());
+                resultMap.put("message", getText("forgotPassword.step1.successful"));
+                resultMap.put("success", true);
+            } catch (SecurityException e) {
+                resultMap.put("message", getText(e.getMessage()));
+                resultMap.put("success", false);
+                logger.error(getText(e.getMessage()));
+            }
+        }
+        return SUCCESS;
+    }   
+    
+    /**
+     * 忘记密码第二步
+     * @return "success"
+     */
+    public String forgotPasswordStepTwo() {
+        // 初次进入忘记密码页面，给出相关提示key
+        if(password == null){
+            try {
+                User cUser = userService.findByTokenKey(key);
+                resultMap.put("message", getText("forgotPassword.step2.description",new String[]{cUser.getFullname()}));
+                resultMap.put("success", true);
+            } catch (SecurityException e) {
+                resultMap.put("message", getText(e.getMessage()));
+                resultMap.put("success", false);
+                logger.error(getText(e.getMessage()));
+            }
+        }else{
+            try {
+                userService.forgotPasswordStepTwo(key,password);
+                resultMap.put("message", getText("forgotPassword.step2.successful"));
+                resultMap.put("success", true);
+            } catch (SecurityException e) {
+                resultMap.put("message", getText(e.getMessage()));
+                resultMap.put("success", false);
+                logger.error(getText(e.getMessage()));
+            }
+        }
+        return SUCCESS;
+    }    
     /**
      * 新增用户。
      * 
@@ -300,4 +361,27 @@ public class UserAction extends ActionSupport {
         return binded;
     }    
 
+    public void setUsername(String username) {
+        this.username = username;
+    }  
+    
+    public String getUsername() {
+        return username;
+    }  
+    
+    public void setKey(String key) {
+        this.key = key;
+    }  
+    
+    public String getKey() {
+        return key;
+    } 
+    
+    public void setPassword(String password) {
+        this.password = password;
+    }  
+    
+    public String getPassword() {
+        return password;
+    }     
 }
