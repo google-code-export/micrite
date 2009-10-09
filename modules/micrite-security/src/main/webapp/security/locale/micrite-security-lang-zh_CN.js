@@ -78,7 +78,7 @@ function userSettingLocale(){
         	settings: '个性化设置',
         	skin : '界面样式',
         	rowsPerPage : '每页行数',
-        	confirmPassword: '两次输入的密码不匹配'
+        	confirmPassword: '两次输入的密码不匹配',
         	passwordInfo: '密码',
             oldPassword: '当前密码'
         });
