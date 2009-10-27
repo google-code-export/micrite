@@ -24,12 +24,13 @@
 
 package org.gaixie.micrite.security.service.impl;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.gaixie.micrite.beans.Role;
 import org.gaixie.micrite.beans.Setting;
@@ -157,14 +158,15 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         }
         
         if (u.getSettings() != null) {
-            List<Setting> list = new ArrayList<Setting>();
+            // 这里不用排序，所以不用TreeSet类型，效率高一点
+            Set<Setting> settings = new HashSet<Setting>();
     
             //判断是否需要更新setting,如果选项和缺省值一致,则不更新
             for (Setting s:u.getSettings()){
             	Setting setting = settingDAO.get(s.getId());
-            		list.add(setting);
+            	settings.add(setting);
             }
-            user.setSettings(list);
+            user.setSettings(settings);
         }
         
         //  需要在事物完成之前做持久化，否则随后执行的createNewAuthentication()方法访问数据库无法取到修改的新用户
@@ -236,22 +238,36 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         return userDAO.findByFullnameVaguePerPage(fullname, start, limit);
     }
     
-    public List<Setting> getSettings(int userId){
+    public Set<Setting> getSettings(int userId){
         User user = userDAO.get(userId);
-        List<Setting> settings = user.getSettings();
-        if (settings.size()>0){   
+        // 通过TreeSet对settings排序，见Setting类的compareTo方法。
+        Set<Setting> set = new TreeSet<Setting>();
+        if (user.getSettings().size()>0){   
             // org.hibernate.LazyInitializationException
-            for (Setting setting:settings){
+            for (Setting setting:user.getSettings()){
                 setting.getName();
+                set.add(setting);
             }
-            return settings;
+        }else{
+            List<Setting> settings = settingDAO.findAllDefault();
+            for (Setting setting:settings){
+                set.add(setting);
+            }
         }
-        return settingDAO.findAllDefault();
+        return set;
     }
 
-	public List<Setting> findSettingByName(String name) {
-		return settingDAO.findSettingByName(name);
-	}	
+    public List<Setting> findSettingByName(String name) {
+        return settingDAO.findSettingByName(name);
+    }   	
+    
+    public Set<Setting> findSettingByList(List<Setting> settings){
+        Set<Setting> set = new TreeSet<Setting>();
+        for (Setting setting:settings){
+            set.add(settingDAO.get(setting.getId()));
+        }    
+        return set;
+    }
     
     public void delete(int[] userIds) {
         for (int i = 0; i < userIds.length; i++) {

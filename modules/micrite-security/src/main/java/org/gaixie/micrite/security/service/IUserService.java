@@ -25,6 +25,7 @@
 package org.gaixie.micrite.security.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.gaixie.micrite.beans.Setting;
 import org.gaixie.micrite.beans.User;
@@ -97,11 +98,18 @@ public interface IUserService {
     public List<Setting> findSettingByName(String name);
 
     /**
+     * 根据配置项List获得Set集合
+     * @param settings
+     * @return 配置集合
+     */
+    public Set<Setting> findSettingByList(List<Setting> settings);
+    
+    /**
      * 根据用户查询所拥有的个性化配置
      * @param userId
      * @return 配置集合
      */    
-    public List<Setting> getSettings(int userId);
+    public Set<Setting> getSettings(int userId);
     
     /**
      * 删除若干用户。

@@ -25,7 +25,6 @@
 package org.gaixie.micrite.security.action;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -95,7 +94,7 @@ public class LoginAction extends ActionSupport{
      */ 	
     public String loadSetting(){
         User cUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Setting> settings = userService.getSettings(cUser.getId());
+        Set<Setting> settings = userService.getSettings(cUser.getId());
         for(Setting setting:settings){
             if("RowsPerPage".equals(setting.getName())){
                 pageSize = setting.getValue();
