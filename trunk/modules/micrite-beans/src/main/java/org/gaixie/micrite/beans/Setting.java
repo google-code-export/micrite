@@ -115,9 +115,6 @@ public class Setting implements Comparable {
     public int compareTo(Object o) {
         if (o instanceof Setting) {
             int i = this.getName().compareTo(((Setting)o).getName());
-            System.out.println("this.getName()="+this.getName());
-            System.out.println("((Setting)o).getName()="+((Setting)o).getName());
-            System.out.println("i="+i);
             if (i==0){
                 return Integer.valueOf(this.getSortindex()).compareTo(
                         Integer.valueOf( ((Setting)o).getSortindex())
