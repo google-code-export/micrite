@@ -79,7 +79,7 @@ public class User implements UserDetails {
     @ManyToMany(targetEntity = Setting.class)
     @JoinTable(name = "user_setting_map", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "setting_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private List<Setting> settings;
+    private Set<Setting> settings;
 
     /**
      * No-arg constructor for JavaBean tools.
@@ -213,11 +213,11 @@ public class User implements UserDetails {
     
 
 
-	public List<Setting> getSettings() {
+	public Set<Setting> getSettings() {
 		return settings;
 	}
 
-	public void setSettings(List<Setting> settings) {
+	public void setSettings(Set<Setting> settings) {
 		this.settings = settings;
 	}
 

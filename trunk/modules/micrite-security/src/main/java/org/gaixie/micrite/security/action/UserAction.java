@@ -170,7 +170,7 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */
     public String updateMe() {
-    	user.setSettings(settings);
+    	user.setSettings(userService.findSettingByList(settings));
         try {
             userService.updateMe(user);
             resultMap.put("message", getText("save.success"));
@@ -245,7 +245,7 @@ public class UserAction extends ActionSupport {
      * @return "success"
      */    
     public String findSettingByName(){
-    	setSettings(userService.findSettingByName(settings.get(0).getName()));
+        setSettings(userService.findSettingByName(settings.get(0).getName()));
     	return SUCCESS;
     }
     

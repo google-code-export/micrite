@@ -39,7 +39,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "setting")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Setting {
+public class Setting implements Comparable {
 
 	@Id
     @GeneratedValue
@@ -111,4 +111,20 @@ public class Setting {
                 "Name: '" + getName() + "'" +
                 "Value: '" + getValue() + "'";
     }
+    
+    public int compareTo(Object o) {
+        if (o instanceof Setting) {
+            int i = this.getName().compareTo(((Setting)o).getName());
+            System.out.println("this.getName()="+this.getName());
+            System.out.println("((Setting)o).getName()="+((Setting)o).getName());
+            System.out.println("i="+i);
+            if (i==0){
+                return Integer.valueOf(this.getSortindex()).compareTo(
+                        Integer.valueOf( ((Setting)o).getSortindex())
+                       );
+            }else
+                return i;
+        }
+        return 0;
+    }    
 }
