@@ -4,7 +4,7 @@
 = Introduction =
 This document describes the Micrite database schema.
 
-This document is generated automatically by the [http://amateras.sourceforge.jp/cgi-bin/fswiki_en/wiki.cgi?page=AmaterasERD AmaterasERD] from Eclipse Plugin Central.
+This document is generated automatically by the [http://code.google.com/p/jingsy/ JingsY].
 
 The purpose of this document is to act as a reference for developers of Micrite.
 
