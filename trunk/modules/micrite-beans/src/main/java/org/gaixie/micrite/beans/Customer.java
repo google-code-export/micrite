@@ -27,6 +27,7 @@ package org.gaixie.micrite.beans;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,6 +35,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -50,11 +53,49 @@ public class Customer extends AbstractSecureObject implements Serializable {
     @GeneratedValue
     private Integer id;
     
+    @Column(name = "name", length = 255, nullable = false)        
     private String name;
     
-    private String telephone;
+    @Column(name = "salutation", length = 10)
+    private String salutation;
+ 
+    @Column(name = "title", length = 64)
+    private String title;
+ 
+    @Column(name = "company", length = 128)
+    private String company;
+
+    @Column(name = "phone_mobile", length = 20)
+    private String phoneMobile;
+   
+    @Column(name = "phone_other", length = 20)
+    private String phoneOther;
+
+    @Column(name = "dont_call", nullable = false)
+    private boolean dontCall=false;
+
+    @Temporal(TemporalType.DATE)    
+    @Column(name = "birthday")
+    private Date birthday;
+ 
+    @Temporal(TemporalType.TIMESTAMP)    
+    @Column(name = "delta_ts", nullable = false)
+    private Date deltaTime;
     
-    private Date creation_ts;
+    @Column(name = "notes" , length = 4000)
+    private String notes;
+
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "mapped_user_id")
+    private User mappedUser;
+    
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "assigned_user_id")
+    private User assignedUser;    
+    
+    @Temporal(TemporalType.TIMESTAMP)    
+    @Column(name = "creation_ts", nullable = false)    
+    private Date creationTime;
     
     @ManyToOne(targetEntity = CustomerSource.class)
     @JoinColumn(name = "customer_source_id")
@@ -68,10 +109,12 @@ public class Customer extends AbstractSecureObject implements Serializable {
     /**
      * Full constructor
      */
-    public Customer(String name,String telephone,Date creation_ts,CustomerSource customerSource) {
+    public Customer(String name,String phoneMobile,Date creationTime,CustomerSource customerSource) {
         this.name = name;
-        this.telephone = telephone;
-        this.creation_ts = creation_ts;
+        this.phoneMobile = phoneMobile;
+        this.creationTime = creationTime;
+        this.deltaTime = creationTime;
+        this.birthday = creationTime;
         this.customerSource = customerSource;        
     }
     
@@ -92,14 +135,61 @@ public class Customer extends AbstractSecureObject implements Serializable {
         this.name = name;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getSalutation() {
+        return salutation;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setSalutation(String salutation) {
+        this.salutation = salutation;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+  
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+    
+    public boolean isDontCall() {
+        return dontCall;
+    }
+    public void setDontCall(boolean dontCall) {
+        this.dontCall = dontCall;
+    }
+    
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+    
+    public String getPhoneMobile() {
+        return phoneMobile;
+    }
+
+    public void setPhoneMobile(String phoneMobile) {
+        this.phoneMobile = phoneMobile;
+    }
+
+    public String getPhoneOther() {
+        return phoneOther;
+    }
+
+    public void setPhoneOther(String phoneOther) {
+        this.phoneOther = phoneOther;
+    }
+    
     public CustomerSource getCustomerSource() {
         return customerSource;
     }
@@ -107,12 +197,32 @@ public class Customer extends AbstractSecureObject implements Serializable {
     public void setCustomerSource(CustomerSource customerSource) {
         this.customerSource = customerSource;
     }
-    public Date getCreation_ts() {
-        return creation_ts;
+    public User getMappedUser() {
+        return mappedUser;
     }
 
-    public void setCreation_ts(Date creation_ts) {
-        this.creation_ts = creation_ts;
+    public void setMappedUser(User mappedUser) {
+        this.mappedUser = mappedUser;
+    }
+    public User getAssignedUser() {
+        return assignedUser;
     }
 
+    public void setAssignedUser(User assignedUser) {
+        this.assignedUser = assignedUser;
+    }    
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
+    }
+    public Date getDeltaTime() {
+        return deltaTime;
+    }
+
+    public void setDeltaTime(Date deltaTime) {
+        this.deltaTime = deltaTime;
+    }
 }

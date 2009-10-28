@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -61,15 +62,24 @@ public class User implements UserDetails {
     @GeneratedValue
     private Integer id;
     
+    @Column(name = "fullname", length = 255, nullable = false)    
     private String fullname;
+    
+    @Column(name = "loginname", length = 255, nullable = false, unique = true)       
     private String loginname;
+    
+    @Column(name = "cryptpassword", length = 128, nullable = false)         
     private String cryptpassword;
     @Transient
     private String plainpassword;
     @Transient
     private String oldPlainpassword;
+    
+    @Column(name = "emailaddress", length = 255)      
     private String emailaddress;
-    private boolean enabled;
+    
+    @Column(name = "enabled", length = 255, nullable = false)          
+    private boolean enabled=true;
     
     @ManyToMany(targetEntity = Role.class)
     @JoinTable(name = "user_role_map", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))

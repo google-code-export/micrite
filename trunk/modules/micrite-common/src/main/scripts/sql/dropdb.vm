@@ -9,6 +9,7 @@ DON'T RUN THIS, IT'S NOT A DATABASE DROP SCRIPT!!!
 -- drop tables with foreign key
 DROP TABLE role_authority_map;
 DROP TABLE user_role_map;
+DROP TABLE address;
 DROP TABLE customers;
 DROP TABLE user_setting_map;
 

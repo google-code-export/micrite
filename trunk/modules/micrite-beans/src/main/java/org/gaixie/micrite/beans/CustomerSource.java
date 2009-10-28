@@ -27,6 +27,7 @@ package org.gaixie.micrite.beans;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -50,6 +51,7 @@ public class CustomerSource extends AbstractSecureObject implements Serializable
     @GeneratedValue
     private Integer id;
 
+    @Column(name = "name", length = 255, nullable = false, unique = true)    
     private String name;
 
     /**

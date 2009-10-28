@@ -27,6 +27,7 @@ package org.gaixie.micrite.beans;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -51,9 +52,11 @@ public class Role extends AbstractSecureObject implements Serializable {
     @Id
     @GeneratedValue
     private Integer id;
-    
+
+    @Column(name = "name", length = 255, nullable = false, unique = true)  
     private String name;
-    
+
+    @Column(name = "description", length = 4000)  
     private String description;
     
     @ManyToMany(mappedBy = "roles", targetEntity = Authority.class)  

@@ -43,20 +43,6 @@ Ext.SSL_SECURE_URL = "js-lib/ext-js/resources/images/default/s.gif";
 Ext.BLANK_IMAGE_URL = "js-lib/ext-js/resources/images/default/s.gif";
 
 /**
- * Ext.ux.form.IconComboBox Extension Class for Ext 2.x Library
- *
- * @author  Ing. Jozef Sakalos
- * @version $Id$
- *
- * @license Ext.ux.form.IconComboBox is licensed under the terms of
- * the Open Source LGPL 3.0 license.  Commercial use is permitted to the extent
- * that the code/component(s) do NOT become part of another Open Source or Commercially
- * licensed development library or toolkit without explicit permission.
- * 
- * License details: http://www.gnu.org/licenses/lgpl.html
- */
-
-/**
  * @class Ext.ux.form.IconComboBox
  * @extends Ext.form.ComboBox
  */

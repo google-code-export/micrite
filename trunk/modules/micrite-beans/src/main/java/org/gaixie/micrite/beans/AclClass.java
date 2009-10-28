@@ -45,7 +45,7 @@ public class AclClass {
     @GeneratedValue
     private long id;
 
-    @Column(name = "class", nullable = false)
+    @Column(name = "class", length = 255, nullable = false)
     private String cls;
 
     /**

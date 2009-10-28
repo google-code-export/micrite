@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -55,10 +56,13 @@ public class Authority {
     @GeneratedValue
     private Integer id;
 
+    @Column(name = "name", length = 255, nullable = false)  
     private String name;
 
+    @Column(name = "type", length = 64, nullable = false)  
     private String type;
-
+    
+    @Column(name = "value", length = 255, nullable = false, unique = true) 
     private String value;
 
     @ManyToMany(targetEntity = Role.class)  

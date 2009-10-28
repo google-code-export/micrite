@@ -103,7 +103,7 @@ ALTER TABLE acl_sid ADD CONSTRAINT acl_sid_uq UNIQUE ( principal,sid );
 -- -----------------------------------------------------
 CREATE TABLE acl_class (
     id                     $db.AUTO_BIG_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
-    class                  varchar(100) NOT NULL
+    class                  varchar(255) NOT NULL
 );
 ALTER TABLE acl_class ADD CONSTRAINT acl_class_uq UNIQUE ( class );
 
@@ -159,9 +159,19 @@ ALTER TABLE customer_source ADD CONSTRAINT customer_source_name_uq UNIQUE ( name
 CREATE TABLE customers (
     id                     $db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
     name                   varchar(255) NOT NULL,
-    telephone              varchar(20) NOT NULL,
+    birthday               $db.DATE_SQL_TYPE,
+    company                varchar(128),  
+    salutation             varchar(10),  
+    title                  varchar(64),            
+    phone_mobile           varchar(20) NOT NULL,
+    phone_other            varchar(20),    
     creation_ts            $db.TIMESTAMP_SQL_TYPE NOT NULL,
-    customer_source_id     integer NOT NULL
+    delta_ts               $db.TIMESTAMP_SQL_TYPE,  
+    dont_call              $db.BOOLEAN_SQL_TYPE_TRUE, 
+    notes                  $db.TEXT_SQL_TYPE,         
+    customer_source_id     integer NOT NULL,
+    mapped_user_id         integer,
+    assigned_user_id       integer
 );
 
 ALTER TABLE role_authority_map ADD CONSTRAINT rrmap_role_id_fk FOREIGN KEY (role_id)
@@ -184,3 +194,22 @@ ALTER TABLE user_setting_map ADD CONSTRAINT usm_setting_id_fk FOREIGN KEY (setti
             
 ALTER TABLE customers ADD CONSTRAINT customers_cs_id_fk FOREIGN KEY (customer_source_id)
     REFERENCES customer_source (id);
+
+ALTER TABLE customers ADD CONSTRAINT customers_mapuser_id_fk FOREIGN KEY (mapped_user_id)
+    REFERENCES userbase (id);
+    
+ALTER TABLE customers ADD CONSTRAINT customers_assignuser_id_fk FOREIGN KEY (assigned_user_id)
+    REFERENCES userbase (id);    
+   
+-- ------------------------------------------------------
+CREATE TABLE address (
+    id                     $db.AUTO_INCREMENT_SQL_TYPE NOT NULL PRIMARY KEY,
+    state                  varchar(100),
+    city                   varchar(100),  
+    street                 varchar(255),  
+    postcode               varchar(20),            
+    customer_id            integer
+);    
+
+ALTER TABLE address ADD CONSTRAINT address_customer_id_fk FOREIGN KEY (customer_id)
+    REFERENCES customers (id);   
