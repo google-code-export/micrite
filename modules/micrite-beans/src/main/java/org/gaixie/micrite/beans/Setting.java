@@ -24,11 +24,13 @@
 
 package org.gaixie.micrite.beans;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -37,17 +39,28 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * Micrite的一个配置。
  */
 @Entity
-@Table(name = "setting")
+@Table(name = "setting"
+    , uniqueConstraints = 
+        @UniqueConstraint(columnNames = {"name", "value" })
+)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Setting implements Comparable {
 
 	@Id
     @GeneratedValue
     private Integer id;
+	
+    @Column(name = "name", length = 32, nullable = false)   	
 	private String name;
+    
+    @Column(name = "value", length = 32, nullable = false)       
 	private String value;
-	private int sortindex;
-	private boolean enabled;
+    
+    @Column(name = "sortindex", nullable = false)        
+	private int sortindex=0;
+    
+    @Column(name = "enabled", nullable = false)      
+	private boolean enabled=false;
     
     /**
      * No-arg constructor for JavaBean tools.

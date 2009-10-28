@@ -26,12 +26,15 @@ package org.gaixie.micrite.beans;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -47,9 +50,16 @@ public class Token {
     @Id
     @GeneratedValue
     private Integer id;
+    
+    @Column(name = "token_key", length = 64, nullable = false, unique = true)        
     private String key;
+    
+    @Column(name = "type", length = 16, nullable = false)      
     private String type;
-    private Date expiration_ts;
+    
+    @Temporal(TemporalType.TIMESTAMP)    
+    @Column(name = "expiration_ts", nullable = false)        
+    private Date expireTime;
     
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id")
@@ -65,10 +75,10 @@ public class Token {
     /**
      * Full constructor
      */
-    public Token(String key, String type, Date expiration_ts, User user) {
+    public Token(String key, String type, Date expireTime, User user) {
         this.key = key;
         this.type = type;     
-        this.expiration_ts = expiration_ts;  
+        this.expireTime = expireTime;  
         this.user = user; 
     }  
     
@@ -93,12 +103,12 @@ public class Token {
         this.type = type;
     }
     
-    public Date getExpiration_ts() {
-        return expiration_ts;
+    public Date getExpireTime() {
+        return expireTime;
     }
 
-    public void setExpiration_ts(Date expiration_ts) {
-        this.expiration_ts = expiration_ts;
+    public void setExpireTime(Date expireTime) {
+        this.expireTime = expireTime;
     }
     
     public User getUser() {
@@ -120,6 +130,6 @@ public class Token {
         return  "Token ('" + getId() + "'), " +
                 "key: '" + getKey() + "'" +
                 "type: '" + getType() + "'" +
-                "expiration_ts: '" + getExpiration_ts() + "'";
+                "expireTime: '" + getExpireTime() + "'";
     }
 }

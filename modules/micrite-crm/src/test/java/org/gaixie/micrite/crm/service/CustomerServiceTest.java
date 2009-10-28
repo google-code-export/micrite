@@ -56,21 +56,17 @@ public class CustomerServiceTest extends AbstractTransactionalJUnit4SpringContex
     
     @Before //准备测试数据
     public void prepareTestData() {
-        customer = new Customer();
-        customer.setName("tommy");
-        customer.setTelephone("139000000");
-        customer.setCreation_ts(new Date());
         cs = customerSourceDAO.get(1);
-        customer.setCustomerSource(cs);
+        customer = new Customer("tommy","139000000",new Date(),cs);
         customerDAO.save(customer);
         //封装高级查询测试数据
-        searchBean[0] = new SearchBean ("telephone",customer.getTelephone(),"=");
+        searchBean[0] = new SearchBean ("phoneMobile",customer.getPhoneMobile(),"=");
     }
     
     @Test
     public void advancedFindCount(){
         int before = customerService.advancedFindCount(searchBean);
-        customer.setTelephone("5678");
+        customer.setPhoneMobile("5678");
         customerDAO.update(customer);
         int after = customerService.advancedFindCount(searchBean);
         Assert.assertEquals(1, before - after);

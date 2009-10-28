@@ -382,7 +382,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
             throw new SecurityException("forgotPassword.step2.tokenNotAvailable");
         
         Date date = new Date(); 
-        if(date.after(token.getExpiration_ts()))
+        if(date.after(token.getExpireTime()))
             throw new SecurityException("forgotPassword.step2.tokenNotAvailable");
         
         return token.getUser();

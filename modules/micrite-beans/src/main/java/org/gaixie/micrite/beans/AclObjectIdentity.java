@@ -66,7 +66,7 @@ public class AclObjectIdentity {
     private AclSid aclSid;
     
     @Column(name = "entries_inheriting", nullable = false)
-    private boolean inheriting;
+    private boolean inheriting=true;
     
     /**
      * No-arg constructor for JavaBean tools.

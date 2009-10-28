@@ -46,9 +46,9 @@ public class AclSid {
     private long id;
 
     @Column(name = "principal", nullable = false)
-    private boolean principal;
+    private boolean principal=true;
     
-    @Column(name = "sid", nullable = false)
+    @Column(name = "sid", length = 100, nullable = false)
     private String sid;
 
     /**

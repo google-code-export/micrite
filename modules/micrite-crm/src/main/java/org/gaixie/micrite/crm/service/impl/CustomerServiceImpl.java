@@ -54,7 +54,7 @@ public class CustomerServiceImpl implements ICustomerService {
         Customer customer = customerDAO.get(c.getId());
         customer.setCustomerSource(c.getCustomerSource());
         customer.setName(c.getName());
-        customer.setTelephone(c.getTelephone());
+        customer.setPhoneMobile(c.getPhoneMobile());
         customerDAO.update(customer);
     }
 

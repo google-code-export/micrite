@@ -63,13 +63,13 @@ public class AclEntry {
     private Integer mask;
     
     @Column(name = "granting", nullable = false)
-    private boolean granting;
+    private boolean granting=true;
 
     @Column(name = "audit_success", nullable = false)
-    private boolean auditSuccess;
+    private boolean auditSuccess=true;
     
     @Column(name = "audit_failure", nullable = false)
-    private boolean auditFailure;    
+    private boolean auditFailure=true;    
     
     /**
      * No-arg constructor for JavaBean tools.
