@@ -81,7 +81,7 @@ public class CustomerDAOImpl extends GenericDAOImpl<Customer, Integer> implement
         if(0!=customerSourceType){
             criteria.add(Expression.eq("cs.id", customerSourceType));
         }
-        criteria.add(Expression.between("creation_ts", startDate, endDate));
+        criteria.add(Expression.between("creationTime", startDate, endDate));
         return getHibernateTemplate().findByCriteria(criteria,start,limit);
     }
 
@@ -91,7 +91,7 @@ public class CustomerDAOImpl extends GenericDAOImpl<Customer, Integer> implement
         if(0!=customerSourceType){
             criteria.add(Expression.eq("cs.id", customerSourceType));
         }
-        criteria.add(Expression.between("creation_ts", startDate, endDate));
+        criteria.add(Expression.between("creationTime", startDate, endDate));
         criteria.setProjection(Projections.rowCount());
         return (Integer)getHibernateTemplate().findByCriteria(criteria).get(0);
     }

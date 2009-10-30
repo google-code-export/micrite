@@ -62,6 +62,8 @@ public class CustomerAction extends GenericAction{
      */
     public String add() {
         customer.setCreationTime(new Date());
+        customer.setDeltaTime(new Date());
+        customer.setBirthday(new Date());
         customerService.add(customer);
         this.getResultMap().put("message", getText("save.success"));
         this.getResultMap().put("success", true);
