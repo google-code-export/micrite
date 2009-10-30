@@ -59,7 +59,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	var config = {
 			advSearchField : [[
 						          {name:this.colModelName,value:'name',xtype:'textfield'},
-						          {name:this.colCreation_ts,value:'creation_ts',xtype:'uxspinnerdate'}
+						          {name:this.colCreation_ts,value:'creationTime',xtype:'uxspinnerdate'}
 						      ]],	  
 	        compSet: [
 	             {url:0,reader:0,columns:0,bbarAction:0},
@@ -73,7 +73,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 			                {advSearch:true},
 			                this.searchCellphone,
 			                {xtype:'textfield',
-			                	name:'telephone',
+			                	name:'phoneMobile',
 			                	expression:'like',
 			                	width:120}
 			                ],[
@@ -112,9 +112,9 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 	        urls: ['crm/findCustomer.action','crm/findCustomerByDateSpacing.action'],
 	        readers : [[
 			     {name: 'name'},
-			     {name: 'telephone'},
+			     {name: 'phoneMobile'},
 			     {name: 'customerSource',mapping : 'customerSource.id'},
-			     {name: 'creation_ts',type : 'date',dateFormat : 'time',mapping : 'creation_ts.time'}
+			     {name: 'creationTime',type : 'date',dateFormat : 'time',mapping : 'creationTime.time'}
 	        ]],
 			columnsArray: [[
 		          {
@@ -124,7 +124,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		          },
 		          {
 		          	header: this.colModelMobile,
-		          	width: 100, sortable: true, dataIndex: 'telephone',
+		          	width: 100, sortable: true, dataIndex: 'phoneMobile',
 		          	editor:new Ext.form.TextField({allowBlank: false})
 		          },
 		          {
@@ -134,7 +134,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 		          },
 		          {
 		          	header: this.colCreation_ts,
-		          	width: 100, sortable: true, dataIndex: 'creation_ts',
+		          	width: 100, sortable: true, dataIndex: 'creationTime',
 		          	renderer : Ext.util.Format.dateRenderer('Y-m-d H:i:s')
 		          },
 		          sm
@@ -256,7 +256,7 @@ micrite.crm.customerList.SearchPanel = Ext.extend(micrite.ComplexEditorGrid, {
 					url: 'crm/editCustomer.action',
 					params:{'customer.customerSource.id':customer.get('customerSource'),
 					'customer.name':customer.get('name'),
-					'customer.telephone':customer.get('telephone'),
+					'customer.phoneMobile':customer.get('phoneMobile'),
 					'customer.id':customer.id},
 					scope:this,
 					success:function(r,o){

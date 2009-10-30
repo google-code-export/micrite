@@ -41,7 +41,7 @@ micrite.crm.customerDetail.FormPanel = function() {
                 allowBlank:false
             },{
                 fieldLabel: this.mobileText,
-                name: 'customer.telephone',
+                name: 'customer.phoneMobile',
                 allowBlank:false
             }, new Ext.form.ComboBox({
                 name:'customer.customerSource.id',
