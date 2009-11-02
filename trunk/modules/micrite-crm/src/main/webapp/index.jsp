@@ -41,7 +41,6 @@
 <script type="text/javascript" src="js-lib/ext-ux-js/util.js"></script>
 <script type="text/javascript" src="js-lib/ext-ux-js/locale/micrite-base-lang-<%=request.getParameter("request_locale")%>.js"></script>
 <script type="text/javascript" src="crm/locale/micrite-crm-lang-<%=request.getParameter("request_locale")%>.js"></script>
-<script type="text/javascript" src="js-lib/ext-ux-js/locale/micrite-base-lang-<%=session.getAttribute("WW_TRANS_I18N_LOCALE")%>.js"></script>
 
 <script>
 var mainPanel = false;
