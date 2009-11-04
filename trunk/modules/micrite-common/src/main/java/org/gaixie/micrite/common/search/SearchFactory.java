@@ -24,9 +24,7 @@
 
 package org.gaixie.micrite.common.search;
 
-import java.awt.image.RasterFormatException;
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,7 +62,7 @@ public class SearchFactory {
         for(int i = 0; i < team.length; i++){
             String[] element = StringUtils.split(team[i], ',');
             if(element == null || element.length != 3)
-                throw new RasterFormatException("error.search.format");
+                throw new RuntimeException("error.search.format");
             search[i] = new SearchBean(element[0], element[1], element[2]);
         }
         return search;
@@ -89,7 +87,7 @@ public class SearchFactory {
             	if(month == 0)
             		month = date.getMonth() + 1;
             	else if(month != date.getMonth() + 1){
-            		throw new RasterFormatException("error.month.not.same");
+            		throw new RuntimeException("error.month.not.same");
             	}
         	}
         }
@@ -157,7 +155,7 @@ public class SearchFactory {
                     list.add(DateUtils.parseDate(betValue[1],
                             new String[] { "yyyy-MM-dd hh:mm:ss" }));
                 } catch (Exception e) {
-                    throw new RasterFormatException("error.date.format");
+                    throw new RuntimeException("error.date.format");
                 }
             }
             else{
@@ -193,7 +191,7 @@ public class SearchFactory {
                 try {
                     object = DateUtils.parseDate(value, new String[] { "yyyy-MM-dd hh:mm:ss" });
                 } catch (ParseException e) {
-                    throw new RasterFormatException("Unable to parse the Date");
+                    throw new RuntimeException("Unable to parse the Date");
                 }
             }
             else
@@ -208,7 +206,7 @@ public class SearchFactory {
             return null;
         List<String> list = new ArrayList<String>();
         if(StringUtils.indexOf(string, left) == -1 || StringUtils.indexOf(string, right) == -1)
-            throw new RasterFormatException("Unable to parse the string: " + string);
+            throw new RuntimeException("Unable to parse the string: " + string);
         while(StringUtils.indexOf(string, left) >= 0 && StringUtils.indexOf(string, right) >= 0){
             int il = StringUtils.indexOf(string, left);
             int ir = StringUtils.indexOf(string, right);
