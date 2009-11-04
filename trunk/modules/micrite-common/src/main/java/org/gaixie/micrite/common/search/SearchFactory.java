@@ -64,7 +64,7 @@ public class SearchFactory {
         for(int i = 0; i < team.length; i++){
             String[] element = StringUtils.split(team[i], ',');
             if(element == null || element.length != 3)
-                throw new RasterFormatException("Unable to parse the string: " + scarchBunch);
+                throw new RasterFormatException("error.search.format");
             search[i] = new SearchBean(element[0], element[1], element[2]);
         }
         return search;
@@ -78,14 +78,22 @@ public class SearchFactory {
     public static int getSearchMonth(SearchBean[] searchBean){
         if(searchBean == null || searchBean.length == 0)
             return 0;
+        int month = 0;
         Date date;
         for(int i = 0; i < searchBean.length; i++){
-        	date = checkDate(StringUtils.split(searchBean[i].getValue(), ";")[0]);
-        	if(date == null)
-        		continue;
-        	return date.getMonth() + 1;
+        	String[] elem = StringUtils.split(searchBean[i].getValue(), ";");
+        	for(int j = 0; j < elem.length; j++){
+            	date = checkDate(elem[j]);
+            	if(date == null)
+            		break;
+            	if(month == 0)
+            		month = date.getMonth() + 1;
+            	else if(month != date.getMonth() + 1){
+            		throw new RasterFormatException("error.month.not.same");
+            	}
+        	}
         }
-    	return 0;
+    	return month;
     }
     
     @SuppressWarnings("unchecked")
@@ -102,7 +110,7 @@ public class SearchFactory {
             	try {
 					field = entity.getSuperclass().getDeclaredField(searchBean[i].getName());
 				} catch (NoSuchFieldException e1) {
-	                throw new NoSuchElementException("no such this element");
+	                throw new NoSuchElementException("error.class.no.field");
 				}
             }
             Class type = field.getType();
@@ -149,7 +157,7 @@ public class SearchFactory {
                     list.add(DateUtils.parseDate(betValue[1],
                             new String[] { "yyyy-MM-dd hh:mm:ss" }));
                 } catch (Exception e) {
-                    throw new RasterFormatException("Unable to parse the Date");
+                    throw new RasterFormatException("error.date.format");
                 }
             }
             else{
