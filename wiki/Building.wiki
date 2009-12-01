@@ -7,8 +7,8 @@ This document how to build the Gaixie Micrite project.
 This guide is intended to cover how to build the latest svn/trunk,though other newer branches/tags should also follow similar instructions. <br>
 Micrite trees that use the same basic build tooling include:
 
-  * [http://code.google.com/p/micrite/source/browse/#svn/trunk svn/trunk]
-  * [http://code.google.com/p/micrite/source/browse/#svn/tags svn/tags/v0.x]
+  * [http://micrite.googlecode.com/svn/trunk svn/trunk]
+  * [http://micrite.googlecode.com/svn/tags svn/tags/v0.x]
   
 <br><br>
 = Prerequisites =
