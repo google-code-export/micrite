@@ -25,6 +25,7 @@
 package org.gaixie.micrite.security.service.impl;
 
 import java.util.HashSet;
+import java.util.List;
 
 import org.gaixie.micrite.beans.AclClass;
 import org.gaixie.micrite.beans.AclEntry;
@@ -72,7 +73,8 @@ public class SecDataPrepareServiceImpl implements ISecDataPrepareService {
     
     @SuppressWarnings("serial")
     public void initDataForRun() {
-        if(settingDAO.findSettingByName("RowsPerPage")!=null) return;
+    	List<Setting> settings = settingDAO.findAllDefault();
+        if(settings !=null && settings.size() > 0) return;
         
         //insert  into setting(name,value,sortindex) values ('RowsPerPage','20',0);
         //insert  into setting(name,value,sortindex) values ('RowsPerPage','100',1);
