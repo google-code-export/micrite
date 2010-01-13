@@ -72,7 +72,7 @@ public class SecDataPrepareServiceImpl implements ISecDataPrepareService {
     
     @SuppressWarnings("serial")
     public void initDataForRun() {
-        if(authorityDAO.get(1)!=null) return;
+        if(settingDAO.findSettingByName("RowsPerPage")!=null) return;
         
         //insert  into setting(name,value,sortindex) values ('RowsPerPage','20',0);
         //insert  into setting(name,value,sortindex) values ('RowsPerPage','100',1);
