@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.lang.StringUtils;
 import org.gaixie.micrite.beans.Authority;
 import org.gaixie.micrite.security.service.ISecurityInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +97,7 @@ public class MethodSecurityInterceptor extends AbstractSecurityInterceptor imple
             methodMap = new LinkedHashMap<String, ConfigAttributeDefinition>();
             for (Authority authority : authorities) {
                 String grantedAuthorities = authority.getRolesString();
-                if (grantedAuthorities != null) {
+                if (StringUtils.isNotEmpty(grantedAuthorities)) {
                     ConfigAttributeEditor configAttrEditor = new ConfigAttributeEditor();
                     configAttrEditor.setAsText(grantedAuthorities);
                     ConfigAttributeDefinition definition = (ConfigAttributeDefinition) configAttrEditor
