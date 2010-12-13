@@ -97,6 +97,8 @@ public class JSONResult implements Result {
            Class type = targetObject.getClass();
            JsonConfig jsonConfig = new JsonConfig();  
            jsonConfig.setExcludes( StringUtils.split(excludes, ","));  
+           JsNumberJsonValueProcessor jjvp = new JsNumberJsonValueProcessor();
+           jsonConfig.registerJsonValueProcessor(java.lang.Long.class, jjvp);
             if (type.isArray() || type.getName().indexOf("List")!=-1||type.getName().indexOf("Set")!=-1) {
                 JSONArray json = JSONArray.fromObject(targetObject,jsonConfig);
                 out.writeResult(request, response, json.toString());
